@@ -20,24 +20,50 @@ Before coding, read:
 4. `docs/02_compute_budget.md`
 5. this file
 
-## 3. Priority order
+## 3. Phase-1 model policy
+
+All Phase-1 pre-experiments use the same backbone unless explicitly changed by a later instruction:
+
+```yaml
+provider: deepseek
+model: deepseek-v4-flash
+thinking: false
+temperature: 0
+```
+
+Interpret this as a **common-backbone mechanism evaluation**, not exact reproduction of the original paper model.
+
+Rules:
+
+1. Use DeepSeek official API by default.
+2. Use **non-thinking** mode for all actor, planner, builder, reflector, curator, inducer, or other LLM roles in the Phase-1 causal comparison.
+3. Where a baseline uses multiple LLM roles, keep their backbone identical unless the upstream architecture fundamentally requires otherwise.
+4. Do not use `deepseek-v4-pro`, the original paper model, or a local model during initial candidate mining unless explicitly requested.
+5. If a model/provider compatibility patch is required, document it separately from any memory-mechanism patch.
+6. Do not compare branches using different model IDs, thinking modes, or temperatures.
+
+Later confirmation may use DeepSeek-V4-Pro and/or the original paper backbone on a small set of confirmed cases. Such runs must be labeled separately.
+
+## 4. Priority order
 
 Unless explicitly changed:
 
 1. repository-wide artifact schema + telemetry;
-2. AutoManual + ALFWorld Phase 0/1;
-3. ACE online/no-GT + AppWorld Phase 0/1;
-4. AWM + WebArena reproducibility gate;
+2. AutoManual + ALFWorld Phase 0/1 with DeepSeek-V4-Flash;
+3. ACE online/no-GT + AppWorld Phase 0/1 with DeepSeek-V4-Flash;
+4. AWM + WebArena reproducibility gate with DeepSeek-V4-Flash;
 5. natural candidate mining;
 6. targeted H2/H3/H4 branch validation.
 
-## 4. Upstream-code policy
+## 5. Upstream-code policy
 
-### Use official code
+### Use official memory implementations
 
-Primary evidence must use official upstream implementations.
+Primary evidence must use official upstream implementations for the memory mechanism.
 
 Do not silently rewrite a method from the paper. Do not call an adapter `AWM`, `ACE`, or `AutoManual` if its core memory mechanism has been materially replaced.
+
+Changing only the backbone to the project-wide DeepSeek-V4-Flash setting is permitted in Phase 1 and should be labeled **mechanism-faithful / common-backbone**, not exact paper reproduction.
 
 ### Pin upstream state
 
@@ -46,7 +72,9 @@ For every external repository record:
 - repository URL;
 - commit SHA;
 - environment/dependency lock;
-- local patch/diff if any.
+- local patch/diff if any;
+- original upstream model configuration;
+- project Phase-1 model substitution.
 
 Preferred layout:
 
@@ -73,7 +101,7 @@ Every patch must be documented in the run manifest.
 
 If a patch changes what memory is formed, retrieved, applied, or updated, mark the run **non-faithful** until reviewed.
 
-## 5. Proposed repository structure
+## 6. Proposed repository structure
 
 Use this structure unless the codebase demonstrates a simpler equivalent:
 
@@ -104,7 +132,7 @@ memory/
 
 Keep the shared instrumentation independent of any single upstream framework.
 
-## 6. Required shared interfaces
+## 7. Required shared interfaces
 
 Design minimal interfaces around experimental observability, not around a hypothetical universal memory framework.
 
@@ -129,7 +157,7 @@ NoMemory()
 
 Do not force memory systems with very different structures into a lossy common representation. Save raw memory plus a normalized metadata layer.
 
-## 7. Artifact requirements
+## 8. Artifact requirements
 
 Every task run must preserve the files defined in `docs/01_validation_protocol.md`.
 
@@ -149,7 +177,19 @@ At minimum:
 
 If an upstream framework does not expose one of these, explicitly mark it `unavailable` rather than inventing data.
 
-## 8. No hidden chain-of-thought dependency
+The manifest must include at least:
+
+```json
+{
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "thinking": false,
+  "temperature": 0,
+  "evaluation_type": "common-backbone"
+}
+```
+
+## 9. No hidden chain-of-thought dependency
 
 Do not require or attempt to recover hidden model chain-of-thought.
 
@@ -164,7 +204,7 @@ Persist only:
 
 Causal claims should rest on behavior, evidence acquisition, and memory state, not private reasoning traces.
 
-## 9. Ground-truth/evaluator isolation
+## 10. Ground-truth/evaluator isolation
 
 This is a hard requirement.
 
@@ -176,7 +216,7 @@ Particularly for ACE + AppWorld, use the official no-GT online path and verify i
 
 If an upstream baseline normally uses hidden evaluator feedback, create a clearly labeled diagnostic run; do not mix it with the main endogenous-evidence experiment.
 
-## 10. Branch experiment discipline
+## 11. Branch experiment discipline
 
 H2/H4 require counterfactual branches.
 
@@ -185,9 +225,10 @@ A branch experiment must hold fixed as much as possible:
 - task ID;
 - initial environment state;
 - benchmark version;
-- model/provider/snapshot;
+- `deepseek-v4-flash` model;
+- non-thinking mode;
+- temperature / decoding parameters;
 - system prompt;
-- decoding parameters;
 - all memory except the targeted intervention.
 
 Never compare two unrelated tasks and call that a causal memory intervention.
@@ -200,7 +241,7 @@ For a memory item intervention:
 4. record the exact textual/structural diff;
 5. run intact and intervention branches under the same harness.
 
-## 11. Candidate mining should not define the answer
+## 12. Candidate mining should not define the answer
 
 Candidate mining can use heuristics or an auxiliary classifier, but H2–H4 confirmation must come from branch experiments and raw evidence.
 
@@ -214,11 +255,11 @@ Useful candidate heuristics include:
 
 Do not automatically label these as harmful.
 
-## 12. Repetition and randomness
+## 13. Repetition and randomness
 
-Prefer temperature 0/pinned model snapshot for candidate screening when supported.
+Use non-thinking DeepSeek-V4-Flash at temperature 0 for candidate screening.
 
-Even then, remote APIs and web environments may not be perfectly deterministic.
+Remote APIs and web environments may still not be perfectly deterministic.
 
 For confirmed stochastic H2/H4 cases:
 
@@ -226,7 +267,7 @@ For confirmed stochastic H2/H4 cases:
 - confirmation: default 5 repetitions/branch;
 - record every run, including failures that contradict the hypothesis.
 
-## 13. Cost telemetry is mandatory
+## 14. Cost telemetry is mandatory
 
 Before scaling beyond five tasks, implement:
 
@@ -241,15 +282,15 @@ Hard budget limits should terminate cleanly and save partial artifacts.
 
 See `docs/02_compute_budget.md`.
 
-## 14. API vs local GPU
+## 15. API vs local GPU
 
-Primary Phase-1 runs are API-first and require no local inference GPU.
+Primary Phase-1 runs use the **DeepSeek-V4-Flash API** and require no local inference GPU.
 
-Do not switch to a local model merely to reduce cost unless explicitly requested. A local-model run is a secondary robustness experiment unless upstream officially supports an equivalent serving path.
+Do not switch to a local model merely to reduce cost. Local-model experiments belong to a later robustness stage unless explicitly requested.
 
 Local GPU may be used for auxiliary trace analysis, but the target H1–H4 claim should be recoverable from saved raw artifacts without depending on that auxiliary model.
 
-## 15. Secrets
+## 16. Secrets
 
 Never commit API keys, cookies, benchmark credentials, tokens, or private URLs.
 
@@ -257,7 +298,7 @@ Use `.env` locally and commit only `.env.example`.
 
 Add secret-bearing files and runtime benchmark state to `.gitignore` before first execution.
 
-## 16. Tests required before a real run
+## 17. Tests required before a real run
 
 At minimum add unit/integration tests for:
 
@@ -271,12 +312,13 @@ At minimum add unit/integration tests for:
 
 The fake adapter is only an infrastructure test and must never be used as scientific evidence.
 
-## 17. Completion criteria for each pair
+## 18. Completion criteria for each pair
 
 ### Phase 0 complete
 
 - upstream setup documented;
 - upstream commit pinned;
+- DeepSeek-V4-Flash compatibility confirmed;
 - one official task executes;
 - evaluator executes;
 - memory before/after captured;
@@ -284,7 +326,7 @@ The fake adapter is only an infrastructure test and must never be used as scient
 
 ### Phase 1 complete
 
-- five sequential online tasks execute;
+- five sequential online tasks execute with DeepSeek-V4-Flash non-thinking;
 - usage/cost captured;
 - memory evolves across tasks;
 - raw actions/observations captured;
@@ -293,7 +335,7 @@ The fake adapter is only an infrastructure test and must never be used as scient
 
 Only then should candidate mining begin.
 
-## 18. When to stop and report instead of patching indefinitely
+## 19. When to stop and report instead of patching indefinitely
 
 Stop and write a reproducibility report if:
 
@@ -301,16 +343,18 @@ Stop and write a reproducibility report if:
 - core memory logic is absent from the release;
 - environment no longer runs without major redesign;
 - reproducing the loop would require reimplementing the baseline from the paper;
-- evaluation cannot be separated from hidden-information leakage.
+- evaluation cannot be separated from hidden-information leakage;
+- adapting the baseline to DeepSeek-V4-Flash would require changing the core memory algorithm rather than only the model/provider interface.
 
 A failed reproducibility gate is a useful project result. Do not hide it behind a large custom rewrite.
 
-## 19. First coding-agent deliverable
+## 20. First coding-agent deliverable
 
 The first implementation PR should contain only:
 
 - `.gitignore` / `.env.example`;
 - shared artifact schemas;
+- DeepSeek-V4-Flash provider/config abstraction;
 - token/cost telemetry abstraction;
 - fake adapter/tests;
 - upstream setup/pinning scripts for AutoManual + ALFWorld;
