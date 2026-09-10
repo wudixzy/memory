@@ -46,21 +46,41 @@ We test four increasingly strong hypotheses:
 
 H1 alone is expected behavior. The research problem becomes compelling only if H2–H4 occur naturally in strong, real systems.
 
+## Phase-1 model policy
+
+For the **pre-experiment / phenomenon-mining stage**, all admitted baseline–benchmark pairs use a common backbone:
+
+- **model:** `deepseek-v4-flash`
+- **mode:** **non-thinking**
+- **provider:** DeepSeek official API unless a compatibility issue requires an explicitly documented alternative endpoint
+- **local inference GPU:** not required
+
+This is intentionally a **common-backbone mechanism evaluation**, not a claim of exact reproduction of each paper's original leaderboard setting.
+
+Why use one model first:
+
+1. reduce model-strength differences across memory systems;
+2. make cross-baseline H1–H4 comparisons easier to interpret;
+3. lower the cost of running many sequential trajectories and counterfactual branches;
+4. keep actor/updater model strength matched within a baseline whenever the baseline has multiple LLM roles.
+
+If a convincing H2–H4 case is found, later confirmation should include a small subset using either `deepseek-v4-pro` and/or the original paper backbone to rule out a V4-Flash-specific artifact. Do **not** do those expensive confirmation runs during the initial search unless explicitly requested.
+
 ## Initial validation targets
 
 Priority order:
 
 1. **AutoManual + ALFWorld** — low-cost protocol/debug setting.
-2. **Online AWM + WebArena (Shopping)** — primary cross-task closed-loop evidence.
-3. **ACE online/no-GT + AppWorld** — modern strong-method cross-check.
+2. **ACE online/no-GT + AppWorld** — modern strong-method cross-check.
+3. **Online AWM + WebArena (Shopping)** — scientifically strong cross-task closed-loop candidate, conditional on its reproducibility gate.
 
-All three primary paths are **API-first official implementations**. No local GPU is required for the first-stage validation. Local models are optional later and must be labeled as non-faithful robustness experiments unless the upstream project explicitly supports the same local serving path.
+AWM + WebArena remains conditional because its current upstream WebArena path has deprecation/reproducibility risk. It should not be treated as primary evidence until the smoke test passes.
 
 ## Read first
 
 - [`docs/00_research_brief.md`](docs/00_research_brief.md) — background, related work, gap, problem definitions.
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — H1–H4 protocol, instrumentation, branch interventions, success/failure criteria.
-- [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — API vs local GPU policy and estimated pilot costs.
+- [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and estimated pilot costs.
 - [`AGENTS.md`](AGENTS.md) — implementation rules for coding agents.
 
 ## Non-negotiable experimental rules
@@ -71,9 +91,10 @@ All three primary paths are **API-first official implementations**. No local GPU
 4. **Always save memory snapshots before and after every task.**
 5. **Always preserve raw action and observation traces.** Screenshots alone are insufficient.
 6. **Use controlled branch interventions** (same task, environment state, model configuration; suspect memory intact vs masked/reduced) for H2/H4 attribution.
-7. **Do not silently replace an official baseline implementation with an `*-style` reimplementation.** Any adapter or patch must be documented.
-8. **Instrument cost before scaling.** Run the 5-task calibration gate first.
+7. **Do not silently replace an official baseline memory mechanism with an `*-style` reimplementation.** Model substitution is allowed in Phase 1 only under the common-backbone policy above and must be recorded in the run manifest.
+8. **Use `deepseek-v4-flash` in non-thinking mode for all Phase-1 pre-experiments.** Do not mix Flash/Pro/original-paper models inside one causal comparison.
+9. **Instrument cost before scaling.** Run the 5-task calibration gate first.
 
 ## Status
 
-Repository initialized for the first coding-agent handoff. No experimental result should be treated as established until the corresponding protocol and provenance are committed here.
+Repository initialized for coding-agent execution. Phase-1 default model has been standardized to DeepSeek-V4-Flash non-thinking. No experimental result should be treated as established until the corresponding protocol and provenance are committed here.
