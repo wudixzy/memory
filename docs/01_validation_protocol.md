@@ -14,10 +14,32 @@ A pair can be used as primary evidence only if it passes all of the following:
 5. **Auditable closed loop** — memory before a task, the resulting trajectory, and the memory after the task can all be captured.
 6. **No hidden-evidence leakage** — evaluator-only ground truth must not enter the adaptive loop for the main phenomenon experiment.
 7. **Controlled branching is possible** — the same task/environment can be rerun from the same initial state with a targeted memory intervention.
+8. **Common-backbone compatibility** — the baseline can be adapted to `deepseek-v4-flash` without changing its core memory mechanism.
 
 If an upstream repository is incomplete, deprecated, or requires undocumented private artifacts, it is not primary evidence until a smoke test demonstrates a clean runnable path.
 
-## 2. Current pair selection
+## 2. Phase-1 common-backbone policy
+
+All pre-experiments use:
+
+```yaml
+provider: deepseek
+model: deepseek-v4-flash
+thinking: false
+temperature: 0
+```
+
+This is a **common-backbone phenomenon-validation setting**, not exact reproduction of the original paper leaderboard configuration.
+
+The memory mechanism, update logic, prompts, task environment, evaluator, and other upstream behavior should remain as faithful as possible. Only model/provider compatibility changes are allowed without further review.
+
+Where a baseline has multiple LLM roles, use the same DeepSeek-V4-Flash non-thinking model for all of them unless the architecture fundamentally requires otherwise. This prevents actor/updater strength mismatch from becoming a confound.
+
+Do not mix Flash, Pro, original-paper models, or local models inside the same H1–H4 causal comparison.
+
+Later, after a convincing case is found, a small confirmation subset may use DeepSeek-V4-Pro and/or the original paper backbone to test whether the phenomenon is backbone-specific.
+
+## 3. Current pair selection
 
 ### Tier A — primary, proceed first
 
@@ -25,6 +47,7 @@ If an upstream repository is incomplete, deprecated, or requires undocumented pr
 
 - Baseline: AutoManual, NeurIPS 2024.
 - Benchmark: ALFWorld, mature text/embodied interactive benchmark.
+- Phase-1 model: `deepseek-v4-flash`, non-thinking.
 - Why it qualifies:
   - official end-to-end code includes build, formulation, testing, resume;
   - rules are persistent and explicitly updated online;
@@ -38,10 +61,10 @@ If an upstream repository is incomplete, deprecated, or requires undocumented pr
 
 - Baseline: Agentic Context Engineering (ACE), ICLR 2026.
 - Benchmark: AppWorld, ACL 2024 Best Resource Paper.
+- Phase-1 model: `deepseek-v4-flash`, non-thinking, for Generator/Reflector/Curator and any other LLM role used by the selected path.
 - Why it qualifies:
   - ACE provides an official AppWorld integration;
   - the integration exposes online adaptation (`ACE_online_no_GT`);
-  - no GPU is required for the official basic run; API providers are supported;
   - AppWorld provides programmatic state-based evaluation and rich API trajectories;
   - playbook/reflection/curation artifacts are inspectable.
 - Primary role: **test whether H2–H4 survive in a stronger modern evolving-memory method**.
@@ -55,6 +78,7 @@ If an upstream repository is incomplete, deprecated, or requires undocumented pr
 
 - Baseline: Agent Workflow Memory (AWM), ICML 2025.
 - Benchmark: WebArena, ICLR 2024.
+- Phase-1 model: `deepseek-v4-flash`, non-thinking.
 - Scientific fit: excellent. The official online pipeline performs task inference, trajectory evaluation, workflow induction/update, then proceeds to the next task.
 - Why it is **conditional** rather than Tier A:
   - the current official `webarena/run.py` explicitly marks its BrowserGym demo-agent path as deprecated;
@@ -69,7 +93,7 @@ If an upstream repository is incomplete, deprecated, or requires undocumented pr
 
 **APEX / BeliefMem / FaultyMemory** are important phenomenon/novelty references but are not currently preferred as the primary experimental substrate under the project's impact + reproducibility rule.
 
-## 3. Phase structure
+## 4. Phase structure
 
 ### Phase 0 — upstream smoke test
 
@@ -78,28 +102,32 @@ For each admitted pair:
 1. clone the official upstream repository;
 2. pin the exact upstream commit SHA;
 3. create the environment exactly from upstream instructions before patching anything;
-4. run the smallest official task that produces a valid trajectory;
-5. verify evaluator output;
-6. verify persistent memory can be saved before and after a task;
-7. record all deviations/patches.
+4. replace only the model/provider path with DeepSeek-V4-Flash non-thinking where needed;
+5. run the smallest official task that produces a valid trajectory;
+6. verify evaluator output;
+7. verify persistent memory can be saved before and after a task;
+8. record all deviations/patches.
 
 **Do not start H1–H4 analysis until Phase 0 passes.**
 
 ### Phase 1 — 5-task calibration gate
 
-Run five sequential tasks with online memory enabled.
+Run five sequential tasks with online memory enabled and DeepSeek-V4-Flash non-thinking.
 
 The purpose is to calibrate:
 
 - LLM calls/task;
-- input/output tokens/task;
+- input/output/cached tokens/task;
 - wall-clock/task;
 - memory growth/task;
 - which action/observation fields are available;
 - whether environment state can be reset exactly;
-- whether a memory item can be selectively masked.
+- whether a memory item can be selectively masked;
+- whether the baseline's behavior remains competent enough under the common backbone for phenomenon diagnosis.
 
 After five tasks, write `artifacts/<run_id>/calibration.json` and recompute budget before scaling.
+
+If model substitution makes the baseline unusable or clearly changes the core interaction protocol, stop and document it rather than heavily rewriting the method.
 
 ### Phase 2 — natural candidate mining
 
@@ -121,8 +149,9 @@ A candidate is only a candidate; it is not H2 until branch intervention is perfo
 For each candidate checkpoint `t`, preserve:
 
 - exact task/environment initial state;
-- exact model/provider/model snapshot;
-- decoding configuration;
+- exact `deepseek-v4-flash` model configuration;
+- non-thinking mode;
+- temperature/decoding configuration;
 - intact memory `K_t`;
 - target memory item `m_i`;
 - random seed(s) where meaningful.
@@ -149,7 +178,17 @@ The phenomenon is strongest when:
 - the intervention branch obtains the discriminative evidence/path;
 - that evidence leads to a memory revision or better long-run behavior.
 
-## 4. Operational definitions of H1–H4
+### Phase 5 — optional backbone confirmation
+
+Only after a convincing H2/H3/H4 case exists under DeepSeek-V4-Flash:
+
+- rerun a small subset with DeepSeek-V4-Pro and/or the original paper backbone;
+- keep the memory mechanism and benchmark fixed;
+- treat this as a robustness/sanity check, not part of Phase-1 candidate mining.
+
+The purpose is to distinguish a persistent-memory phenomenon from a V4-Flash-specific capability artifact.
+
+## 5. Operational definitions of H1–H4
 
 ### H1 — Memory-induced distribution shift
 
@@ -160,7 +199,7 @@ Claim:
 Minimum evidence:
 
 - same task initial state;
-- same model/configuration;
+- same DeepSeek-V4-Flash non-thinking configuration;
 - intact-memory vs masked/no-memory branch;
 - measurable differences in meaningful actions or observations, not only wording.
 
@@ -225,9 +264,9 @@ Strong evidence:
 - the restored evidence supports a memory correction or a better strategy;
 - the effect is replicated across multiple reruns or multiple naturally occurring cases.
 
-## 5. Environment-specific evidence events
+## 6. Environment-specific evidence events
 
-### 5.1 AutoManual + ALFWorld
+### 6.1 AutoManual + ALFWorld
 
 Candidate evidence events include:
 
@@ -254,7 +293,7 @@ Behavior signals:
 - object/location visitation order;
 - success and step count.
 
-### 5.2 ACE + AppWorld
+### 6.2 ACE + AppWorld
 
 Candidate evidence events include:
 
@@ -283,7 +322,7 @@ Behavior signals:
 
 Important: use the **no-GT online** configuration for the main phenomenon test. Evaluator-only ground-truth code or hidden task internals must not leak into reflection/curation.
 
-### 5.3 Conditional AWM + WebArena-Shopping
+### 6.3 Conditional AWM + WebArena-Shopping
 
 Candidate evidence events include:
 
@@ -311,7 +350,7 @@ Behavior signals:
 - evaluator result;
 - stopping action.
 
-## 6. Canonical run artifact schema
+## 7. Canonical run artifact schema
 
 Every task execution must write a self-contained directory:
 
@@ -344,9 +383,11 @@ artifacts/<run_id>/<pair>/<task_index>_<task_id>/
   "task_id": "...",
   "task_order_index": 0,
   "environment_seed": null,
-  "provider": "openai",
-  "model": "exact-model-id-or-snapshot",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "thinking": false,
   "temperature": 0,
+  "evaluation_type": "common-backbone",
   "memory_mode": "online",
   "evaluator_leakage": false,
   "patches": []
@@ -368,7 +409,7 @@ artifacts/<run_id>/<pair>/<task_index>_<task_id>/
 
 Never rely on hidden chain-of-thought. Store only model text that is actually returned by the API/framework and visible to the experimental pipeline, plus tool/environment calls and outputs.
 
-## 7. Candidate-case record
+## 8. Candidate-case record
 
 Each suspected failure should become a machine-readable case under:
 
@@ -399,7 +440,7 @@ Suggested schema:
 }
 ```
 
-## 8. Anti-cherry-picking rule
+## 9. Anti-cherry-picking rule
 
 Candidate mining can be exploratory, but confirmed H2–H4 cases should follow a fixed branch protocol.
 
@@ -413,7 +454,7 @@ Report:
 - number supporting H2/H3/H4;
 - number falsified/ambiguous.
 
-## 9. Stopping rules for this research direction
+## 10. Stopping rules for this research direction
 
 ### Continue toward method design if
 
@@ -424,7 +465,8 @@ At least one Tier-A baseline shows a clear natural H2+H3 case, and preferably H4
 - multiple independent natural cases exist;
 - both correction and improvement lock-in can be observed;
 - targeted memory interventions causally restore relevant evidence;
-- a modern strong method such as ACE still exhibits the phenomenon.
+- a modern strong method such as ACE still exhibits the phenomenon;
+- key cases survive V4-Pro and/or original-backbone sanity checks.
 
 ### Reconsider the problem if
 
@@ -433,13 +475,15 @@ At least one Tier-A baseline shows a clear natural H2+H3 case, and preferably H4
 - H3 cannot be established because strong updaters rapidly repair memory;
 - failures require artificial wrong-memory injection;
 - failures occur only in weak/naive baselines;
+- failures disappear when moving from V4-Flash to V4-Pro/original backbone, indicating a likely backbone-capability artifact;
 - the main effect is explained by environment bugs, evaluator leakage, task-state contamination, or model randomness.
 
-## 10. Immediate coding tasks
+## 11. Immediate coding tasks
 
 1. Implement the repository-wide artifact schema and run manifest first.
-2. Add cost/token telemetry before running more than five tasks.
-3. Build the AutoManual + ALFWorld adapter and complete Phase 0/1.
-4. Build the ACE + AppWorld adapter and complete Phase 0/1.
-5. Only after those are stable, attempt the AWM + WebArena reproducibility gate.
-6. Do not implement a new memory algorithm during phenomenon validation.
+2. Implement a reusable DeepSeek-V4-Flash non-thinking provider/config path.
+3. Add cost/token telemetry before running more than five tasks.
+4. Build the AutoManual + ALFWorld adapter and complete Phase 0/1.
+5. Build the ACE + AppWorld adapter and complete Phase 0/1.
+6. Only after those are stable, attempt the AWM + WebArena reproducibility gate.
+7. Do not implement a new memory algorithm during phenomenon validation.
