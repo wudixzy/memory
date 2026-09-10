@@ -1,90 +1,98 @@
 # Compute, API, and Cost Budget
 
-> Purpose: distinguish official API-first execution from optional local-GPU experiments and provide a conservative planning budget for phenomenon validation.  
+> Purpose: define the Phase-1 DeepSeek-V4-Flash execution policy and provide conservative planning budgets for phenomenon validation.  
 > All token/cost ranges below are **engineering estimates before calibration**, not measured results. The 5-task calibration gate must replace them with observed usage.
 
-## 1. Executive decision: Phase 1 is API-first, not local-GPU-first
+## 1. Executive decision: all Phase-1 pre-experiments use DeepSeek-V4-Flash
 
-For the three candidate baseline–benchmark pairs, the official/relevant execution paths are API-based.
+For the current candidate baseline–benchmark pairs, use a common backbone:
 
-| Pair | Official/main inference path | Local GPU required? | Phase-1 decision |
+```yaml
+provider: deepseek
+model: deepseek-v4-flash
+thinking: false
+temperature: 0
+```
+
+| Pair | Phase-1 inference path | Local GPU required? | Decision |
 |---|---|---:|---|
-| AutoManual + ALFWorld | OpenAI API / OpenAI-compatible base URL in upstream setup; paper code was built around GPT-era API workflows | No | **Use API** for baseline fidelity |
-| ACE online/no-GT + AppWorld | Together AI / SambaNova / OpenAI providers supported by official ACE-AppWorld setup | No | **Use API** |
-| Online AWM + WebArena | BrowserGym chat model + OpenAI API for workflow induction/evaluation path | No | **Use API if smoke test passes** |
+| AutoManual + ALFWorld | DeepSeek official API through an OpenAI-compatible adapter if needed | No | **Use V4-Flash** |
+| ACE online/no-GT + AppWorld | DeepSeek official API; all LLM roles use V4-Flash | No | **Use V4-Flash** |
+| Online AWM + WebArena | DeepSeek official API if the upstream reproducibility gate passes | No | **Use V4-Flash** |
 
 Therefore:
 
-> **Expected local GPU-hours for the primary Phase-1 baseline runs: 0.**
+> **Expected local GPU-hours for primary Phase-1 inference: 0.**
 
-CPU/RAM/Docker resources are still required for the environments.
+CPU/RAM/Docker resources are still required for benchmark environments.
 
-## 2. Why not switch to local models immediately
+This is intentionally a **common-backbone mechanism evaluation**, not exact reproduction of each paper's original model setting.
 
-The goal is to test whether A+B failures exist in **credible existing memory systems**, not to optimize inference cost.
+## 2. Why standardize the backbone
 
-Replacing the upstream actor/updater model with a local model can change:
+The current research question is whether A+B closed-loop failures are real in persistent-memory mechanisms, not whether we can reproduce every leaderboard number.
 
-- action quality;
-- trajectory distribution;
-- memory extraction quality;
-- update behavior;
-- exploration tendency;
-- context-length behavior.
+Using one strong, inexpensive model first reduces confounds from:
 
-That can create or remove the target phenomenon and weaken attribution.
+- actor strength differences;
+- memory extraction/update model differences;
+- heterogeneous exploration tendencies;
+- different context-length behavior;
+- different API cost constraints.
 
 Policy:
 
-1. first establish an API-based baseline path close to upstream behavior;
-2. pin exact model IDs/snapshots where possible;
-3. if an original paper model is no longer available, use a documented current replacement but label the run **mechanism-faithful / model-updated**, not exact paper reproduction;
-4. only after H2–H4 are observed should local models be used as robustness/generalization checks.
+1. keep each upstream memory mechanism and benchmark as faithful as possible;
+2. replace only the model/provider layer with DeepSeek-V4-Flash where required;
+3. use **non-thinking** mode throughout Phase 1;
+4. keep all LLM roles within a baseline on the same V4-Flash backbone whenever possible;
+5. label these runs `mechanism-faithful/common-backbone`, not exact paper reproduction;
+6. after a convincing H2–H4 case is found, rerun only a small confirmation subset with DeepSeek-V4-Pro and/or the original paper backbone.
 
-## 3. Optional local-GPU use
+Do not silently mix model families inside one causal branch comparison.
 
-Local GPU is optional for auxiliary work:
+## 3. DeepSeek-V4-Flash price reference
 
-- semantic clustering of memory diffs;
-- candidate-case ranking;
-- offline trace classification;
-- local embedding generation;
-- later robustness experiments with a local actor/updater.
+Prices change. The runner must record the actual provider/model and use a versioned price table.
 
-These analyses should not be required for the causal H1–H4 claims. Prefer deterministic/rule-based trace extraction where possible.
+Public DeepSeek API pricing checked on **2026-09-11** for `deepseek-v4-flash`:
 
-Very rough inference planning bands, if local robustness runs are later needed:
+| Billing band | Cache-hit input / 1M | Cache-miss input / 1M | Output / 1M |
+|---|---:|---:|---:|
+| Off-peak | $0.007 | $0.22 | $0.66 |
+| Peak | $0.014 | $0.44 | $1.32 |
 
-- quantized 7B–14B class: typically feasible on one ~24 GB GPU;
-- quantized ~30B class: typically requires ~24–48 GB depending on context/KV cache;
-- 70B+ class: expect 48–80 GB+ or multi-GPU.
+Official reference: https://api-docs.deepseek.com/quick_start/pricing/
 
-These are only rough capacity bands. Actual VRAM depends strongly on quantization, context length, batch size, serving engine, and KV cache.
+DeepSeek currently lists `DeepSeek-V4-Flash-0731` behind the `deepseek-v4-flash` model alias, with 1M context and tool-call support. The provider may change aliases/versions/prices, so each run must persist the exact API-reported/model-configured identifier and the local pricing-table version.
 
-## 4. API price reference points
-
-Prices change. The run manifest must record the actual provider/model and the cost calculator should read a versioned price table.
-
-Public reference prices checked on 2026-09-11:
-
-| Model/provider | Input / 1M tokens | Output / 1M tokens | Source |
-|---|---:|---:|---|
-| OpenAI GPT-4o | $2.50 | $10.00 | https://developers.openai.com/api/docs/models/gpt-4o |
-| OpenAI GPT-5.4 Mini | $0.75 | $4.50 | https://developers.openai.com/api/docs/models/gpt-5.4-mini |
-| SambaNova DeepSeek-V3.1 | $3.00 | $4.50 | https://cloud.sambanova.ai/plans/pricing |
-
-These are **budget reference points**, not a recommendation to silently swap the upstream model.
+Peak/off-peak pricing means the same token workload can differ by roughly 2×. Budget guards below use conservative headroom rather than assuming the cheapest billing period.
 
 Cost formula:
 
 ```text
 estimated_cost =
-    input_tokens / 1e6 * input_price
+    cache_hit_input_tokens / 1e6 * cache_hit_price
+  + cache_miss_input_tokens / 1e6 * cache_miss_price
   + output_tokens / 1e6 * output_price
   + any provider/tool/session charges
 ```
 
 Provider-reported cost should be stored when available; otherwise compute from the versioned local price table.
+
+## 4. Optional local-GPU use
+
+No local inference model is required in Phase 1.
+
+Local GPU may later be used for auxiliary work:
+
+- semantic clustering of memory diffs;
+- candidate-case ranking;
+- offline trace classification;
+- local embedding generation;
+- post-hoc robustness experiments.
+
+These analyses must not be necessary for the core H1–H4 causal claim. Prefer deterministic/rule-based trace extraction where possible.
 
 ## 5. Pilot workload assumptions
 
@@ -99,7 +107,9 @@ Default planning envelope per pair:
 
 If calibration shows dramatically different call/token counts, resize before Phase 2.
 
-## 6. Estimated API usage by pair
+## 6. Estimated API usage and V4-Flash cost by pair
+
+The token envelopes are retained from the initial engineering plan; only the model/cost basis has changed. Actual use must be measured.
 
 ### 6.1 AutoManual + ALFWorld
 
@@ -117,14 +127,13 @@ Pre-calibration planning envelope for calibration + 20-task mining + ~30 branch 
 - output tokens: roughly **0.3–1.5M**;
 - local GPU: **none required**.
 
-Illustrative API cost using GPT-4o reference pricing:
+Illustrative V4-Flash cost if all input were cache-miss:
 
-- low end: `1.5M * $2.5 + 0.3M * $10 ≈ $6.75`;
-- high end: `7M * $2.5 + 1.5M * $10 ≈ $32.50`.
+- off-peak low: `1.5M * $0.22 + 0.3M * $0.66 ≈ $0.53`;
+- off-peak high: `7M * $0.22 + 1.5M * $0.66 ≈ $2.53`;
+- peak equivalent: approximately **$1.06–5.06**.
 
-Planning budget with retries/logging uncertainty: **$10–45** for the first serious pilot.
-
-Important: the original AutoManual paper used older GPT-4-era model configurations. Exact paper reproduction may be impossible or unnecessarily expensive if the historical model is unavailable. This project is testing the **memory mechanism phenomenon**, not claiming reproduction of the paper leaderboard.
+Planning budget including retries, non-token overhead, and estimation error: **$1–8** for the first serious pilot.
 
 ### 6.2 ACE online/no-GT + AppWorld
 
@@ -142,21 +151,15 @@ Pre-calibration envelope:
 - output tokens: roughly **0.4–2.5M**;
 - local GPU: **none required**.
 
-Illustrative costs:
+Illustrative V4-Flash cost if all input were cache-miss:
 
-Using SambaNova DeepSeek-V3.1 reference pricing:
+- off-peak low: `4M * $0.22 + 0.4M * $0.66 ≈ $1.14`;
+- off-peak high: `20M * $0.22 + 2.5M * $0.66 ≈ $6.05`;
+- peak equivalent: approximately **$2.29–12.10**.
 
-- low: `4M * $3 + 0.4M * $4.5 ≈ $13.80`;
-- high: `20M * $3 + 2.5M * $4.5 ≈ $71.25`.
+Planning budget with retries/long-context variation: **$2–18**.
 
-Using GPT-4o reference pricing:
-
-- low: `4M * $2.5 + 0.4M * $10 ≈ $14`;
-- high: `20M * $2.5 + 2.5M * $10 ≈ $75`.
-
-Planning budget with retries and long-context variation: **$20–100**.
-
-The playbook can become the dominant cost driver. Always log prompt tokens and memory size after every task.
+The playbook can become the dominant token driver. Always log prompt tokens, cached tokens, and memory size after every task.
 
 ### 6.3 Conditional AWM + WebArena-Shopping
 
@@ -174,14 +177,15 @@ Pre-calibration envelope if the reproducibility gate passes:
 - output tokens: roughly **0.7–3M**;
 - local GPU: **none required**.
 
-Illustrative cost at GPT-4o reference pricing:
+Illustrative V4-Flash cost if all input were cache-miss:
 
-- low: `7M * $2.5 + 0.7M * $10 ≈ $24.50`;
-- high: `30M * $2.5 + 3M * $10 ≈ $105`.
+- off-peak low: `7M * $0.22 + 0.7M * $0.66 ≈ $2.00`;
+- off-peak high: `30M * $0.22 + 3M * $0.66 ≈ $8.58`;
+- peak equivalent: approximately **$4.00–17.16**.
 
-Planning budget: **$30–140** plus local CPU/RAM/storage for the web environment.
+Planning budget: **$3–25** plus local CPU/RAM/storage for the web environment.
 
-Because the current upstream WebArena runner is marked deprecated, do not authorize the above budget until the 5-task smoke/calibration gate succeeds.
+Because the current upstream WebArena runner has deprecation/reproducibility risk, do not authorize a larger mining run until the 5-task smoke/calibration gate succeeds.
 
 ## 7. Environment hardware planning
 
@@ -210,14 +214,16 @@ These are practical planning estimates, not strict upstream requirements.
 
 Measure actual Docker/service footprint during Phase 0.
 
-## 8. Cost controls that must be implemented before scaling
+## 8. Cost controls required before scaling
 
 ### Required telemetry
 
 Every model call should record:
 
 - provider;
-- model ID/snapshot;
+- requested model ID;
+- resolved/versioned model ID when available;
+- thinking mode;
 - input tokens;
 - cached input tokens;
 - output tokens;
@@ -244,23 +250,30 @@ The runner should stop cleanly, save artifacts, and mark the task as `budget_exc
 
 ### Cache policy
 
-Caching is allowed for deterministic static resources and provider prompt caching where supported, but **do not cache model outputs across counterfactual branches** if doing so would collapse the intended behavioral comparison.
+DeepSeek prompt caching may substantially reduce repeated-prefix cost, especially for system prompts and persistent-memory prefixes.
+
+Caching is allowed where the provider applies it naturally, but **do not cache model outputs across counterfactual branches** if doing so would collapse the intended behavioral comparison.
+
+Record cache-hit tokens separately so cost estimates and branch comparisons remain auditable.
 
 ## 9. Recommended first budget authorization
 
 Do not pre-authorize a full sweep.
 
-Recommended first batch:
+Recommended first batch under V4-Flash:
 
-- AutoManual + ALFWorld: **5 calibration tasks**, hard cap **$5–10**.
-- ACE + AppWorld: **5 calibration tasks**, hard cap **$10–15**.
-- AWM + WebArena: only after Tier-A adapters work; **5-task smoke test**, hard cap **$15–20**.
+- AutoManual + ALFWorld: **5 calibration tasks**, hard cap **$2**.
+- ACE + AppWorld: **5 calibration tasks**, hard cap **$3**.
+- AWM + WebArena: only after Tier-A adapters work; **5-task smoke test**, hard cap **$5**.
+
+These caps intentionally include large safety margins relative to token-only estimates.
 
 After each calibration, replace the estimates in this document with measured:
 
 ```text
 calls/task
-input tokens/task
+cache-hit input tokens/task
+cache-miss input tokens/task
 output tokens/task
 $/task
 wall-clock/task
@@ -269,14 +282,24 @@ memory growth/task
 
 Then compute the actual budget for candidate mining and branch validation.
 
-## 10. Full project budget expectation for phenomenon validation
+## 10. Full Phase-1 planning envelope
 
-If all three pairs are eventually run through candidate mining + a small number of controlled branches, a reasonable API planning envelope is approximately:
+If all three pairs eventually run through candidate mining + a small number of controlled branches under DeepSeek-V4-Flash, use an initial planning envelope of approximately:
 
-> **$60–300 total API spend**
+> **$6–50 total API spend**
 
-with the lower end corresponding to efficient models/few branch candidates and the upper end corresponding to long-context WebArena/AppWorld runs and more repeated branches.
+This includes substantial headroom for retries, peak pricing, long-context variation, and imperfect initial token estimates. It is not a committed spend and not a measured forecast.
 
-This is not a committed spend and not a measured forecast. The 5-task calibration gates are explicitly designed to prevent runaway costs.
+The 5-task calibration gates are explicitly designed to replace this estimate with real usage before scaling.
 
-Local primary-inference GPU spend should remain **zero** unless a later robustness experiment is explicitly approved.
+## 11. Later confirmation budget
+
+Do not include V4-Pro/original-model confirmation in the Phase-1 budget.
+
+After a strong H2–H4 case is identified:
+
+1. rerun only the relevant checkpoint/task branch with DeepSeek-V4-Pro;
+2. optionally rerun with the original paper backbone if still available;
+3. record these as `confirmation_backbone` runs rather than common-backbone mining runs.
+
+This keeps the cheap V4-Flash stage focused on discovering whether the phenomenon exists, while preserving a clean path to rule out backbone-specific artifacts later.
