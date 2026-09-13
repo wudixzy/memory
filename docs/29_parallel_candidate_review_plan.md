@@ -2,6 +2,12 @@
 
 2026-09-13. This document supersedes any remaining requirement for a human to manually inspect the 26 Stage-A reserve families before further filtering. The scientific gates from `docs/26_strategy_lockin_experiment_plan.md` remain unchanged; only the review mechanism changes.
 
+**Status:** completed on 2026-09-13. All 26 reserve families were packetized
+and passed through the independent reviewer protocol. The final automated
+result was 17 rejects, 9 review-quality reserves and 0 promoted families; see
+[`docs/30_parallel_candidate_review_results.md`](30_parallel_candidate_review_results.md).
+Because no family was promoted, scripted-B and K₀ explorability were not run.
+
 ## Decision
 
 Do **not** manually review reserve families one by one.

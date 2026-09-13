@@ -452,3 +452,21 @@ No human semantic review is required for this reserve-triage stage. Do not pre-f
 For the reviewer ensemble, the project Claude/Anthropic-compatible model name is `deepseek-flash[1m]`. Keep reviewer credentials local via `.env`/the existing secret-handling policy; do not print or commit them.
 
 If no scripted-B diagnostic among the promoted top 3-5 yields a successful route with meaningful measured savings, stop AppWorld for B rather than adding more candidate detectors.
+
+## 25. Current reserve-review status — 2026-09-13
+
+The all-reserve parallel review defined in `docs/29_parallel_candidate_review_plan.md`
+has completed. All 26 Stage-A reserve families were packetized and reviewed with
+the independent DeepSeek Flash protocol. The final automated distribution was
+17 `reject`, 9 `reserve` because of unusable review slots, and 0
+`promote_to_scripted_validation`. The reserve holds are not scientific evidence
+for or against B; they are review-quality holds. The detailed accounting and
+validation records are in `docs/30_parallel_candidate_review_results.md` and
+the ignored local review artifacts.
+
+No scripted-B, K0 explorability, source-memory formation, memory-authority, or
+Minimal-B run is authorized from this result. Do not rerun the reviewer merely
+to search for a favorable output; a new review requires a documented protocol
+change or a separate scientific decision. If AppWorld is reconsidered, keep
+the distinction between this triage gate and the unmeasured execution gates
+(`cost(B)`, `B_success_on_target`, and `K0_discoverability`).

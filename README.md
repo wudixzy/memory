@@ -72,7 +72,7 @@ If a convincing B case is found, later confirmation may include a small subset u
 2. **AutoManual + ALFWorld** — pause new B mining; keep as A evidence and possible later cross-baseline confirmation.
 3. **AWM + WebArena** — remain conditional; do not connect unless AppWorld fails the registered gates and a new decision explicitly authorizes it.
 
-The Stage-A AppWorld census is complete: 244 families produced 26 reserve families and no automatic shortlist under conservative offline gates. The immediate task is now **parallel agent review of all reserves**, followed by scripted-B environment validation for at most 3-5 promoted families. K0 explorability comes only after a real cheaper successful B route is executed in the benchmark.
+The Stage-A AppWorld census and the all-reserve parallel agent review are complete. The census produced 26 reserves; the review produced 17 rejects, 9 review-quality reserves and 0 promoted families. No scripted-B or K₀ explorability run was authorized because no family passed the promotion gate. See [`docs/30_parallel_candidate_review_results.md`](docs/30_parallel_candidate_review_results.md). This does not falsify B; it means the current AppWorld packet evidence did not identify a sufficiently supported route.
 
 ## Read first
 
