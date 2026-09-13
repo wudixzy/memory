@@ -3,7 +3,7 @@
 2026-09-13. This repository uses a two-agent local workflow for the next implementation cycle:
 
 - **Codex CLI**: orchestrator, reviewer, test runner, final integrator, committer/pusher.
-- **Claude Code CLI (CC)**: implementation worker, configured to use DeepSeek V4 Flash through DeepSeek's Anthropic-compatible endpoint.
+- **Claude Code CLI (CC)**: implementation worker, configured to use DeepSeek Flash through DeepSeek's Anthropic-compatible endpoint.
 
 The goal is separation of duties: CC does most coding/analysis work; Codex reads the diff and evidence, tests it, requests revisions when needed, and owns the final repository state.
 
@@ -27,13 +27,19 @@ Codex may inspect the outer workspace when useful, but all repository reads/writ
 
 ## 2. Current DeepSeek Claude Code configuration
 
-DeepSeek's current Anthropic-compatible endpoint is:
+DeepSeek's Anthropic-compatible endpoint is:
 
 ```text
 https://api.deepseek.com/anthropic
 ```
 
-Use DeepSeek V4 Flash for the coding worker. The project wrapper configures all Claude model roles to V4 Flash and uses the 1M-context model name for Claude Code context accounting.
+For Claude Code, the current model name used by this project is:
+
+```text
+deepseek-flash[1m]
+```
+
+All Claude Code model roles/subagents are mapped to this same 1M-context Flash model.
 
 The local `.env` inside the Git repository contains:
 
@@ -59,7 +65,7 @@ The wrapper:
 2. reads `DEEPSEEK_KEY` from the inner repository `.env`;
 3. refuses to run if the key or `claude` executable is unavailable;
 4. changes directory to the inner repository;
-5. configures the DeepSeek Anthropic endpoint and V4 Flash model mapping;
+5. configures the DeepSeek Anthropic endpoint and maps all Claude roles to `deepseek-flash[1m]`;
 6. invokes `claude` without printing the secret.
 
 For a non-interactive worker task Codex can use Claude Code print mode, for example:
@@ -180,4 +186,4 @@ Before Codex commits/pushes:
 
 ## 10. Model note
 
-For the **coding worker**, high-effort DeepSeek V4 Flash is appropriate and independent of the experimental model policy. The scientific experiments themselves remain governed by `AGENTS.md` and their registered configs. Do not confuse Claude Code's coding-agent settings with the model/mode used inside ACE/AppWorld experiments.
+For the **coding worker**, the configured Claude Code model is `deepseek-flash[1m]` with `CLAUDE_CODE_EFFORT_LEVEL=max`. This coding-agent setting is independent of the scientific experiment model policy. Scientific experiments remain governed by `AGENTS.md` and their registered configs. Do not silently rewrite historical experiment manifests merely because the Claude Code worker model name changed.
