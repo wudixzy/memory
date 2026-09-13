@@ -429,3 +429,26 @@ Workflow discipline:
 5. Codex owns final status/docs synchronization, commit, and push.
 
 Do not let agent orchestration become a new infrastructure project. The first delegated package is the Stage-A AppWorld candidate census/report, not another generic framework or paid experiment.
+
+## 24. Current reserve-review override — supersedes the reviewer-selection step in Section 22
+
+The Stage-A census is complete (`docs/28_appworld_family_census.md`): 244 AppWorld families produced 26 reserve families and no automatic shortlist under the conservative offline gates.
+
+Do **not** manually inspect the reserve families one by one and do not stop AppWorld merely because the offline census could not measure B success/cost/discoverability. Follow `docs/29_parallel_candidate_review_plan.md`.
+
+Current order:
+
+1. Claude Code regenerates the census if needed and returns **all reserve family/source/target IDs** plus paths to their evidence records.
+2. Codex owns a lightweight review-packet builder, reviewer prompt/schema, and parallel DeepSeek Flash review harness.
+3. Review all ~26 reserve families, normally with **2 independent DeepSeek reviews per family** and a third reviewer only for disagreements.
+4. Reviewer outputs must be strict structured JSON and are candidate-triage evidence only. They may propose B but may not claim B success or measured cost.
+5. Codex automatically validates IDs, API names, evidence references, scope equivalence, and privileged-information dependence before aggregation.
+6. Promote at most 3-5 families to **scripted-B environment validation**. Claude Code may implement those diagnostics; Codex reviews/runs them.
+7. Only a benchmark-executed B with `success=true` and meaningful measured public-call savings proceeds to K0 explorability.
+8. K0 explorability, natural memory formation, memory authority, Minimal-B and closed-loop diagnosis remain later gates.
+
+No human semantic review is required for this reserve-triage stage. Do not pre-filter to the current top-10 solely to save tokens; reviewing all 20-30 reserves is cheap enough and reduces ranking bias.
+
+For the reviewer ensemble, the project Claude/Anthropic-compatible model name is `deepseek-flash[1m]`. Keep reviewer credentials local via `.env`/the existing secret-handling policy; do not print or commit them.
+
+If no scripted-B diagnostic among the promoted top 3-5 yields a successful route with meaningful measured savings, stop AppWorld for B rather than adding more candidate detectors.
