@@ -72,17 +72,19 @@ If a convincing B case is found, later confirmation may include a small subset u
 2. **AutoManual + ALFWorld** — pause new B mining; keep as A evidence and possible later cross-baseline confirmation.
 3. **AWM + WebArena** — remain conditional; do not connect unless AppWorld fails the registered gates and a new decision explicitly authorizes it.
 
-The immediate implementation task is **not another branch experiment**. It is a reproducible AppWorld task-family census and top-candidate analysis, followed by an explorability gate only after review.
+The Stage-A AppWorld census is complete: 244 families produced 26 reserve families and no automatic shortlist under conservative offline gates. The immediate task is now **parallel agent review of all reserves**, followed by scripted-B environment validation for at most 3-5 promoted families. K0 explorability comes only after a real cheaper successful B route is executed in the benchmark.
 
 ## Read first
 
 - [`docs/00_research_brief.md`](docs/00_research_brief.md) — background, related work, gap, problem definitions.
 - [`docs/25_research_progress.md`](docs/25_research_progress.md) — latest completed experiments and evidence limits.
-- [`docs/26_strategy_lockin_experiment_plan.md`](docs/26_strategy_lockin_experiment_plan.md) — current B-focused candidate gates, metrics, and staged experiment plan.
+- [`docs/26_strategy_lockin_experiment_plan.md`](docs/26_strategy_lockin_experiment_plan.md) — B-focused scientific target and staged experiment plan.
 - [`docs/27_codex_claude_code_workflow.md`](docs/27_codex_claude_code_workflow.md) — local Codex-reviewer / Claude-Code-worker workflow.
+- [`docs/28_appworld_family_census.md`](docs/28_appworld_family_census.md) — completed Stage-A census and its evidence limits.
+- [`docs/29_parallel_candidate_review_plan.md`](docs/29_parallel_candidate_review_plan.md) — current all-agent reserve review, aggregation and scripted-B gate.
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — historical H1–H4 protocol and instrumentation requirements.
 - [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and cost accounting.
-- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Sections 22–23 contain the current priority/workflow overrides.
+- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Sections 22–24 contain the current priority/workflow overrides.
 
 Older targeted plans/results remain in `docs/` as historical evidence. New work should not silently revive superseded task-selection logic.
 
@@ -96,7 +98,8 @@ Older targeted plans/results remain in `docs/` as historical evidence. New work 
 6. **Do not silently replace an official baseline memory mechanism with an `*-style` reimplementation.**
 7. **Use the registered common-backbone configuration inside causal comparisons.**
 8. **Do not treat task success as proof that the chosen strategy is optimal, or task failure as necessary for B.**
-9. **Do not spend on branch experiments before the candidate passes explorability and memory-authority gates.**
+9. **Do not spend on learned-memory branch experiments before the candidate passes scripted-B existence, K0 explorability and memory-authority gates.**
+10. **Agent-review outputs are triage evidence only.** They cannot establish B success, measured cost or memory causality.
 
 ## Status — 2026-09-13
 
@@ -105,20 +108,21 @@ Older targeted plans/results remain in `docs/` as historical evidence. New work 
 | Track | Completed work | Scientific result |
 |---|---|---|
 | AutoManual + ALFWorld | connection/reset checks, five-task calibration, nine-task incremental sequence, three six-branch screens | A provenance/scope errors and healthy repairs; tested narrow B channels were negative |
-| ACE online/no-GT + AppWorld | five real sequential tasks with native updates and evaluator success | useful A observations; coupon sequence learned healthy conditional comparison, so branch test was correctly stopped |
+| ACE online/no-GT + AppWorld | five real sequential tasks with native updates; Stage-A census over 244 families | useful A observations; coupon sequence learned healthy conditional comparison; census left 26 reserve families for automated semantic review |
 | AWM + WebArena | feasibility research only | no local experiment result |
 
-The completed ACE batch used 94 generation requests and an estimated USD 0.313930812. No new paid batch is active.
+The completed ACE batch used 94 generation requests and an estimated USD 0.313930812. The new parallel reserve-review calls are research-side triage and must be separately accounted; no new ACE learned-memory branch batch is active.
 
 ## Local agent workflow
 
 The preferred next implementation workflow is:
 
 ```text
-Codex CLI (outer workspace) -> plan/review/integrate
+Codex CLI (outer workspace) -> orchestrate/review/parallel reviewer ensemble/integrate
           |
-          v
-Claude Code + DeepSeek V4 Flash (inner Git repo) -> implement/analyze/test
+          +--> Claude Code + deepseek-flash[1m] -> prepare IDs/packets + implement diagnostics
+          |
+          +--> parallel DeepSeek Flash reviewers -> semantic triage over all reserve packets
 ```
 
 Expected local paths:
@@ -134,7 +138,7 @@ Use the repository wrapper for Claude Code:
 bash /home/coolboy/projects/memory/memory/scripts/agents/run_cc_deepseek.sh ...
 ```
 
-See `docs/27_codex_claude_code_workflow.md` for role separation and secret/network handling.
+See `docs/27_codex_claude_code_workflow.md` and `docs/29_parallel_candidate_review_plan.md` for role separation, reviewer aggregation, and secret/network handling.
 
 ## Setup and evidence
 
