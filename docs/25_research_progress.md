@@ -100,3 +100,20 @@ Ruff、58 个 Python 文件格式检查、JSON 解析及本次整理文档的本
 暂存区完整 `git diff --cached --check` 提示上游 patch 的上下文空行及原始 CRLF；
 保留 patch 字节以维持已记录的哈希与重放语义。排除 `configs/*/patches/*.patch`
 后该检查通过。没有为消除显示提示而重写已验证的上游 patch。
+
+## 9. Stage A AppWorld family census（2026-09-13）
+
+按 docs/26 完成了离线 task-family census；实现与完整候选卡见
+[`docs/28_appworld_family_census.md`](28_appworld_family_census.md)。扫描固定
+732 个 task、244 个 AppWorld scenario families，产生 10 个 reviewed top candidates，
+但在保守 review 后 **0 个 survivor、26 个 reserve、218 个 rejected**。未启动
+Stage B K₀ explorability probe，也未启动任何新的 paid/model/benchmark experiment。
+
+关键 review 结论：同一 family 的 sibling reference call-count 差不能作为
+cost(C)–cost(B) gap；它通常只是同一 C 在不同 entity/workload volume 上的差异。
+`57c3486`、`d4e9306` 等被标为 data-volume-only，`df61dc5`、`afc0fce`、
+`68ee2c9` 等被标为 no-strategy-shift；`432dc7a` 保持因任务明确要求比较而拒绝，
+`27e1026` 因 global Spotify search 与 user-scoped library 不等价而拒绝。
+本 census 对所有候选都保留 `cost(B)=unknown`、`B_success_on_target=unknown` 和
+`K_0_discoverability=unmeasured`，因此没有把 offline reference evidence 写成
+success-induced lock-in 结果。
