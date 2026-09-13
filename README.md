@@ -37,113 +37,107 @@ This unifies two cases:
 
 The current phase is **phenomenon validation**, not method design.
 
-Problem **A** covers extracting multiple reliable memories from trajectories and
-maintaining the whole memory set. Problem **B** covers how memory affects action,
-evidence acquisition, exploration, and discovering/comparing/adopting better
-strategies, including successful but suboptimal behavior. Neither an incorrect
-memory nor an explicit instruction to avoid exploration is required for B.
-See the [current progress review](docs/25_research_progress.md) for evidence and limits.
+Problem **A** covers extracting multiple reliable memories from trajectories and maintaining the whole memory set. Problem **B** covers how memory affects action, evidence acquisition, exploration, and discovering/comparing/adopting better strategies, including successful but suboptimal behavior. Neither an incorrect memory nor an explicit instruction to avoid exploration is required for B.
 
-We test four increasingly strong hypotheses:
+The latest experiments established concrete A-side provenance/scope/necessity errors but did not establish harmful B or the A+B feedback loop. See [`docs/25_research_progress.md`](docs/25_research_progress.md).
 
-- **H1 — Memory-induced distribution shift**: persistent memory materially changes future action / observation / trajectory distributions.
-- **H2 — Evidential suppression**: a specific memory commitment reduces the probability of obtaining decision-relevant counter/comparative evidence.
-- **H3 — Self-reinforcement**: the memory-shaped trajectory is used for the next update and preserves or strengthens the original commitment.
-- **H4 — Recoverability gap**: reducing/removing the suspect memory commitment reopens evidence or trajectories that the intact system fails to recover on its own.
+### Current B-focused refinement
 
-H1 alone is expected behavior. The research problem becomes compelling only if H2–H4 occur naturally in strong, real systems.
+The next stage focuses on a cleaner form of B: **success-induced strategy lock-in**.
+
+A learned persistent memory may correctly encode that strategy C works. Reusing C can still be harmful if it concentrates future behavior on C and reduces discovery of another successful strategy B with lower task-relevant interaction cost. The key distinction is:
+
+```text
+Evidence that C works != evidence that C is better than alternatives.
+```
+
+The next experiments therefore search for task families with multiple successful strategies, meaningful cost differences, source-appropriate reuse, and genuine alternative discoverability under the same backbone. See [`docs/26_strategy_lockin_experiment_plan.md`](docs/26_strategy_lockin_experiment_plan.md).
 
 ## Phase-1 model policy
 
-For the **pre-experiment / phenomenon-mining stage**, all admitted baseline–benchmark pairs use a common backbone:
+For the **pre-experiment / phenomenon-mining stage**, admitted baseline–benchmark runs use a common backbone:
 
 - **model:** `deepseek-v4-flash`
 - **mode:** **non-thinking**
 - **provider:** DeepSeek official API unless a compatibility issue requires an explicitly documented alternative endpoint
 - **local inference GPU:** not required
 
-This is intentionally a **common-backbone mechanism evaluation**, not a claim of exact reproduction of each paper's original leaderboard setting.
+This is a **common-backbone mechanism evaluation**, not a claim of exact reproduction of each paper's original leaderboard setting.
 
-Why use one model first:
+If a convincing B case is found, later confirmation may include a small subset using `deepseek-v4-pro` and/or the original paper backbone.
 
-1. reduce model-strength differences across memory systems;
-2. make cross-baseline H1–H4 comparisons easier to interpret;
-3. lower the cost of running many sequential trajectories and counterfactual branches;
-4. keep actor/updater model strength matched within a baseline whenever the baseline has multiple LLM roles.
+## Current execution priority
 
-If a convincing H2–H4 case is found, later confirmation should include a small subset using either `deepseek-v4-pro` and/or the original paper backbone to rule out a V4-Flash-specific artifact. Do **not** do those expensive confirmation runs during the initial search unless explicitly requested.
+1. **ACE online/no-GT + AppWorld** — primary carrier for the new strategy-lock-in search.
+2. **AutoManual + ALFWorld** — pause new B mining; keep as A evidence and possible later cross-baseline confirmation.
+3. **AWM + WebArena** — remain conditional; do not connect unless AppWorld fails the registered gates and a new decision explicitly authorizes it.
 
-## Initial validation targets
-
-Priority order:
-
-1. **AutoManual + ALFWorld** — low-cost protocol/debug setting.
-2. **ACE online/no-GT + AppWorld** — modern strong-method cross-check.
-3. **Online AWM + WebArena (Shopping)** — scientifically strong cross-task closed-loop candidate, conditional on its reproducibility gate.
-
-AWM + WebArena remains conditional because its current upstream WebArena path has deprecation/reproducibility risk. It should not be treated as primary evidence until the smoke test passes.
+The immediate implementation task is **not another branch experiment**. It is a reproducible AppWorld task-family census and top-candidate analysis, followed by an explorability gate only after review.
 
 ## Read first
 
 - [`docs/00_research_brief.md`](docs/00_research_brief.md) — background, related work, gap, problem definitions.
-- [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — H1–H4 protocol, instrumentation, branch interventions, success/failure criteria.
-- [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and estimated pilot costs.
-- [`AGENTS.md`](AGENTS.md) — implementation rules for coding agents.
-- [`docs/17_ab_targeted_plan.md`](docs/17_ab_targeted_plan.md) — A/B definitions and targeted analysis principles: memory-set extraction/update, transfer-boundary tasks, and flexible intervention scope/timing.
-- [`docs/20_b_benchmark_reassessment.md`](docs/20_b_benchmark_reassessment.md) — historical reassessment of B task fit and the choice of AppWorld/ACE.
-- [`docs/21_appworld_ab_execution_plan.md`](docs/21_appworld_ab_execution_plan.md) — archived execution plan for the completed ACE five-task batch and conditional branches.
-- [`docs/25_research_progress.md`](docs/25_research_progress.md) — current progress, A/B evidence, design lessons, and remaining questions (2026-09-13).
+- [`docs/25_research_progress.md`](docs/25_research_progress.md) — latest completed experiments and evidence limits.
+- [`docs/26_strategy_lockin_experiment_plan.md`](docs/26_strategy_lockin_experiment_plan.md) — current B-focused candidate gates, metrics, and staged experiment plan.
+- [`docs/27_codex_claude_code_workflow.md`](docs/27_codex_claude_code_workflow.md) — local Codex-reviewer / Claude-Code-worker workflow.
+- [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — historical H1–H4 protocol and instrumentation requirements.
+- [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and cost accounting.
+- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Sections 22–23 contain the current priority/workflow overrides.
+
+Older targeted plans/results remain in `docs/` as historical evidence. New work should not silently revive superseded task-selection logic.
 
 ## Non-negotiable experimental rules
 
-1. **Do not optimize aggregate benchmark score in Phase 1.** We are looking for causal failure cases.
-2. **Do not inject artificial wrong memories to prove the phenomenon.** Candidate failures must first arise from real trajectories and the baseline's own updater.
-3. **No evaluator-only / hidden ground-truth information may enter the adaptive memory loop.**
+1. **Do not optimize aggregate benchmark score.** We are looking for a causal memory-dynamics phenomenon.
+2. **Do not inject artificial wrong memories to prove the phenomenon.** Source memory must arise from real baseline trajectories and the native updater.
+3. **No evaluator-only / hidden ground-truth information may enter the adaptive memory loop.** Research-side analysis may use benchmark internals for candidate selection only if it remains isolated from the actor/updater.
 4. **Always save memory snapshots before and after every task.**
-5. **Always preserve raw action and observation traces.** Screenshots alone are insufficient.
-6. **Use controlled branch interventions** (same task, environment state, model configuration; suspect memory intact vs masked/reduced) for H2/H4 attribution.
-7. **Do not silently replace an official baseline memory mechanism with an `*-style` reimplementation.** Model substitution is allowed in Phase 1 only under the common-backbone policy above and must be recorded in the run manifest.
-8. **Use `deepseek-v4-flash` in non-thinking mode for all Phase-1 pre-experiments.** Do not mix Flash/Pro/original-paper models inside one causal comparison.
-9. **Instrument cost before scaling.** Run the 5-task calibration gate first.
+5. **Always preserve raw action and observation traces.**
+6. **Do not silently replace an official baseline memory mechanism with an `*-style` reimplementation.**
+7. **Use the registered common-backbone configuration inside causal comparisons.**
+8. **Do not treat task success as proof that the chosen strategy is optimal, or task failure as necessary for B.**
+9. **Do not spend on branch experiments before the candidate passes explorability and memory-authority gates.**
 
 ## Status — 2026-09-13
 
-**A has concrete case evidence; harmful B and the A+B causal feedback loop remain
-unconfirmed.** This is a research checkpoint, not a successful hypothesis validation.
-The [progress review](docs/25_research_progress.md) consolidates the findings.
+**A has concrete case evidence; harmful B and the A+B causal feedback loop remain unconfirmed.**
 
 | Track | Completed work | Scientific result |
 |---|---|---|
-| AutoManual + ALFWorld | Scoped connection/reset checks, five-task calibration, nine-task incremental sequence, three six-branch screens | A provenance/scope errors alongside reasonable repairs; no convincing harmful B effect under the tested interventions |
-| ACE online/no-GT + AppWorld | Isolated official execution, five real sequential tasks with native updates and evaluator success | A update/filtering findings and conditional reuse; coupon candidate stopped before target branches |
-| AWM + WebArena | Feasibility research only | No local experiment result |
+| AutoManual + ALFWorld | connection/reset checks, five-task calibration, nine-task incremental sequence, three six-branch screens | A provenance/scope errors and healthy repairs; tested narrow B channels were negative |
+| ACE online/no-GT + AppWorld | five real sequential tasks with native updates and evaluator success | useful A observations; coupon sequence learned healthy conditional comparison, so branch test was correctly stopped |
+| AWM + WebArena | feasibility research only | no local experiment result |
 
-The [ACE batch](docs/24_ace_appworld_real_batch_results.md) used 94 generation
-requests, zero embedding requests and estimated USD 0.313930812; provider-reported
-amounts remain unavailable. Its `stop_conditional_knowledge` decision is **not** a
-counterfactual null result. No further paid batch is active.
+The completed ACE batch used 94 generation requests and an estimated USD 0.313930812. No new paid batch is active.
+
+## Local agent workflow
+
+The preferred next implementation workflow is:
+
+```text
+Codex CLI (outer workspace) -> plan/review/integrate
+          |
+          v
+Claude Code + DeepSeek V4 Flash (inner Git repo) -> implement/analyze/test
+```
+
+Expected local paths:
+
+```text
+Codex cwd: /home/coolboy/projects/memory
+repo:      /home/coolboy/projects/memory/memory
+```
+
+Use the repository wrapper for Claude Code:
+
+```bash
+bash /home/coolboy/projects/memory/memory/scripts/agents/run_cc_deepseek.sh ...
+```
+
+See `docs/27_codex_claude_code_workflow.md` for role separation and secret/network handling.
 
 ## Setup and evidence
 
-Use separate Conda environments: `memory-infra`, `memory-automanual`, and
-`memory-ace-appworld`. Run commands through `scripts/direct.py` to disable inherited
-proxies. For the infrastructure environment and an offline smoke:
+Use separate Conda environments: `memory-infra`, `memory-automanual`, and `memory-ace-appworld`. Run commands through `scripts/direct.py` where the existing experiment code requires inherited-proxy isolation.
 
-```bash
-python scripts/direct.py conda env create -f configs/environment-infra-linux-64.yml
-python scripts/direct.py conda run -n memory-infra python scripts/smoke/offline.py
-```
-
-See [infrastructure](docs/03_infrastructure.md),
-[AutoManual setup](docs/05_automanual_reproducibility.md),
-[embedding wiring](docs/06_embedding_wiring.md), and
-[ACE setup](docs/22_ace_appworld_preparation.md) /
-[execution readiness](docs/23_ace_appworld_execution_readiness.md) for pins,
-patches, environment definitions, compatibility limits and commands.
-Historical setup blockers are superseded only by the corresponding later report.
-Synthetic smoke results are not scientific evidence.
-
-Source, configurations, patches, tests and reports are versioned. Raw artifacts,
-benchmark data/upstream checkouts, credentials and local environments stay ignored.
-Report links into `artifacts/` require the original local evidence; a fresh clone
-alone does not contain the recorded trajectories.
+Source, configurations, patches, tests and reports are versioned. Raw artifacts, benchmark data/upstream checkouts, credentials and local environments remain ignored. Report links into `artifacts/` require the original local evidence; a fresh clone alone does not contain recorded trajectories.
