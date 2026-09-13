@@ -54,15 +54,14 @@ must not be injected into the ACE loop.
 
 | Category | Families | Interpretation |
 |---|---:|---|
-| Shortlist survivors | 0 | No family is worth an explorability probe after conservative offline review |
-| Reserve | 26 | Some structural signal, but no admissible B route/cost evidence |
+| Shortlist survivors | 0 | No family passed every conservative offline G1-G6 gate |
+| Reserve | 26 | Structural signal exists, but B success/cost or route support is not yet execution-backed |
 | Rejected | 218 | Failed comparison, reference, strategy-shift, cost or route-scope gates |
 | Data-volume-only / no-strategy-shift flags | 3 / 18 | Same C over different workload or no route-relevant change |
 
-No family is selected for the next stage. This is a failed candidate gate, not
-evidence that success-induced strategy lock-in is absent from AppWorld. Per
-`docs/26`, the next decision should be made after this review rather than by
-lowering the gates or starting another benchmark.
+The `0 shortlist` result is a failed **offline** gate, not evidence that success-induced strategy lock-in is absent from AppWorld. In particular, Stage A intentionally leaves `cost(B)`, `B_success_on_target` and `K0_discoverability` unknown.
+
+The post-census decision is now recorded in `docs/29_parallel_candidate_review_plan.md`: the 26 reserve families are the next agent-review pool rather than requiring manual inspection or immediate benchmark abandonment.
 
 ## Top-10 reviewed candidates
 
@@ -110,5 +109,18 @@ Reproduction command:
 python scripts/analysis/appworld_family_census.py
 ```
 
-This work package stops here. No paid experiment, K₀ explorability probe,
-source-memory formation run or branch experiment was started.
+## Next stage — automated parallel semantic review
+
+No human per-family review is required.
+
+1. Regenerate the census locally if needed and enumerate **all 26 reserve family IDs**.
+2. Claude Code returns the reserve family/source/target IDs and prepares bounded evidence packets.
+3. Codex writes a fixed structured prompt/schema and runs DeepSeek Flash reviews concurrently over the full reserve pool.
+4. Use two independent reviews per family and a third only for disagreements.
+5. Automatically validate API names, evidence references, scope equivalence and absence of privileged-information dependence.
+6. Promote at most 3-5 candidates to real scripted-B environment validation.
+7. Only benchmark-executed successful cheaper alternatives proceed to K0 explorability.
+
+See `docs/29_parallel_candidate_review_plan.md` for the registered details.
+
+No paid ACE trajectory, K₀ explorability probe, source-memory formation run or Minimal-B branch is authorized merely by this census.
