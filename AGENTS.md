@@ -372,3 +372,12 @@ The first implementation PR should contain only:
 - a smoke-test command that does not yet launch a large paid run.
 
 Do not start all three environments in one PR.
+
+## 21. Commit and push preference
+
+User instruction (2026-09-13): when asked to commit or submit repository work,
+complete the commit and push it to the branch's configured upstream by default.
+Do not stop at a local commit or request separate push confirmation, unless the
+user explicitly asks for local-only work. This does not authorize automatic
+commits for every task or force pushes. Report push failures and unresolved
+remote changes accurately; never overwrite remote history to satisfy this rule.
