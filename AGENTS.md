@@ -470,3 +470,49 @@ to search for a favorable output; a new review requires a documented protocol
 change or a separate scientific decision. If AppWorld is reconsidered, keep
 the distinction between this triage gate and the unmeasured execution gates
 (`cost(B)`, `B_success_on_target`, and `K0_discoverability`).
+
+## 26. Current behavior-first override — 2026-09-13
+
+The reference-family census and parallel reserve-review route (`docs/28`–`docs/30`)
+are completed **historical evidence**, not the next candidate-generation path.
+Do not rerun the parallel reviewer, the nine `unusable_review` holds, the
+reference-solution shortcut detector, or AutoManual B sampling merely to seek
+a positive case. The frozen holds have no priority; they may reappear only if
+the new procedure independently produces behavioral evidence for them.
+
+`docs/31_behavior_first_candidate_mining_plan.md` is the current execution
+override for candidate generation and supersedes Sections 22–25 where they
+conflict. The primary carrier remains the registered ACE online/no-GT plus
+AppWorld configuration. First construct a deterministic, isolated-K0 corpus:
+every selected task starts from the exact official `K0`, runs native
+Generator → AppWorld → Reflector → Curator, persists its trajectory and
+`DeltaK`, and hard-resets to the exact `K0` before the next task. Never allow
+learned playbook state to cross task boundaries.
+
+Then mine candidate tuples from real `(tau_S, DeltaK_S)` across source/target
+tasks. Research-side task/reference/setup/evaluator material may support
+selection and analysis but must remain outside all ACE Generator, Reflector
+and Curator contexts. Strategy cards and candidate summaries are analysis
+artifacts, not persistent memory.
+
+This stage stops after the corpus and a queue of at most five evidence-backed
+candidates. It does **not** authorize scripted-B validation, target K0
+explorability, source-memory authority, Minimal-B, or closed-loop diagnosis.
+Those gates require a later explicit decision. The corpus has a hard USD 5
+run cap and must cleanly stop and preserve partial artifacts on exhaustion.
+
+## 27. Behavior-first result — 2026-09-13
+
+The authorized behavior-first run is complete; its results are in `docs/32`.
+It retained 23 independently K0-reset ACE/AppWorld tasks (all reset checks
+passed) before a registered per-task guard stopped further execution. Although
+ACE produced non-empty and sometimes strategy-section DeltaK, the real corpus
+produced no credible cross-task `(tau_S, DeltaK_S, T, C, B)` tuple. The BF-2
+queue is empty.
+
+Do not respond by rerunning the seven unstarted selector tasks, relaxing the
+guard, reviving the frozen reserve pool, adding another shortcut detector, or
+starting BF-3/K0/Minimal-B. Treat this as the registered stop signal for
+AppWorld **Problem-B candidate generation**. Any further B benchmark work
+requires a separate documented scientific decision; AppWorld A-side evidence
+remains historical evidence.

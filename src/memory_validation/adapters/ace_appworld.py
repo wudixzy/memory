@@ -263,8 +263,14 @@ def run_task(
     synthetic=False,
     remote_url=None,
     task_index=0,
+    verify_before=None,
 ):
-    """Official no-GT loop; fresh world/guest, complete playbook restored without rewriting."""
+    """Official no-GT loop; fresh world/guest, complete playbook restored without rewriting.
+
+    ``verify_before`` is an optional caller checkpoint assertion evaluated on the
+    snapshot handed to the Generator and before it starts. It cannot change the
+    playbook; raising there fails the task closed.
+    """
     from appworld import AppWorld
     from appworld_experiments.code.ace import adaptation_agent
 
@@ -286,6 +292,9 @@ def run_task(
         restore(agent, checkpoint)
     before = snapshot(agent)
     sink.write("memory_before", before.to_dict())
+    if verify_before is not None:
+        # Caller-owned reset assertion; the playbook itself is never rewritten here.
+        verify_before(before)
     manifest = Manifest(
         run_id=directory.parent.name,
         pair="ace_appworld",

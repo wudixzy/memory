@@ -72,7 +72,11 @@ If a convincing B case is found, later confirmation may include a small subset u
 2. **AutoManual + ALFWorld** — pause new B mining; keep as A evidence and possible later cross-baseline confirmation.
 3. **AWM + WebArena** — remain conditional; do not connect unless AppWorld fails the registered gates and a new decision explicitly authorizes it.
 
-The Stage-A AppWorld census and the all-reserve parallel agent review are complete. The census produced 26 reserves; the review produced 17 rejects, 9 review-quality reserves and 0 promoted families. No scripted-B or K₀ explorability run was authorized because no family passed the promotion gate. See [`docs/30_parallel_candidate_review_results.md`](docs/30_parallel_candidate_review_results.md). This does not falsify B; it means the current AppWorld packet evidence did not identify a sufficiently supported route.
+The Stage-A AppWorld census and the all-reserve parallel agent review are complete historical evidence. The census produced 26 reserves; the review produced 17 rejects, 9 review-quality reserves and 0 promoted families. The nine unusable-review holds are frozen and will not be retried. This does not falsify B; it means the old reference-family packet route did not identify a sufficiently supported route.
+
+The current execution override is **behavior-first candidate mining**: use the registered ACE online/no-GT + AppWorld setup to build an isolated-K₀ behavioral corpus, retain each real trajectory and native `DeltaK`, then mine cross-task transfer candidates from those real artifacts. See [`docs/31_behavior_first_candidate_mining_plan.md`](docs/31_behavior_first_candidate_mining_plan.md). This work stops before scripted-B, K₀ explorability, or any learned-memory Minimal-B branch.
+
+The behavior-first corpus has completed its registered attempt: 23 isolated-K₀ tasks were retained before a per-task guard stopped the run; all reset checks passed, but the real trajectories yielded no credible cross-task B tuple. No BF-3 gate is authorized. See [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md). This is a stop signal for AppWorld **for B candidate generation**, not a falsification of B or a change to A-side evidence.
 
 ## Read first
 
@@ -82,9 +86,12 @@ The Stage-A AppWorld census and the all-reserve parallel agent review are comple
 - [`docs/27_codex_claude_code_workflow.md`](docs/27_codex_claude_code_workflow.md) — local Codex-reviewer / Claude-Code-worker workflow.
 - [`docs/28_appworld_family_census.md`](docs/28_appworld_family_census.md) — completed Stage-A census and its evidence limits.
 - [`docs/29_parallel_candidate_review_plan.md`](docs/29_parallel_candidate_review_plan.md) — current all-agent reserve review, aggregation and scripted-B gate.
+- [`docs/30_parallel_candidate_review_results.md`](docs/30_parallel_candidate_review_results.md) — completed historical reserve review and its limits.
+- [`docs/31_behavior_first_candidate_mining_plan.md`](docs/31_behavior_first_candidate_mining_plan.md) — **current execution override**: isolated-K₀ corpus and behavior-first cross-task candidate mining.
+- [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md) — completed isolated-K₀ corpus, empty BF-2 queue, and AppWorld B stop decision.
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — historical H1–H4 protocol and instrumentation requirements.
 - [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and cost accounting.
-- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Sections 22–24 contain the current priority/workflow overrides.
+- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Section 26 contains the current priority/workflow override.
 
 Older targeted plans/results remain in `docs/` as historical evidence. New work should not silently revive superseded task-selection logic.
 
