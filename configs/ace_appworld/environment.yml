@@ -1,0 +1,8 @@
+name: memory-ace-appworld
+channels:
+  - defaults
+dependencies:
+  - python=3.11.16
+  - pip=26.2.1
+# Then install the pinned local fork + experiments[simplified], using
+# requirements-lock.txt as constraints. See docs/22 for exact commands.

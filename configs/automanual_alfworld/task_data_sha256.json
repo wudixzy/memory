@@ -1,0 +1,12 @@
+{
+  "source": "bundled AutoManual commit aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+  "dataset_label": "json_2.1.1",
+  "scope": "one diagnostic task plus logic; not a full benchmark inventory",
+  "files": {
+    "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/game.tw-pddl": "1069bc34a5bb6a28d01f0ee8354ea82154c322422c6d77de74f4c7128eb33f1b",
+    "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/initial_state.pddl": "0edbc88696728a96a50268949f226b078d39525fe55a778cfb66cdeffaf98068",
+    "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/traj_data.json": "c1f617ba81b0fb5e86ab4a0969ccdb1f98fb9ce68c94933adf053817d8bcc7e9",
+    "alfworld/downloaded/logic/alfred.pddl": "954463a9267839cc84017670bd8081457b1d50d7e3acbf448f09d5336cbe2737",
+    "alfworld/downloaded/logic/alfred.twl2": "7877085679b6f1dc5254c4a8a94fce7c98d7ab204d341b83b6c9a731106c0c7e"
+  }
+}

@@ -1,5 +1,20 @@
 # Phenomenon Validation Protocol
 
+Progress review (2026-09-13): [docs/25](25_research_progress.md) records completed
+batches and current evidence. B does not require explicit restrictive memory text;
+a change in the best answer alone does not establish a strategy-transfer boundary.
+Historical schedules below are not pending execution orders.
+
+Current planning supplement (2026-09-12): [docs/17](17_ab_targeted_plan.md)
+expands the next deliverable beyond single-item screening. Problem A independently
+examines multi-memory extraction and set maintenance; it does not require H2–H4
+or downstream failure. For B, select transfer-boundary tasks and choose the memory
+scope and intervention timing to fit the hypothesis, including whole-set removal,
+decision-point removal, or temporary removal/restoration. This supersedes the
+default single-item preference and broad sampling schedule below, while retaining
+same-target controls, actual-input audits, and evidence isolation. It is a plan,
+not authorization for a new paid batch.
+
 > Goal: test whether the A+B closed-loop failure is a **real phenomenon** in credible persistent-memory systems.  
 > This phase is not a benchmark leaderboard exercise and not a method-comparison study.
 
@@ -12,7 +27,7 @@ A pair can be used as primary evidence only if it passes all of the following:
 3. **Official implementation** — use the authors' implementation, not an informal `*-style` recreation.
 4. **Runnable environment** — benchmark data/environment/evaluator can be obtained and reset.
 5. **Auditable closed loop** — memory before a task, the resulting trajectory, and the memory after the task can all be captured.
-6. **No hidden-evidence leakage** — evaluator-only ground truth must not enter the adaptive loop for the main phenomenon experiment.
+6. **No hidden-evidence leakage** — evaluator-only ground truth must not enter the adaptive loop for the main phenomenon experiment. The sole approved native-feedback exception is the audited AutoManual channel in §6.1; it does not generalize to other baselines.
 7. **Controlled branching is possible** — the same task/environment can be rerun from the same initial state with a targeted memory intervention.
 8. **Common-backbone compatibility** — the baseline can be adapted to `deepseek-v4-flash` without changing its core memory mechanism.
 
@@ -267,6 +282,20 @@ Strong evidence:
 ## 6. Environment-specific evidence events
 
 ### 6.1 AutoManual + ALFWorld
+
+Approved feedback boundary: **automanual-native-won-v1-2026-09-11**, limited to
+AutoManual commit `aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324`'s audited
+`autobuild_case` path. Preserve public task/action text, ordinary execution errors,
+and the existing won-derived boolean feedback at native stopping, skill/history
+and Builder case-selection boundaries. Keep the original consumers, frequency,
+granularity and termination semantics from the field table in
+[docs/07](07_feedback_protocol_proposal.md). Do not supplement actor/updater inputs
+with numeric reward, admissible commands, expert plans, walkthroughs, hidden PDDL
+state or extra evaluator analysis. Generated Python accesses only approved
+action/rule interfaces; evaluator artifacts are saved separately. Manifests must
+record `feedback_protocol` and `execution_restrictions`. Historical diagnostic
+artifacts are not relabelled. This exception alone establishes neither mechanism
+equivalence nor primary-evidence admission; connection smoke remains non-scientific.
 
 Candidate evidence events include:
 

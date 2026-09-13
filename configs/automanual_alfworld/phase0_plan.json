@@ -1,0 +1,66 @@
+{
+  "status": "blocked_pending_review_not_executable",
+  "scientific_evidence": false,
+  "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+  "split": "train",
+  "seed": 42,
+  "agent_type": "autobuild_case",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "thinking": false,
+  "temperature": 0,
+  "evaluation_type": "common-backbone",
+  "interface": "official_chat_path_with_future_transport_patch",
+  "initial_memory": "official init_rules + empty skill bank, never published learned manual",
+  "embedding_substitution": {
+    "configuration": "configs/automanual_alfworld/embedding.json",
+    "choice_authorized": true,
+    "offline_official_skill_bank_wiring": "verified",
+    "real_api_compatibility": "unverified",
+    "mixed_run_cny_budget": "must be specified separately before execution"
+  },
+  "roles": {
+    "planner_max_generations": 3,
+    "conclusion_or_reflection_max_generations": 1,
+    "builder_classifier_max_generations": 1,
+    "builder_update_max_generations": 1,
+    "consolidator_max_generations_before_abort": 3,
+    "formulator_generations": 0,
+    "compatibility_probe_max_generations": 1
+  },
+  "budget_proposal_not_authorization": {
+    "transport_attempts_including_probe_and_retries": 12,
+    "extra_retries_max": 2,
+    "max_output_tokens_per_call": 2000,
+    "input_upper_bound_per_call_until_tokenizer_validated": 1048576,
+    "max_input_tokens_total": 12582912,
+    "max_output_tokens_total": 24000,
+    "project_planning_peak_estimate_usd": 5.56816128,
+    "proposed_hard_cap_usd": 6.0,
+    "expected_small_prompt_example": {
+      "input_tokens_total": 150000,
+      "output_tokens_total": 20000,
+      "project_planning_peak_estimate_usd": 0.0924,
+      "measured": false
+    }
+  },
+  "stop_conditions": [
+    "any hidden-evidence boundary violation",
+    "unknown usage or interrupted transport",
+    "model/thinking/temperature drift",
+    "budget reservation refused or actual budget exceeded",
+    "rules still exceed 12 after 3 consolidation calls: abort, do not truncate rules",
+    "more than 50 environment actions or worker timeout",
+    "undeclared source, data, dependency or prompt changes"
+  ],
+  "required_before_paid_execution": [
+    "resolve native evaluator-success feedback conflict with main no-GT protocol",
+    "capability isolation for generated Python and hidden environment state",
+    "implement reviewed provider-only patch; no API probe performed yet",
+    "acknowledge documented backend migration behind legacy model ID",
+    "implement ordered multi-updater artifacts and raw request/response telemetry",
+    "audit real actor SDK transport and retries; installed imports do not verify API compatibility",
+    "verify authorized DashScope embedding endpoint with explicit probe; keep identical embedding configuration across all branches and specify a CNY budget",
+    "explicitly authorize diagnostic or main run and its budget"
+  ]
+}

@@ -1,0 +1,6 @@
+# Minimal official Skill_Bank imports, not the full actor/vision environment.
+openai==1.35.3
+httpx==0.27.2
+langchain-openai==0.1.8
+langchain-community==0.2.4
+faiss-cpu==1.7.4

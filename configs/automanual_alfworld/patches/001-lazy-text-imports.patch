@@ -1,0 +1,20 @@
+diff --git a/alfworld/alfworld/agents/environment/__init__.py b/alfworld/alfworld/agents/environment/__init__.py
+index 09fe688..6c1b138 100644
+--- a/alfworld/alfworld/agents/environment/__init__.py
++++ b/alfworld/alfworld/agents/environment/__init__.py
+@@ -1,3 +1,12 @@
+ from alfworld.agents.environment.alfred_tw_env import AlfredTWEnv
+-from alfworld.agents.environment.alfred_thor_env import AlfredThorEnv
+-from alfworld.agents.environment.alfred_hybrid import AlfredHybrid
+\ No newline at end of file
++
++
++def __getattr__(name):
++    # Text-only execution must not import optional THOR/vision dependencies.
++    if name == "AlfredThorEnv":
++        from alfworld.agents.environment.alfred_thor_env import AlfredThorEnv
++        return AlfredThorEnv
++    if name == "AlfredHybrid":
++        from alfworld.agents.environment.alfred_hybrid import AlfredHybrid
++        return AlfredHybrid
++    raise AttributeError(name)

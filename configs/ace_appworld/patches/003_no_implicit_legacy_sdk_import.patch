@@ -1,0 +1,22 @@
+diff --git a/experiments/code/ace/__init__.py b/experiments/code/ace/__init__.py
+index 27b7065..4c7b555 100644
+--- a/experiments/code/ace/__init__.py
++++ b/experiments/code/ace/__init__.py
+@@ -1,8 +1,12 @@
+ # ruff: noqa: F401
+-from appworld_experiments.code.ace.base_agent import BaseAgent
+-from appworld_experiments.code.ace.evaluation_agent import Agent
++import os
++
++# The project's injected-model path must not import unused SDK/cache backends.
++if os.environ.get("ACE_EXPLICIT_MODELS_ONLY") != "1":
++    from appworld_experiments.code.ace.base_agent import BaseAgent
++    from appworld_experiments.code.ace.evaluation_agent import Agent
++    from appworld_experiments.code.ace.ipfuncall import SimplifiedIPFunCallAgent
++    from appworld_experiments.code.ace.base_react import BaseSimplifiedReActAgent
++    from appworld_experiments.code.ace.evaluation_react import SimplifiedReActAgent
+ from appworld_experiments.code.ace.adaptation_agent import StarAgent
+-from appworld_experiments.code.ace.ipfuncall import SimplifiedIPFunCallAgent
+-from appworld_experiments.code.ace.base_react import BaseSimplifiedReActAgent
+-from appworld_experiments.code.ace.evaluation_react import SimplifiedReActAgent
+ from appworld_experiments.code.ace.adaptation_react import SimplifiedReActStarAgent

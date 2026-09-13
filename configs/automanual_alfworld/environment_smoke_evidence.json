@@ -1,0 +1,182 @@
+{
+  "recorded_on": "2026-09-11",
+  "purpose": "environment_smoke_diagnostic_only",
+  "scientific_evidence": false,
+  "run_directory": "artifacts/automanual-env-c59079930e7a",
+  "llm_calls": 0,
+  "embedding_calls": 0,
+  "api_cost_usd": 0,
+  "infrastructure_python": "3.10.20",
+  "upstream_python": "3.9.16",
+  "pip_check": "No broken requirements found.",
+  "source": {
+    "bundled_tree": "cc528106f15eaaef06f4900e78c649f9f99a5d06",
+    "commit": "aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+    "environment_lock": {
+      "reason": "upstream requirements are partially unpinned; install not validated",
+      "status": "unavailable"
+    },
+    "local_patches": [
+      {
+        "category": "dependency_compatibility",
+        "file": "001-lazy-text-imports.patch",
+        "sha256": "3c98a4bd2c164c9c60481b8a1b6c089528821a4c77e24f743d66bd12357d7512"
+      }
+    ],
+    "phase_0": "not_run",
+    "repository_url": "https://github.com/minghchen/automanual.git",
+    "requirements_sha256": "9a277e74a0bece56afa436f79704d35e56d1f1497fa5cad6449b3de3e2d70b79",
+    "verification": "declared_patch"
+  },
+  "result": {
+    "compared": [
+      "raw_initial_text",
+      "actions",
+      "raw_step_text",
+      "reward",
+      "done",
+      "won",
+      "admissible_commands"
+    ],
+    "event": "result",
+    "expert_plan": "computed_by_upstream_train_config_not_consumed_or_exported",
+    "full_state_determinism": "not_verified",
+    "llm_calls": 0,
+    "python": "3.9.16",
+    "replay_equal": true,
+    "scientific_evidence": false,
+    "seed": 42,
+    "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368"
+  },
+  "data_unchanged": true,
+  "roundtrip_exact": true,
+  "roundtrip_memory_sha256": {
+    "rule_manager.json": "989c035d953b800f7a47e9ce7210b3c4ffcd13998ccde5b8e52243b3cac7b8cb",
+    "skill_bank.json": "fdb051ee0136f8d68dd24fb75f9346a7099437555e629d72241ae42e9d661cdf"
+  },
+  "raw_trace_first_replay": [
+    {
+      "admissible_commands": [
+        "go to bed_1",
+        "go to desk_1",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to drawer_4",
+        "go to drawer_5",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "inventory",
+        "look"
+      ],
+      "event": "initial",
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see bed_1, desk_1, drawer_5, drawer_4, drawer_3, drawer_2, drawer_1, dresser_1, and garbagecan_1.\n\nYour task is to: put a alarmclock in desk.",
+      "replay": 0,
+      "won": false
+    },
+    {
+      "action": "look",
+      "admissible_commands": [
+        "go to bed_1",
+        "go to desk_1",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to drawer_4",
+        "go to drawer_5",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "inventory",
+        "look"
+      ],
+      "done": false,
+      "event": "step",
+      "observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+      "replay": 0,
+      "reward": 0,
+      "step": 1,
+      "won": false
+    },
+    {
+      "action": "inventory",
+      "admissible_commands": [
+        "go to bed_1",
+        "go to desk_1",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to drawer_4",
+        "go to drawer_5",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "inventory",
+        "look"
+      ],
+      "done": false,
+      "event": "step",
+      "observation": "You are not carrying anything.",
+      "replay": 0,
+      "reward": 0,
+      "step": 2,
+      "won": false
+    },
+    {
+      "action": "go to desk_1",
+      "admissible_commands": [
+        "examine desk_1",
+        "go to bed_1",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to drawer_4",
+        "go to drawer_5",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "inventory",
+        "look",
+        "take book_1 from desk_1",
+        "take cd_2 from desk_1",
+        "take keychain_1 from desk_1",
+        "take keychain_2 from desk_1",
+        "take pencil_1 from desk_1",
+        "use desklamp_1"
+      ],
+      "done": false,
+      "event": "step",
+      "observation": "You arrive at loc_15. On desk_1, you see book_1, cd_2, desklamp_1, keychain_2, keychain_1, and pencil_1.",
+      "replay": 0,
+      "reward": 0,
+      "step": 3,
+      "won": false
+    },
+    {
+      "action": "look",
+      "admissible_commands": [
+        "examine desk_1",
+        "go to bed_1",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to drawer_4",
+        "go to drawer_5",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "inventory",
+        "look",
+        "take book_1 from desk_1",
+        "take cd_2 from desk_1",
+        "take keychain_1 from desk_1",
+        "take keychain_2 from desk_1",
+        "take pencil_1 from desk_1",
+        "use desklamp_1"
+      ],
+      "done": false,
+      "event": "step",
+      "observation": "You are facing desk_1. Next to it, you see nothing.",
+      "replay": 0,
+      "reward": 0,
+      "step": 4,
+      "won": false
+    }
+  ]
+}

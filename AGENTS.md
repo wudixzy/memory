@@ -212,6 +212,17 @@ For the main H1–H4 experiment:
 
 > evaluator-only or hidden ground-truth information must never enter the actor/memory-updater loop.
 
+Approved AutoManual-only exception (`automanual-native-won-v1-2026-09-11`):
+the audited pinned `autobuild_case` path may retain its existing won-derived
+boolean success feedback, at the original consumers, frequency, granularity and
+stopping/skill/history/Builder boundaries. This does not permit numeric reward,
+admissible commands, expert plans, walkthroughs, hidden state or additional
+evaluator diagnostics in the adaptive loop. See docs/07 for the exact field table.
+Generated Python remains confined to approved action/rule operations; evaluator
+artifacts remain separate. This exception does not extend to other baselines or
+establish mechanism equivalence. Record its version and execution restrictions
+in the manifest. Single-task connection validation is not H1–H4 evidence.
+
 Particularly for ACE + AppWorld, use the official no-GT online path and verify in code that hidden task ground truth is not passed into reflector/curator prompts.
 
 If an upstream baseline normally uses hidden evaluator feedback, create a clearly labeled diagnostic run; do not mix it with the main endogenous-evidence experiment.

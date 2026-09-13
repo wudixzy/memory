@@ -1,0 +1,76 @@
+diff --git a/automanual_alfworld/autobuild_case_trail.py b/automanual_alfworld/autobuild_case_trail.py
+index e7a19fa..028e5fe 100644
+--- a/automanual_alfworld/autobuild_case_trail.py
++++ b/automanual_alfworld/autobuild_case_trail.py
+@@ -1,6 +1,10 @@
+ from OpenAI_Agent_API import get_ChatGPT_Agent, process_respond
+ from prompts.builder_case_prompt import *
+ from autobuild_trail import run_trail, run_merge
++from contextlib import nullcontext
++
++execute_code = exec
++observe_update = lambda phase: nullcontext()
+ 
+ def run(args, env, rule_manager, skill_bank):
+     epoch_id = f"epoch_{env.epoch_id}"
+@@ -25,7 +29,8 @@ def run(args, env, rule_manager, skill_bank):
+     # The Builder Agent manages rules based on the current trajectory
+     if not rule_manager.global_history[epoch_id]['check_rule']:
+         run_autobuild_case(interact_history, is_success, error_step, rule_manager, Builder_agent)
+-        rule_manager.global_history[epoch_id]['check_rule'] = True
++        with observe_update('check_rule'):
++            rule_manager.global_history[epoch_id]['check_rule'] = True
+         rule_manager.save()
+ 
+     consumed_tokens = Worker_agent.consumed_tokens() + Builder_agent.consumed_tokens()
+@@ -72,5 +77,5 @@ def run_autobuild_case(interact_history, is_success, error_step, rule_manager, B
+     print(respond)
+     respond_thought, respond_code = process_respond(respond)
+     # execute the solution code
+-    exec(respond_code)
++    execute_code(respond_code, {'rule_manager': rule_manager})
+     message = rule_manager.report()
+diff --git a/automanual_alfworld/autobuild_trail.py b/automanual_alfworld/autobuild_trail.py
+index d936caf..c560d34 100644
+--- a/automanual_alfworld/autobuild_trail.py
++++ b/automanual_alfworld/autobuild_trail.py
+@@ -5,6 +5,7 @@ from prompts.builder_case_prompt import *
+ 
+ MAX_REPLAN_STEP = 3
+ MAX_RULE_NUM = 12
++execute_code = exec  # Optional diagnostic containment injection; default unchanged.
+ def run(args, env, rule_manager, skill_bank):
+     epoch_id = f"epoch_{env.epoch_id}"
+ 
+@@ -60,7 +61,7 @@ def run_trail(args, env, rule_manager, skill_bank, Worker_agent):
+         respond_thought, respond_code = process_respond(respond)
+         # execute the solution code
+         try:
+-            exec(respond_code, local_vars, local_vars)
++            execute_code(respond_code, local_vars, local_vars)
+         except Exception as e:
+             if env.done and env.reward:
+                 error_msg = agent.report()
+@@ -112,7 +113,7 @@ def run_autobuild(interact_history, is_success, error_step, rule_manager, Builde
+     print(respond)
+     respond_thought, respond_code = process_respond(respond)
+     # execute the solution code
+-    exec(respond_code)
++    execute_code(respond_code, {'rule_manager': rule_manager})
+     tool_messages = rule_manager.report()
+     print(tool_messages)
+ 
+@@ -124,10 +125,10 @@ def run_merge(args, rule_manager, consumed_tokens):
+         respond = Builder_merge_agent.generate(message)
+         print(respond)
+         respond_thought, respond_code = process_respond(respond)
+-        exec(respond_code)
++        execute_code(respond_code, {'rule_manager': rule_manager})
+         message = rule_manager.report()
+         rule_manager.arrange_rules()
+         consumed_tokens += Builder_merge_agent.consumed_tokens()
+     
+     rule_manager.save()
+-    return consumed_tokens
+\ No newline at end of file
++    return consumed_tokens

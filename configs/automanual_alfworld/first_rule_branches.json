@@ -1,0 +1,26 @@
+{
+  "batch_id": "rule3-order-screen-v1",
+  "case_id": "calibration-task00-rule3-to-task01",
+  "checkpoint": "artifacts/automanual-calibration-f13a39e724d0/task_00/memory_after.json",
+  "checkpoint_file_sha256": "1537d850722c75db985b54955229b27fd03327d260a7d5d13f45273bd97bcaec",
+  "checkpoint_sha256": "1ccc7b7eb51c9780aa5db68a78215342219588d017fd300729b9bea9616fd349",
+  "rule_id": "rule_3",
+  "task_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777",
+  "seed": 42,
+  "intervention": "actor_rule_injection_mask",
+  "branches": [
+    {"branch": "intact", "repeat": 1},
+    {"branch": "masked", "repeat": 1},
+    {"branch": "masked", "repeat": 2},
+    {"branch": "intact", "repeat": 2},
+    {"branch": "intact", "repeat": 3},
+    {"branch": "masked", "repeat": 3}
+  ],
+  "prediction": "Masking rule_3 may increase lamp use without holding the target alarmclock, including use-before-first-successful-take or putting-alarmclock-down-before-first-lamp-use; intact favors take-before-use without putting down. No direction of task success is assumed.",
+  "primary_metric": "lamp_use_without_holding_target_positions: occurrence and count",
+  "secondary_metrics": ["successful_lamp_use_without_holding_target_positions", "first_successful_take", "first_lamp_use", "lamp_use_before_first_successful_take", "put_before_first_lamp_use", "won", "actions", "usage"],
+  "alternatives": ["rule_5", "look_at_obj_in_light skill", "retained epoch_0 history", "model prior and remote randomness", "task_01 places lamp and clocks together"],
+  "reset_evidence": "artifacts/automanual-branch-check-8dc5ce2a5726/report.json",
+  "scientific_evidence": false,
+  "purpose": "exploratory rule-channel branch screening; not H2-H4 confirmation"
+}

@@ -1,0 +1,38 @@
+{
+  "batch_id": "transform-precondition-screen-v1",
+  "purpose": "Authorized single six-branch A/B screen; no additional starts or reruns",
+  "scope": "actor_transform_opening_mask",
+  "checkpoint": "artifacts/automanual-incremental-19a209c33a5e/task_08/memory_after.json",
+  "checkpoint_file_sha256": "7de38c3fcd0714584351a36b6ca2e0500e572ebd938b79892b31127b9e99f2c7",
+  "checkpoint_sha256": "8599df8c9987f817026a629ed932d876110c5e1b71ee19afd36e8a94ee04ccb6",
+  "rule_id": "rule_7",
+  "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+  "seed": 42,
+  "native_epoch": 14,
+  "reset_evidence": "artifacts/automanual-transform-opportunity-v1/report.json",
+  "members": [
+    "Worker rule_7: transformation-receptacle must-open sentence",
+    "Worker rule_7 example: conditional fridge opening immediately before cooling (not destination opening)",
+    "Worker retrieved cool skill, if selected by unchanged native FAISS: Step 3 opening words and conditional opening block"
+  ],
+  "unchanged": "persistent rules/skills/history; Builder; all function definitions; search/put opening; task text; static prompts; native retrieval; other messages",
+  "branches": [
+    {"branch": "intact", "repeat": 1},
+    {"branch": "masked", "repeat": 1},
+    {"branch": "masked", "repeat": 2},
+    {"branch": "intact", "repeat": 2},
+    {"branch": "intact", "repeat": 3},
+    {"branch": "masked", "repeat": 3}
+  ],
+  "model": {"provider": "deepseek", "requested": "deepseek-v4-flash", "returned_required": "deepseek-flash", "thinking": false, "temperature": 0},
+  "embedding": "dashscope/beijing/text-embedding-v4/1024/float",
+  "caps": {"calls_task": 12, "calls_run": 72, "USD_task": 6, "USD_run": 6, "CNY_task": 0.05, "CNY_run": 0.20, "network_retries": 0},
+  "reservation": {"generation_input_tokens": 1048576, "generation_output_tokens": 2000, "USD_per_generation": 0.3169728, "embedding_tokens_per_text": 8192, "CNY_per_embedding_text": 0.004096, "embedding_documents_count": 4, "CNY_document_reservation": 0.016384},
+  "estimate_from_N_task08_times_six": {"requests": 24, "input_tokens": 80130, "output_tokens": 17970, "USD": 0.038988432, "CNY": 0.000111},
+  "price_basis": "Official public pages checked direct on 2026-09-12: peak USD 0.006/0.30/1.20 per million hit/miss/output; Beijing text-embedding-v4 CNY 0.5 per million embedding input. Recheck applicability before authorized execution; no free allowance.",
+  "model_documentation_caveat": "DeepSeek public page says legacy deepseek-v4-flash requests are now served by DeepSeek-V4.1-Flash. Request ID remains fixed; deepseek-flash response ID alone does not establish identical historical weights. No live model check this round.",
+  "stops": ["unknown accounting", "model identity change", "facility failure", "budget stop", "incomplete native updates", "checkpoint or declared injection mismatch"],
+  "primary": "E*: successful heat with publicly observed closed microwave, no intervening open; no diagnostic hints supplied",
+  "secondary": ["won and total action cost", "opening needed for search/put versus optional opening before heat", "raw public evidence and failed attempts", "Builder received E* versus inferred it; rule body/example/validation changes and native skill write"],
+  "interpretation": "B evidence acquisition is separate from B successful strategy cost and A updater uptake. Later unrelated task failure does not erase valid E*. A+B requires an interpretable evidence/update link. Single events do not prove stable causality. Removing opening code presents go_to->cool_with: cannot separate constraint removal from edited-example guidance, or claim unguided discovery. Report all three branches per group, opportunity exposure and reasons separately; never exclude unexposed runs. Interrupted missing outcomes remain null with observed prefixes. No longitudinal/H4 claim."
+}

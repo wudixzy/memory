@@ -1,0 +1,17 @@
+diff --git a/automanual_alfworld/autobuild_utils.py b/automanual_alfworld/autobuild_utils.py
+index d35912a..6f0098d 100644
+--- a/automanual_alfworld/autobuild_utils.py
++++ b/automanual_alfworld/autobuild_utils.py
+@@ -158,10 +158,10 @@ class Rule_Manager:
+ 
+ 
+ class Skill_Bank:
+-    def __init__(self, save_path="./gpt4_autobuild_run_logs"):
++    def __init__(self, save_path="./gpt4_autobuild_run_logs", embedding=None):
+         self.skill_dict = {}
+         self.save_path = os.path.join(save_path, "skill_bank.json")
+-        self.embedding = OpenAIEmbeddings()
++        self.embedding = OpenAIEmbeddings() if embedding is None else embedding
+ 
+     def load(self, save_path):
+         save_path=os.path.join(save_path, "skill_bank.json")

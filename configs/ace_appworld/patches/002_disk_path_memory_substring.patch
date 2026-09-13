@@ -1,0 +1,64 @@
+diff --git a/src/appworld/apps/model_lib.py b/src/appworld/apps/model_lib.py
+index fc67556..811982c 100644
+--- a/src/appworld/apps/model_lib.py
++++ b/src/appworld/apps/model_lib.py
+@@ -276,7 +276,7 @@ class Database:
+         else:
+             home_path = os.path.dirname(engine.url.database.removeprefix("sqlite:///"))
+         storage_type = (
+-            "memory" if "memory" in url else "disk"
++            "memory" if "mode=memory" in url else "disk"
+         )  # it should be memory and not :memory:.
+         connection = engine.raw_connection().connection
+         return url, path, home_path, storage_type, connection
+@@ -291,7 +291,7 @@ class Database:
+     def save(cls, save_type: Literal["full", "changes"], path: str) -> None:
+         if save_type == "full":
+             source_storage_type = cls.storage_type
+-            target_storage_type = "memory" if "memory" in path else "disk"
++            target_storage_type = "memory" if path.startswith(":memory:") else "disk"
+             if "memory" in [source_storage_type, target_storage_type]:
+                 source_connection = cls.connection
+                 target_connection = sqlite3.connect(path)
+@@ -2268,7 +2268,7 @@ def apply_db_changes(connection: SQLite3Connection, changes_file_path: str | Non
+         return []
+     if not os.path.exists(changes_file_path):
+         return []
+-    if "memory" in changes_file_path:
++    if changes_file_path.startswith(":memory:"):
+         raise Exception(
+             "Invalid changes_file_path. It cannot contain in-memory connection strings."
+         )
+@@ -2303,8 +2303,8 @@ def get_db_args(
+             )
+ 
+     if from_db_app_path and from_db_app_path != to_db_app_path:
+-        from_db_is_in_memory = "memory" in from_db_app_path
+-        to_db_is_in_memory = "memory" in to_db_app_path
++        from_db_is_in_memory = from_db_app_path.startswith(":memory:")
++        to_db_is_in_memory = to_db_app_path.startswith(":memory:")
+         if from_db_is_in_memory or to_db_is_in_memory:
+             # The from connection is always base db, so it saves to cache the connection
+             # instead of opening/closing it everytime. Note though that if from path keeps changing,
+diff --git a/src/appworld/collections/models.py b/src/appworld/collections/models.py
+index 56d399e..fada5b1 100644
+--- a/src/appworld/collections/models.py
++++ b/src/appworld/collections/models.py
+@@ -46,7 +46,7 @@ class ModelCollection(Munch):
+         if from_db_home_path is None:
+             from_db_home_path = to_db_home_path
+ 
+-        is_in_memory = "memory" in from_db_home_path
++        is_in_memory = from_db_home_path.startswith(":memory:")
+         if not is_in_memory and not os.path.exists(from_db_home_path):
+             raise Exception(f"The from_db_home_path {from_db_home_path} does not exist.")
+         if is_in_memory and force_empty_apps:
+@@ -159,7 +159,7 @@ class ModelCollection(Munch):
+     def vaccum(self) -> None:
+         for app_name, models in self.items():
+             db_home_path = models.SQLModel.db.home_path
+-            if "memory" in db_home_path:
++            if db_home_path.startswith(":memory:"):
+                 return
+             db_path = os.path.join(db_home_path, app_name + ".db")
+             vacuum_sqlite_database(db_path)

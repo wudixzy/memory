@@ -1,0 +1,226 @@
+{
+  "queried_on": "2026-09-11",
+  "scientific_evidence": false,
+  "model_api_calls": 0,
+  "actual_cost": {
+    "USD": 0,
+    "CNY": 0
+  },
+  "skill_wiring": {
+    "status": "completed",
+    "synthetic": true,
+    "scientific_evidence": false,
+    "purpose": "wiring_only_not_quality_or_OpenAI_equivalence",
+    "source": {
+      "commit": "aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+      "repository_url": "https://github.com/minghchen/automanual.git",
+      "requirements_sha256": "9a277e74a0bece56afa436f79704d35e56d1f1497fa5cad6449b3de3e2d70b79",
+      "environment_lock": {
+        "status": "partial",
+        "scope": "bundled text environment and offline official Skill_Bank imports",
+        "conda_definition": "configs/automanual_alfworld/environment-text-linux-64.yml",
+        "pip_constraints": "configs/automanual_alfworld/skill-constraints.txt",
+        "full_upstream_extras": "unavailable: not installed or validated"
+      },
+      "bundled_tree": "cc528106f15eaaef06f4900e78c649f9f99a5d06",
+      "verification": "declared_patch",
+      "local_patches": [
+        {
+          "category": "dependency_compatibility",
+          "file": "001-lazy-text-imports.patch",
+          "sha256": "3c98a4bd2c164c9c60481b8a1b6c089528821a4c77e24f743d66bd12357d7512"
+        },
+        {
+          "category": "embedding_substitution",
+          "file": "002-embedding-injection.patch",
+          "sha256": "8a1c5f3ec764aed0d40af71852748a6c07cbf0f22b8650bedea227df276b6e08"
+        }
+      ],
+      "phase_0": "not_run"
+    },
+    "embedding_identity": "0679bf629b83b60b6942d0412c042cca777e6b5d24927747bd53760325eb4b03",
+    "skill_fixture": {
+      "fixture_alpha": {
+        "task_name": "synthetic alpha task",
+        "init_obs": "合成初态\nalpha",
+        "skill_code": "def alpha():\n    return 1",
+        "success": 1
+      },
+      "fixture_beta": {
+        "task_name": "synthetic beta task",
+        "init_obs": "合成初态\nbeta",
+        "skill_code": "def beta():\n    return 2",
+        "success": 1
+      },
+      "fixture_failed": {
+        "task_name": "synthetic failure",
+        "init_obs": "fixture",
+        "skill_code": "diagnostic failure",
+        "success": -1
+      }
+    },
+    "returned_skill": "\nHere is the code for a relevant skill:\n合成初态\nbeta\nThe task is to: synthetic beta task\n```python\ndef beta():\n    return 2\n```\n",
+    "injected_helpers": [
+      "beta"
+    ],
+    "distance_strategy": "DistanceStrategy.EUCLIDEAN_DISTANCE",
+    "normalize_L2": false,
+    "index_dimension": 1024,
+    "requests": [
+      {
+        "model": "text-embedding-v4",
+        "dimensions": 1024,
+        "encoding_format": "float",
+        "input": [
+          "fixture_alpha",
+          "fixture_beta"
+        ]
+      },
+      {
+        "model": "text-embedding-v4",
+        "dimensions": 1024,
+        "encoding_format": "float",
+        "input": [
+          "fixture_query"
+        ]
+      }
+    ],
+    "usage": {
+      "llm_calls": 0,
+      "embedding_calls": 2,
+      "total_calls": 2,
+      "accounted_cost_cny": 0,
+      "input_tokens": 9,
+      "output_tokens": 0,
+      "cached_input_tokens": 0,
+      "latency_seconds": 0.0004405570007293136,
+      "retry_count": 0,
+      "provider_reported_cost_usd": null,
+      "estimated_cost_usd": 0,
+      "accounted_cost_usd": 0,
+      "usage_status": "available",
+      "price_table": {
+        "version": "project-budget-2026-09-11-peak-estimate",
+        "source": "docs/02_compute_budget.md (planning estimate; not live billing)",
+        "cache_hit_per_million": 0.014,
+        "cache_miss_per_million": 0.44,
+        "output_per_million": 1.32
+      },
+      "calls": [
+        {
+          "input_tokens": 6,
+          "output_tokens": 0,
+          "cached_input_tokens": 0,
+          "latency_seconds": 0.00030001400045875926,
+          "retry_count": 0,
+          "provider": "dashscope",
+          "requested_model": "text-embedding-v4",
+          "resolved_model": "text-embedding-v4",
+          "thinking": false,
+          "provider_reported_cost_usd": null,
+          "status": "completed",
+          "call_id": "2f375d256a40444189f85358f9f9a692",
+          "phase": "skill_documents",
+          "synthetic": true,
+          "accounting_trusted": true,
+          "usage_issues": [],
+          "kind": "embedding",
+          "input_count": 2,
+          "estimated_cost_cny": 0,
+          "currency": "CNY",
+          "pricing_source": "https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api (2026-09-11; CNY 0.5/million input; no free allowance)"
+        },
+        {
+          "input_tokens": 3,
+          "output_tokens": 0,
+          "cached_input_tokens": 0,
+          "latency_seconds": 0.00014054300027055433,
+          "retry_count": 0,
+          "provider": "dashscope",
+          "requested_model": "text-embedding-v4",
+          "resolved_model": "text-embedding-v4",
+          "thinking": false,
+          "provider_reported_cost_usd": null,
+          "status": "completed",
+          "call_id": "3c446ac7109b4e01af9b05b1104e2091",
+          "phase": "skill_query",
+          "synthetic": true,
+          "accounting_trusted": true,
+          "usage_issues": [],
+          "kind": "embedding",
+          "input_count": 1,
+          "estimated_cost_cny": 0,
+          "currency": "CNY",
+          "pricing_source": "https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api (2026-09-11; CNY 0.5/million input; no free allowance)"
+        }
+      ]
+    },
+    "model_network_calls": 0
+  },
+  "environment_smoke": {
+    "artifact_directory": "artifacts/automanual-env-0f5d8e6748ad",
+    "data_unchanged": true,
+    "result": {
+      "compared": [
+        "raw_initial_text",
+        "actions",
+        "raw_step_text",
+        "reward",
+        "done",
+        "won",
+        "admissible_commands"
+      ],
+      "event": "result",
+      "expert_plan": "computed_by_upstream_train_config_not_consumed_or_exported",
+      "full_state_determinism": "not_verified",
+      "llm_calls": 0,
+      "python": "3.9.16",
+      "replay_equal": true,
+      "scientific_evidence": false,
+      "seed": 42,
+      "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368"
+    },
+    "roundtrip_exact": true,
+    "roundtrip_memory_sha256": {
+      "rule_manager.json": "989c035d953b800f7a47e9ce7210b3c4ffcd13998ccde5b8e52243b3cac7b8cb",
+      "skill_bank.json": "fdb051ee0136f8d68dd24fb75f9346a7099437555e629d72241ae42e9d661cdf"
+    },
+    "roundtrip_scope": "full published raw memory files + actual observed events + synthetic Unicode probe",
+    "scientific_evidence": false,
+    "source": {
+      "bundled_tree": "cc528106f15eaaef06f4900e78c649f9f99a5d06",
+      "commit": "aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+      "environment_lock": {
+        "conda_definition": "configs/automanual_alfworld/environment-text-linux-64.yml",
+        "full_upstream_extras": "unavailable: not installed or validated",
+        "pip_constraints": "configs/automanual_alfworld/skill-constraints.txt",
+        "scope": "bundled text environment and offline official Skill_Bank imports",
+        "status": "partial"
+      },
+      "local_patches": [
+        {
+          "category": "dependency_compatibility",
+          "file": "001-lazy-text-imports.patch",
+          "sha256": "3c98a4bd2c164c9c60481b8a1b6c089528821a4c77e24f743d66bd12357d7512"
+        },
+        {
+          "category": "embedding_substitution",
+          "file": "002-embedding-injection.patch",
+          "sha256": "8a1c5f3ec764aed0d40af71852748a6c07cbf0f22b8650bedea227df276b6e08"
+        }
+      ],
+      "phase_0": "not_run",
+      "repository_url": "https://github.com/minghchen/automanual.git",
+      "requirements_sha256": "9a277e74a0bece56afa436f79704d35e56d1f1497fa5cad6449b3de3e2d70b79",
+      "verification": "declared_patch"
+    },
+    "task_data_sha256": {
+      "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/game.tw-pddl": "1069bc34a5bb6a28d01f0ee8354ea82154c322422c6d77de74f4c7128eb33f1b",
+      "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/initial_state.pddl": "0edbc88696728a96a50268949f226b078d39525fe55a778cfb66cdeffaf98068",
+      "alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368/traj_data.json": "c1f617ba81b0fb5e86ab4a0969ccdb1f98fb9ce68c94933adf053817d8bcc7e9",
+      "alfworld/downloaded/logic/alfred.pddl": "954463a9267839cc84017670bd8081457b1d50d7e3acbf448f09d5336cbe2737",
+      "alfworld/downloaded/logic/alfred.twl2": "7877085679b6f1dc5254c4a8a94fce7c98d7ab204d341b83b6c9a731106c0c7e"
+    },
+    "worker_exit_code": 0
+  }
+}

@@ -37,6 +37,13 @@ This unifies two cases:
 
 The current phase is **phenomenon validation**, not method design.
 
+Problem **A** covers extracting multiple reliable memories from trajectories and
+maintaining the whole memory set. Problem **B** covers how memory affects action,
+evidence acquisition, exploration, and discovering/comparing/adopting better
+strategies, including successful but suboptimal behavior. Neither an incorrect
+memory nor an explicit instruction to avoid exploration is required for B.
+See the [current progress review](docs/25_research_progress.md) for evidence and limits.
+
 We test four increasingly strong hypotheses:
 
 - **H1 — Memory-induced distribution shift**: persistent memory materially changes future action / observation / trajectory distributions.
@@ -82,6 +89,10 @@ AWM + WebArena remains conditional because its current upstream WebArena path ha
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — H1–H4 protocol, instrumentation, branch interventions, success/failure criteria.
 - [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and estimated pilot costs.
 - [`AGENTS.md`](AGENTS.md) — implementation rules for coding agents.
+- [`docs/17_ab_targeted_plan.md`](docs/17_ab_targeted_plan.md) — A/B definitions and targeted analysis principles: memory-set extraction/update, transfer-boundary tasks, and flexible intervention scope/timing.
+- [`docs/20_b_benchmark_reassessment.md`](docs/20_b_benchmark_reassessment.md) — historical reassessment of B task fit and the choice of AppWorld/ACE.
+- [`docs/21_appworld_ab_execution_plan.md`](docs/21_appworld_ab_execution_plan.md) — archived execution plan for the completed ACE five-task batch and conditional branches.
+- [`docs/25_research_progress.md`](docs/25_research_progress.md) — current progress, A/B evidence, design lessons, and remaining questions (2026-09-13).
 
 ## Non-negotiable experimental rules
 
@@ -95,6 +106,44 @@ AWM + WebArena remains conditional because its current upstream WebArena path ha
 8. **Use `deepseek-v4-flash` in non-thinking mode for all Phase-1 pre-experiments.** Do not mix Flash/Pro/original-paper models inside one causal comparison.
 9. **Instrument cost before scaling.** Run the 5-task calibration gate first.
 
-## Status
+## Status — 2026-09-13
 
-Repository initialized for coding-agent execution. Phase-1 default model has been standardized to DeepSeek-V4-Flash non-thinking. No experimental result should be treated as established until the corresponding protocol and provenance are committed here.
+**A has concrete case evidence; harmful B and the A+B causal feedback loop remain
+unconfirmed.** This is a research checkpoint, not a successful hypothesis validation.
+The [progress review](docs/25_research_progress.md) consolidates the findings.
+
+| Track | Completed work | Scientific result |
+|---|---|---|
+| AutoManual + ALFWorld | Scoped connection/reset checks, five-task calibration, nine-task incremental sequence, three six-branch screens | A provenance/scope errors alongside reasonable repairs; no convincing harmful B effect under the tested interventions |
+| ACE online/no-GT + AppWorld | Isolated official execution, five real sequential tasks with native updates and evaluator success | A update/filtering findings and conditional reuse; coupon candidate stopped before target branches |
+| AWM + WebArena | Feasibility research only | No local experiment result |
+
+The [ACE batch](docs/24_ace_appworld_real_batch_results.md) used 94 generation
+requests, zero embedding requests and estimated USD 0.313930812; provider-reported
+amounts remain unavailable. Its `stop_conditional_knowledge` decision is **not** a
+counterfactual null result. No further paid batch is active.
+
+## Setup and evidence
+
+Use separate Conda environments: `memory-infra`, `memory-automanual`, and
+`memory-ace-appworld`. Run commands through `scripts/direct.py` to disable inherited
+proxies. For the infrastructure environment and an offline smoke:
+
+```bash
+python scripts/direct.py conda env create -f configs/environment-infra-linux-64.yml
+python scripts/direct.py conda run -n memory-infra python scripts/smoke/offline.py
+```
+
+See [infrastructure](docs/03_infrastructure.md),
+[AutoManual setup](docs/05_automanual_reproducibility.md),
+[embedding wiring](docs/06_embedding_wiring.md), and
+[ACE setup](docs/22_ace_appworld_preparation.md) /
+[execution readiness](docs/23_ace_appworld_execution_readiness.md) for pins,
+patches, environment definitions, compatibility limits and commands.
+Historical setup blockers are superseded only by the corresponding later report.
+Synthetic smoke results are not scientific evidence.
+
+Source, configurations, patches, tests and reports are versioned. Raw artifacts,
+benchmark data/upstream checkouts, credentials and local environments stay ignored.
+Report links into `artifacts/` require the original local evidence; a fresh clone
+alone does not contain the recorded trajectories.

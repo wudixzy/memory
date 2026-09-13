@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "repository_url": "https://github.com/minghchen/automanual.git",
+  "commit": "aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+  "verified_on": "2026-09-11",
+  "benchmark": {
+    "repository_url": "https://github.com/alfworld/alfworld.git",
+    "reference_commit": "aaba6870f86c5be6a08a491f32a50b906227bc3e",
+    "reference_only_not_execution_version": true,
+    "execution_source": "automanual/alfworld",
+    "execution_commit": "aeb17e4a4fe8bb43b9eb390b7b0b94a3ca8b9324",
+    "execution_tree": "cc528106f15eaaef06f4900e78c649f9f99a5d06",
+    "original_alfworld_base_commit": {"status": "unavailable", "reason": "vendored upstream tree does not identify its original ALFWorld base commit"}
+  },
+  "environment": {
+    "python": "3.9.16",
+    "requirements_path": "alfworld/requirements.txt",
+    "resolved_lock": {
+      "status": "partial",
+      "scope": "bundled text environment and offline official Skill_Bank imports",
+      "conda_definition": "configs/automanual_alfworld/environment-text-linux-64.yml",
+      "pip_constraints": "configs/automanual_alfworld/skill-constraints.txt",
+      "full_upstream_extras": "unavailable: not installed or validated"
+    },
+    "source_dependencies": [
+      {
+        "repository_url": "https://github.com/MarcCote/TextWorld.git",
+        "upstream_branch": "handcoded_expert_integration",
+        "commit": "634f9f91fec732a79dd9e7623675301a53f06623"
+      },
+      {
+        "repository_url": "https://github.com/MarcCote/downward.git",
+        "upstream_branch": "faster_replan",
+        "commit": "84769171b9d965bf5739eaa7cf6604b0d9697534"
+      }
+    ]
+  },
+  "original_model_configuration": {
+    "model": "gpt-4-1106-preview",
+    "assistant_api": true,
+    "source": "README.md ALFWorld building example"
+  },
+  "project_model_configuration": {
+    "provider": "deepseek",
+    "model": "deepseek-v4-flash",
+    "thinking": false,
+    "temperature": 0,
+    "evaluation_type": "common-backbone"
+  },
+  "local_patches": [],
+  "provider_compatibility": "not_validated",
+  "phase_0": "not_run"
+}

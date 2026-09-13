@@ -3,6 +3,22 @@
 > Purpose: define the Phase-1 DeepSeek-V4-Flash execution policy and provide conservative planning budgets for phenomenon validation.  
 > All token/cost ranges below are **engineering estimates before calibration**, not measured results. The 5-task calibration gate must replace them with observed usage.
 
+AutoManual calibration follow-up (2026-09-11): five tasks measured 14 generation
+and 8 embedding requests, estimated USD 0.024639228 and CNY 0.000024 separately.
+See [docs/10](10_automanual_online_calibration.md) for per-task usage, current
+official peak rates (0.006/0.30/1.20 USD per million hit/miss/output), bounds and
+remaining Phase 1 conditions. These supersede the historical AutoManual price
+and workload assumptions below, not the estimates for uncalibrated pairs.
+
+ACE measured follow-up (2026-09-13): the completed five-task batch used 94
+real generation requests (84 Generator / 5 Reflector / 5 Curator), zero embedding
+requests, 1,297,313 input tokens (1,031,552 cached), and 190,011 output tokens.
+Its recorded local estimate is USD 0.313930812; provider-reported cost is null.
+The conditional six-branch batch did not run. See [docs/24](24_ace_appworld_real_batch_results.md).
+The unused USD 5.686069188 of that batch ceiling is not authorization for another
+experiment. These measurements supersede the ACE workload estimates below for
+this task sequence only; the remaining tables are historical planning assumptions.
+
 ## 1. Executive decision: all Phase-1 pre-experiments use DeepSeek-V4-Flash
 
 For the current candidate baseline–benchmark pairs, use a common backbone:

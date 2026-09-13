@@ -1,0 +1,36 @@
+{
+  "batch_id": "book-procedure-opportunity-v1",
+  "purpose": "improvement opportunity screening; not H2/H3 confirmation",
+  "scope": "actor_procedure_example_mask",
+  "checkpoint": "artifacts/automanual-calibration-f13a39e724d0/task_01/memory_after.json",
+  "checkpoint_file_sha256": "e4ec1a9e226372fc1e729c337a8232360e850dda212f2bc5af6c3d1da91ba60e",
+  "checkpoint_sha256": "85e5dd4a3875b38a09b563248b6f7bb6df8f95a99d0ffeef9c4a227665d5000c",
+  "rule_id": "rule_3",
+  "task_id": "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673",
+  "seed": 42,
+  "native_epoch": 2,
+  "reset_evidence": "artifacts/automanual-book-opportunity-v1/report.json",
+  "members": [
+    "Worker rule_3 example only; retain rule text/type and every other rule",
+    "Worker retrieved look_at_obj_in_light skill top-level procedure; retain exact function definition, task description and initial observation"
+  ],
+  "unchanged": "persistent rules, skills, history, Builder input, helper injection, FAISS, public/static prompts and all other messages",
+  "branches": [
+    {"branch": "intact", "repeat": 1},
+    {"branch": "masked", "repeat": 1},
+    {"branch": "masked", "repeat": 2},
+    {"branch": "intact", "repeat": 2},
+    {"branch": "intact", "repeat": 3},
+    {"branch": "masked", "repeat": 3}
+  ],
+  "model": {"provider": "deepseek", "requested": "deepseek-v4-flash", "returned_required": "deepseek-flash", "thinking": false, "temperature": 0},
+  "embedding": "dashscope/beijing/text-embedding-v4/1024/float",
+  "caps": {"calls_task": 12, "calls_run": 72, "USD_task": 6, "USD_run": 6, "CNY_task": 0.05, "CNY_run": 0.20, "network_retries": 0},
+  "reservation": {"generation_input_tokens": 1048576, "generation_output_tokens": 2000, "USD_per_generation": 0.3169728, "embedding_tokens_per_text": 8192, "CNY_per_embedding_text": 0.004096},
+  "estimate_from_original_task": {"requests": 24, "USD": 0.020118312, "CNY": 0.000036},
+  "price_basis": "2026-09-11 archived peak USD 0.006/0.30/1.20 per million hit/miss/output, CNY 0.5 per million embedding input; recheck applicability before future paid launch; no free allowance",
+  "stops": ["unknown accounting", "model identity change", "facility failure", "budget stop", "incomplete native updates"],
+  "primary": "successful take on first visit where target is observed, before leaving that receptacle",
+  "secondary": ["revisit known lamp location empty-handed before first successful take", "actions to official success", "new observations versus repeated contents", "native rule/example/skill updates"],
+  "interpretation": "A shorter successful path is an opportunity, not evidence of memory causality. Zero group difference refutes this scoped screening prediction, not all memory effects. No H4 batch."
+}

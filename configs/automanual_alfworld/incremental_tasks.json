@@ -1,0 +1,35 @@
+{
+  "batch_id": "incremental-three-types-v1",
+  "restore_once": true,
+  "checkpoint": "artifacts/automanual-calibration-f13a39e724d0/task_04/memory_after.json",
+  "checkpoint_file_sha256": "677148c3d99829085e9e40f77f4ba4d9f35d8a973b8dd0d68b8952c851676f74",
+  "checkpoint_sha256": "7dae14fff93e04423e51e04a91b7e38a659947b2f276d86a51e6b4b7ddbec6db",
+  "seed": 42,
+  "starting_native_epoch": 5,
+  "selection": "Bundled train relative task paths, lexicographic types then paths. Exclude look_at_obj_in_light, upstream unsupported movable/Sliced paths, and any previously manifested official task (including environment-only smoke). First three remaining supported types, first three paths per type, interleave round 1/2/3. No answer/outcome filtering or substitutions.",
+  "supported_types_source": "automanual_alfworld/base_config.yaml:16; alfworld/alfworld/agents/environment/alfred_tw_env.py:15-20",
+  "previously_run_task_ids": [
+    "look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895",
+    "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777",
+    "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673",
+    "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500",
+    "look_at_obj_in_light-Newspaper-None-DeskLamp-216/trial_T20190908_143004_004127",
+    "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368"
+  ],
+  "types": ["pick_and_place_simple", "pick_clean_then_place_in_recep", "pick_cool_then_place_in_recep"],
+  "tasks": [
+    "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605",
+    "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885",
+    "pick_cool_then_place_in_recep-Bread-None-CounterTop-15/trial_T20190909_085448_256298",
+    "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103",
+    "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379",
+    "pick_cool_then_place_in_recep-Bread-None-CounterTop-7/trial_T20190909_021904_818116",
+    "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+    "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
+    "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369"
+  ],
+  "intervention": "NoIntervention",
+  "synthetic": false,
+  "scientific_evidence": false,
+  "purpose": "bounded natural candidate discovery, not causal confirmation"
+}

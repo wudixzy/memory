@@ -1,0 +1,11 @@
+{
+  "selection": "Bundled train relative paths, lexicographically sorted; exclude only upstream unsupported movable/Sliced names; first five of 54. No outcome filtering.",
+  "seed": 42,
+  "tasks": [
+    "look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895",
+    "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777",
+    "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673",
+    "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500",
+    "look_at_obj_in_light-Newspaper-None-DeskLamp-216/trial_T20190908_143004_004127"
+  ]
+}

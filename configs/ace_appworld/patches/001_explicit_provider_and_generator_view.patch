@@ -1,0 +1,90 @@
+diff --git a/experiments/code/ace/adaptation_agent.py b/experiments/code/ace/adaptation_agent.py
+index 5575630..2e18248 100644
+--- a/experiments/code/ace/adaptation_agent.py
++++ b/experiments/code/ace/adaptation_agent.py
+@@ -7,7 +7,6 @@ from appworld.common.constants import DEFAULT_EXPERIMENT_NAME
+ from appworld.common.random import set_random_seed
+ from appworld.common.utils import FromDict, chunk_and_return
+ from appworld_experiments.code.ace.cost_tracker import CostTracker
+-from appworld_experiments.code.ace.lite_llm_generator import LiteLLMGenerator
+ from appworld_experiments.code.ace.logger import Logger
+ 
+ from appworld.evaluator import evaluate_task
+@@ -31,10 +30,17 @@ class StarAgent(FromDict):
+         log_lm_calls: bool = False,
+         use_reflector: bool = True,
+         use_gt_code: bool = False,
++        model_instances: dict | None = None,
+     ):
+-        self.generator_model = LiteLLMGenerator(**generator_model_config)
+-        self.reflector_model = LiteLLMGenerator(**reflector_model_config)
+-        self.curator_model = LiteLLMGenerator(**curator_model_config)
++        if model_instances is None:
++            from appworld_experiments.code.ace.lite_llm_generator import LiteLLMGenerator
++            self.generator_model = LiteLLMGenerator(**generator_model_config)
++            self.reflector_model = LiteLLMGenerator(**reflector_model_config)
++            self.curator_model = LiteLLMGenerator(**curator_model_config)
++        else:
++            self.generator_model = model_instances['generator']
++            self.reflector_model = model_instances['reflector']
++            self.curator_model = model_instances['curator']
+ 
+         self.messages: list[dict] = []
+         self.max_steps = max_steps
+@@ -245,4 +251,4 @@ class StarAgent(FromDict):
+                 raise ValueError("trained_playbook_file_path is not set")
+             with open(snapshot_file_path, "w") as file:
+                 file.write(self.playbook)
+-            print(f"Saved playbook snapshot at task {self.current_task_index + 1}: {snapshot_file_path}")
+\ No newline at end of file
++            print(f"Saved playbook snapshot at task {self.current_task_index + 1}: {snapshot_file_path}")
+diff --git a/experiments/code/ace/adaptation_react.py b/experiments/code/ace/adaptation_react.py
+index 0aa91dd..ff18321 100644
+--- a/experiments/code/ace/adaptation_react.py
++++ b/experiments/code/ace/adaptation_react.py
+@@ -57,7 +57,7 @@ class SimplifiedReActStarAgent(StarAgent):
+             "main_user": world.task.supervisor,
+             "app_descriptions": app_descriptions,
+             "relevant_apis": str(world.task.ground_truth.required_apis),
+-            "playbook": self.playbook,
++            "playbook": getattr(self, "generator_playbook", self.playbook),
+         }
+         output_str = template.render(template_params)
+         output_str = self.truncate_input(output_str) + "\n\n"
+@@ -382,4 +382,4 @@ class SimplifiedReActStarAgent(StarAgent):
+         if curator_response is not None:
+             self.logger.show_message(role="user", message=curator_response, step_number=self.step_number)
+         else:
+-            self.logger.show_message(role="user", message="[WARN] curator_response is None", step_number=self.step_number)
+\ No newline at end of file
++            self.logger.show_message(role="user", message="[WARN] curator_response is None", step_number=self.step_number)
+diff --git a/src/appworld/common/constants.py b/src/appworld/common/constants.py
+index 18db9e2..fc8a347 100644
+--- a/src/appworld/common/constants.py
++++ b/src/appworld/common/constants.py
+@@ -1,9 +1,7 @@
+-import dotenv
+-
+ from appworld.common.datetime import DateTime
+ 
+ 
+-dotenv.load_dotenv()
++# Project transport alone loads explicitly authorized credentials.
+ 
+ 
+ DEFAULT_EXPERIMENT_NAME = "default"
+diff --git a/src/appworld/common/path_store.py b/src/appworld/common/path_store.py
+index 73f32f4..07c5370 100644
+--- a/src/appworld/common/path_store.py
++++ b/src/appworld/common/path_store.py
+@@ -1,9 +1,6 @@
+ import os
+ 
+-import dotenv
+-
+-
+-dotenv.load_dotenv()
++# Do not implicitly load a host .env during import or environment diagnostics.
+ 
+ 
+ class PathStore:

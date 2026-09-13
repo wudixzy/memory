@@ -1,0 +1,19 @@
+{
+  "synthetic": true,
+  "scientific_evidence": false,
+  "purpose": "Control-flow fixture authored without hidden task answers; not learned memory",
+  "worker": [
+    "Synthetic diagnostic: inspect only.\n```python\ndef inspect_once(agent):\n    return agent.observation('look()')\ntext = inspect_once(agent)\nassert isinstance(text, str)\n```",
+    "Synthetic diagnostic: inventory only.\n```python\nagent.observation('inventory()')\n```",
+    "Synthetic diagnostic: inspect again, do not solve.\n```python\ninspect_once(agent)\n```",
+    "Synthetic failure reflection: this fixture deliberately performed inspection only; no claim about a successful strategy."
+  ],
+  "builder": [
+    "Synthetic classification: imperfect agent.",
+    "Synthetic update operations solely to exercise multiple native merges.\n```python\nfor i in range(13):\n    rule_manager.write_rule('Synthetic diagnostic placeholder ' + str(i), 'Unresolved Error', validation_record='synthetic wiring only')\n```"
+  ],
+  "builder_merge": [
+    "Synthetic first merge.\n```python\nrule_manager.delete_rule('rule_2')\n```",
+    "Synthetic second merge.\n```python\nrule_manager.delete_rule('rule_2')\nrule_manager.delete_rule('rule_3')\n```"
+  ]
+}

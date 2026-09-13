@@ -1,0 +1,30 @@
+{
+  "recorded": "2026-09-11",
+  "platform": "Linux x86_64 WSL2",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "infra_environment": "memory-infra",
+  "infra_python": "3.10.20",
+  "ruff": "0.12.0",
+  "upstream_environment": "memory-automanual",
+  "upstream_python": "3.9.16",
+  "bubblewrap": "0.11.1",
+  "libseccomp": "2.6.0",
+  "packages_installed_this_deliverable": [],
+  "existing_import_versions": {
+    "tiktoken": "0.14.0",
+    "openai": "1.35.3",
+    "httpx": "0.27.2",
+    "faiss-cpu": "1.7.4",
+    "langchain-openai": "0.1.8"
+  },
+  "existing_pip_lock": "configs/automanual_alfworld/skill-constraints.txt",
+  "existing_conda_definition": "configs/automanual_alfworld/environment-text-linux-64.yml",
+  "public_tokenizer": {
+    "url": "https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken",
+    "sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+    "setup": "python scripts/direct.py conda run -n memory-infra python scripts/setup/tokenizer.py --fetch",
+    "model_api_request": false
+  },
+  "lock_scope": "observed versions, not a pinned OS image or clean-room rebuild",
+  "scientific_evidence": false
+}

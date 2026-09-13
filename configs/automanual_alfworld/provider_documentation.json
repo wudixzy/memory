@@ -1,0 +1,23 @@
+{
+  "checked_on": "2026-09-11",
+  "verification_kind": "public_documentation_only_no_credentials_no_API_call",
+  "sources": [
+    "https://api-docs.deepseek.com/api/create-chat-completion/",
+    "https://api-docs.deepseek.com/quick_start/pricing/"
+  ],
+  "requested_model_kept": "deepseek-v4-flash",
+  "chat_schema_enumeration": ["deepseek-flash", "deepseek-v4-pro"],
+  "pricing_footnote_1": "Legacy deepseek-v4-flash is accepted but served by DeepSeek-V4.1-Flash; do not confuse stable requested ID with a stable backend.",
+  "non_thinking_request": {"thinking": {"type": "disabled"}, "temperature": 0},
+  "function_tool_calls_documented": true,
+  "context_length_documented": "1M",
+  "max_output_tokens_documented": 393216,
+  "flash_price_per_million_tokens_usd": {
+    "peak": {"cached_input": 0.006, "uncached_input": 0.3, "output": 1.2},
+    "off_peak": {"cached_input": 0.003, "uncached_input": 0.15, "output": 0.6}
+  },
+  "peak_hours_utc": "Monday-Friday 01:00-04:00 and 06:00-10:00",
+  "live_api_compatibility": "not_verified",
+  "assistants_api_compatibility": "not_established_by_chat_documentation",
+  "existing_telemetry_price_table": "unchanged; labelled project planning estimate, not current invoice pricing"
+}
