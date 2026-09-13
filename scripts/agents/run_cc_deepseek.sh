@@ -33,18 +33,17 @@ fi
 
 cd "${REPO_ROOT}"
 
-# Use the current official DeepSeek Anthropic-compatible endpoint. The [1m]
-# suffix is used so Claude Code accounts for the model's 1M context window.
-# All Claude roles are intentionally mapped to V4 Flash for this worker.
+# DeepSeek's current Claude Code model name is deepseek-flash[1m].
+# Keep every Claude role/subagent on the same 1M-context Flash worker model.
 exec env \
   -u DEEPSEEK_KEY \
   ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
   ANTHROPIC_AUTH_TOKEN="${DEEPSEEK_KEY_VALUE}" \
-  ANTHROPIC_MODEL="deepseek-v4-flash[1m]" \
-  ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-flash[1m]" \
-  ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-flash[1m]" \
-  ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash[1m]" \
-  CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-flash[1m]" \
+  ANTHROPIC_MODEL="deepseek-flash[1m]" \
+  ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-flash[1m]" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-flash[1m]" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-flash[1m]" \
+  CLAUDE_CODE_SUBAGENT_MODEL="deepseek-flash[1m]" \
   CLAUDE_CODE_EFFORT_LEVEL="max" \
   CLAUDE_CODE_AUTO_COMPACT_WINDOW="786432" \
   claude "$@"
