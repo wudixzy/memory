@@ -381,3 +381,51 @@ Do not stop at a local commit or request separate push confirmation, unless the
 user explicitly asks for local-only work. This does not authorize automatic
 commits for every task or force pushes. Report push failures and unresolved
 remote changes accurately; never overwrite remote history to satisfy this rule.
+
+## 22. Current B-focused priority — supersedes Sections 4 and 20 for the next cycle
+
+The current research priority is defined by `docs/26_strategy_lockin_experiment_plan.md`.
+Do **not** continue broad AutoManual sampling, single-rule masking, or add a new baseline by default.
+
+The next scientific target is **success-induced strategy lock-in**: learned memory may be correct and useful but still concentrate behavior on a known-good strategy C, reducing discovery of another successful strategy with lower task-relevant interaction cost.
+
+Immediate order:
+
+1. reuse the existing ACE/AppWorld setup;
+2. perform a research-side AppWorld task-family census;
+3. produce a top-10 candidate table using the registered gates/rubric;
+4. let a reviewer select at most three families;
+5. only then run initial-playbook explorability probes;
+6. source-memory formation and memory-authority gates follow only for surviving families;
+7. formal Minimal-B branches come last.
+
+A candidate must have multiple successful strategies, a meaningful cost difference, a source-appropriate strategy C, a target where C still succeeds, and a better strategy that the same backbone can discover without learned memory. Targets that explicitly force exhaustive comparison are weak B tests and should normally be rejected.
+
+## 23. Codex CLI / Claude Code worker workflow
+
+For the next cycle, the preferred local workflow is documented in `docs/27_codex_claude_code_workflow.md`.
+
+Expected layout:
+
+```text
+Codex working directory: /home/coolboy/projects/memory
+Git repository:          /home/coolboy/projects/memory/memory
+```
+
+Codex is the orchestrator/reviewer/final integrator. Claude Code is the implementation worker and must run from the inner Git repository. Use the repository wrapper:
+
+```bash
+bash /home/coolboy/projects/memory/memory/scripts/agents/run_cc_deepseek.sh ...
+```
+
+The wrapper owns the Claude Code DeepSeek configuration. Do not duplicate credential values into prompts or tracked configuration.
+
+Workflow discipline:
+
+1. Codex reads the newest scientific plan and gives Claude Code a focused implementation package.
+2. Claude Code implements/analyzes/tests but does not commit or push by default.
+3. Codex independently reviews the diff, evidence, and relevant tests.
+4. Codex sends concrete revision feedback back to Claude Code when needed.
+5. Codex owns final status/docs synchronization, commit, and push.
+
+Do not let agent orchestration become a new infrastructure project. The first delegated package is the Stage-A AppWorld candidate census/report, not another generic framework or paid experiment.
