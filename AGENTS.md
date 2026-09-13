@@ -554,3 +554,40 @@ rerun corpus tasks, revive frozen reserves, add another detector, or begin
 scripted-B/K0/authority/Minimal-B experiments. This is not B falsification and
 does not affect the corpus validity or AppWorld A-side evidence; a further B
 attempt requires a separate documented benchmark decision.
+
+## 30. Final AppWorld sanity-probe override — 2026-09-13
+
+[`docs/35_appworld_final_sanity_probe_plan.md`](docs/35_appworld_final_sanity_probe_plan.md)
+supersedes the Section 29 AppWorld Problem-B stop decision **only** for the
+single pre-identified pair `a7179fa_1` (source) and `8f79e35_1` (target).
+This is not a reopening of candidate mining: do not search another AppWorld
+case, rerun the corpus/reserve pool, or build a selector, trajectory
+classifier, deterministic pair gate, reviewer ensemble, or branch framework.
+
+Reuse the saved complete natural source `memory_after` checkpoint as KC and
+the official initial playbook as K0. Never hand-write, inject, mask, or alter
+only `[vc-00010]`. First run public-only scripted B. Only if it succeeds, run
+one matched target rollout under K0 and one under full KC. Run 3+3
+confirmation only if those 1+1 trajectories exhibit the predicted qualitative
+difference. Do not automatically run closed-loop diagnosis under any outcome.
+
+If scripted B fails/is privileged, both branches have the same verification
+behavior, or confirmation fails, formally stop AppWorld Problem B. Preserve
+the negative evidence and move to a separately authorized benchmark-suitability
+decision rather than further AppWorld mining.
+
+## 31. Final sanity-probe result — 2026-09-13
+
+[`docs/36_appworld_final_sanity_probe_results.md`](docs/36_appworld_final_sanity_probe_results.md)
+records the completed single-pair probe. Public-only scripted B succeeded on
+`8f79e35_1` at 23 public calls, but both the matched K0 and complete-natural-KC
+rollouts performed post-send verification and succeeded. This is the
+pre-registered Gate-2 Outcome B: the single additional KC readback cannot
+isolate a learned-memory effect because K0 already has the same qualitative
+behavior.
+
+AppWorld Problem B is now formally closed. Do not run Gate 3, closed-loop
+diagnosis, another AppWorld candidate search, corpus reruns, or a memory
+authority/Minimal-B branch. The result is a negative final sanity probe, not a
+falsification of success-induced strategy lock-in; any later effort needs a
+separately authorized benchmark-suitability decision.

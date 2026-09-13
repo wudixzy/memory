@@ -80,10 +80,24 @@ The current execution override is the **lightweight case hunt** in [`docs/33_lig
 
 That lightweight inspection is now complete: it directly reviewed all 18
 successful sources and found no scope-preserving, meaningful-cost
-`(S, DeltaK_S, T, C, B)` case. AppWorld is therefore stopped for **Problem B**
-under the direct-inspection rule—not because the prior deterministic BF-2
-classifier was conclusive, and not as a falsification of B. See
+`(S, DeltaK_S, T, C, B)` case. Broad AppWorld candidate mining is therefore
+stopped—not because the prior deterministic BF-2 classifier was conclusive,
+and not as a falsification of B. See
 [`docs/34_lightweight_case_hunt_results.md`](docs/34_lightweight_case_hunt_results.md).
+
+[`docs/35_appworld_final_sanity_probe_plan.md`](docs/35_appworld_final_sanity_probe_plan.md)
+authorizes one final, pre-identified mechanism probe only:
+`a7179fa_1 → 8f79e35_1`. It first tests public-only scripted B, then only on
+success compares one K0 and one full naturally learned KC rollout. It does not
+reopen candidate search or authorize K0/KC repetition, learned-memory
+experiments beyond that 1+1 screen, or closed-loop diagnosis unless the
+registered gates explicitly permit the next step.
+
+That final probe is complete. Scripted B succeeded at 23 public calls, but
+both K0 and full natural KC performed post-send verification, so the registered
+Gate-2 screen found no isolated memory-authority signal and Gate 3 was not
+authorized. AppWorld Problem B is formally closed; see
+[`docs/36_appworld_final_sanity_probe_results.md`](docs/36_appworld_final_sanity_probe_results.md).
 
 ## Read first
 
@@ -98,9 +112,11 @@ classifier was conclusive, and not as a falsification of B. See
 - [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md) — historical corpus results; its empty deterministic BF-2 queue is inconclusive under the newer plan.
 - [`docs/33_lightweight_case_hunt_plan.md`](docs/33_lightweight_case_hunt_plan.md) — **current execution override**: direct, file-aware source-memory-target case hunt.
 - [`docs/34_lightweight_case_hunt_results.md`](docs/34_lightweight_case_hunt_results.md) — completed direct case hunt and AppWorld Problem-B stop decision.
+- [`docs/35_appworld_final_sanity_probe_plan.md`](docs/35_appworld_final_sanity_probe_plan.md) — **current execution override**: one final `a7179fa_1 → 8f79e35_1` sanity probe.
+- [`docs/36_appworld_final_sanity_probe_results.md`](docs/36_appworld_final_sanity_probe_results.md) — completed final sanity probe and formal AppWorld Problem-B stop decision.
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — historical H1–H4 protocol and instrumentation requirements.
 - [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and cost accounting.
-- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Section 28 contains the current priority/workflow override.
+- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Sections 30–31 contain the final override and result.
 
 Older targeted plans/results remain in `docs/` as historical evidence. New work should not silently revive superseded task-selection logic.
 
