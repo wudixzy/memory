@@ -501,7 +501,7 @@ explorability, source-memory authority, Minimal-B, or closed-loop diagnosis.
 Those gates require a later explicit decision. The corpus has a hard USD 5
 run cap and must cleanly stop and preserve partial artifacts on exhaustion.
 
-## 27. Behavior-first result — 2026-09-13
+## 27. Historical behavior-first result — 2026-09-13
 
 The authorized behavior-first run is complete; its results are in `docs/32`.
 It retained 23 independently K0-reset ACE/AppWorld tasks (all reset checks
@@ -512,7 +512,45 @@ queue is empty.
 
 Do not respond by rerunning the seven unstarted selector tasks, relaxing the
 guard, reviving the frozen reserve pool, adding another shortcut detector, or
-starting BF-3/K0/Minimal-B. Treat this as the registered stop signal for
-AppWorld **Problem-B candidate generation**. Any further B benchmark work
-requires a separate documented scientific decision; AppWorld A-side evidence
-remains historical evidence.
+starting BF-3/K0/Minimal-B. The then-registered deterministic BF-2 route
+ended without a candidate; its result and all raw isolated-K0 corpus evidence
+remain historical records.
+
+## 28. Lightweight AppWorld B case-hunt override — 2026-09-13
+
+[`docs/33_lightweight_case_hunt_plan.md`](docs/33_lightweight_case_hunt_plan.md)
+is the current execution override and supersedes the Sections 26–27 conclusion
+that an empty deterministic BF-2 queue itself stops all AppWorld Problem-B
+candidate work. Documents 28–32 remain historical evidence; the isolated-K0
+corpus remains valid and must be reused unchanged. Its zero BF-2 output is an
+inconclusive result of the whole-trajectory classifier/pair gate, **not** a
+claim that the corpus has no candidate.
+
+Do not build or tune a selector, deterministic classifier/gate, reviewer or
+packet benchmark, ensemble, adjudication framework, or generic candidate
+mining package. Instead, let coding agents directly inspect real successful
+trajectories and exact native `DeltaK`, extract reusable strategy primitives,
+and search AppWorld for a small number of plausible `(S, DeltaK_S, T, C, B)`
+tuples. Research-side task/reference/setup/evaluator evidence stays strictly
+outside ACE Generator/Reflector/Curator contexts.
+
+This lightweight case hunt does not authorize rerunning corpus tasks,
+scripted-B, K0 explorability, learned-memory authority, Minimal-B, or
+closed-loop experiments. Candidate hypotheses must remain unmeasured until a
+later explicit decision authorizes environment validation.
+
+## 29. Lightweight case-hunt result — 2026-09-13
+
+The direct corpus inspection in
+[`docs/34_lightweight_case_hunt_results.md`](docs/34_lightweight_case_hunt_results.md)
+is complete. It inspected all 18 successful isolated-K0 sources, including
+their actual trajectories and exact native DeltaK, and produced no candidate
+with both a plausible memory transfer and a concrete meaningful-cost,
+scope-preserving B route. Do not promote a one/two-call readback omission or
+an unverified scope-changing shortcut as a Problem-B witness.
+
+Stop AppWorld **for Problem B** under this direct-inspection stop rule. Do not
+rerun corpus tasks, revive frozen reserves, add another detector, or begin
+scripted-B/K0/authority/Minimal-B experiments. This is not B falsification and
+does not affect the corpus validity or AppWorld A-side evidence; a further B
+attempt requires a separate documented benchmark decision.

@@ -74,9 +74,16 @@ If a convincing B case is found, later confirmation may include a small subset u
 
 The Stage-A AppWorld census and the all-reserve parallel agent review are complete historical evidence. The census produced 26 reserves; the review produced 17 rejects, 9 review-quality reserves and 0 promoted families. The nine unusable-review holds are frozen and will not be retried. This does not falsify B; it means the old reference-family packet route did not identify a sufficiently supported route.
 
-The current execution override is **behavior-first candidate mining**: use the registered ACE online/no-GT + AppWorld setup to build an isolated-K₀ behavioral corpus, retain each real trajectory and native `DeltaK`, then mine cross-task transfer candidates from those real artifacts. See [`docs/31_behavior_first_candidate_mining_plan.md`](docs/31_behavior_first_candidate_mining_plan.md). This work stops before scripted-B, K₀ explorability, or any learned-memory Minimal-B branch.
+The behavior-first corpus has completed its registered attempt: 23 isolated-K₀ tasks were retained before a per-task guard stopped the run; all reset checks passed. The deterministic BF-2 rule yielded no candidate, but this is inconclusive about whether the real corpus contains a case—not a B falsification. Documents 28–32 remain historical evidence and the corpus is reused unchanged.
 
-The behavior-first corpus has completed its registered attempt: 23 isolated-K₀ tasks were retained before a per-task guard stopped the run; all reset checks passed, but the real trajectories yielded no credible cross-task B tuple. No BF-3 gate is authorized. See [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md). This is a stop signal for AppWorld **for B candidate generation**, not a falsification of B or a change to A-side evidence.
+The current execution override is the **lightweight case hunt** in [`docs/33_lightweight_case_hunt_plan.md`](docs/33_lightweight_case_hunt_plan.md): coding agents directly inspect successful real trajectories and exact native `DeltaK` for reusable primitives, then search AppWorld for a few plausible source-memory-target-B hypotheses. It explicitly forbids another selector/classifier/reviewer benchmark and stops before scripted-B, K₀ explorability, or learned-memory Minimal-B branches.
+
+That lightweight inspection is now complete: it directly reviewed all 18
+successful sources and found no scope-preserving, meaningful-cost
+`(S, DeltaK_S, T, C, B)` case. AppWorld is therefore stopped for **Problem B**
+under the direct-inspection rule—not because the prior deterministic BF-2
+classifier was conclusive, and not as a falsification of B. See
+[`docs/34_lightweight_case_hunt_results.md`](docs/34_lightweight_case_hunt_results.md).
 
 ## Read first
 
@@ -87,11 +94,13 @@ The behavior-first corpus has completed its registered attempt: 23 isolated-K₀
 - [`docs/28_appworld_family_census.md`](docs/28_appworld_family_census.md) — completed Stage-A census and its evidence limits.
 - [`docs/29_parallel_candidate_review_plan.md`](docs/29_parallel_candidate_review_plan.md) — current all-agent reserve review, aggregation and scripted-B gate.
 - [`docs/30_parallel_candidate_review_results.md`](docs/30_parallel_candidate_review_results.md) — completed historical reserve review and its limits.
-- [`docs/31_behavior_first_candidate_mining_plan.md`](docs/31_behavior_first_candidate_mining_plan.md) — **current execution override**: isolated-K₀ corpus and behavior-first cross-task candidate mining.
-- [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md) — completed isolated-K₀ corpus, empty BF-2 queue, and AppWorld B stop decision.
+- [`docs/31_behavior_first_candidate_mining_plan.md`](docs/31_behavior_first_candidate_mining_plan.md) — historical isolated-K₀ corpus plan.
+- [`docs/32_behavior_first_corpus_results.md`](docs/32_behavior_first_corpus_results.md) — historical corpus results; its empty deterministic BF-2 queue is inconclusive under the newer plan.
+- [`docs/33_lightweight_case_hunt_plan.md`](docs/33_lightweight_case_hunt_plan.md) — **current execution override**: direct, file-aware source-memory-target case hunt.
+- [`docs/34_lightweight_case_hunt_results.md`](docs/34_lightweight_case_hunt_results.md) — completed direct case hunt and AppWorld Problem-B stop decision.
 - [`docs/01_validation_protocol.md`](docs/01_validation_protocol.md) — historical H1–H4 protocol and instrumentation requirements.
 - [`docs/02_compute_budget.md`](docs/02_compute_budget.md) — DeepSeek-V4-Flash policy and cost accounting.
-- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Section 26 contains the current priority/workflow override.
+- [`AGENTS.md`](AGENTS.md) — durable implementation rules; Section 28 contains the current priority/workflow override.
 
 Older targeted plans/results remain in `docs/` as historical evidence. New work should not silently revive superseded task-selection logic.
 
