@@ -145,19 +145,15 @@ Codex: final tests -> docs/status update -> commit -> push
 
 Keep CC tasks coherent and medium-sized. Prefer one complete candidate-mining deliverable over many tiny prompt/commit cycles.
 
-## 7. Current first work package
+## 7. Historical first work package
 
-The first CC work package is **not** another branch experiment. It is the Stage-A candidate analysis from `docs/26_strategy_lockin_experiment_plan.md`:
+The initial delegated package was the Stage-A AppWorld census from `docs/26_strategy_lockin_experiment_plan.md`. It is now complete in `docs/28_appworld_family_census.md` and produced 26 reserve families.
 
-1. build a reproducible AppWorld task-family census;
-2. identify source/target families with multiple successful strategies and a meaningful public-API-call cost gap;
-3. produce a top-10 candidate report scored by the registered rubric;
-4. do not start paid model runs yet unless needed for a very small already-authorized diagnostic;
-5. let Codex review the candidates before implementing explorability probes.
+Do not repeat that census as the main task except to regenerate its ignored machine-readable artifacts when needed.
 
 ## 8. Secret handling
 
-Codex may know that `.env` contains `DEEPSEEK_KEY`, but it should not read/print the key unless the local wrapper itself needs to source it. Prefer invoking the wrapper rather than extracting the value into a Codex-visible shell command.
+Codex may know that `.env` contains `DEEPSEEK_KEY`, but it should not read/print the key unless a local wrapper or purpose-built reviewer process needs to source it. Prefer process-local loading rather than extracting the value into a Codex-visible shell command.
 
 Never run commands such as:
 
@@ -170,7 +166,7 @@ set -x
 
 in a context whose output is captured into agent logs when secrets may be present.
 
-The wrapper disables shell tracing before reading `.env`.
+The CC wrapper disables shell tracing before reading `.env`.
 
 ## 9. Final integration discipline
 
@@ -187,3 +183,63 @@ Before Codex commits/pushes:
 ## 10. Model note
 
 For the **coding worker**, the configured Claude Code model is `deepseek-flash[1m]` with `CLAUDE_CODE_EFFORT_LEVEL=max`. This coding-agent setting is independent of the scientific experiment model policy. Scientific experiments remain governed by `AGENTS.md` and their registered configs. Do not silently rewrite historical experiment manifests merely because the Claude Code worker model name changed.
+
+## 11. Current work package — parallel reserve review
+
+The current workflow is defined in `docs/29_parallel_candidate_review_plan.md` and overrides any earlier instruction that Codex or a human manually review only the top few census candidates.
+
+### Phase 1: CC prepares IDs/evidence packets
+
+Ask Claude Code to:
+
+1. regenerate the Stage-A census if the ignored artifacts are unavailable;
+2. return all reserve family IDs (currently ~26), their proposed source/target task IDs and candidate-record paths;
+3. implement or help implement a bounded packet builder that extracts only the relevant instructions, state differences, reference-route snippets, API-doc excerpts, current B hypotheses, gate outputs and provenance;
+4. test packet generation locally;
+5. stop without doing the final semantic admission review itself.
+
+### Phase 2: Codex owns the reviewer ensemble
+
+Codex should write a small standalone reviewer script and a fixed prompt/schema, then call DeepSeek Flash concurrently over all reserve packets.
+
+Default review design:
+
+- 2 independent reviews per family;
+- all ~26 reserve families, not only the old top-10;
+- concurrency around 8-12 unless provider/runtime limits require lower;
+- strict JSON output;
+- no chain-of-thought requirement;
+- one automatic retry for malformed/unsupported output;
+- third independent review only for substantive disagreements.
+
+The reviewer model for the Anthropic-compatible path is `deepseek-flash[1m]`.
+
+Reviewer calls are **research-side candidate triage**, not ACE trajectories and not evidence that B succeeds. Keep their artifacts separate from the adaptive loop.
+
+### Phase 3: deterministic aggregation
+
+Codex validates reviewer outputs against the packets before ranking:
+
+- IDs must match;
+- named APIs/evidence references must exist;
+- proposed B may not depend on evaluator/setup-only values during execution;
+- route scope and task semantics must be preserved;
+- predicted savings remain hypotheses until benchmark execution;
+- reviewers may not label B success or measured cost as established.
+
+Promote at most 3-5 families after agreement/adjudication.
+
+### Phase 4: CC implements scripted-B diagnostics
+
+Only after the ensemble promotes a family should CC implement the research-side AppWorld diagnostic B route. Codex reviews and runs the diagnostic.
+
+The next scientific gate is real benchmark evidence:
+
+```text
+success(B) = true
+cost(B) < cost(C)
+```
+
+Only then does the project spend model calls on K0 explorability.
+
+This work package deliberately removes manual per-sample review while preserving independent review: CC prepares/implements, a separate DeepSeek reviewer ensemble judges candidate semantics, and Codex controls validation/aggregation/final integration.
