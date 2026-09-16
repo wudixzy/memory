@@ -6,379 +6,367 @@ This file defines the implementation contract for coding agents on branch:
 exp/minimal-exploratory-memory-validation
 ```
 
-This branch intentionally supersedes the older H1-H4 / AppWorld execution priority that exists in previous repository history.
+This branch is currently testing the exploratory-memory mechanism. It supersedes older H1-H4 / AppWorld priorities for work performed on this branch.
 
 ## 1. Current scientific objective
 
-The current objective is **minimal mechanism validation for the new exploratory-memory design**.
+The immediate objective is **a minimal retest of the corrected B/C responsibility boundary**.
 
-Do not optimize a benchmark leaderboard and do not build the full persistent-memory system yet.
-
-The first question is:
-
-> Can persistent history identify a meaningful unresolved comparison, turn it into one grounded local exploratory memory, and cause a future matched agent to perform a one-shot probe that produces comparative evidence?
-
-The MVP chain is:
+The key distinction is now fixed:
 
 ```text
-curated established memory + current context
-  -> B: OPEN or NONE
-  -> C: one grounded local exploratory memory
-  -> future matched task/state
-  -> exploratory memory changes local behavior
-  -> probe produces comparative evidence
+B: Which incumbent comparison is worth opening?
+C: What grounded alternative can be tested once to answer it?
 ```
 
-Stage 1 and A are deliberately excluded from the first milestone.
+B diagnoses a question.
+
+C instantiates an experiment.
+
+Do not build the full persistent-memory system yet.
+
+Do not optimize a benchmark leaderboard.
+
+Do not move concrete alternative synthesis back into B.
 
 ## 2. Required read order
 
-Before coding, read:
+Before changing code, read:
 
-1. `docs/37_minimal_exploratory_memory_validation_plan.md`
-2. `docs/38_coding_agent_handoff_exploratory_memory_mvp.md`
-3. `docs/36_appworld_final_sanity_probe_results.md` for the previous carrier failure lesson
-4. this file
+1. `docs/43_b_c_boundary_correction_and_retest_plan.md`
+2. `docs/44_coding_agent_prompt_b_boundary_retest.md`
+3. `docs/42_exploratory_memory_mvp_qwen38_comparison.md`
+4. `docs/40_exploratory_memory_mvp_carrier_fit.md`
+5. this file
 
-Older research documents remain useful historical context but do not override the current branch plan.
+Docs 43-44 define the next experiment. Older documents are historical context and must not override the corrected boundary.
 
-## 3. Most important implementation rule: semantics are not a handcrafted-rule problem
+## 3. Current fixed experiment
 
-Do **not** build complicated heuristic/rule systems for questions that are fundamentally semantic.
-
-In particular, do not create large rule pipelines for:
-
-- deciding whether a comparison is meaningful/open;
-- strategy-family classification;
-- context-family classification;
-- semantic trajectory segmentation;
-- deciding whether two realizations are equivalent;
-- deciding whether a case is scientifically useful;
-- exploration-value scoring;
-- enumerating tool combinations as the main alternative search mechanism.
-
-For the first 10-20 cases, directly inspect the real task, trajectory/state, memory, tool schema, and environment behavior. Write a short evidence memo.
-
-Use LLM/research-agent reasoning for semantic interpretation.
-
-Use deterministic code for mechanical and auditable facts.
-
-### Deterministic code is appropriate for
-
-- trace collection and formatting;
-- action/tool/API identity;
-- capability existence checks;
-- environment replay/reset;
-- success/reward/cost/step capture;
-- provenance and IDs;
-- artifact storage;
-- token/cost telemetry;
-- structured-output validation;
-- evaluator-information isolation checks.
-
-Rule of thumb:
-
-> If a competent researcher can answer the question by reading the sample, prefer direct semantic analysis over a brittle hand-built classifier.
-
-## 4. Carrier policy
-
-Treat benchmarks as **case carriers** for this MVP.
-
-Do not require the full benchmark distribution to naturally express the research problem.
-
-Inspect at most 2-3 plausible real environments and select one that can provide several clean controlled cases with:
-
-- established strategy A;
-- A feasible/successful;
-- a meaningful local comparison not yet resolved;
-- an executable local alternative;
-- an environment signal that can provide comparative evidence;
-- matched/replayable future context for established-only vs established+exploratory comparison.
-
-Do not build a large automatic case-mining system merely to select a carrier.
-
-If no candidate carrier cleanly supplies the needed cases, stop and report that result.
-
-## 5. Controlled-case policy
-
-The first case set should contain roughly 10-20 cases total:
-
-- `P`: meaningful unresolved comparison -> expected B=`OPEN`;
-- `N1`: comparison already resolved -> expected B=`NONE`;
-- `N2`: technically open but not policy-relevant -> expected B=`NONE`.
-
-Case labels and evaluator notes are evaluation-only information.
-
-Never expose them to B, C, or the online actor.
-
-Case curation is research analysis, not a heuristic-labeling task.
-
-## 6. B contract
-
-Input:
+For the next retest keep fixed:
 
 ```text
-current task/state/trajectory
-+ curated established memories
+carrier: ALFWorld TextWorld
+cases: 11 existing curated cases (5 P, 3 N1, 3 N2)
+model: qwen3.8-flash
+thinking: false
+temperature: 0
 ```
 
-Output:
+Do not switch model, carrier, benchmark, or case set merely to improve the result.
 
-```json
-{"decision": "NONE"}
+The point of this cycle is to isolate one interface/design correction.
+
+## 4. Most important rule: B and C are different semantic jobs
+
+### B owns comparative diagnosis
+
+B asks whether the **incumbent realization observed in the current trajectory** has a meaningful, unresolved comparative status.
+
+B may return `OPEN` without knowing any concrete alternative.
+
+`OPEN` means:
+
+```text
+this incumbent local behavior is worth comparing again
 ```
 
-or:
+It does not mean:
+
+```text
+B already knows a valid replacement
+```
+
+### C owns alternative synthesis
+
+Only after B=`OPEN`, C receives real capability/action descriptions and attempts to construct one grounded local test.
+
+C may legitimately return `NONE`.
+
+That means the question was worth opening but no grounded alternative could currently be instantiated.
+
+### Hard prohibition
+
+Do not require B to prove that a different realization exists, is legal, or is executable.
+
+Do not give the main B condition the full capability document merely to make B open more cases.
+
+## 5. Correct B information flow
+
+B should receive logically separate information:
+
+```text
+current task
+current initial/public state
+current completed trajectory
+pre-update established memory
+```
+
+The current trajectory is what B is diagnosing.
+
+The pre-update memory is what was established before that trajectory.
+
+Do not nest the current trajectory inside the established-memory object as if it were already historical evidence.
+
+This separation is required both scientifically and in stored artifacts.
+
+## 6. B semantic criterion
+
+B should answer two questions.
+
+### 6.1 Comparative status
+
+Distinguish:
+
+```text
+A works
+```
+
+from:
+
+```text
+A should remain the preferred/default realization
+```
+
+Feasibility evidence does not by itself establish comparative superiority.
+
+A concrete alternative missing from memory does not mean the comparison is resolved.
+
+### 6.2 Policy relevance
+
+Do not reopen every technically unproven behavior.
+
+A question is worth opening only when resolving it could materially affect future policy.
+
+Signals such as repeated work, cost, brittleness, failure exposure, unnecessary operations, or an unsupported consolidated default may be semantically relevant, but they are **not handcrafted trigger rules**.
+
+B itself makes the semantic judgment.
+
+## 7. B output contract for this retest
+
+The previous exact `{"decision":"NONE"}` output was too opaque for diagnosis.
+
+Use a compact explicit task-judgment schema for both decisions:
 
 ```json
 {
-  "decision": "OPEN",
-  "replaceable_segment": "...",
+  "decision": "OPEN | NONE",
+  "incumbent_segment": "short description or null",
+  "evidence_status": {
+    "feasibility_support": "short statement",
+    "comparative_support": "short statement",
+    "policy_relevance": "short statement"
+  },
   "functional_contract": {
     "available_state": "...",
     "local_function": "...",
     "required_downstream_state": "...",
     "constraints": ["..."]
   },
-  "warrant": "..."
+  "warrant": "short final justification"
 }
 ```
 
-Do not add a separate heuristic gate before B.
+For `NONE`, `incumbent_segment` and `functional_contract` may be null if there is no meaningful target.
 
-B itself may return `NONE`.
+For `OPEN`, both must be populated.
 
-## 7. C contract
+These fields are explicit semantic outputs needed for experiment auditing. They are not hidden chain-of-thought and should remain concise.
+
+## 8. C contract
 
 Run C only when B returns `OPEN`.
 
-Input:
+C receives:
 
 ```text
-B result
+B diagnosis
 + relevant established memory
 + exact real capability/tool/action descriptions
 ```
 
-Output:
+C owns:
 
-```json
-{"decision": "NONE"}
-```
+- concrete alternative synthesis;
+- grounding in real carrier primitives;
+- functional-contract matching;
+- locality;
+- executability;
+- construction of one exploratory-memory candidate.
 
-or exactly one exploratory memory:
+Do not modify C before observing an actual C failure under the corrected B interface.
 
-```json
-{
-  "decision": "CREATE",
-  "type": "exploratory",
-  "scope": "...",
-  "hypothesis": "...",
-  "guidance": "...",
-  "grounded_realization": ["..."],
-  "reason": "..."
-}
-```
+## 9. No handcrafted semantic-rule system
 
-C may semantically compose multiple retrieved real primitives when needed.
+Do **not** create complicated rules/classifiers for:
 
-Do not replace C with a combinatorial rule-based tool search.
+- OPEN/NONE;
+- strategy families;
+- context families;
+- semantic trajectory segmentation;
+- policy relevance;
+- alternative existence;
+- exploration value;
+- semantic case quality.
 
-## 8. Experiment A
+For the small controlled case set, direct semantic inspection is preferred.
 
-Run B/C over the curated controlled cases.
+Use LLM/research-agent judgment for semantic interpretation.
 
-The first report should be case-level and evidence-first.
+Use deterministic code only for mechanical/auditable facts.
 
-Record:
+## 10. Appropriate deterministic checks
 
-- B OPEN/NONE;
-- whether B targeted the relevant local comparison;
-- whether C is grounded in real capabilities;
-- whether C is local rather than a whole-task replan;
-- whether C is executable;
-- whether executing the proposal can produce comparative evidence.
+Code/rules are appropriate for:
 
-For 10-20 cases, semantic review may be performed directly from raw artifacts. Do not build a semantic grader merely to avoid reading the cases.
+- trace collection and formatting;
+- schema validation;
+- action/tool identity;
+- environment reset/replay;
+- success/reward/cost/step capture;
+- provenance and IDs;
+- evaluator-information isolation;
+- current-trajectory vs pre-update-memory separation;
+- ensuring `capabilities.json` is absent from the main B prompt;
+- artifact storage;
+- token/cost telemetry;
+- C action grounding after B=`OPEN`.
 
-## 9. Experiment B
+Do not encode semantic OPEN criteria in these checks.
 
-Only after Experiment A shows promising cases, run paired online conditions:
-
-### E0
-
-```text
-established memory only
-```
-
-### E1
-
-```text
-same established memory
-+ exploratory memory
-```
-
-Hold task/state/model/config fixed as much as possible.
-
-Observe:
-
-```text
-exploratory memory visible?
--> actor locally follows it?
--> alternative executes?
--> comparative evidence obtained?
-```
-
-Optional E2 explicit-oracle instruction is allowed only as a diagnostic when E1 is ignored.
-
-Do not add generic-exploration baselines in this first milestone.
-
-## 10. What counts as a useful probe
-
-A probe is useful when it changes the epistemic status of the comparison.
-
-The alternative does not need to outperform the incumbent.
-
-Useful evidence includes:
-
-- alternative better;
-- alternative worse under the same scope;
-- same quality but different cost;
-- alternative violates a required constraint;
-- other discriminative evidence that would matter to future policy.
-
-Do not equate "alternative lost" with "exploration failed".
-
-## 11. Model policy
-
-Unless technically blocked, use:
-
-```yaml
-provider: deepseek
-model: deepseek-v4-flash
-thinking: false
-temperature: 0
-```
-
-Use the same model configuration across paired conditions.
-
-This is mechanism screening, not a model-comparison study.
-
-Do not depend on hidden chain-of-thought.
-
-Persist only visible model responses, actions/tool calls, observations, memory artifacts, environment outputs, and telemetry.
-
-## 12. Ground-truth/evaluator isolation
+## 11. Ground-truth/evaluator isolation
 
 Hard requirement:
 
 > evaluator-only information must never enter B, C, or actor inputs.
 
-Examples of evaluator-only information:
+Keep hidden:
 
-- case type P/N1/N2;
-- oracle alternative;
-- hidden explanation for why the comparison is open/closed;
-- hidden benchmark answer or evaluator diagnostics not normally visible to the actor.
+- P/N1/N2 labels;
+- oracle alternative actions;
+- oracle outcome;
+- evaluator rationale;
+- hidden benchmark diagnostics not normally public to the actor.
 
-Add explicit tests/assertions for this where feasible.
+Add explicit assertions/tests where feasible.
 
-## 13. Minimal implementation preference
+## 12. Representation audit before paid calls
 
-Prefer a small experiment-specific package such as:
+Before the corrected B run, generate all 11 B public inputs and manually inspect at least:
+
+- one P;
+- one N1;
+- one N2.
+
+Confirm:
 
 ```text
-experiments/exploratory_memory_mvp/
-  cases/
-  prompts/
-  run_b.py
-  run_c.py
-  run_online_pair.py
-  review_cases.py
+current trajectory is explicit
+pre-update memory is separate
+oracle alternative absent
+case label absent
+evaluator rationale absent
+full capability document absent
 ```
 
-Reuse existing provider/telemetry helpers only when they reduce complexity.
+Do not proceed if this boundary is still ambiguous.
 
-Do not build a universal memory framework for this experiment.
+## 13. Main retest protocol
 
-## 14. Out of scope for the first milestone
+Run one deterministic corrected B call per existing case.
 
-Do not implement unless later explicitly requested:
+Report:
 
-- Stage 1 candidate-memory extraction;
-- A reconciliation/update loop;
-- graph memory;
-- global strategy taxonomy;
-- context classifier;
-- global trajectory segmentation;
-- exploration score/VOI gate;
-- generic exploration baseline;
-- current-only targeted baseline;
-- complex hypothesis lifecycle;
-- full online streams;
-- large benchmark runs;
-- MLE/AIDE integration before the simpler mechanism test passes.
+- P OPEN/NONE;
+- N1 OPEN/NONE;
+- N2 OPEN/NONE;
+- diagnostic evidence fields;
+- direct review of every P that remains `NONE`.
 
-## 15. Failure discipline
+Do not automatically optimize the prompt repeatedly inside the same experiment.
 
-A negative mechanism result is useful.
+If B opens cases, run C only for those cases.
 
-If results are weak, localize failure to:
+## 14. One permitted diagnostic if B remains all-NONE
 
-- carrier/case quality;
-- B diagnosis;
-- C synthesis;
-- grounding/execution;
-- online memory authority.
+If all or nearly all P cases remain `NONE`, do not add capabilities to B.
 
-Do not rescue weak evidence with layers of ad-hoc rules or extra modules.
+Run at most one diagnostic on the five P cases:
 
-Stop and report when the current design does not work cleanly.
+```text
+segment-hint diagnostic
+```
 
-## 16. Required artifacts
+Provide an evaluator-reviewed description of the incumbent segment only.
 
-For every scientific run preserve:
+Do not provide the hidden alternative, oracle actions, oracle outcome, or capability document.
 
-- case definition;
-- exact B prompt/context;
-- B raw and parsed output;
-- exact C prompt/context;
-- C raw and parsed output;
-- real capability/tool references;
-- online condition;
-- actor-visible memory;
-- actor actions/tool calls;
-- observations/environment outputs;
-- final task result;
-- token/cost telemetry;
-- evaluator-side review notes kept separate from actor inputs.
+Purpose:
 
-Do not store only aggregate labels.
+```text
+segment hint -> OPEN
+  => localization/representation bottleneck
+
+segment hint -> still NONE
+  => comparative-status/policy-relevance reasoning remains the bottleneck
+```
+
+After that diagnostic, stop and report before changing the interface again.
+
+## 15. Out of scope for this cycle
+
+Do not:
+
+- change benchmark/carrier;
+- integrate WebShop/MLE/AIDE;
+- add capabilities to the main B condition;
+- add rule-based OPEN gates;
+- add automatic segment heuristics;
+- add strategy/context taxonomies;
+- add exploration score/VOI;
+- switch models;
+- run broad multi-seed sweeps;
+- implement Stage 1;
+- implement A reconciliation;
+- implement full online streams;
+- modify C without observed C evidence.
+
+## 16. Hidden chain-of-thought policy
+
+Do not request, recover, or depend on hidden chain-of-thought.
+
+Persist only visible task outputs, prompts, tool/actions, observations, environment results, memory artifacts, and telemetry.
+
+The compact B evidence fields are explicit requested outputs and should be auditable from the supplied evidence.
 
 ## 17. Secrets
 
-Never commit API keys, cookies, credentials, tokens, private URLs, or hidden benchmark state.
+Never commit API keys, cookies, credentials, tokens, private URLs, or hidden runtime benchmark state.
 
-Use `.env` locally and keep secret/runtime artifacts gitignored.
+Use `.env` locally and keep secrets/runtime artifacts gitignored.
 
 ## 18. Commit/push discipline
 
-When asked to implement and submit work, commit and push to the current branch unless explicitly told otherwise.
+When asked to implement and submit work, commit and push to:
 
-Do not rewrite remote history merely to satisfy this preference.
+```text
+exp/minimal-exploratory-memory-validation
+```
 
-Report failures accurately.
+Do not force-push.
 
-## 19. First milestone completion criteria
+Report push failures accurately.
 
-The first coding-agent package is complete when it contains:
+## 19. Current completion criterion
 
-1. a lightweight carrier-fit memo for at most 2-3 environments;
-2. one selected carrier or an explicit no-fit report;
-3. roughly 10-20 curated P/N1/N2 controlled cases if a carrier is selected;
-4. minimal B/C runners with raw artifact logging;
-5. Experiment-A case-level results;
-6. if promising, a small E0/E1 paired online test;
-7. a short failure analysis organized by stage.
+This cycle is complete when the agent has produced:
 
-The milestone does **not** need to prove the full persistent-memory method.
+1. corrected B public representation;
+2. corrected B prompt/response contract;
+3. representation audit;
+4. one deterministic 11-case corrected B run;
+5. C results for any B-open cases;
+6. segment-hint diagnostic only if the main retest remains all/almost-all NONE;
+7. a concise report localizing the result to implementation mis-specification, segment localization, comparative diagnosis, or remaining ambiguity.
+
+The cycle does not need to prove the full persistent-memory method.
