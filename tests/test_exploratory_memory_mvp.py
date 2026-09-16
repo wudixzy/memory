@@ -29,6 +29,7 @@ from experiments.exploratory_memory_mvp.model import (
     load_dashscope_key,
     usage_report,
 )
+from experiments.exploratory_memory_mvp.prompts import b_baseline_messages, b_messages
 from experiments.exploratory_memory_mvp.run_b import run_b
 from experiments.exploratory_memory_mvp.run_c import run_c
 
@@ -168,9 +169,10 @@ class ModelAndRunnerTests(unittest.TestCase):
         message = client.complete(
             [{"role": "user", "content": "hello", "reasoning_content": "omit"}], phase="test"
         )
-        self.assertEqual(transport.payloads[0]["model"], "qwen3.7-flash")
+        self.assertEqual(transport.payloads[0]["model"], "qwen3.8-flash")
         self.assertEqual(transport.payloads[0]["temperature"], 0)
         self.assertFalse(transport.payloads[0]["enable_thinking"])
+        self.assertFalse(transport.payloads[0]["preserve_thinking"])
         self.assertNotIn("reasoning_content", message)
         self.assertNotIn("reasoning_content", json.dumps(client.events))
         report = usage_report(client)
@@ -187,8 +189,33 @@ class ModelAndRunnerTests(unittest.TestCase):
                 self.assertEqual(load_dashscope_key(env_file), secret)
                 with self.assertRaises(Exception):
                     DashScopeChatTransport(env_file=env_file)
-                transport = DashScopeChatTransport(allow_network=True, env_file=env_file)
-                self.assertNotIn(secret, repr(transport))
+                with patch.dict(
+                    os.environ,
+                    {
+                        "HTTP_PROXY": "http://proxy.invalid:8080",
+                        "HTTPS_PROXY": "http://proxy.invalid:8080",
+                        "ALL_PROXY": "http://proxy.invalid:8080",
+                    },
+                    clear=True,
+                ):
+                    transport = DashScopeChatTransport(allow_network=True, env_file=env_file)
+                    self.assertTrue(transport.proxy_disabled)
+                    self.assertFalse(
+                        any(
+                            key.lower().endswith("_proxy") and key.lower() != "no_proxy"
+                            for key in os.environ
+                        )
+                    )
+                    self.assertNotIn(secret, repr(transport))
+
+    def test_optimized_b_prompt_adds_positive_diagnosis_and_avoids_system_role(self):
+        payload = {"current_task_and_state": {}, "established_memories": []}
+        optimized = b_messages(payload)
+        baseline = b_baseline_messages(payload)
+        self.assertEqual(len(optimized), 1)
+        self.assertEqual(optimized[0]["role"], "user")
+        self.assertEqual(len(baseline), 2)
+        self.assertIn("successful historical realization A proves", optimized[0]["content"])
 
     def test_b_and_c_runners_save_raw_contracts_with_fake_transport(self):
         case = load_cases(DEFAULT_CASES)[0]

@@ -25,8 +25,8 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     write_json,
     write_jsonl,
 )
-from exploratory_memory_mvp.model import DashScopeChatClient  # noqa: E402
-from exploratory_memory_mvp.prompts import b_messages  # noqa: E402
+from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
+from exploratory_memory_mvp.prompts import b_baseline_messages, b_messages  # noqa: E402
 
 
 def _sha256(value: dict) -> str:
@@ -42,9 +42,12 @@ def run_b(
     allow_network: bool = False,
     env_file: Path = DEFAULT_ENV_FILE,
     limit: int | None = None,
+    prompt_variant: str = "optimized",
     transport_factory: Callable | None = None,
     context_factory: Callable | None = None,
 ) -> dict:
+    if prompt_variant not in {"baseline", "optimized"}:
+        raise ValueError("prompt_variant must be baseline or optimized")
     cases = load_cases(cases_path)
     if limit is not None:
         if type(limit) is not int or limit < 1:
@@ -56,11 +59,13 @@ def run_b(
         {
             "stage": "B",
             "provider": "dashscope",
-            "model": "qwen3.7-flash",
+            "model": MODEL,
             "thinking": False,
             "temperature": 0,
+            "prompt_variant": prompt_variant,
             "cases_path": str(cases_path),
             "network_opt_in": allow_network,
+            "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
             "env_file": str(env_file),
         },
     )
@@ -84,7 +89,8 @@ def run_b(
             write_json(case_dir / "b_input.json", public_input)
             write_json(case_dir / "historical_experience.json", historical)
             write_json(case_dir / "capabilities.json", capabilities)
-            messages = b_messages(public_input)
+            message_builder = b_baseline_messages if prompt_variant == "baseline" else b_messages
+            messages = message_builder(public_input)
             if prompt_has_evaluator_fields(messages, case):
                 raise ValueError("Evaluator-only data entered B prompt")
             write_json(case_dir / "b_prompt.json", messages)
@@ -97,7 +103,9 @@ def run_b(
                 def factory(_case):
                     return default_transport_factory(allow_network=allow_network, env_file=env_file)
 
-            client = DashScopeChatClient(factory(case))
+            transport = factory(case)
+            client = DashScopeChatClient(transport)
+            row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
             message = client.complete(messages, phase="B", max_tokens=1400)
             write_json(case_dir / "b_raw_response.json", message)
             result = parse_json_object(message.get("content"), stage="B")
@@ -142,6 +150,7 @@ def main() -> None:
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--prompt-variant", choices=("baseline", "optimized"), default="optimized")
     args = parser.parse_args()
     run_b(
         args.cases,
@@ -149,6 +158,7 @@ def main() -> None:
         allow_network=args.allow_network,
         env_file=args.env_file,
         limit=args.limit,
+        prompt_variant=args.prompt_variant,
     )
 
 

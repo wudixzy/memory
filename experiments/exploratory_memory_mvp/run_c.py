@@ -26,7 +26,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     write_json,
     write_jsonl,
 )
-from exploratory_memory_mvp.model import DashScopeChatClient  # noqa: E402
+from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
 from exploratory_memory_mvp.prompts import c_messages  # noqa: E402
 
 
@@ -77,7 +77,9 @@ def run_c(
                 def factory(_case):
                     return default_transport_factory(allow_network=allow_network, env_file=env_file)
 
-            client = DashScopeChatClient(factory(cases.get(case_id)))
+            transport = factory(cases.get(case_id))
+            row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
+            client = DashScopeChatClient(transport)
             message = client.complete(messages, phase="C", max_tokens=1600)
             write_json(case_dir / "c_raw_response.json", message)
             result = validate_c_result(parse_json_object(message.get("content"), stage="C"))
@@ -110,7 +112,7 @@ def run_c(
                 write_json(case_dir / "usage.json", usage_report(client))
                 write_jsonl(case_dir / "model_events.jsonl", client.events)
         rows.append(row)
-    result = {"stage": "C", "b_root": str(b_root), "cases": rows}
+    result = {"stage": "C", "model": MODEL, "b_root": str(b_root), "cases": rows}
     write_json(output / "c_results.json", result)
     return result
 

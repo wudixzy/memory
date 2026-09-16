@@ -18,6 +18,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     make_run_directory,
     write_json,
 )
+from exploratory_memory_mvp.model import MODEL  # noqa: E402
 from exploratory_memory_mvp.run_b import run_b  # noqa: E402
 from exploratory_memory_mvp.run_c import run_c  # noqa: E402
 
@@ -29,6 +30,7 @@ def run_experiment_a(
     allow_network: bool = False,
     env_file: Path = DEFAULT_ENV_FILE,
     limit: int | None = None,
+    prompt_variant: str = "optimized",
     transport_factory: Callable | None = None,
     context_factory: Callable | None = None,
 ) -> dict:
@@ -39,6 +41,7 @@ def run_experiment_a(
         allow_network=allow_network,
         env_file=env_file,
         limit=limit,
+        prompt_variant=prompt_variant,
         transport_factory=transport_factory,
         context_factory=context_factory,
     )
@@ -56,9 +59,11 @@ def run_experiment_a(
         "started_orchestrator_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "carrier": "ALFWorld TextWorld",
         "provider": "dashscope",
-        "model": "qwen3.7-flash",
+        "model": MODEL,
         "thinking": False,
         "temperature": 0,
+        "prompt_variant": prompt_variant,
+        "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
         "cases_path": str(cases_path),
         "b": b_result,
         "c": c_result,
@@ -76,6 +81,7 @@ def main() -> None:
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--prompt-variant", choices=("baseline", "optimized"), default="optimized")
     args = parser.parse_args()
     run_experiment_a(
         args.cases,
@@ -83,6 +89,7 @@ def main() -> None:
         allow_network=args.allow_network,
         env_file=args.env_file,
         limit=args.limit,
+        prompt_variant=args.prompt_variant,
     )
 
 

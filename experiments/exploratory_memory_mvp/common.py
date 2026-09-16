@@ -388,13 +388,13 @@ def default_transport_factory(*, allow_network: bool, env_file: Path):
     return DashScopeChatTransport(allow_network=allow_network, env_file=env_file)
 
 
-def model_messages(system: str, user_payload: dict) -> list[dict]:
+def model_messages(system: str, user_payload: dict, *, user_only: bool = False) -> list[dict]:
+    content = json.dumps(user_payload, ensure_ascii=False, sort_keys=True, indent=2)
+    if user_only:
+        return [{"role": "user", "content": system + "\n\nINPUT JSON:\n" + content}]
     return [
         {"role": "system", "content": system},
-        {
-            "role": "user",
-            "content": json.dumps(user_payload, ensure_ascii=False, sort_keys=True, indent=2),
-        },
+        {"role": "user", "content": content},
     ]
 
 

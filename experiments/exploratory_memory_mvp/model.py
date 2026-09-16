@@ -31,11 +31,12 @@ from memory_validation.provider import (  # noqa: E402
 from memory_validation.schemas import canonical  # noqa: E402
 from memory_validation.telemetry import CallUsage, UsageTracker  # noqa: E402
 
-MODEL = "qwen3.7-flash"
+MODEL = "qwen3.8-flash"
 BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 CHAT_URL = BASE_URL + "/chat/completions"
 API_KEY_ENV = "DASHSCOPE_API_KEY"
-PRICING_SOURCE = "https://help.aliyun.com/zh/model-studio/qwen3-7-flash"
+PRICING_SOURCE = "https://help.aliyun.com/en/model-studio/qwen3-8-flash"
+PRICING_TABLE_SOURCE = "https://help.aliyun.com/en/model-studio/model-pricing"
 
 
 class DashScopeError(ProviderError):
@@ -66,6 +67,9 @@ class DashScopeChatTransport:
         if not allow_network:
             raise DashScopeError("Real DashScope transport requires explicit network opt-in")
         disable_proxy_environment()
+        self.proxy_disabled = not any(
+            key.lower().endswith("_proxy") and key.lower() != "no_proxy" for key in os.environ
+        )
         self.__key = load_dashscope_key(env_file)
 
     def __call__(self, payload: dict) -> dict:
@@ -121,6 +125,7 @@ class DashScopeChatClient:
             "max_tokens": max_tokens,
             "stream": False,
             "enable_thinking": False,
+            "preserve_thinking": False,
         }
         # Reserve the model's documented context ceiling conservatively.  The
         # actual provider-reported count remains the only result used below.
@@ -187,19 +192,10 @@ class DashScopeChatClient:
         return message
 
 
-def _cost_cny(input_tokens: int, cached_tokens: int, output_tokens: int) -> float:
-    """Estimate Beijing realtime Qwen3.7-Flash cost from the current price tiers."""
+def _uncached_cost_cny(input_tokens: int, output_tokens: int) -> float:
+    """Estimate the published Beijing realtime Qwen3.8-Flash uncached price."""
 
-    if input_tokens <= 32_000:
-        input_rate, cached_rate, output_rate = 0.2, 0.04, 0.8
-    elif input_tokens <= 256_000:
-        input_rate, cached_rate, output_rate = 0.6, 0.12, 2.4
-    else:
-        input_rate, cached_rate, output_rate = 1.2, 0.24, 4.8
-    cached = min(cached_tokens, input_tokens)
-    return (
-        cached * cached_rate + (input_tokens - cached) * input_rate + output_tokens * output_rate
-    ) / 1e6
+    return (input_tokens * 0.8 + output_tokens * 2.7) / 1e6
 
 
 def usage_report(client: DashScopeChatClient) -> dict:
@@ -215,13 +211,16 @@ def usage_report(client: DashScopeChatClient) -> dict:
             item.get("kind") == "generation"
             and type(item.get("input_tokens")) is int
             and type(item.get("output_tokens")) is int
+            and not item.get("cached_input_tokens")
         ):
-            item["estimated_cost_cny"] = _cost_cny(
-                item["input_tokens"], item.get("cached_input_tokens") or 0, item["output_tokens"]
+            item["estimated_cost_cny"] = _uncached_cost_cny(
+                item["input_tokens"], item["output_tokens"]
             )
             total += item["estimated_cost_cny"]
         else:
             item["estimated_cost_cny"] = None
+            if item.get("cached_input_tokens"):
+                item["cost_note"] = "cached Qwen3.8 tokens use a console-specific rate"
             cost_known = False
         if item.get("kind") == "generation":
             # CallUsage retains the shared ledger's USD generation invariant;
@@ -240,9 +239,10 @@ def usage_report(client: DashScopeChatClient) -> dict:
     report["pricing_basis"] = {
         "region": "Beijing",
         "model": MODEL,
-        "input_cny_per_million": {"0-32k": 0.2, "32k-256k": 0.6, "256k-1m": 1.2},
-        "cached_input_cny_per_million": {"0-32k": 0.04, "32k-256k": 0.12, "256k-1m": 0.24},
-        "output_cny_per_million": {"0-32k": 0.8, "32k-256k": 2.4, "256k-1m": 4.8},
+        "input_cny_per_million": 0.8,
+        "output_cny_per_million": 2.7,
+        "cached_input_rate": "not published; use the Model Studio console",
         "free_allowance_not_deducted": True,
+        "source": PRICING_TABLE_SOURCE,
     }
     return report

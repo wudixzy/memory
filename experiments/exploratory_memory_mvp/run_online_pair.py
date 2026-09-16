@@ -28,7 +28,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     write_json,
     write_jsonl,
 )
-from exploratory_memory_mvp.model import DashScopeChatClient  # noqa: E402
+from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
 from exploratory_memory_mvp.prompts import actor_messages  # noqa: E402
 
 
@@ -93,7 +93,9 @@ def _run_actor_condition(
                 return default_transport_factory(allow_network=allow_network, env_file=env_file)
         else:
             factory = transport_factory
-        client = DashScopeChatClient(factory(case))
+        transport = factory(case)
+        row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
+        client = DashScopeChatClient(transport)
         message = client.complete(messages, phase="actor_" + condition, max_tokens=1200)
         write_json(condition_dir / "actor_raw_response.json", message)
         result = validate_actor_result(parse_json_object(message.get("content"), stage="actor"))
@@ -179,9 +181,10 @@ def run_online_pair(
             "experiment": "B",
             "carrier": "ALFWorld TextWorld",
             "provider": "dashscope",
-            "model": "qwen3.7-flash",
+            "model": MODEL,
             "thinking": False,
             "temperature": 0,
+            "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
             "case_id": case_id,
             "seed": case["seed"],
             "established_memory_source": str(b_root / "b_input.json"),
