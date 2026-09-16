@@ -123,6 +123,31 @@ model capability and prompt sensitivity not fully ruled out**, rather than as
 an isolated model-capability diagnosis. The one deterministic run per arm is
 also too small to estimate variance.
 
+## Open interface-design question for review
+
+B's actual public input contains the current observation and state-specific
+`admissible_actions`, plus the established memory and historical trajectory. It
+does not contain the full `capabilities.json` view; that view is deliberately
+reserved for C. Historical action strings show what A executed, but they do
+not establish that an unobserved alternative exists, has legal arguments, or
+can be executed while preserving the downstream state.
+
+The current B prompt nevertheless asks whether the supplied evidence supports
+another realization and whether it can produce discriminative evidence. This
+creates a role-boundary ambiguity: B may be asked to infer an executable
+alternative without the information needed to verify it. A `NONE` response
+may therefore reflect epistemic caution caused by the interface, rather than
+only failure to recognize the semantic comparison. The Qwen3.7/Qwen3.8
+comparison cannot isolate these explanations.
+
+No implementation decision is made here. Before the next run, the design
+should choose explicitly among: (1) B diagnoses only an abstract open
+comparison and C verifies grounding/executability; (2) B also receives a
+public capability view that excludes evaluator labels and oracle outcomes; or
+(3) a carrier whose relevant alternatives are naturally visible in public
+state/action affordances. This is a design question for review, not a reason
+to add an `OPEN` heuristic.
+
 ## Failure localization
 
 * **Carrier/case problem:** ALFWorld TextWorld passes the mechanical carrier
