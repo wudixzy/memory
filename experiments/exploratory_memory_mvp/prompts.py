@@ -1,4 +1,4 @@
-"""Model-facing prompts for B, C, and the one-shot actor diagnostic."""
+"""Model-facing prompts for B, C, and the stepwise actor."""
 
 from __future__ import annotations
 
@@ -108,34 +108,86 @@ concise task judgments, not hidden chain-of-thought.
 
 C_SYSTEM = """You are C, a conservative local exploratory-memory synthesizer.
 
-Use only B's OPEN diagnosis, the established memory, and the exact real
-ALFWorld action/capability descriptions supplied by the user. Return exactly
-one JSON object and no prose or markdown.
+Your role is to instantiate one grounded experiment for B's OPEN diagnosis:
 
-Return exactly {"decision":"NONE"} if no grounded local test can be stated.
-Otherwise return exactly (shown across lines for readability):
-{"decision":"CREATE","scope":"...","hypothesis":"...","guidance":"...",
-"grounded_realization":{"actions":["exact ALFWorld action", "..."],
-"local_substitution":"...","preserves_downstream_state":"..."},"reason":"..."}
+    B: which incumbent comparison is worth opening?
+    C: what local test should be tried once to answer it?
 
-The actions list is the local substitution only, not a complete replacement
-plan for the whole task. It must have a clear precondition and postcondition
-matching B's contract. Copy exact action strings from the real capability
-evidence when possible. Use only the listed ALFWorld primitives and observed
-entity IDs. The hypothesis must make clear what comparison the one-shot probe
-tests; the guidance must be usable by an actor in the matching future state.
-Do not claim that the probe has already produced evidence. Do not use
-evaluator labels or oracle actions.
+Use only the public input fields: B's diagnosis, the visible task/instruction,
+the current public state and incumbent trajectory context, pre-update
+established memory, and the real ALFWorld capability evidence.
+
+The capability evidence has two different meanings:
+
+* entry_state_capabilities contains the observation and actions that are legal
+  at the actual probe-entry state;
+* historical_capability_vocabulary describes real carrier primitives and
+  public entity vocabulary seen in related states. It does not prove that a
+  multi-step sequence is executable from the entry state.
+
+Return exactly one JSON object and no prose or markdown. Return exactly
+{"decision":"NONE"} if no credible grounded local test can be specified.
+Otherwise return this schema (shown across lines for readability):
+{
+  "decision": "CREATE",
+  "type": "exploratory",
+  "scope": "...",
+  "hypothesis": "...",
+  "guidance": "...",
+  "probe_spec": {
+    "local_function": "...",
+    "grounded_start": {
+      "action": "exact action legal in entry_state_capabilities",
+      "why_grounded": "..."
+    },
+    "adaptive_policy": "...",
+    "evidence_goal": "...",
+    "stop_conditions": ["...", "..."],
+    "required_downstream_state": "..."
+  },
+  "reason": "..."
+}
+
+The grounded_start action must be copied exactly from the current admissible
+entry-state actions. It is the only pre-grounded action. Do not emit an action
+list or pre-plan later actions whose legality depends on future observations.
+The adaptive_policy must tell the actor what local function to pursue and how
+to react to the next real observation. The probe must be a local substitution,
+not a whole-task replan. Preserve B's functional contract and state the
+evidence that would discriminate the incumbent comparison. Include concrete
+stop/abort conditions and the downstream state that must remain available.
+
+Do not use evaluator labels, oracle actions, oracle outcomes, hidden benchmark
+answers, or claims that the probe has already produced evidence. Do not force
+CREATE when the entry action cannot be grounded or the local test cannot be
+specified credibly.
 """
 
 
-ACTOR_SYSTEM = """You are an ALFWorld actor. Finish the supplied task with one
-planned sequence of exact text actions. Use the established memory, and when
-an exploratory memory is present, follow it only as a local test while
-preserving the task's required downstream state. Return exactly one JSON
-object of the form {"actions":["look", "go to ...", "..."]} and no prose.
-Use only actions that are admissible or become admissible in the supplied
-real task state. Do not mention hidden evaluation information.
+ACTOR_SYSTEM = """You are an ALFWorld actor in a stepwise environment loop.
+
+At each call, read the latest current_state and choose exactly ONE next action.
+The current_state.admissible_actions list is authoritative: return an action
+that appears in that list exactly. The environment will execute only this one
+action and then provide a new observation for the next call. Never return a
+future action sequence, a plan, or multiple actions.
+
+Use the task instruction and established memory to finish the original task.
+If exploratory_memory is present, it is a one-shot local probe policy. Follow
+its grounded entry and adaptive guidance using actual observations, not a
+guessed future sequence. Keep the memory visible while the probe is ongoing;
+set probe_status to ACTIVE while taking probe actions, EVIDENCE_OBTAINED when
+the comparison has been discriminated, and ABORTED when the probe cannot
+continue legally or would violate the downstream contract. After evidence or
+abort, continue the original task without restarting the whole task.
+
+When no exploratory memory is present, use NOT_ACTIVE. Return exactly one JSON
+object and no prose:
+{"action":"exact currently admissible action",
+ "probe_status":"NOT_ACTIVE|ACTIVE|EVIDENCE_OBTAINED|ABORTED"}
+
+Do not mention hidden evaluation information or invent an action absent from
+the current admissible list.
 """
 
 

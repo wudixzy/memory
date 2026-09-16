@@ -1,4 +1,4 @@
-"""Run a small matched E0/E1 actor pair for one surviving P case."""
+"""Run a matched E0/E1 pair with a true stepwise ALFWorld actor loop."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ EXPERIMENTS = Path(__file__).resolve().parents[1]
 if str(EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(EXPERIMENTS))
 
-from exploratory_memory_mvp.alfworld_carrier import reset_task, run_actions  # noqa: E402
+from exploratory_memory_mvp.alfworld_carrier import StepwiseTask, reset_task  # noqa: E402
 from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
@@ -22,27 +22,16 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     prompt_has_evaluator_fields,
     read_json,
     safe_error,
-    validate_action_grounding,
     validate_actor_result,
     validate_c_result,
+    validate_current_action,
     write_json,
     write_jsonl,
 )
 from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
 from exploratory_memory_mvp.prompts import actor_messages  # noqa: E402
 
-
-def _contains_in_order(executed: list[str], proposed: list[str]) -> dict:
-    if not proposed:
-        return {"subsequence": False, "contiguous": False, "start": None}
-    for start in range(len(executed) - len(proposed) + 1):
-        if executed[start : start + len(proposed)] == proposed:
-            return {"subsequence": True, "contiguous": True, "start": start}
-    position = 0
-    for action in executed:
-        if position < len(proposed) and action == proposed[position]:
-            position += 1
-    return {"subsequence": position == len(proposed), "contiguous": False, "start": None}
+TERMINAL_PROBE_STATUSES = frozenset({"EVIDENCE_OBTAINED", "ABORTED"})
 
 
 def _execution_summary(execution: dict | None) -> dict:
@@ -60,84 +49,206 @@ def _execution_summary(execution: dict | None) -> dict:
     }
 
 
+def _write_step_record(step_dir: Path, record: dict) -> None:
+    write_json(step_dir / "step.json", record)
+
+
+def _write_step_usage(step_dir: Path, client: DashScopeChatClient | None) -> None:
+    """Persist the usage ledger entry corresponding to this actor step."""
+
+    if client is None:
+        write_json(step_dir / "usage.json", {"status": "not_started"})
+        return
+    from exploratory_memory_mvp.model import usage_report
+
+    calls = usage_report(client).get("calls", [])
+    write_json(step_dir / "usage.json", calls[-1] if calls else {"status": "unavailable"})
+
+
 def _run_actor_condition(
     condition: str,
-    actor_input: dict,
+    b_input: dict,
     case: dict,
     output: Path,
     *,
+    exploratory_memory: dict | None,
     allow_network: bool,
     env_file: Path,
+    step_cap: int,
     transport_factory: Callable | None,
     explicit_diagnostic: bool = False,
 ) -> dict:
+    """Run one condition while keeping the real carrier episode open."""
+
     condition_dir = output / condition
     condition_dir.mkdir()
-    write_json(condition_dir / "actor_input.json", actor_input)
-    messages = actor_messages(actor_input)
-    if prompt_has_evaluator_fields(messages, case):
-        raise ValueError("Evaluator-only data entered actor prompt")
-    write_json(condition_dir / "actor_prompt.json", messages)
+    steps_dir = condition_dir / "steps"
+    steps_dir.mkdir()
     row = {
         "condition": condition,
-        "exploratory_memory_visible": "exploratory_memory" in actor_input,
+        "exploratory_memory_visible": exploratory_memory is not None,
         "explicit_diagnostic": explicit_diagnostic,
+        "step_cap": step_cap,
+        "persistent_exploratory_status": (
+            "active" if exploratory_memory is not None else "not_present"
+        ),
+        "runtime_probe_status": "NOT_ACTIVE",
         "status": "started",
     }
     client = None
+    episode = None
+    history: list[str] = []
+    probe_status_history: list[str] = []
+    runtime_memory = exploratory_memory
+    execution = None
     try:
-        if transport_factory is None:
-            from exploratory_memory_mvp.common import default_transport_factory
+        episode = StepwiseTask(case["task_id"], case["seed"])
+        first_state = episode.state
+        write_json(condition_dir / "initial_state.json", first_state)
+        for step_number in range(1, step_cap + 1):
+            current_state = episode.state
+            if current_state.get("done"):
+                break
+            step_dir = steps_dir / f"{step_number:03d}"
+            step_dir.mkdir()
+            actor_input = actor_context(
+                b_input,
+                runtime_memory,
+                current_state=current_state,
+                executed_action_history=history,
+                explicit_diagnostic=explicit_diagnostic,
+            )
+            messages = actor_messages(actor_input)
+            write_json(step_dir / "actor_input.json", actor_input)
+            write_json(step_dir / "actor_prompt.json", messages)
+            if step_number == 1:
+                write_json(condition_dir / "actor_input.json", actor_input)
+                write_json(condition_dir / "actor_prompt.json", messages)
+            record = {
+                "step": step_number,
+                "current_state": current_state,
+                "current_admissible_actions": current_state["admissible_actions"],
+                "exploratory_memory_visible": runtime_memory is not None,
+                "persistent_exploratory_status": row["persistent_exploratory_status"],
+                "runtime_probe_status_before_call": row["runtime_probe_status"],
+                "executed_action_history": list(history),
+            }
+            try:
+                if prompt_has_evaluator_fields(messages, case):
+                    raise ValueError("Evaluator-only data entered actor prompt")
+                if client is None:
+                    factory = transport_factory
+                    if factory is None:
+                        from exploratory_memory_mvp.common import default_transport_factory
 
-            def factory(_case):
-                return default_transport_factory(allow_network=allow_network, env_file=env_file)
+                        def factory(_case):
+                            return default_transport_factory(
+                                allow_network=allow_network, env_file=env_file
+                            )
+
+                    transport = factory(case)
+                    row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
+                    client = DashScopeChatClient(transport)
+                message = client.complete(
+                    messages,
+                    phase=f"actor_{condition}_step_{step_number}",
+                    max_tokens=500,
+                )
+                _write_step_usage(step_dir, client)
+                write_json(step_dir / "actor_raw_response.json", message)
+                if step_number == 1:
+                    write_json(condition_dir / "actor_raw_response.json", message)
+                result = validate_actor_result(
+                    parse_json_object(message.get("content"), stage="actor")
+                )
+                write_json(step_dir / "actor_parsed.json", result)
+                if step_number == 1:
+                    write_json(condition_dir / "actor_parsed.json", result)
+                action_check = validate_current_action(
+                    result["action"], current_state["admissible_actions"]
+                )
+                write_json(step_dir / "action_validation.json", action_check)
+                record.update(
+                    {
+                        "actor_result": result,
+                        "action_validation": action_check,
+                    }
+                )
+                if not action_check["valid"]:
+                    record.update({"executed": False, "error": action_check["issue"]})
+                    _write_step_record(step_dir, record)
+                    write_json(step_dir / "error.json", {"type": "InvalidAction", **action_check})
+                    row.update({"status": "failed_invalid_action", "failure_step": step_number})
+                    break
+
+                environment_result = episode.step(result["action"])
+                write_json(step_dir / "environment_result.json", environment_result)
+                history.append(result["action"])
+                probe_status = result["probe_status"]
+                probe_status_history.append(probe_status)
+                record.update(
+                    {
+                        "executed": True,
+                        "selected_action": result["action"],
+                        "environment_result": environment_result,
+                        "probe_status": probe_status,
+                    }
+                )
+                if runtime_memory is not None and probe_status != "NOT_ACTIVE":
+                    row["persistent_exploratory_status"] = "consumed"
+                if runtime_memory is not None and probe_status in TERMINAL_PROBE_STATUSES:
+                    runtime_memory = None
+                row["runtime_probe_status"] = probe_status
+                record.update(
+                    {
+                        "persistent_exploratory_status_after": row[
+                            "persistent_exploratory_status"
+                        ],
+                        "runtime_exploratory_memory_retained_next_step": runtime_memory
+                        is not None,
+                    }
+                )
+                _write_step_record(step_dir, record)
+                if environment_result["done"]:
+                    break
+            except Exception as error:
+                _write_step_usage(step_dir, client)
+                record["error"] = safe_error(error)
+                _write_step_record(step_dir, record)
+                write_json(step_dir / "error.json", record["error"])
+                row.update({"status": "failed", "failure_step": step_number})
+                break
         else:
-            factory = transport_factory
-        transport = factory(case)
-        row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
-        client = DashScopeChatClient(transport)
-        message = client.complete(messages, phase="actor_" + condition, max_tokens=1200)
-        write_json(condition_dir / "actor_raw_response.json", message)
-        result = validate_actor_result(parse_json_object(message.get("content"), stage="actor"))
-        if len(result["actions"]) > 64:
-            raise ValueError("Actor action plan exceeds 64 actions")
-        write_json(condition_dir / "actor_parsed.json", result)
-        grounding = validate_action_grounding(
-            result["actions"], actor_input.get("real_capabilities", {})
-        )
-        write_json(condition_dir / "actor_mechanical_grounding.json", grounding)
-        execution = None
-        if grounding["valid"]:
-            execution = run_actions(case["task_id"], result["actions"], case["seed"])
-            write_json(condition_dir / "execution.json", execution)
-        else:
-            write_json(condition_dir / "execution.json", {"status": "not_run", "reason": grounding})
-        proposed = (
-            actor_input.get("exploratory_memory", {})
-            .get("grounded_realization", {})
-            .get("actions", [])
-        )
+            row["status"] = "step_cap_reached"
+
+        execution = episode.execution()
+        write_json(condition_dir / "execution.json", execution)
+        summary = _execution_summary(execution)
+        if row["status"] == "started":
+            row["status"] = "completed"
         row.update(
             {
-                "status": "completed",
-                "actor_actions": result["actions"],
-                "actor_grounding": grounding,
-                "execution": _execution_summary(execution),
-                "proposed_action_sequence": proposed,
-                "proposed_action_sequence_match": _contains_in_order(
-                    execution.get("executed_actions", []) if execution else [], proposed
-                )
-                if proposed
-                else None,
-                # Whether these actions preserve the intended local function
-                # remains a human semantic review judgment.
-                "local_follow_review": "",
+                "execution": summary,
+                "actor_steps": len(execution["steps"]),
+                "probe_status_history": probe_status_history,
+                "probe_activated": any(
+                    status != "NOT_ACTIVE" for status in probe_status_history
+                ),
+                "probe_entry_action_executed": None,
+                "probe_follow_review": "",
+                "probe_informative_review": "",
+                "task_continuation_review": "",
             }
         )
     except Exception as error:
         row.update({"status": "failed", "error": safe_error(error)})
         write_json(condition_dir / "error.json", row["error"])
     finally:
+        if episode is not None:
+            try:
+                episode.close()
+            except Exception:
+                pass
         if client is None:
             write_json(condition_dir / "usage.json", {"status": "not_started"})
             write_jsonl(condition_dir / "model_events.jsonl", [])
@@ -146,6 +257,13 @@ def _run_actor_condition(
 
             write_json(condition_dir / "usage.json", usage_report(client))
             write_jsonl(condition_dir / "model_events.jsonl", client.events)
+
+    if exploratory_memory is not None:
+        row["probe_entry_action"] = exploratory_memory["probe_spec"]["grounded_start"]["action"]
+        if execution is not None:
+            row["probe_entry_action_executed"] = row["probe_entry_action"] in execution[
+                "executed_actions"
+            ]
     return row
 
 
@@ -154,25 +272,29 @@ def run_online_pair(
     case_id: str,
     output: Path,
     *,
+    c_root: Path | None = None,
     cases_path: Path = DEFAULT_CASES,
     allow_network: bool = False,
     env_file: Path = DEFAULT_ENV_FILE,
     run_e2: bool = False,
+    step_cap: int = 32,
     transport_factory: Callable | None = None,
 ) -> dict:
     cases = {case["case_id"]: case for case in load_cases(cases_path)}
     if case_id not in cases:
         raise ValueError("Unknown case identifier")
+    if type(step_cap) is not int or step_cap < 1:
+        raise ValueError("step_cap must be a positive integer")
     case = cases[case_id]
     b_root = experiment_a / "b" / case_id
-    c_root = experiment_a / "c" / case_id
+    c_root = (c_root or experiment_a / "c") / case_id
     b_input = read_json(b_root / "b_input.json")
     c_result = validate_c_result(read_json(c_root / "c_parsed.json"))
     if c_result["decision"] != "CREATE":
         raise ValueError("Online pair requires C=CREATE")
     grounding = read_json(c_root / "mechanical_grounding.json")
     if not grounding.get("valid"):
-        raise ValueError("Online pair requires mechanically grounded C actions")
+        raise ValueError("Online pair requires mechanically grounded C entry action")
 
     make_run_directory(output)
     write_json(
@@ -184,6 +306,8 @@ def run_online_pair(
             "model": MODEL,
             "thinking": False,
             "temperature": 0,
+            "step_cap": step_cap,
+            "actor_output": "one action plus probe_status per call",
             "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
             "case_id": case_id,
             "seed": case["seed"],
@@ -209,59 +333,49 @@ def run_online_pair(
     if not paired_initial_state_match:
         raise RuntimeError("E0/E1 initial public states do not match")
 
-    established_input = actor_context(b_input)
-    exploratory_input = actor_context(b_input, c_result)
-    # The actor intentionally receives a capability view derived from the
-    # same public B context; it is not given evaluator alternatives.
-    capabilities = read_json(b_root / "capabilities.json")
-    established_input["real_capabilities"] = capabilities
-    exploratory_input["real_capabilities"] = capabilities
     e0 = _run_actor_condition(
         "e0_established_only",
-        established_input,
+        b_input,
         case,
         output,
+        exploratory_memory=None,
         allow_network=allow_network,
         env_file=env_file,
+        step_cap=step_cap,
         transport_factory=transport_factory,
     )
     e1 = _run_actor_condition(
         "e1_established_plus_exploratory",
-        exploratory_input,
+        b_input,
         case,
         output,
+        exploratory_memory=c_result,
         allow_network=allow_network,
         env_file=env_file,
+        step_cap=step_cap,
         transport_factory=transport_factory,
     )
     e2 = None
-    if run_e2 and e1.get("status") == "completed":
-        diagnostic_input = actor_context(b_input, c_result, explicit_diagnostic=True)
-        diagnostic_input["real_capabilities"] = capabilities
+    if run_e2 and e1.get("status") in {"completed", "step_cap_reached"}:
         e2 = _run_actor_condition(
             "e2_explicit_oracle_diagnostic",
-            diagnostic_input,
+            b_input,
             case,
             output,
+            exploratory_memory=c_result,
             allow_network=allow_network,
             env_file=env_file,
+            step_cap=step_cap,
             transport_factory=transport_factory,
             explicit_diagnostic=True,
         )
 
-    e0_summary = e0.get("execution", {})
-    e1_summary = e1.get("execution", {})
     comparison = {
-        "e0": {
-            key: e0_summary.get(key)
-            for key in ("won", "done", "reward", "executed_steps", "completed_requested_sequence")
-        },
-        "e1": {
-            key: e1_summary.get(key)
-            for key in ("won", "done", "reward", "executed_steps", "completed_requested_sequence")
-        },
+        "e0": _execution_summary_from_row(e0),
+        "e1": _execution_summary_from_row(e1),
+        "mechanically_different_outcome_signature": _execution_summary_from_row(e0)
+        != _execution_summary_from_row(e1),
     }
-    comparison["mechanically_different_outcome_signature"] = comparison["e0"] != comparison["e1"]
     result = {
         "experiment": "B",
         "case_id": case_id,
@@ -273,6 +387,8 @@ def run_online_pair(
         "semantic_review": {
             "actor_locally_followed_exploratory_memory": "",
             "probe_informative": "",
+            "probe_stopped_locally": "",
+            "actor_continued_original_task": "",
             "e2_is_not_method_evidence": True,
         },
     }
@@ -280,24 +396,40 @@ def run_online_pair(
     return result
 
 
+def _execution_summary_from_row(row: dict) -> dict:
+    summary = row.get("execution", {})
+    return {
+        key: summary.get(key)
+        for key in ("won", "done", "reward", "executed_steps", "completed_requested_sequence")
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--experiment-a", type=Path, required=True)
+    parser.add_argument(
+        "--c-root",
+        type=Path,
+        help="Optional C run root when C was run separately from the B artifact root.",
+    )
     parser.add_argument("--case", dest="case_id", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--cases", type=Path, default=DEFAULT_CASES)
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--run-e2", action="store_true")
+    parser.add_argument("--step-cap", type=int, default=32)
     args = parser.parse_args()
     run_online_pair(
         args.experiment_a,
         args.case_id,
         args.output,
+        c_root=args.c_root,
         cases_path=args.cases,
         allow_network=args.allow_network,
         env_file=args.env_file,
         run_e2=args.run_e2,
+        step_cap=args.step_cap,
     )
 
 

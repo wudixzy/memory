@@ -167,6 +167,83 @@ def reset_task(task_id: str, seed: int = 42) -> dict:
         env.close()
 
 
+class StepwiseTask:
+    """Keep one real ALFWorld episode open for one-action-at-a-time control."""
+
+    def __init__(self, task_id: str, seed: int = 42):
+        self.task_id = task_id
+        self.seed = seed
+        self._env = _make_env(task_id, seed)
+        self._steps: list[dict] = []
+        try:
+            observations, infos = self._env.reset()
+            self._initial = {
+                "observation": observations[0],
+                "admissible_actions": list(infos["admissible_commands"][0]),
+                "won": bool(infos["won"][0]),
+                "done": False,
+            }
+            self._state = dict(self._initial)
+        except Exception:
+            self._env.close()
+            raise
+
+    @property
+    def state(self) -> dict:
+        """Return a copy of the latest public state."""
+
+        return {
+            "observation": self._state["observation"],
+            "admissible_actions": list(self._state["admissible_actions"]),
+            "won": self._state.get("won"),
+            "done": self._state.get("done", False),
+        }
+
+    def step(self, action: str) -> dict:
+        """Execute exactly one currently admissible action and return its result."""
+
+        admissible = list(self._state["admissible_actions"])
+        if action not in admissible:
+            raise ValueError("Action is not admissible in the current state")
+        observations, rewards, dones, infos = self._env.step([action])
+        result = {
+            "step": len(self._steps) + 1,
+            "action": action,
+            "executed": True,
+            "observation": observations[0],
+            "reward": float(rewards[0]),
+            "done": bool(dones[0]),
+            "won": bool(infos["won"][0]),
+            "admissible_actions": list(infos["admissible_commands"][0]),
+        }
+        self._steps.append(result)
+        self._state = {
+            "observation": result["observation"],
+            "admissible_actions": result["admissible_actions"],
+            "won": result["won"],
+            "done": result["done"],
+        }
+        return dict(result)
+
+    def execution(self) -> dict:
+        """Return the complete public trace collected so far."""
+
+        final = self.state
+        final["reward"] = self._steps[-1]["reward"] if self._steps else 0.0
+        return {
+            "task_id": self.task_id,
+            "seed": self.seed,
+            "initial": dict(self._initial),
+            "steps": [dict(step) for step in self._steps],
+            "executed_actions": [step["action"] for step in self._steps],
+            "final": final,
+            "completed_requested_sequence": bool(final.get("done")),
+        }
+
+    def close(self) -> None:
+        self._env.close()
+
+
 def run_actions(task_id: str, actions: list[str], seed: int = 42) -> dict:
     """Execute an explicit action sequence against one fresh real task."""
 
@@ -234,32 +311,49 @@ def run_actions(task_id: str, actions: list[str], seed: int = 42) -> dict:
 
 
 def capability_document(current: dict, historical: dict) -> dict:
-    """Build C's exact action/capability view from real carrier output."""
+    """Build C's capability view, separating entry facts from vocabulary."""
 
-    actions = set(current.get("admissible_actions", []))
+    entry_actions = list(current.get("admissible_actions", []))
+    entry_observation = current.get("observation", "")
+    entry_entities = set(ENTITY_RE.findall(entry_observation))
+    entry_entities.update(
+        entity
+        for action in entry_actions
+        for entity in ENTITY_RE.findall(action)
+    )
+
+    actions = set(entry_actions)
+    historical_entities = set(ENTITY_RE.findall(entry_observation))
+    historical_entities.update(entry_entities)
     actions.update(historical.get("initial", {}).get("admissible_actions", []))
     for step in historical.get("steps", []):
         actions.update(step.get("admissible_actions", []))
         if step.get("executed"):
             actions.add(step["action"])
+        historical_entities.update(ENTITY_RE.findall(step.get("observation", "")))
+        historical_entities.update(ENTITY_RE.findall(step.get("action", "")))
+        historical_entities.update(
+            entity
+            for action in step.get("admissible_actions", [])
+            for entity in ENTITY_RE.findall(action)
+        )
+    historical_entities.update(
+        ENTITY_RE.findall(historical.get("initial", {}).get("observation", ""))
+    )
     return {
         "carrier": "ALFWorld TextWorld",
         "source": "third_party/automanual/alfworld and automanual_alfworld/env_history.py",
-        "action_schema": ACTION_SCHEMA,
-        "action_names": list(ACTION_NAMES),
-        "currently_admissible": list(current.get("admissible_actions", [])),
-        "observed_exact_actions": sorted(actions),
-        "observed_entity_ids": sorted(
-            {
-                entity
-                for text in [
-                    current.get("observation", ""),
-                    historical.get("initial", {}).get("observation", ""),
-                ]
-                + [step.get("observation", "") for step in historical.get("steps", [])]
-                for entity in ENTITY_RE.findall(text)
-            }
-        ),
+        "entry_state_capabilities": {
+            "observation": entry_observation,
+            "currently_admissible_actions": entry_actions,
+            "currently_visible_or_referenced_entities": sorted(entry_entities),
+        },
+        "historical_capability_vocabulary": {
+            "action_schema": ACTION_SCHEMA,
+            "action_names": list(ACTION_NAMES),
+            "observed_exact_actions": sorted(actions),
+            "observed_entity_ids": sorted(historical_entities),
+        },
     }
 
 

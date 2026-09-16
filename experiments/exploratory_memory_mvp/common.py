@@ -1,9 +1,9 @@
 """Shared mechanics for the minimal exploratory-memory experiment.
 
 This module deliberately does not decide whether a case is semantically good,
-open, local, or informative.  Those are review judgments.  It only constructs
-the separated public context, validates JSON shape, and checks that proposed
-ALFWorld actions are structurally grounded in the real carrier capabilities.
+open, local, or informative.  Those are review judgments.  It constructs
+public contexts, validates JSON shape, and checks mechanical ALFWorld
+grounding/admissibility facts.
 """
 
 from __future__ import annotations
@@ -28,6 +28,8 @@ EVALUATOR_ONLY_KEYS = frozenset(
     }
 )
 DECISIONS = frozenset({"NONE", "OPEN"})
+C_DECISIONS = frozenset({"NONE", "CREATE"})
+PROBE_STATUSES = frozenset({"NOT_ACTIVE", "ACTIVE", "EVIDENCE_OBTAINED", "ABORTED"})
 B_INPUT_KEYS = frozenset(
     {
         "current_task",
@@ -42,6 +44,7 @@ B_EVIDENCE_KEYS = frozenset(
 B_CONTRACT_KEYS = frozenset(
     {"available_state", "local_function", "required_downstream_state", "constraints"}
 )
+ENTITY_RE = re.compile(r"\b[a-z][a-z0-9_]*_\d+\b", re.IGNORECASE)
 
 
 class SchemaError(ValueError):
@@ -157,26 +160,63 @@ def public_context(case: dict, current: dict, current_trajectory: dict) -> dict:
 
 
 def c_context(b_input: dict, b_result: dict, capabilities: dict) -> dict:
-    """Return C's input from public B artifacts and exact carrier capabilities."""
+    """Return C's richer public input without evaluator-side case fields.
 
+    The old C input contained only B's diagnosis, memory, and a capability
+    document.  The task and current state are now repeated explicitly so that
+    C can bind a local probe to the actual target.  ``capabilities`` is
+    normalized here as well, which keeps old ignored B artifacts usable during
+    a fresh checkout while new B runs write the separated representation
+    directly.
+    """
+
+    initial_state = b_input["current_initial_state"]
     context = {
         "b_diagnosis": b_result,
-        "established_memories": b_input["pre_update_established_memories"],
-        "real_capabilities": capabilities,
+        "current_task": {
+            **b_input["current_task"],
+            "instruction": extract_task_instruction(initial_state["observation"]),
+        },
+        "current_public_state": initial_state,
+        "current_trajectory_context": b_input["current_trajectory"],
+        "pre_update_established_memories": b_input["pre_update_established_memories"],
+        "real_capabilities": normalize_capabilities(capabilities, current_state=initial_state),
     }
     assert_no_evaluator_keys(context)
     return context
 
 
 def actor_context(
-    b_input: dict, exploratory_memory: dict | None = None, *, explicit_diagnostic: bool = False
+    b_input: dict,
+    exploratory_memory: dict | None = None,
+    *,
+    current_state: dict | None = None,
+    executed_action_history: list[str] | None = None,
+    explicit_diagnostic: bool = False,
 ) -> dict:
-    """Build actor-visible E0/E1 context; diagnostic wording is explicit and separate."""
+    """Build one actor decision's current public context.
 
+    ``current_state`` is supplied afresh after every environment step.  The
+    optional exploratory memory is the only condition-specific intervention in
+    the normal E0/E1 input; persistent-store lifecycle is recorded by the
+    runner rather than exposed as evaluator information.
+    """
+
+    initial_state = b_input["current_initial_state"]
+    state = current_state or initial_state
     result = {
-        "current_task": b_input["current_task"],
-        "current_initial_state": b_input["current_initial_state"],
+        "current_task": {
+            **b_input["current_task"],
+            "instruction": extract_task_instruction(initial_state["observation"]),
+        },
+        "current_state": {
+            "observation": state["observation"],
+            "admissible_actions": list(state["admissible_actions"]),
+            "won": state.get("won"),
+            "done": state.get("done", False),
+        },
         "pre_update_established_memories": b_input["pre_update_established_memories"],
+        "executed_action_history": list(executed_action_history or []),
     }
     if exploratory_memory is not None:
         result["exploratory_memory"] = exploratory_memory
@@ -213,6 +253,62 @@ def assert_public_isolated(public: dict, case: dict) -> None:
     oracle = case["evaluator_notes"]["oracle_alternative_actions"]
     if json.dumps(oracle, ensure_ascii=False) in serialized:
         raise SchemaError("Oracle action list leaked into model context")
+
+
+def extract_task_instruction(observation: str) -> str:
+    """Extract the visible ALFWorld instruction for C/actor context.
+
+    This is only formatting of an already public observation, not semantic task
+    classification.  If the carrier uses another wording, retaining the full
+    observation is safer than guessing.
+    """
+
+    _nonempty_string(observation, "task observation")
+    match = re.search(r"Your task is(?: to)?:\s*(.+)", observation, flags=re.IGNORECASE)
+    return match.group(1).strip() if match else observation.strip()
+
+
+def normalize_capabilities(capabilities: dict, *, current_state: dict | None = None) -> dict:
+    """Separate entry-state facts from historical capability vocabulary.
+
+    New carrier artifacts already have this shape.  The legacy branch is a
+    compatibility conversion for ignored artifacts produced before this cycle;
+    it does not infer any state transition or sequence legality.
+    """
+
+    if not isinstance(capabilities, dict):
+        raise SchemaError("Capability document must be an object")
+    entry = capabilities.get("entry_state_capabilities")
+    vocabulary = capabilities.get("historical_capability_vocabulary")
+    if isinstance(entry, dict) and isinstance(vocabulary, dict):
+        return capabilities
+
+    current_state = current_state or {}
+    current_observation = current_state.get("observation", "")
+    current_actions = list(current_state.get("admissible_actions", []))
+    entry_entities = sorted(
+        set(ENTITY_RE.findall(current_observation))
+        | {
+            entity
+            for action in current_actions
+            for entity in ENTITY_RE.findall(action)
+        }
+    )
+    return {
+        "carrier": capabilities.get("carrier", "ALFWorld TextWorld"),
+        "source": capabilities.get("source", "legacy capability artifact"),
+        "entry_state_capabilities": {
+            "observation": current_observation,
+            "currently_admissible_actions": current_actions,
+            "currently_visible_or_referenced_entities": entry_entities,
+        },
+        "historical_capability_vocabulary": {
+            "action_schema": capabilities.get("action_schema", []),
+            "action_names": capabilities.get("action_names", []),
+            "observed_exact_actions": capabilities.get("observed_exact_actions", []),
+            "observed_entity_ids": capabilities.get("observed_entity_ids", []),
+        },
+    }
 
 
 def validate_b_public_input(public: dict, case: dict) -> dict:
@@ -376,44 +472,115 @@ def validate_b_result(result: dict) -> dict:
 
 
 def validate_c_result(result: dict) -> dict:
-    if not isinstance(result, dict) or result.get("decision") not in {"NONE", "CREATE"}:
+    if not isinstance(result, dict) or result.get("decision") not in C_DECISIONS:
         raise SchemaError("C decision must be NONE or CREATE")
     if result["decision"] == "NONE":
         if set(result) != {"decision"}:
             raise SchemaError("C NONE result has unexpected fields")
         return result
-    expected = {"decision", "scope", "hypothesis", "guidance", "grounded_realization", "reason"}
+    expected = {
+        "decision",
+        "type",
+        "scope",
+        "hypothesis",
+        "guidance",
+        "probe_spec",
+        "reason",
+    }
     if set(result) != expected:
         raise SchemaError("C CREATE result has unexpected fields")
+    if result["type"] != "exploratory":
+        raise SchemaError("C CREATE type must be exploratory")
     for key in ("scope", "hypothesis", "guidance", "reason"):
         _nonempty_string(result[key], "C " + key)
-    realization = result["grounded_realization"]
-    if not isinstance(realization, dict) or set(realization) != {
-        "actions",
-        "local_substitution",
-        "preserves_downstream_state",
+    probe = result["probe_spec"]
+    if not isinstance(probe, dict) or set(probe) != {
+        "local_function",
+        "grounded_start",
+        "adaptive_policy",
+        "evidence_goal",
+        "stop_conditions",
+        "required_downstream_state",
     }:
-        raise SchemaError("C grounded_realization is malformed")
-    actions = realization["actions"]
-    if (
-        not isinstance(actions, list)
-        or not actions
-        or any(not isinstance(action, str) or not action.strip() for action in actions)
+        raise SchemaError("C probe_spec is malformed")
+    for key in (
+        "local_function",
+        "adaptive_policy",
+        "evidence_goal",
+        "required_downstream_state",
     ):
-        raise SchemaError("C grounded actions must be non-empty strings")
-    for key in ("local_substitution", "preserves_downstream_state"):
-        _nonempty_string(realization[key], "C grounded_realization." + key)
+        _nonempty_string(probe[key], "C probe_spec." + key)
+    start = probe["grounded_start"]
+    if not isinstance(start, dict) or set(start) != {"action", "why_grounded"}:
+        raise SchemaError("C grounded_start is malformed")
+    _nonempty_string(start["action"], "C probe_spec.grounded_start.action")
+    _nonempty_string(start["why_grounded"], "C probe_spec.grounded_start.why_grounded")
+    if (
+        not isinstance(probe["stop_conditions"], list)
+        or not probe["stop_conditions"]
+        or any(not isinstance(item, str) or not item.strip() for item in probe["stop_conditions"])
+    ):
+        raise SchemaError("C stop_conditions must be non-empty strings")
     return result
 
 
 def validate_actor_result(result: dict) -> dict:
-    if not isinstance(result, dict) or set(result) != {"actions"}:
-        raise SchemaError("Actor result must contain only actions")
-    if not isinstance(result["actions"], list) or not result["actions"]:
-        raise SchemaError("Actor actions must be a non-empty list")
-    if any(not isinstance(action, str) or not action.strip() for action in result["actions"]):
-        raise SchemaError("Actor actions must be non-empty strings")
+    if not isinstance(result, dict) or set(result) != {"action", "probe_status"}:
+        raise SchemaError("Actor result must contain one action and probe_status")
+    _nonempty_string(result["action"], "Actor action")
+    if result["probe_status"] not in PROBE_STATUSES:
+        raise SchemaError("Actor probe_status is invalid")
     return result
+
+
+def validate_current_action(action: str, admissible_actions: list[str]) -> dict:
+    """Check one actor action against the exact state-local action set."""
+
+    valid = isinstance(action, str) and action in admissible_actions
+    return {
+        "valid": valid,
+        "action": action,
+        "admissible_actions": list(admissible_actions),
+        "issue": None if valid else "not_admissible_in_current_state",
+    }
+
+
+def validate_c_grounding(result: dict, capabilities: dict) -> dict:
+    """Mechanically validate C's one grounded entry action.
+
+    This intentionally validates only the first action/anchor.  Later legality
+    depends on observations produced by the environment and is handled by the
+    stepwise actor loop rather than a handcrafted transition model.
+    """
+
+    if result["decision"] == "NONE":
+        return {"valid": True, "status": "not_applicable"}
+    normalized = normalize_capabilities(capabilities)
+    entry = normalized.get("entry_state_capabilities", {})
+    vocabulary = normalized.get("historical_capability_vocabulary", {})
+    admissible = entry.get("currently_admissible_actions", [])
+    visible_entities = entry.get("currently_visible_or_referenced_entities", [])
+    action = result["probe_spec"]["grounded_start"]["action"]
+    action_check = validate_action_grounding(
+        [action],
+        {
+            "action_names": vocabulary.get("action_names", []),
+            "observed_entity_ids": visible_entities,
+        },
+    )
+    entry_check = validate_current_action(action, admissible)
+    issues = list(action_check["issues"])
+    if not entry_check["valid"]:
+        issues.append(entry_check["issue"])
+    return {
+        "valid": not issues,
+        "status": "checked",
+        "entry_action": action,
+        "entry_action_admissible": entry_check["valid"],
+        "entry_action_check": entry_check,
+        "action_grounding_check": action_check,
+        "issues": issues,
+    }
 
 
 _ACTION_PATTERNS = (
@@ -431,8 +598,9 @@ def validate_action_grounding(actions: list[str], capabilities: dict) -> dict:
 
     if not isinstance(actions, list):
         return {"valid": False, "issues": ["actions_not_list"], "checked_actions": []}
-    observed_entities = set(capabilities.get("observed_entity_ids", []))
-    action_schema = set(capabilities.get("action_names", []))
+    vocabulary = capabilities.get("historical_capability_vocabulary", capabilities)
+    observed_entities = set(vocabulary.get("observed_entity_ids", []))
+    action_schema = set(vocabulary.get("action_names", []))
     issues = []
     checked = []
     for action in actions:
