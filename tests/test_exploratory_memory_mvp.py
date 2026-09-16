@@ -26,6 +26,7 @@ from experiments.exploratory_memory_mvp.common import (
     validate_a_public_input,
     validate_a_result,
     validate_action_grounding,
+    validate_action_index,
     validate_actor_result,
     validate_b_public_input,
     validate_b_result,
@@ -213,13 +214,13 @@ class FixtureTests(unittest.TestCase):
         )
         validate_b_result(b_none)
         validate_c_result({"decision": "NONE"})
-        validate_actor_result({"action": "look", "probe_status": "NOT_ACTIVE"})
+        validate_actor_result({"action_index": 0, "probe_status": "NOT_ACTIVE"})
         for parser, value in (
             (parse_json_object, "not json"),
             (validate_b_result, {"decision": "NONE"}),
             (validate_b_result, {"decision": "OPEN"}),
             (validate_c_result, {"decision": "CREATE"}),
-            (validate_actor_result, {"actions": ["look"]}),
+            (validate_actor_result, {"action": "look", "probe_status": "NOT_ACTIVE"}),
         ):
             with self.assertRaises((SchemaError, json.JSONDecodeError, TypeError)):
                 if parser is parse_json_object:
@@ -315,7 +316,7 @@ class FixtureTests(unittest.TestCase):
         self.assertNotIn("go to desk_1", json.dumps(future["probe_policy"]))
 
     def test_actor_contract_is_one_current_action(self):
-        validate_actor_result({"action": "go to desk_1", "probe_status": "ACTIVE"})
+        validate_actor_result({"action_index": 1, "probe_status": "ACTIVE"})
         with self.assertRaises(SchemaError):
             validate_actor_result({"actions": ["look", "go to desk_1"]})
         messages = actor_messages(
@@ -339,6 +340,30 @@ class FixtureTests(unittest.TestCase):
             "do not revisit an already-tested candidate",
             serialized.replace("\\n", " ").lower(),
         )
+        self.assertIn("zero-based action_index", serialized)
+        self.assertIn("do not rewrite", serialized.lower())
+
+    def test_action_index_is_zero_based_and_resolves_without_repair(self):
+        actions = ["look", "go to desk_1", "open cabinet_1"]
+        resolved = validate_action_index(1, actions)
+        self.assertTrue(resolved["valid"])
+        self.assertEqual(resolved["resolved_action"], actions[1])
+        self.assertEqual(resolved["action_index"], 1)
+        for invalid, issue in (
+            (True, "action_index_not_integer"),
+            (False, "action_index_not_integer"),
+            ("1", "action_index_not_integer"),
+            (-1, "action_index_negative"),
+            (3, "action_index_out_of_range"),
+        ):
+            check = validate_action_index(invalid, actions)
+            self.assertFalse(check["valid"])
+            self.assertEqual(check["issue"], issue)
+            self.assertIsNone(check["resolved_action"])
+        with self.assertRaises(SchemaError):
+            validate_actor_result({"action_index": True, "probe_status": "ACTIVE"})
+        with self.assertRaises(SchemaError):
+            validate_actor_result({"action_index": -1, "probe_status": "ACTIVE"})
 
     def test_probe_runtime_state_is_mechanical_and_tracks_unique_navigation(self):
         runtime = derive_probe_runtime_state(
@@ -440,7 +465,7 @@ class FakeDashScopeTransport:
                 }
             )
         else:
-            content = json.dumps({"action": "look", "probe_status": "NOT_ACTIVE"})
+            content = json.dumps({"action_index": 0, "probe_status": "NOT_ACTIVE"})
         return {
             "model": MODEL,
             "usage": {"prompt_tokens": 12, "completion_tokens": 8, "total_tokens": 20},
@@ -537,7 +562,7 @@ class FakeActorTransport:
         self.payloads.append(payload)
         content = payload["messages"][0]["content"]
         actor_input = json.loads(content.split("INPUT JSON:\n", 1)[1])
-        action = actor_input["current_state"]["admissible_actions"][0]
+        action_index = 0
         has_probe = "exploratory_memory" in actor_input
         history_length = len(actor_input["executed_action_history"])
         if has_probe and history_length == 0:
@@ -554,7 +579,7 @@ class FakeActorTransport:
                     "message": {
                         "role": "assistant",
                         "content": json.dumps(
-                            {"action": action, "probe_status": probe_status}
+                            {"action_index": action_index, "probe_status": probe_status}
                         ),
                     }
                 }
@@ -806,6 +831,28 @@ class ModelAndRunnerTests(unittest.TestCase):
             self.assertEqual(result["e0"]["actor_steps"], 3)
             self.assertEqual(result["e1"]["actor_steps"], 3)
             self.assertEqual(result["e1"]["execution"]["won"], True)
+            self.assertTrue(
+                all(
+                    step["action_validation"]["valid"]
+                    and step["resolved_action"] == step["current_admissible_actions"][
+                        step["action_index"]
+                    ]
+                    for condition in ("e0_established_only", "e1_established_plus_exploratory")
+                    for step in (
+                        json.loads(
+                            (
+                                root
+                                / "online"
+                                / condition
+                                / "steps"
+                                / f"{step_number:03d}"
+                                / "step.json"
+                            ).read_text()
+                        )
+                        for step_number in range(1, 4)
+                    )
+                )
+            )
             self.assertTrue(result["e1"]["probe_activated"])
             self.assertTrue(result["e1"]["probe_entry_action_executed"])
             self.assertEqual(result["e1"]["persistent_exploratory_status"], "consumed")
@@ -853,6 +900,116 @@ class ModelAndRunnerTests(unittest.TestCase):
                 {key: value for key, value in e1_input.items() if key != "exploratory_memory"},
             )
             self.assertEqual(len(transports), 2)
+
+            e0_step = json.loads(
+                (root / "online/e0_established_only/steps/001/step.json").read_text()
+            )
+            e1_step = json.loads(
+                (
+                    root
+                    / "online/e1_established_plus_exploratory/steps/001/step.json"
+                ).read_text()
+            )
+            self.assertEqual(e0_step["action_index"], 0)
+            self.assertEqual(e0_step["resolved_action"], "look")
+            self.assertEqual(e1_step["action_index"], 0)
+            self.assertEqual(e1_step["resolved_action"], "look")
+
+    def test_invalid_action_index_preserves_step_failure_artifacts(self):
+        case = load_cases(DEFAULT_CASES)[0]
+        current = {
+            "observation": "Your task is: put pencil_1 in shelf_1.",
+            "admissible_actions": ["look"],
+        }
+        historical = {
+            "initial": current,
+            "steps": [],
+            "final": {"won": True},
+            "completed_requested_sequence": True,
+        }
+        public = public_context(case, current, historical)
+        c_result = {
+            "decision": "CREATE",
+            "type": "exploratory",
+            "scope": "matching room",
+            "hypothesis": "A local inspection can provide evidence.",
+            "guidance": "Inspect locally and then continue the task.",
+            "probe_spec": {
+                "local_function": "inspect the local source",
+                "realization_pattern": "Inspect a local candidate.",
+                "capability_requirements": ["current observation"],
+                "adaptive_policy": "Use the next observation.",
+                "evidence_goal": "Determine whether local discovery differs.",
+                "stop_conditions": ["stop when evidence is obtained"],
+                "required_downstream_state": "The task remains finishable.",
+            },
+            "source_grounding": {
+                "entry_action": "look",
+                "why_grounded": "look is currently admissible",
+                "public_capability_evidence": ["look is in the source entry list"],
+            },
+            "provenance": ["test-source"],
+            "reason": "The local probe is grounded.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            b_case = root / "experiment" / "b" / case["case_id"]
+            c_case = root / "experiment" / "c" / case["case_id"]
+            b_case.mkdir(parents=True)
+            c_case.mkdir(parents=True)
+            write_json(b_case / "b_input.json", public)
+            write_json(c_case / "c_parsed.json", c_result)
+            write_json(c_case / "mechanical_grounding.json", {"valid": True})
+            cases_file = root / "cases.json"
+            write_json(cases_file, {"cases": [case]})
+
+            class InvalidIndexTransport:
+                proxy_disabled = True
+
+                def __call__(self, payload):
+                    return {
+                        "model": MODEL,
+                        "usage": {
+                            "prompt_tokens": 12,
+                            "completion_tokens": 8,
+                            "total_tokens": 20,
+                        },
+                        "choices": [
+                            {
+                                "message": {
+                                    "role": "assistant",
+                                    "content": json.dumps(
+                                        {"action_index": 99, "probe_status": "NOT_ACTIVE"}
+                                    ),
+                                }
+                            }
+                        ],
+                    }
+
+            with patch(
+                "experiments.exploratory_memory_mvp.run_online_pair.reset_task",
+                return_value={**current, "won": False},
+            ), patch(
+                "experiments.exploratory_memory_mvp.run_online_pair.StepwiseTask",
+                FakeStepwiseTask,
+            ):
+                result = run_online_pair(
+                    root / "experiment",
+                    case["case_id"],
+                    root / "invalid-index",
+                    cases_path=cases_file,
+                    transport_factory=lambda _case: InvalidIndexTransport(),
+                    step_cap=5,
+                )
+            self.assertEqual(result["e0"]["status"], "failed_invalid_action_index")
+            step_dir = root / "invalid-index/e0_established_only/steps/001"
+            self.assertTrue((step_dir / "step.json").is_file())
+            self.assertTrue((step_dir / "action_validation.json").is_file())
+            self.assertTrue((step_dir / "error.json").is_file())
+            self.assertEqual(
+                read_json(step_dir / "action_validation.json")["issue"],
+                "action_index_out_of_range",
+            )
 
     def test_b_prepares_all_inputs_before_model_calls_and_persists_failures(self):
         cases = load_cases(DEFAULT_CASES)

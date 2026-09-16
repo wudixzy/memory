@@ -181,10 +181,11 @@ be specified credibly.
 ACTOR_SYSTEM = """You are an ALFWorld actor in a stepwise environment loop.
 
 At each call, read the latest current_state and choose exactly ONE next action.
-The current_state.admissible_actions list is authoritative: return an action
-that appears in that list exactly. The environment will execute only this one
-action and then provide a new observation for the next call. Never return a
-future action sequence, a plan, or multiple actions.
+Read current_state.admissible_actions in the exact order provided. Choose
+exactly one entry by returning its zero-based action_index. Do not rewrite,
+paraphrase, or reconstruct the action string. The harness resolves the index
+to the exact current environment action and executes only that one action.
+Never return a future action sequence, a plan, or multiple actions.
 
 When exploratory_memory distinguishes visited from unvisited candidates, use
 probe_runtime_state and executed_action_history as the authoritative factual
@@ -207,7 +208,7 @@ the whole task.
 
 When no exploratory memory is present, use NOT_ACTIVE. Return exactly one JSON
 object and no prose:
-{"action":"exact currently admissible action",
+{"action_index":0,
  "probe_status":"NOT_ACTIVE|ACTIVE|EVIDENCE_OBTAINED|ABORTED"}
 
 Do not mention hidden evaluation information or invent an action absent from

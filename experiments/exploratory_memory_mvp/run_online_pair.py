@@ -24,9 +24,9 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     prompt_has_evaluator_fields,
     read_json,
     safe_error,
+    validate_action_index,
     validate_actor_result,
     validate_c_result,
-    validate_current_action,
     write_json,
     write_jsonl,
 )
@@ -139,6 +139,15 @@ def _run_actor_condition(
                 "runtime_probe_status_before_call": row["runtime_probe_status"],
                 "executed_action_history": list(history),
                 "probe_runtime_state": actor_input["probe_runtime_state"],
+                "action_index": None,
+                "resolved_action": None,
+                "action_validation": {
+                    "valid": False,
+                    "action_index": None,
+                    "resolved_action": None,
+                    "admissible_actions": list(current_state["admissible_actions"]),
+                    "issue": "not_validated",
+                },
             }
             try:
                 if prompt_has_evaluator_fields(messages, case):
@@ -165,52 +174,72 @@ def _run_actor_condition(
                 write_json(step_dir / "actor_raw_response.json", message)
                 if step_number == 1:
                     write_json(condition_dir / "actor_raw_response.json", message)
-                result = validate_actor_result(
-                    parse_json_object(message.get("content"), stage="actor")
+                parsed = parse_json_object(message.get("content"), stage="actor")
+                write_json(step_dir / "actor_parsed.json", parsed)
+                if step_number == 1:
+                    write_json(condition_dir / "actor_parsed.json", parsed)
+                record["actor_result"] = parsed
+                record["action_index"] = parsed.get("action_index")
+                action_check = validate_action_index(
+                    parsed.get("action_index"), current_state["admissible_actions"]
                 )
+                write_json(step_dir / "action_validation.json", action_check)
+                record["action_validation"] = action_check
+                if not action_check["valid"]:
+                    record.update(
+                        {
+                            "executed": False,
+                            "error": action_check["issue"],
+                        }
+                    )
+                    _write_step_record(step_dir, record)
+                    write_json(
+                        step_dir / "error.json",
+                        {"type": "InvalidActionIndex", **action_check},
+                    )
+                    row.update(
+                        {"status": "failed_invalid_action_index", "failure_step": step_number}
+                    )
+                    break
+                result = validate_actor_result(parsed)
+                action = action_check["resolved_action"]
                 write_json(step_dir / "actor_parsed.json", result)
                 if step_number == 1:
                     write_json(condition_dir / "actor_parsed.json", result)
-                action_check = validate_current_action(
-                    result["action"], current_state["admissible_actions"]
-                )
-                write_json(step_dir / "action_validation.json", action_check)
                 record.update(
                     {
                         "actor_result": result,
+                        "action_index": result["action_index"],
+                        "resolved_action": action,
                         "action_validation": action_check,
                     }
                 )
-                if not action_check["valid"]:
-                    record.update({"executed": False, "error": action_check["issue"]})
-                    _write_step_record(step_dir, record)
-                    write_json(step_dir / "error.json", {"type": "InvalidAction", **action_check})
-                    row.update({"status": "failed_invalid_action", "failure_step": step_number})
-                    break
 
-                environment_result = episode.step(result["action"])
+                environment_result = episode.step(action)
                 write_json(step_dir / "environment_result.json", environment_result)
-                history.append(result["action"])
+                history.append(action)
                 probe_status = result["probe_status"]
                 probe_status_history.append(probe_status)
                 record.update(
                     {
                         "executed": True,
-                        "selected_action": result["action"],
+                        "selected_action": action,
+                        "resolved_action": action,
                         "environment_result": environment_result,
                         "probe_status": probe_status,
                     }
                 )
                 if runtime_memory is not None and probe_status != "NOT_ACTIVE":
                     if row["probe_entry_action"] is None:
-                        row["probe_entry_action"] = result["action"]
+                        row["probe_entry_action"] = action
                         row["target_time_grounding"] = {
-                            "action": result["action"],
+                            "action": action,
+                            "action_index": result["action_index"],
                             "current_action_valid": action_check["valid"],
                             "probe_status": probe_status,
                         }
                     row["persistent_exploratory_status"] = "consumed"
-                    probe_action_history.append(result["action"])
+                    probe_action_history.append(action)
                 if runtime_memory is not None and probe_status in TERMINAL_PROBE_STATUSES:
                     runtime_memory = None
                 row["runtime_probe_status"] = probe_status
@@ -332,7 +361,7 @@ def run_online_pair(
             "thinking": False,
             "temperature": 0,
             "step_cap": step_cap,
-            "actor_output": "one action plus probe_status per call",
+            "actor_output": "one action_index plus probe_status per call",
             "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
             "case_id": case_id,
             "seed": case["seed"],

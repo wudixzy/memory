@@ -881,12 +881,49 @@ def build_a_input(
 
 
 def validate_actor_result(result: dict) -> dict:
-    if not isinstance(result, dict) or set(result) != {"action", "probe_status"}:
-        raise SchemaError("Actor result must contain one action and probe_status")
-    _nonempty_string(result["action"], "Actor action")
+    """Validate the visible actor schema before action-index resolution.
+
+    The actor chooses an index, not an environment action string.  Range
+    validation is intentionally separate because it depends on the exact
+    current admissible-action list and must be recorded as a step artifact.
+    """
+
+    if not isinstance(result, dict) or set(result) != {"action_index", "probe_status"}:
+        raise SchemaError("Actor result must contain action_index and probe_status")
+    if type(result["action_index"]) is not int:
+        raise SchemaError("Actor action_index must be an integer, not a boolean or other type")
+    if result["action_index"] < 0:
+        raise SchemaError("Actor action_index must be zero-based and non-negative")
     if result["probe_status"] not in PROBE_STATUSES:
         raise SchemaError("Actor probe_status is invalid")
     return result
+
+
+def validate_action_index(action_index: Any, admissible_actions: list[str]) -> dict:
+    """Resolve one actor index against the exact current ordered action list.
+
+    This is the only deterministic action-selection operation in the actor
+    harness.  Invalid values are returned as an auditable failed validation;
+    callers must not clamp, repair, or reinterpret them.
+    """
+
+    validation = {
+        "valid": False,
+        "action_index": action_index,
+        "resolved_action": None,
+        "admissible_actions": list(admissible_actions),
+        "issue": None,
+    }
+    if type(action_index) is not int:
+        validation["issue"] = "action_index_not_integer"
+    elif action_index < 0:
+        validation["issue"] = "action_index_negative"
+    elif action_index >= len(admissible_actions):
+        validation["issue"] = "action_index_out_of_range"
+    else:
+        validation["valid"] = True
+        validation["resolved_action"] = admissible_actions[action_index]
+    return validation
 
 
 def validate_current_action(action: str, admissible_actions: list[str]) -> dict:
