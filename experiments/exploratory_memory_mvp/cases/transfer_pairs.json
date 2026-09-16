@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "carrier": "ALFWorld TextWorld",
+  "purpose": "Manual source-to-different-target scope matches for the local C/A closure validation.",
+  "pairs": [
+    {
+      "pair_id": "p002-pencil-to-laptop-306",
+      "source_case_id": "alfworld-p-002-pencil",
+      "target_task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "target_seed": 42,
+      "review_only": {
+        "target_transfer_class": "positive_transfer",
+        "scope_match_reason": "Different pick-and-place task instance with an initially hidden requested object, mixed open/closed receptacles, and the same local search-before-acquisition Functional Contract. Evaluator replay selected the bed as the target source, so an open-surface-first policy can produce useful local evidence.",
+        "oracle_target_location": "bed_1",
+        "researcher_expected_conclusion": "A surface-first probe should be tested locally; do not treat one target as universal proof."
+      }
+    },
+    {
+      "pair_id": "p005-soapbottle-to-spraybottle-426",
+      "source_case_id": "alfworld-p-005-soapbottle-417",
+      "target_task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006",
+      "target_seed": 42,
+      "review_only": {
+        "target_transfer_class": "positive_transfer",
+        "scope_match_reason": "Different bathroom pick-and-place task instance with a hidden requested object, open surfaces, closed cabinets, and the same search-order Functional Contract. Evaluator replay found the requested item on the countertop, making the transferred open-surface probe informative.",
+        "oracle_target_location": "countertop_1",
+        "researcher_expected_conclusion": "The probe can support a scope-limited surface-first lesson if the public target trace supports it."
+      }
+    },
+    {
+      "pair_id": "p005-soapbottle-to-soapbottle-414",
+      "source_case_id": "alfworld-p-005-soapbottle-417",
+      "target_task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "target_seed": 42,
+      "review_only": {
+        "target_transfer_class": "negative_transfer",
+        "scope_match_reason": "Different bathroom pick-and-place task instance with the same hidden-object search and downstream cabinet placement contract. Evaluator replay selected a target outside the source countertop location so a surface-first attempt can yield negative evidence before fallback.",
+        "oracle_target_location": "toilet_1",
+        "researcher_expected_conclusion": "A negative local result should narrow or leave the hypothesis unresolved, not falsify surface-first search everywhere."
+      }
+    }
+  ]
+}

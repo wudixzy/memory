@@ -24,11 +24,20 @@ EVALUATOR_ONLY_KEYS = frozenset(
         "evaluator_notes",
         "expected_b",
         "oracle_alternative_actions",
+        "oracle_target_location",
+        "oracle_target_outcome",
+        "target_case_type",
+        "target_evaluator_notes",
+        "target_classification",
+        "researcher_expected_conclusion",
+        "scope_match_reason",
         "why",
     }
 )
 DECISIONS = frozenset({"NONE", "OPEN"})
 C_DECISIONS = frozenset({"NONE", "CREATE"})
+A_DECISIONS = frozenset({"NO_CHANGE", "UPDATE"})
+A_OPERATIONS = frozenset({"ADD", "REFINE", "SPECIALIZE", "MERGE"})
 PROBE_STATUSES = frozenset({"NOT_ACTIVE", "ACTIVE", "EVIDENCE_OBTAINED", "ABORTED"})
 B_INPUT_KEYS = frozenset(
     {
@@ -43,6 +52,31 @@ B_EVIDENCE_KEYS = frozenset(
 )
 B_CONTRACT_KEYS = frozenset(
     {"available_state", "local_function", "required_downstream_state", "constraints"}
+)
+C_PROBE_KEYS = frozenset(
+    {
+        "local_function",
+        "realization_pattern",
+        "capability_requirements",
+        "adaptive_policy",
+        "evidence_goal",
+        "stop_conditions",
+        "required_downstream_state",
+    }
+)
+C_SOURCE_GROUNDING_KEYS = frozenset(
+    {"entry_action", "why_grounded", "public_capability_evidence"}
+)
+A_INPUT_KEYS = frozenset(
+    {
+        "pre_update_established_memories",
+        "consumed_exploratory_memory",
+        "target_task",
+        "target_trajectory",
+        "probe_evidence",
+        "environment_outcome",
+        "provenance",
+    }
 )
 ENTITY_RE = re.compile(r"\b[a-z][a-z0-9_]*_\d+\b", re.IGNORECASE)
 
@@ -159,31 +193,70 @@ def public_context(case: dict, current: dict, current_trajectory: dict) -> dict:
     return context
 
 
-def c_context(b_input: dict, b_result: dict, capabilities: dict) -> dict:
-    """Return C's richer public input without evaluator-side case fields.
+def c_context(
+    b_input: dict,
+    b_result: dict,
+    capabilities: dict,
+    local_context: dict,
+) -> dict:
+    """Build C's local public package, excluding the completed source trace.
 
-    The old C input contained only B's diagnosis, memory, and a capability
-    document.  The task and current state are now repeated explicitly so that
-    C can bind a local probe to the actual target.  ``capabilities`` is
-    normalized here as well, which keeps old ignored B artifacts usable during
-    a fresh checkout while new B runs write the separated representation
-    directly.
+    ``local_context`` is a small, manually curated public packet for this
+    controlled experiment.  It is deliberately not derived from a trajectory
+    window: a semantic researcher inspects each source case and writes only
+    the state/evidence needed to instantiate B's Functional Contract.
     """
 
+    validate_b_result(b_result)
     initial_state = b_input["current_initial_state"]
+    local_context = validate_local_c_context(local_context, initial_state)
     context = {
         "b_diagnosis": b_result,
         "current_task": {
             **b_input["current_task"],
             "instruction": extract_task_instruction(initial_state["observation"]),
         },
-        "current_public_state": initial_state,
-        "current_trajectory_context": b_input["current_trajectory"],
+        "local_state_and_evidence": local_context,
         "pre_update_established_memories": b_input["pre_update_established_memories"],
-        "real_capabilities": normalize_capabilities(capabilities, current_state=initial_state),
+        "real_capabilities": restrict_capabilities_to_entry(
+            capabilities, local_context["entry_state"]
+        ),
     }
     assert_no_evaluator_keys(context)
     return context
+
+
+def validate_local_c_context(local_context: dict, initial_state: dict) -> dict:
+    """Validate a manually curated local C packet mechanically.
+
+    The packet contains no completed source trajectory.  Its entry state must
+    exactly match the public source initial state so that the first grounded
+    action can be checked without semantic state reconstruction.
+    """
+
+    if not isinstance(local_context, dict) or set(local_context) != {
+        "entry_state",
+        "public_evidence",
+    }:
+        raise SchemaError("Local C context has the wrong fields")
+    entry = local_context["entry_state"]
+    if not isinstance(entry, dict) or set(entry) != {"observation", "admissible_actions", "won"}:
+        raise SchemaError("Local C entry_state is malformed")
+    if entry != initial_state:
+        raise SchemaError("Local C entry_state does not match the source public state")
+    evidence = local_context["public_evidence"]
+    if (
+        not isinstance(evidence, list)
+        or not evidence
+        or any(not isinstance(item, str) or not item.strip() for item in evidence)
+    ):
+        raise SchemaError("Local C public_evidence must contain non-empty strings")
+    assert_no_evaluator_keys(local_context)
+    serialized = json.dumps(local_context, ensure_ascii=False, sort_keys=True).lower()
+    for forbidden in ("current_trajectory", "historical_experience", "oracle", "evaluator"):
+        if forbidden in serialized:
+            raise SchemaError("Disallowed source/evaluator information entered local C context")
+    return local_context
 
 
 def actor_context(
@@ -224,6 +297,40 @@ def actor_context(
         result["diagnostic_instruction"] = (
             "Perform the proposed local test once if it is executable, then finish the task."
         )
+    assert_no_evaluator_keys(result)
+    return result
+
+
+def build_actor_base_input(
+    *, task_id: str, seed: int, initial_state: dict, established_memories: list[dict]
+) -> dict:
+    """Build the public actor base for a target episode.
+
+    A target transfer episode has no B diagnosis or completed source
+    trajectory in its actor input.  The stepwise runner adds only the latest
+    target state and executed-action history at each call.
+    """
+
+    if not isinstance(task_id, str) or not task_id.strip() or type(seed) is not int:
+        raise SchemaError("Actor base task identity is malformed")
+    if not isinstance(initial_state, dict) or set(initial_state) not in (
+        {"observation", "admissible_actions", "won"},
+        {"observation", "admissible_actions", "won", "done"},
+    ):
+        raise SchemaError("Actor base initial state is malformed")
+    result = {
+        "current_task": {
+            "task_id": task_id,
+            "seed": seed,
+            "instruction": extract_task_instruction(initial_state["observation"]),
+        },
+        "current_initial_state": {
+            "observation": initial_state["observation"],
+            "admissible_actions": list(initial_state["admissible_actions"]),
+            "won": initial_state.get("won"),
+        },
+        "pre_update_established_memories": established_memories,
+    }
     assert_no_evaluator_keys(result)
     return result
 
@@ -307,6 +414,39 @@ def normalize_capabilities(capabilities: dict, *, current_state: dict | None = N
             "action_names": capabilities.get("action_names", []),
             "observed_exact_actions": capabilities.get("observed_exact_actions", []),
             "observed_entity_ids": capabilities.get("observed_entity_ids", []),
+        },
+    }
+
+
+def restrict_capabilities_to_entry(capabilities: dict, entry_state: dict) -> dict:
+    """Keep only entry facts and reusable carrier schemas for local C.
+
+    Historical exact actions/entities from a completed source trace are not
+    needed to ground the sole source entry action and would make a source
+    answer look like a transferable policy.  Future legality remains the
+    responsibility of the real stepwise target environment.
+    """
+
+    normalized = normalize_capabilities(capabilities, current_state=entry_state)
+    entry = normalized["entry_state_capabilities"]
+    vocabulary = normalized["historical_capability_vocabulary"]
+    return {
+        "carrier": normalized.get("carrier", "ALFWorld TextWorld"),
+        "source": normalized.get("source", "ALFWorld TextWorld"),
+        "entry_state_capabilities": {
+            "observation": entry_state["observation"],
+            "currently_admissible_actions": list(entry_state["admissible_actions"]),
+            "currently_visible_or_referenced_entities": list(
+                entry.get("currently_visible_or_referenced_entities", [])
+            ),
+        },
+        "historical_capability_vocabulary": {
+            "action_schema": list(vocabulary.get("action_schema", [])),
+            "action_names": list(vocabulary.get("action_names", [])),
+            "observed_exact_actions": list(entry_state["admissible_actions"]),
+            "observed_entity_ids": list(
+                entry.get("currently_visible_or_referenced_entities", [])
+            ),
         },
     }
 
@@ -485,6 +625,8 @@ def validate_c_result(result: dict) -> dict:
         "hypothesis",
         "guidance",
         "probe_spec",
+        "source_grounding",
+        "provenance",
         "reason",
     }
     if set(result) != expected:
@@ -494,34 +636,180 @@ def validate_c_result(result: dict) -> dict:
     for key in ("scope", "hypothesis", "guidance", "reason"):
         _nonempty_string(result[key], "C " + key)
     probe = result["probe_spec"]
-    if not isinstance(probe, dict) or set(probe) != {
-        "local_function",
-        "grounded_start",
-        "adaptive_policy",
-        "evidence_goal",
-        "stop_conditions",
-        "required_downstream_state",
-    }:
+    if not isinstance(probe, dict) or set(probe) != C_PROBE_KEYS:
         raise SchemaError("C probe_spec is malformed")
     for key in (
         "local_function",
+        "realization_pattern",
         "adaptive_policy",
         "evidence_goal",
         "required_downstream_state",
     ):
         _nonempty_string(probe[key], "C probe_spec." + key)
-    start = probe["grounded_start"]
-    if not isinstance(start, dict) or set(start) != {"action", "why_grounded"}:
-        raise SchemaError("C grounded_start is malformed")
-    _nonempty_string(start["action"], "C probe_spec.grounded_start.action")
-    _nonempty_string(start["why_grounded"], "C probe_spec.grounded_start.why_grounded")
+    requirements = probe["capability_requirements"]
+    if (
+        not isinstance(requirements, list)
+        or not requirements
+        or any(not isinstance(item, str) or not item.strip() for item in requirements)
+    ):
+        raise SchemaError("C capability_requirements must be non-empty strings")
     if (
         not isinstance(probe["stop_conditions"], list)
         or not probe["stop_conditions"]
         or any(not isinstance(item, str) or not item.strip() for item in probe["stop_conditions"])
     ):
         raise SchemaError("C stop_conditions must be non-empty strings")
+    grounding = result["source_grounding"]
+    if not isinstance(grounding, dict) or set(grounding) != C_SOURCE_GROUNDING_KEYS:
+        raise SchemaError("C source_grounding is malformed")
+    for key in ("entry_action", "why_grounded"):
+        _nonempty_string(grounding[key], "C source_grounding." + key)
+    evidence = grounding["public_capability_evidence"]
+    if (
+        not isinstance(evidence, list)
+        or not evidence
+        or any(not isinstance(item, str) or not item.strip() for item in evidence)
+    ):
+        raise SchemaError("C public_capability_evidence must be non-empty strings")
+    provenance = result["provenance"]
+    if (
+        not isinstance(provenance, list)
+        or not provenance
+        or any(not isinstance(item, str) or not item.strip() for item in provenance)
+    ):
+        raise SchemaError("C provenance must be non-empty strings")
     return result
+
+
+def future_exploratory_memory(result: dict) -> dict | None:
+    """Project C output to the future-facing H shown to a target actor.
+
+    Source grounding is retained in the C artifact and A package, but exact
+    source actions/entities are not an actor instruction.  The target actor
+    must ground its first action from the target's current admissible set.
+    """
+
+    validate_c_result(result)
+    if result["decision"] == "NONE":
+        return None
+    return {
+        "type": "exploratory",
+        "scope": result["scope"],
+        "hypothesis": result["hypothesis"],
+        "guidance": result["guidance"],
+        "probe_policy": result["probe_spec"],
+    }
+
+
+def validate_a_public_input(public: dict) -> dict:
+    """Validate A's public post-episode evidence boundary."""
+
+    if not isinstance(public, dict) or set(public) != A_INPUT_KEYS:
+        raise SchemaError("A public input has the wrong top-level fields")
+    memories = public["pre_update_established_memories"]
+    if not isinstance(memories, list) or any(not isinstance(item, dict) for item in memories):
+        raise SchemaError("A established memory snapshot is malformed")
+    h = public["consumed_exploratory_memory"]
+    if not isinstance(h, dict):
+        raise SchemaError("A consumed exploratory memory is malformed")
+    task = public["target_task"]
+    if not isinstance(task, dict) or set(task) != {"task_id", "seed", "instruction"}:
+        raise SchemaError("A target_task is malformed")
+    if not isinstance(task["task_id"], str) or not task["task_id"].strip():
+        raise SchemaError("A target_task.task_id is malformed")
+    if type(task["seed"]) is not int:
+        raise SchemaError("A target_task.seed is malformed")
+    _nonempty_string(task["instruction"], "A target_task.instruction")
+    for key in ("target_trajectory", "probe_evidence", "environment_outcome"):
+        if not isinstance(public[key], dict):
+            raise SchemaError("A " + key + " must be an object")
+    provenance = public["provenance"]
+    if (
+        not isinstance(provenance, list)
+        or not provenance
+        or any(not isinstance(item, str) or not item.strip() for item in provenance)
+    ):
+        raise SchemaError("A provenance must be non-empty strings")
+    assert_no_evaluator_keys(public)
+    serialized = json.dumps(public, ensure_ascii=False, sort_keys=True).lower()
+    for forbidden in (
+        "evaluator",
+        "oracle",
+        "case_type",
+        "expected_b",
+        "target_classification",
+        "researcher_expected",
+    ):
+        if forbidden in serialized:
+            raise SchemaError("Evaluator-only target information entered A input")
+    return public
+
+
+def validate_a_result(result: dict) -> dict:
+    """Validate A's compact, auditable reconciliation decision."""
+
+    if not isinstance(result, dict) or set(result) != {"decision", "updates", "still_unresolved"}:
+        raise SchemaError("A result has unexpected fields")
+    if result["decision"] not in A_DECISIONS:
+        raise SchemaError("A decision must be NO_CHANGE or UPDATE")
+    updates = result["updates"]
+    if not isinstance(updates, list):
+        raise SchemaError("A updates must be a list")
+    if result["decision"] == "NO_CHANGE" and updates:
+        raise SchemaError("A NO_CHANGE must not contain updates")
+    if result["decision"] == "UPDATE" and not updates:
+        raise SchemaError("A UPDATE requires at least one update")
+    for update in updates:
+        if not isinstance(update, dict) or set(update) != {
+            "operation",
+            "scope",
+            "guidance",
+            "evidence_basis",
+            "provenance",
+        }:
+            raise SchemaError("A update is malformed")
+        if update["operation"] not in A_OPERATIONS:
+            raise SchemaError("A update operation is invalid")
+        for key in ("scope", "guidance", "evidence_basis"):
+            _nonempty_string(update[key], "A update." + key)
+        if (
+            not isinstance(update["provenance"], list)
+            or not update["provenance"]
+            or any(not isinstance(item, str) or not item.strip() for item in update["provenance"])
+        ):
+            raise SchemaError("A update provenance is malformed")
+    unresolved = result["still_unresolved"]
+    if (
+        not isinstance(unresolved, list)
+        or any(not isinstance(item, str) or not item.strip() for item in unresolved)
+    ):
+        raise SchemaError("A still_unresolved is malformed")
+    return result
+
+
+def build_a_input(
+    *,
+    pre_update_established_memories: list[dict],
+    consumed_exploratory_memory: dict,
+    target_task: dict,
+    target_trajectory: dict,
+    probe_evidence: dict,
+    environment_outcome: dict,
+    provenance: list[str],
+) -> dict:
+    """Construct the public evidence package sent to A."""
+
+    return validate_a_public_input(
+        {
+            "pre_update_established_memories": pre_update_established_memories,
+            "consumed_exploratory_memory": consumed_exploratory_memory,
+            "target_task": target_task,
+            "target_trajectory": target_trajectory,
+            "probe_evidence": probe_evidence,
+            "environment_outcome": environment_outcome,
+            "provenance": provenance,
+        }
+    )
 
 
 def validate_actor_result(result: dict) -> dict:
@@ -560,7 +848,7 @@ def validate_c_grounding(result: dict, capabilities: dict) -> dict:
     vocabulary = normalized.get("historical_capability_vocabulary", {})
     admissible = entry.get("currently_admissible_actions", [])
     visible_entities = entry.get("currently_visible_or_referenced_entities", [])
-    action = result["probe_spec"]["grounded_start"]["action"]
+    action = result["source_grounding"]["entry_action"]
     action_check = validate_action_grounding(
         [action],
         {

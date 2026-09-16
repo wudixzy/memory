@@ -14,11 +14,15 @@ from experiments.exploratory_memory_mvp.common import (
     SchemaError,
     actor_context,
     assert_b_prompt_isolated,
+    build_a_input,
     c_context,
+    future_exploratory_memory,
     load_cases,
     parse_json_object,
     prompt_has_evaluator_fields,
     public_context,
+    validate_a_public_input,
+    validate_a_result,
     validate_action_grounding,
     validate_actor_result,
     validate_b_public_input,
@@ -35,14 +39,17 @@ from experiments.exploratory_memory_mvp.model import (
     usage_report,
 )
 from experiments.exploratory_memory_mvp.prompts import (
+    a_messages,
     actor_messages,
     b_baseline_messages,
     b_messages,
     c_messages,
 )
+from experiments.exploratory_memory_mvp.run_a import run_a
 from experiments.exploratory_memory_mvp.run_b import run_b
 from experiments.exploratory_memory_mvp.run_c import run_c
 from experiments.exploratory_memory_mvp.run_online_pair import run_online_pair
+from experiments.exploratory_memory_mvp.run_transfer_pair import run_transfer_pair
 
 
 class FixtureTests(unittest.TestCase):
@@ -93,7 +100,7 @@ class FixtureTests(unittest.TestCase):
         self.assertIn("current_trajectory", json.dumps(public_messages))
         self.assertIn("pre_update_established_memories", json.dumps(public_messages))
 
-    def test_c_context_has_task_state_trajectory_and_split_capabilities(self):
+    def test_c_context_is_local_and_has_split_capabilities(self):
         case = load_cases(DEFAULT_CASES)[0]
         current = {
             "observation": "A room with desk_1. Your task is: put pencil_1 in shelf_1.",
@@ -128,10 +135,22 @@ class FixtureTests(unittest.TestCase):
             "observed_exact_actions": ["look", "go to desk_1"],
             "observed_entity_ids": ["desk_1"],
         }
-        context = c_context(public, diagnosis, legacy_capabilities)
+        local_context = {
+            "entry_state": public["current_initial_state"],
+            "public_evidence": [
+                "The entry observation shows open and closed receptacles.",
+                "Later completed source observations are intentionally omitted.",
+            ],
+        }
+        context = c_context(public, diagnosis, legacy_capabilities, local_context)
         self.assertIn("instruction", context["current_task"])
-        self.assertEqual(context["current_public_state"], public["current_initial_state"])
-        self.assertEqual(context["current_trajectory_context"], historical)
+        self.assertEqual(
+            context["local_state_and_evidence"]["entry_state"],
+            public["current_initial_state"],
+        )
+        self.assertNotIn("current_trajectory_context", context)
+        self.assertNotIn("current_trajectory", json.dumps(context))
+        self.assertNotIn("historical_experience", json.dumps(context))
         self.assertIn("pre_update_established_memories", context)
         self.assertEqual(
             context["real_capabilities"]["entry_state_capabilities"][
@@ -213,10 +232,11 @@ class FixtureTests(unittest.TestCase):
             "guidance": "Try the source check once and adapt to the observation.",
             "probe_spec": {
                 "local_function": "locate the requested object",
-                "grounded_start": {
-                    "action": "go to desk_1",
-                    "why_grounded": "desk_1 is legal at the entry state",
-                },
+                    "realization_pattern": "Try a currently visible open surface first.",
+                    "capability_requirements": [
+                        "A currently admissible navigation action",
+                        "A visible or discoverable receptacle",
+                    ],
                 "adaptive_policy": "Choose later actions only from the next admissible set.",
                 "evidence_goal": "Determine whether the source-directed check changes local cost.",
                 "stop_conditions": [
@@ -227,6 +247,14 @@ class FixtureTests(unittest.TestCase):
                     "The requested object can still reach its destination."
                 ),
             },
+            "source_grounding": {
+                "entry_action": "go to desk_1",
+                "why_grounded": "go to desk_1 is currently admissible",
+                "public_capability_evidence": [
+                    "go to desk_1 is in the source entry action list"
+                ],
+            },
+            "provenance": ["source-entry-public-state"],
             "reason": "The entry action is grounded and later actions remain adaptive.",
         }
         validate_c_result(probe)
@@ -245,7 +273,7 @@ class FixtureTests(unittest.TestCase):
         }
         self.assertTrue(validate_c_grounding(probe, capabilities)["valid"])
         invalid = json.loads(json.dumps(probe))
-        invalid["probe_spec"]["grounded_start"]["action"] = "go to shelf_1"
+        invalid["source_grounding"]["entry_action"] = "go to shelf_1"
         self.assertFalse(validate_c_grounding(invalid, capabilities)["valid"])
         with self.assertRaises(SchemaError):
             validate_c_result(
@@ -258,6 +286,9 @@ class FixtureTests(unittest.TestCase):
                     "reason": "old",
                 }
             )
+        future = future_exploratory_memory(probe)
+        self.assertNotIn("source_grounding", future)
+        self.assertNotIn("go to desk_1", json.dumps(future["probe_policy"]))
 
     def test_actor_contract_is_one_current_action(self):
         validate_actor_result({"action": "go to desk_1", "probe_status": "ACTIVE"})
@@ -319,10 +350,11 @@ class FakeDashScopeTransport:
                     "guidance": "Try the grounded local probe once and react to observations.",
                     "probe_spec": {
                         "local_function": "locate the requested object",
-                        "grounded_start": {
-                            "action": "go to desk_1",
-                            "why_grounded": "desk_1 is currently admissible at entry",
-                        },
+                        "realization_pattern": "Try an open surface before closed storage.",
+                        "capability_requirements": [
+                            "a currently admissible navigation action",
+                            "a real carrier observation",
+                        ],
                         "adaptive_policy": (
                             "Inspect only the next real observation before acting again."
                         ),
@@ -335,7 +367,23 @@ class FakeDashScopeTransport:
                             "the agent remains able to complete the placement"
                         ),
                     },
+                    "source_grounding": {
+                        "entry_action": "go to desk_1",
+                        "why_grounded": "desk_1 is currently admissible at entry",
+                        "public_capability_evidence": [
+                            "go to desk_1 appears in the source entry action list"
+                        ],
+                    },
+                    "provenance": ["fake-source-entry"],
                     "reason": "The actions are exact carrier primitives and observed entities.",
+                }
+            )
+        elif "You are A" in stage:
+            content = json.dumps(
+                {
+                    "decision": "NO_CHANGE",
+                    "updates": [],
+                    "still_unresolved": ["The local comparison needs more evidence."],
                 }
             )
         else:
@@ -568,11 +616,28 @@ class ModelAndRunnerTests(unittest.TestCase):
             self.assertEqual(b["cases"][0]["b_decision"], "OPEN")
             self.assertTrue((b_root / case["case_id"] / "b_raw_response.json").is_file())
             c_root = root / "c"
+            local_packets = root / "local_packets.json"
+            write_json(
+                local_packets,
+                {
+                    "packets": [
+                        {
+                            "source_case_id": case["case_id"],
+                            "public_evidence": [
+                                "The entry state exposes real candidate receptacles.",
+                                "Later source observations are omitted.",
+                            ],
+                        }
+                    ]
+                },
+            )
             c = run_c(
                 b_root,
                 c_root,
                 cases_path=DEFAULT_CASES,
                 transport_factory=factory,
+                local_packets_path=local_packets,
+                source_case_ids=[case["case_id"]],
             )
             self.assertEqual(c["cases"][0]["c_decision"], "CREATE")
             self.assertTrue(c["cases"][0]["mechanical_grounding"]["valid"])
@@ -596,6 +661,8 @@ class ModelAndRunnerTests(unittest.TestCase):
                 root / "c_failed",
                 cases_path=DEFAULT_CASES,
                 transport_factory=lambda _case: InvalidCResponseTransport(),
+                local_packets_path=local_packets,
+                source_case_ids=[case["case_id"]],
             )
             self.assertEqual(failed_c["cases"][0]["status"], "failed")
             self.assertTrue(
@@ -629,15 +696,19 @@ class ModelAndRunnerTests(unittest.TestCase):
             "guidance": "Inspect locally and then continue the task.",
             "probe_spec": {
                 "local_function": "inspect the local source",
-                "grounded_start": {
-                    "action": "look",
-                    "why_grounded": "look is currently admissible",
-                },
+                "realization_pattern": "Inspect a local candidate before the incumbent order.",
+                "capability_requirements": ["current observation", "current admissible action"],
                 "adaptive_policy": "Use the next observation before choosing another action.",
                 "evidence_goal": "Determine whether local discovery differs.",
                 "stop_conditions": ["stop when evidence is obtained", "abort if illegal"],
                 "required_downstream_state": "The task remains finishable.",
             },
+            "source_grounding": {
+                "entry_action": "look",
+                "why_grounded": "look is currently admissible",
+                "public_capability_evidence": ["look is in the source entry action list"],
+            },
+            "provenance": ["test-source"],
             "reason": "The local probe is grounded.",
         }
         with tempfile.TemporaryDirectory() as directory:
@@ -805,6 +876,216 @@ class ModelAndRunnerTests(unittest.TestCase):
             self.assertTrue((failed_root / failed_case / "error.json").is_file())
             self.assertTrue((failed_root / failed_case / "usage.json").is_file())
             self.assertTrue((failed_root / failed_case / "model_events.jsonl").is_file())
+
+    def test_a_public_input_is_isolated_and_no_change_is_supported(self):
+        h = {
+            "type": "exploratory",
+            "scope": "hidden-object search with open and closed receptacles",
+            "hypothesis": "An open-surface-first realization may reduce local search effort.",
+            "guidance": "Try one currently grounded open-surface entry and adapt.",
+            "probe_policy": {
+                "local_function": "locate the requested object",
+                "realization_pattern": "Try an available open surface before closed storage.",
+                "capability_requirements": ["current observation", "legal action"],
+                "adaptive_policy": (
+                    "Use each new public observation before choosing the next action."
+                ),
+                "evidence_goal": "Compare local discovery evidence with the incumbent.",
+                "stop_conditions": ["stop after evidence", "abort if illegal"],
+                "required_downstream_state": "The object remains placeable at the destination.",
+            },
+        }
+        a_input = build_a_input(
+            pre_update_established_memories=[{"memory_id": "m", "scope": "s"}],
+            consumed_exploratory_memory=h,
+            target_task={"task_id": "target", "seed": 7, "instruction": "put x in y"},
+            target_trajectory={"executed_actions": ["look"], "final": {"won": True}},
+            probe_evidence={"probe_status_history": ["ACTIVE", "EVIDENCE_OBTAINED"]},
+            environment_outcome={
+                "e1": {"executed_steps": 2},
+                "e0_reference": {"executed_steps": 5},
+            },
+            provenance=["source-c", "target-episode"],
+        )
+        self.assertEqual(validate_a_public_input(a_input), a_input)
+        self.assertEqual(
+            validate_a_result(
+                {
+                    "decision": "NO_CHANGE",
+                    "updates": [],
+                    "still_unresolved": ["The comparison remains unresolved."],
+                }
+            )["decision"],
+            "NO_CHANGE",
+        )
+        self.assertIn(
+            "What does this new public target-task evidence change",
+            a_messages(a_input)[0]["content"],
+        )
+        leaked = json.loads(json.dumps(a_input))
+        leaked["environment_outcome"]["oracle_target_location"] = "bed_1"
+        with self.assertRaises(SchemaError):
+            validate_a_public_input(leaked)
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "a"
+            result = run_a(
+                a_input,
+                output,
+                transport_factory=lambda _input: FakeDashScopeTransport(),
+            )
+            self.assertEqual(result["status"], "completed")
+            self.assertEqual(result["decision"], "NO_CHANGE")
+            self.assertTrue((output / "a_raw_response.json").is_file())
+            self.assertTrue((output / "post_update_established_memories.json").is_file())
+
+            class InvalidAResponseTransport:
+                proxy_disabled = True
+
+                def __call__(self, payload):
+                    return {
+                        "usage": {
+                            "prompt_tokens": 12,
+                            "completion_tokens": 1,
+                            "total_tokens": 13,
+                        },
+                        "choices": [],
+                    }
+
+            failed = run_a(
+                a_input,
+                Path(directory) / "a_failed",
+                transport_factory=lambda _input: InvalidAResponseTransport(),
+            )
+            self.assertEqual(failed["status"], "failed")
+            self.assertTrue((Path(directory) / "a_failed/error.json").is_file())
+            self.assertTrue((Path(directory) / "a_failed/usage.json").is_file())
+            self.assertTrue((Path(directory) / "a_failed/model_events.jsonl").is_file())
+
+    def test_transfer_pair_keeps_target_match_and_source_grounding_out_of_actor(self):
+        case = load_cases(DEFAULT_CASES)[0]
+        source_public = public_context(
+            case,
+            {
+                "observation": "Your task is: put pencil_1 in shelf_1.",
+                "admissible_actions": ["look"],
+            },
+            {
+                "initial": {"observation": "source", "admissible_actions": ["look"]},
+                "steps": [],
+                "final": {"won": True},
+                "completed_requested_sequence": True,
+            },
+        )
+        source_c = {
+            "decision": "CREATE",
+            "type": "exploratory",
+            "scope": "hidden-object search",
+            "hypothesis": "An available open surface may be a useful first test.",
+            "guidance": "Try one open surface and adapt to the next observation.",
+            "probe_spec": {
+                "local_function": "locate the requested object",
+                "realization_pattern": "Try an available open surface before closed storage.",
+                "capability_requirements": ["current observation", "legal action"],
+                "adaptive_policy": "Choose each later action from the latest observation.",
+                "evidence_goal": "Compare local discovery evidence.",
+                "stop_conditions": ["stop after evidence", "abort if illegal"],
+                "required_downstream_state": "The original placement remains possible.",
+            },
+            "source_grounding": {
+                "entry_action": "look",
+                "why_grounded": "look is legal at source entry",
+                "public_capability_evidence": ["look is in the source entry action list"],
+            },
+            "provenance": ["source-case"],
+            "reason": "The policy is local and adaptive.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            b_case = root / "b" / case["case_id"]
+            c_case = root / "c" / case["case_id"]
+            b_case.mkdir(parents=True)
+            c_case.mkdir(parents=True)
+            write_json(b_case / "b_input.json", source_public)
+            write_json(c_case / "c_parsed.json", source_c)
+            write_json(c_case / "mechanical_grounding.json", {"valid": True})
+            pair_file = root / "pairs.json"
+            write_json(
+                pair_file,
+                {
+                    "pairs": [
+                        {
+                            "pair_id": "p",
+                            "source_case_id": case["case_id"],
+                            "target_task_id": "different-target",
+                            "target_seed": 9,
+                            "review_only": {
+                                "scope_match_reason": "hidden reviewer note",
+                                "oracle_target_location": "bed_1",
+                                "target_classification": "positive_transfer",
+                            },
+                        }
+                    ]
+                },
+            )
+
+            def target_reset(_task_id, _seed):
+                return {
+                    "observation": "Your task is: put pencil_1 in shelf_1.",
+                    "admissible_actions": ["look"],
+                    "won": False,
+                }
+
+            with patch(
+                "experiments.exploratory_memory_mvp.run_transfer_pair.reset_task",
+                side_effect=target_reset,
+            ), patch(
+                "experiments.exploratory_memory_mvp.run_online_pair.StepwiseTask",
+                FakeStepwiseTask,
+            ), patch(
+                "exploratory_memory_mvp.run_online_pair.StepwiseTask",
+                FakeStepwiseTask,
+            ), patch(
+                "experiments.exploratory_memory_mvp.run_transfer_pair.run_a",
+                return_value={
+                    "stage": "A",
+                    "status": "completed",
+                    "decision": "NO_CHANGE",
+                    "updates": [],
+                    "still_unresolved": ["needs more evidence"],
+                },
+            ):
+                result = run_transfer_pair(
+                    root / "b",
+                    root / "c",
+                    pair_file,
+                    "p",
+                    root / "transfer",
+                    transport_factory=lambda _case: FakeActorTransport(),
+                    step_cap=5,
+                )
+            self.assertTrue(result["target_initial_public_state_match"])
+            self.assertTrue(result["e1"]["target_time_grounding"]["current_action_valid"])
+            h_view = json.loads((root / "transfer/target_h_actor_view.json").read_text())
+            self.assertNotIn("source_grounding", h_view)
+            self.assertNotIn("look", json.dumps(h_view["probe_policy"]))
+            a_serialized = (root / "transfer/a_input.json").read_text()
+            self.assertNotIn("scope_match_reason", a_serialized)
+            self.assertNotIn("oracle_target_location", a_serialized)
+            e0_input = json.loads(
+                (root / "transfer/e0_established_only/steps/001/actor_input.json").read_text()
+            )
+            e1_input = json.loads(
+                (
+                    root
+                    / "transfer/e1_established_plus_source_h/steps/001/actor_input.json"
+                ).read_text()
+            )
+            self.assertNotIn("exploratory_memory", e0_input)
+            self.assertEqual(
+                {k: v for k, v in e0_input.items() if k != "exploratory_memory"},
+                {k: v for k, v in e1_input.items() if k != "exploratory_memory"},
+            )
 
 
 if __name__ == "__main__":

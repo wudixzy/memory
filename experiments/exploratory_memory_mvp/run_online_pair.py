@@ -16,6 +16,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
     actor_context,
+    future_exploratory_memory,
     load_cases,
     make_run_directory,
     parse_json_object,
@@ -93,6 +94,8 @@ def _run_actor_condition(
             "active" if exploratory_memory is not None else "not_present"
         ),
         "runtime_probe_status": "NOT_ACTIVE",
+        "probe_entry_action": None,
+        "target_time_grounding": None,
         "status": "started",
     }
     client = None
@@ -195,6 +198,13 @@ def _run_actor_condition(
                     }
                 )
                 if runtime_memory is not None and probe_status != "NOT_ACTIVE":
+                    if row["probe_entry_action"] is None:
+                        row["probe_entry_action"] = result["action"]
+                        row["target_time_grounding"] = {
+                            "action": result["action"],
+                            "current_action_valid": action_check["valid"],
+                            "probe_status": probe_status,
+                        }
                     row["persistent_exploratory_status"] = "consumed"
                 if runtime_memory is not None and probe_status in TERMINAL_PROBE_STATUSES:
                     runtime_memory = None
@@ -235,6 +245,15 @@ def _run_actor_condition(
                     status != "NOT_ACTIVE" for status in probe_status_history
                 ),
                 "probe_entry_action_executed": None,
+                "probe_evidence_ready": "EVIDENCE_OBTAINED" in probe_status_history,
+                "probe_stopped_locally": bool(
+                    set(probe_status_history).intersection(TERMINAL_PROBE_STATUSES)
+                ),
+                "runtime_guidance_removed": (
+                    exploratory_memory is not None
+                    and runtime_memory is None
+                    and bool(set(probe_status_history).intersection(TERMINAL_PROBE_STATUSES))
+                ),
                 "probe_follow_review": "",
                 "probe_informative_review": "",
                 "task_continuation_review": "",
@@ -258,12 +277,10 @@ def _run_actor_condition(
             write_json(condition_dir / "usage.json", usage_report(client))
             write_jsonl(condition_dir / "model_events.jsonl", client.events)
 
-    if exploratory_memory is not None:
-        row["probe_entry_action"] = exploratory_memory["probe_spec"]["grounded_start"]["action"]
-        if execution is not None:
-            row["probe_entry_action_executed"] = row["probe_entry_action"] in execution[
-                "executed_actions"
-            ]
+    if exploratory_memory is not None and execution is not None:
+        row["probe_entry_action_executed"] = row["probe_entry_action"] in execution[
+            "executed_actions"
+        ]
     return row
 
 
@@ -349,7 +366,7 @@ def run_online_pair(
         b_input,
         case,
         output,
-        exploratory_memory=c_result,
+        exploratory_memory=future_exploratory_memory(c_result),
         allow_network=allow_network,
         env_file=env_file,
         step_cap=step_cap,
@@ -362,7 +379,7 @@ def run_online_pair(
             b_input,
             case,
             output,
-            exploratory_memory=c_result,
+            exploratory_memory=future_exploratory_memory(c_result),
             allow_network=allow_network,
             env_file=env_file,
             step_cap=step_cap,

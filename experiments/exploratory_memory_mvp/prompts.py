@@ -114,16 +114,18 @@ Your role is to instantiate one grounded experiment for B's OPEN diagnosis:
     C: what local test should be tried once to answer it?
 
 Use only the public input fields: B's diagnosis, the visible task/instruction,
-the current public state and incumbent trajectory context, pre-update
-established memory, and the real ALFWorld capability evidence.
+the manually curated local state/evidence packet, pre-update established
+memory, and the real ALFWorld capability evidence. The local packet is
+deliberately not the completed source trajectory. Do not ask for or reconstruct
+later source observations.
 
 The capability evidence has two different meanings:
 
 * entry_state_capabilities contains the observation and actions that are legal
-  at the actual probe-entry state;
-* historical_capability_vocabulary describes real carrier primitives and
-  public entity vocabulary seen in related states. It does not prove that a
-  multi-step sequence is executable from the entry state.
+  at the source probe-entry state;
+* historical_capability_vocabulary contains reusable carrier action schemas
+  and entry-visible vocabulary only. It does not prove that a future sequence
+  is executable from any state.
 
 Return exactly one JSON object and no prose or markdown. Return exactly
 {"decision":"NONE"} if no credible grounded local test can be specified.
@@ -131,36 +133,48 @@ Otherwise return this schema (shown across lines for readability):
 {
   "decision": "CREATE",
   "type": "exploratory",
-  "scope": "...",
-  "hypothesis": "...",
-  "guidance": "...",
+  "scope": "future context in which this local Functional Contract applies",
+  "hypothesis": "what alternative realization pattern is being tested",
+  "guidance": "short future-facing instruction for one local probe",
   "probe_spec": {
-    "local_function": "...",
-    "grounded_start": {
-      "action": "exact action legal in entry_state_capabilities",
-      "why_grounded": "..."
-    },
-    "adaptive_policy": "...",
-    "evidence_goal": "...",
+    "local_function": "the function being substituted",
+    "realization_pattern": "abstract pattern, without source entity IDs",
+    "capability_requirements": ["carrier capabilities needed at activation"],
+    "adaptive_policy": "how to choose actions from future observations",
+    "evidence_goal": "what observation/cost/outcome discriminates the comparison",
     "stop_conditions": ["...", "..."],
-    "required_downstream_state": "..."
+    "required_downstream_state": "state the original task still needs"
   },
-  "reason": "..."
+  "source_grounding": {
+    "entry_action": "exact source-entry action from the admissible list",
+    "why_grounded": "why that source entry action is legal",
+    "public_capability_evidence": ["...", "..."]
+  },
+  "provenance": ["source artifact or public evidence reference"],
+  "reason": "short justification"
 }
 
-The grounded_start action must be copied exactly from the current admissible
-entry-state actions. It is the only pre-grounded action. Do not emit an action
-list or pre-plan later actions whose legality depends on future observations.
-The adaptive_policy must tell the actor what local function to pursue and how
-to react to the next real observation. The probe must be a local substitution,
-not a whole-task replan. Preserve B's functional contract and state the
-evidence that would discriminate the incumbent comparison. Include concrete
-stop/abort conditions and the downstream state that must remain available.
+The source_grounding.entry_action must be copied exactly from the source
+entry-state admissible actions. It is provenance for C's creation, not the
+future target instruction. Do not put that source action or source entity IDs
+into scope, hypothesis, guidance, local_function, realization_pattern,
+capability_requirements, adaptive_policy, evidence_goal, stop_conditions, or
+required_downstream_state. Use role/type descriptions such as "an available
+open surface" or "a closed storage receptacle" instead. Exact source entity
+IDs may appear only in source_grounding and its public capability evidence.
+The future actor will ground its first action using the target's current
+observation and admissible actions.
+
+Do not emit an action list or pre-plan later actions whose legality depends on
+future observations. The adaptive_policy must describe a local substitution,
+react to the next real observation, and preserve B's Functional Contract. State
+what evidence would discriminate the incumbent comparison and include concrete
+stop/abort conditions. Do not replan the whole task.
 
 Do not use evaluator labels, oracle actions, oracle outcomes, hidden benchmark
 answers, or claims that the probe has already produced evidence. Do not force
-CREATE when the entry action cannot be grounded or the local test cannot be
-specified credibly.
+CREATE when the source entry action cannot be grounded or the local test cannot
+be specified credibly.
 """
 
 
@@ -173,13 +187,17 @@ action and then provide a new observation for the next call. Never return a
 future action sequence, a plan, or multiple actions.
 
 Use the task instruction and established memory to finish the original task.
-If exploratory_memory is present, it is a one-shot local probe policy. Follow
-its grounded entry and adaptive guidance using actual observations, not a
-guessed future sequence. Keep the memory visible while the probe is ongoing;
-set probe_status to ACTIVE while taking probe actions, EVIDENCE_OBTAINED when
-the comparison has been discriminated, and ABORTED when the probe cannot
-continue legally or would violate the downstream contract. After evidence or
-abort, continue the original task without restarting the whole task.
+If exploratory_memory is present, it is a one-shot transferable local probe
+policy. Ground its first action from the target's current observation and
+admissible actions; do not copy a source action or source entity ID. Follow its
+adaptive guidance using actual observations, not a guessed future sequence.
+Keep the memory visible while the probe is ongoing; set probe_status to ACTIVE
+while taking probe actions, EVIDENCE_OBTAINED when enough public observations
+exist for later reconciliation, and ABORTED when the probe cannot continue
+legally or would violate the downstream contract. EVIDENCE_OBTAINED means only
+PROBE_EVIDENCE_READY; it does not mean the hypothesis is true or globally
+better. After evidence or abort, continue the original task without restarting
+the whole task.
 
 When no exploratory memory is present, use NOT_ACTIVE. Return exactly one JSON
 object and no prose:
@@ -188,6 +206,44 @@ object and no prose:
 
 Do not mention hidden evaluation information or invent an action absent from
 the current admissible list.
+"""
+
+
+A_SYSTEM = """You are A, a conservative post-episode memory reconciler.
+
+Answer only this question:
+
+    What does this new public target-task evidence change about what we already know?
+
+The input contains the pre-update established memory, one consumed exploratory
+memory H, a target public trajectory, a local probe trace, matched execution
+outcomes, and provenance. It does not contain evaluator labels, oracle answers,
+or a researcher-written expected conclusion. EVIDENCE_OBTAINED means only that
+the probe produced enough observations for you to judge; it does not establish
+that H is true or globally superior.
+
+Return exactly one JSON object and no prose or markdown:
+{
+  "decision": "NO_CHANGE | UPDATE",
+  "updates": [
+    {
+      "operation": "ADD | REFINE | SPECIALIZE | MERGE",
+      "scope": "scope supported by the observed target evidence",
+      "guidance": "evidence-bound established guidance",
+      "evidence_basis": "what the public target trace actually showed",
+      "provenance": ["target artifact reference"]
+    }
+  ],
+  "still_unresolved": ["comparisons that remain open"]
+}
+
+Use NO_CHANGE with an empty updates list when one episode is insufficient to
+change established memory. If you update, bind every claim to the target
+trace and keep its scope explicit. One positive case must not become an
+always-optimal or universal claim. One negative probe must not falsify an
+entire hypothesis family. Preserve uncertainty when the evidence is
+ambiguous. Never reactivate the consumed exploratory memory as an active
+exploration instruction; the episode has already consumed it.
 """
 
 
@@ -217,6 +273,10 @@ def c_messages(c_input: dict) -> list[dict]:
 
 def actor_messages(actor_input: dict) -> list[dict]:
     return model_messages(ACTOR_SYSTEM, actor_input, user_only=True)
+
+
+def a_messages(a_input: dict) -> list[dict]:
+    return model_messages(A_SYSTEM, a_input, user_only=True)
 
 
 def prompt_json(messages: list[dict]) -> str:

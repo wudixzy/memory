@@ -25,6 +25,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     validate_b_result,
     validate_c_grounding,
     validate_c_result,
+    validate_local_c_context,
     write_json,
     write_jsonl,
 )
@@ -51,12 +52,42 @@ def run_c(
     allow_network: bool = False,
     env_file: Path = DEFAULT_ENV_FILE,
     prepare_only: bool = False,
+    local_packets_path: Path | None = None,
+    source_case_ids: list[str] | None = None,
     transport_factory: Callable | None = None,
 ) -> dict:
     """Prepare all C prompts before calls, then synthesize one probe policy."""
 
     b_results = read_json(b_root / "b_results.json")
     cases = {case["case_id"]: case for case in load_cases(cases_path)} if cases_path else {}
+    selected_case_ids = set(source_case_ids or [])
+    local_packets = {}
+    if local_packets_path is not None:
+        local_document = read_json(local_packets_path)
+        if not isinstance(local_document, dict) or not isinstance(
+            local_document.get("packets"), list
+        ):
+            raise ValueError("Local C packet file must contain a packets list")
+        for packet in local_document["packets"]:
+            if not isinstance(packet, dict) or set(packet) != {"source_case_id", "public_evidence"}:
+                raise ValueError("Local C packet has unexpected fields")
+            case_id = packet["source_case_id"]
+            if not isinstance(case_id, str) or not case_id.strip():
+                raise ValueError("Local C packet source_case_id is malformed")
+            if case_id in local_packets:
+                raise ValueError("Duplicate local C packet")
+            public_evidence = packet["public_evidence"]
+            if (
+                not isinstance(public_evidence, list)
+                or not public_evidence
+                or any(not isinstance(item, str) or not item.strip() for item in public_evidence)
+            ):
+                raise ValueError("Local C packet public_evidence is malformed")
+            local_packets[case_id] = {"public_evidence": public_evidence}
+    if selected_case_ids:
+        missing = sorted(selected_case_ids - set(local_packets))
+        if missing:
+            raise ValueError("Missing local C packets: " + ", ".join(missing))
     make_run_directory(output)
     write_json(
         output / "run_metadata.json",
@@ -72,6 +103,12 @@ def run_c(
             "network_opt_in": allow_network,
             "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
             "probe_representation": "grounded entry action plus adaptive local policy",
+            "local_input_boundary": (
+                "manual entry state and public local evidence; "
+                "no completed source trajectory"
+            ),
+            "local_packets_path": str(local_packets_path) if local_packets_path else None,
+            "source_case_ids": sorted(selected_case_ids) if selected_case_ids else None,
         },
     )
     rows = []
@@ -88,6 +125,12 @@ def run_c(
             "expected_b": b_row.get("expected_b"),
             "status": "started",
         }
+        if selected_case_ids and case_id not in selected_case_ids:
+            row["status"] = "skipped_not_selected"
+            _write_not_started(case_dir)
+            write_json(case_dir / "status.json", row)
+            rows.append(row)
+            continue
         if b_row.get("b_decision") != "OPEN":
             row["status"] = "skipped_b_not_open"
             _write_not_started(case_dir)
@@ -99,7 +142,20 @@ def run_c(
             b_input = read_json(b_case_dir / "b_input.json")
             b_result = read_json(b_case_dir / "b_parsed.json")
             capabilities = read_json(b_case_dir / "capabilities.json")
-            c_input = c_context(b_input, validate_b_result(b_result), capabilities)
+            if case_id not in local_packets:
+                raise ValueError("A local C packet is required for selected source case")
+            local_context = {
+                "entry_state": dict(b_input["current_initial_state"]),
+                "public_evidence": local_packets[case_id]["public_evidence"],
+            }
+            validate_local_c_context(local_context, b_input["current_initial_state"])
+            write_json(case_dir / "local_c_packet.json", local_context)
+            c_input = c_context(
+                b_input,
+                validate_b_result(b_result),
+                capabilities,
+                local_context,
+            )
             messages = c_messages(c_input)
             if cases.get(case_id) and prompt_has_evaluator_fields(messages, cases[case_id]):
                 raise ValueError("Evaluator-only data entered C prompt")
@@ -198,6 +254,18 @@ def main() -> None:
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument(
+        "--local-packets",
+        type=Path,
+        required=True,
+        help="Manual source-local public packets for this validation cycle.",
+    )
+    parser.add_argument(
+        "--source-case",
+        dest="source_case_ids",
+        action="append",
+        help="Restrict C to selected source case IDs; may be repeated.",
+    )
     args = parser.parse_args()
     run_c(
         args.b_root,
@@ -206,6 +274,8 @@ def main() -> None:
         allow_network=args.allow_network,
         env_file=args.env_file,
         prepare_only=args.prepare_only,
+        local_packets_path=args.local_packets,
+        source_case_ids=args.source_case_ids,
     )
 
 

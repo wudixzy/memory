@@ -31,9 +31,13 @@ def run_experiment_a(
     env_file: Path = DEFAULT_ENV_FILE,
     limit: int | None = None,
     prompt_variant: str = "optimized",
+    local_packets_path: Path | None = None,
+    source_case_ids: list[str] | None = None,
     transport_factory: Callable | None = None,
     context_factory: Callable | None = None,
 ) -> dict:
+    if local_packets_path is None:
+        raise ValueError("This cycle requires a manual local C packet file")
     make_run_directory(output)
     b_result = run_b(
         cases_path,
@@ -52,6 +56,8 @@ def run_experiment_a(
         allow_network=allow_network,
         env_file=env_file,
         transport_factory=transport_factory,
+        local_packets_path=local_packets_path,
+        source_case_ids=source_case_ids,
     )
     report = {
         "experiment": "A",
@@ -63,6 +69,8 @@ def run_experiment_a(
         "thinking": False,
         "temperature": 0,
         "prompt_variant": prompt_variant,
+        "local_packets_path": str(local_packets_path),
+        "source_case_ids": source_case_ids,
         "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
         "cases_path": str(cases_path),
         "b": b_result,
@@ -82,6 +90,8 @@ def main() -> None:
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--prompt-variant", choices=("baseline", "optimized"), default="optimized")
+    parser.add_argument("--local-packets", type=Path, required=True)
+    parser.add_argument("--source-case", dest="source_case_ids", action="append")
     args = parser.parse_args()
     run_experiment_a(
         args.cases,
@@ -90,6 +100,8 @@ def main() -> None:
         env_file=args.env_file,
         limit=args.limit,
         prompt_variant=args.prompt_variant,
+        local_packets_path=args.local_packets,
+        source_case_ids=args.source_case_ids,
     )
 
 
