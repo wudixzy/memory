@@ -1,0 +1,18 @@
+{
+  "carrier": "ALFWorld TextWorld",
+  "source": "third_party/automanual/alfworld/agents/environment/alfred_tw_env.py and automanual_alfworld/env_history.py",
+  "action_schema": [
+    {"name": "look", "description": "Inspect the current location and nearby objects.", "syntax": "look"},
+    {"name": "inventory", "description": "Inspect what the agent is currently carrying.", "syntax": "inventory"},
+    {"name": "go to", "description": "Navigate to a visible receptacle/location.", "syntax": "go to <receptacle_id>"},
+    {"name": "open", "description": "Open a closed openable receptacle at the current location.", "syntax": "open <receptacle_id>"},
+    {"name": "close", "description": "Close an open receptacle at the current location.", "syntax": "close <receptacle_id>"},
+    {"name": "examine", "description": "Examine a visible receptacle or object.", "syntax": "examine <entity_id>"},
+    {"name": "take", "description": "Take a visible object from a receptacle.", "syntax": "take <object_id> from <receptacle_id>"},
+    {"name": "put", "description": "Put the carried object in or on a receptacle.", "syntax": "put <object_id> in/on <receptacle_id>"},
+    {"name": "use", "description": "Use a visible usable object.", "syntax": "use <object_id>"},
+    {"name": "clean", "description": "Clean a carried object with a receptacle.", "syntax": "clean <object_id> with <receptacle_id>"},
+    {"name": "heat", "description": "Heat a carried object with a receptacle.", "syntax": "heat <object_id> with <receptacle_id>"},
+    {"name": "cool", "description": "Cool a carried object with a receptacle.", "syntax": "cool <object_id> with <receptacle_id>"}
+  ]
+}

@@ -1,0 +1,451 @@
+{
+  "schema_version": "0.1",
+  "carrier": "alfworld_text",
+  "cases": [
+    {
+      "case_id": "alfworld-p-001-alarmclock",
+      "case_type": "P",
+      "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-search-listed-order-alarmclock",
+        "scope": "Repeated ALFWorld pick-and-place tasks where the requested object is not visible in the initial room.",
+        "guidance": "Search visible receptacles in the order presented by the room observation. At each location, open a closed receptacle before inspecting it; take the requested object and place it in the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to bed_1",
+        "go to desk_1",
+        "go to drawer_1",
+        "open drawer_1",
+        "go to drawer_2",
+        "open drawer_2",
+        "go to drawer_3",
+        "open drawer_3",
+        "go to drawer_4",
+        "open drawer_4",
+        "go to drawer_5",
+        "open drawer_5",
+        "go to dresser_1",
+        "take alarmclock_2 from dresser_1",
+        "go to desk_1",
+        "put alarmclock_2 in/on desk_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "OPEN",
+        "oracle_alternative_actions": [
+          "look",
+          "go to dresser_1",
+          "take alarmclock_2 from dresser_1",
+          "go to desk_1",
+          "put alarmclock_2 in/on desk_1"
+        ],
+        "why": "The established route completes in 17 steps. A source-directed local replacement completes in 5 steps, but that alternative is withheld from the model and measured only on the evaluator side."
+      }
+    },
+    {
+      "case_id": "alfworld-p-002-pencil",
+      "case_type": "P",
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-search-listed-order-pencil",
+        "scope": "Repeated ALFWorld pick-and-place tasks where the requested object is not visible in the initial room.",
+        "guidance": "Search visible receptacles in the order presented by the room observation. At each location, open a closed receptacle before inspecting it; take the requested object and place it in the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to bed_1",
+        "go to cabinet_1",
+        "open cabinet_1",
+        "go to cabinet_3",
+        "open cabinet_3",
+        "go to cabinet_2",
+        "open cabinet_2",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "go to desk_1",
+        "take pencil_3 from desk_1",
+        "go to shelf_1",
+        "put pencil_3 in/on shelf_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "OPEN",
+        "oracle_alternative_actions": [
+          "look",
+          "go to desk_1",
+          "take pencil_3 from desk_1",
+          "go to shelf_1",
+          "put pencil_3 in/on shelf_1"
+        ],
+        "why": "The established route completes in 14 steps. The source-directed local replacement completes in 5 steps and is executable in the same reset state."
+      }
+    },
+    {
+      "case_id": "alfworld-p-003-plate",
+      "case_type": "P",
+      "task_id": "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-search-listed-order-plate",
+        "scope": "Repeated ALFWorld pick-and-place tasks where the requested object is not visible in the initial room.",
+        "guidance": "Search visible receptacles in the order presented by the room observation. At each location, open a closed receptacle before inspecting it; take the requested object and place it in the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to coffeetable_1",
+        "go to diningtable_1",
+        "go to drawer_1",
+        "open drawer_1",
+        "go to drawer_2",
+        "open drawer_2",
+        "go to drawer_3",
+        "open drawer_3",
+        "go to drawer_4",
+        "open drawer_4",
+        "go to dresser_1",
+        "go to garbagecan_1",
+        "go to sidetable_1",
+        "take plate_1 from sidetable_1",
+        "go to dresser_1",
+        "put plate_1 in/on dresser_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "OPEN",
+        "oracle_alternative_actions": [
+          "look",
+          "go to sidetable_1",
+          "take plate_1 from sidetable_1",
+          "go to dresser_1",
+          "put plate_1 in/on dresser_1"
+        ],
+        "why": "The established route completes in 17 steps. The source-directed local replacement completes in 5 steps, with the same successful terminal condition."
+      }
+    },
+    {
+      "case_id": "alfworld-p-004-soapbottle-414",
+      "case_type": "P",
+      "task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-search-listed-order-soapbottle-414",
+        "scope": "Repeated ALFWorld pick-and-place tasks where the requested object is not visible in the initial room.",
+        "guidance": "Search visible receptacles in the order presented by the room observation. At each location, open a closed receptacle before inspecting it; take the requested object and place it in the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to bathtubbasin_1",
+        "go to cabinet_1",
+        "open cabinet_1",
+        "go to cabinet_3",
+        "open cabinet_3",
+        "go to cabinet_2",
+        "open cabinet_2",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "go to cabinet_5",
+        "open cabinet_5",
+        "go to cabinet_6",
+        "open cabinet_6",
+        "go to cabinet_7",
+        "open cabinet_7",
+        "go to cabinet_8",
+        "open cabinet_8",
+        "go to cabinet_9",
+        "open cabinet_9",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to drawer_1",
+        "go to garbagecan_1",
+        "go to handtowelholder_1",
+        "go to sinkbasin_1",
+        "go to toilet_1",
+        "take soapbottle_1 from toilet_1",
+        "go to cabinet_1",
+        "put soapbottle_1 in/on cabinet_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "OPEN",
+        "oracle_alternative_actions": [
+          "look",
+          "go to toilet_1",
+          "take soapbottle_1 from toilet_1",
+          "go to cabinet_1",
+          "open cabinet_1",
+          "put soapbottle_1 in/on cabinet_1"
+        ],
+        "why": "The established route completes in 30 steps. The source-directed local replacement completes in 6 steps and produces a large, directly measured cost difference."
+      }
+    },
+    {
+      "case_id": "alfworld-p-005-soapbottle-417",
+      "case_type": "P",
+      "task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-search-listed-order-soapbottle-417",
+        "scope": "Repeated ALFWorld pick-and-place tasks where the requested object is not visible in the initial room.",
+        "guidance": "Search visible receptacles in the order presented by the room observation. At each location, open a closed receptacle before inspecting it; take the requested object and place it in the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to cabinet_1",
+        "open cabinet_1",
+        "go to cabinet_2",
+        "open cabinet_2",
+        "go to cabinet_3",
+        "open cabinet_3",
+        "go to countertop_1",
+        "take soapbottle_1 from countertop_1",
+        "go to cabinet_1",
+        "put soapbottle_1 in/on cabinet_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "OPEN",
+        "oracle_alternative_actions": [
+          "look",
+          "go to countertop_1",
+          "take soapbottle_1 from countertop_1",
+          "go to cabinet_1",
+          "open cabinet_1",
+          "put soapbottle_1 in/on cabinet_1"
+        ],
+        "why": "The established route completes in 11 steps. The source-directed local replacement completes in 6 steps and remains a local search-segment substitution."
+      }
+    },
+    {
+      "case_id": "alfworld-n1-001-alarmclock-resolved",
+      "case_type": "N1",
+      "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-alarmclock-comparison-resolved",
+        "scope": "This exact ALFWorld task state and its matching pick-and-place tasks.",
+        "guidance": "A listed-order search route completes the task reliably.",
+        "prior_comparison_evidence": "A matched replay completed with the listed-order route in 17 steps. A source-directed local route also completed in 5 steps. The two outcomes and step counts are already recorded for this scope; use the 5-step route when the same state is recognized."
+      },
+      "established_actions": [
+        "look",
+        "go to bed_1",
+        "go to desk_1",
+        "go to drawer_1",
+        "open drawer_1",
+        "go to drawer_2",
+        "open drawer_2",
+        "go to drawer_3",
+        "open drawer_3",
+        "go to drawer_4",
+        "open drawer_4",
+        "go to drawer_5",
+        "open drawer_5",
+        "go to dresser_1",
+        "take alarmclock_2 from dresser_1",
+        "go to desk_1",
+        "put alarmclock_2 in/on desk_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "look",
+          "go to dresser_1",
+          "take alarmclock_2 from dresser_1",
+          "go to desk_1",
+          "put alarmclock_2 in/on desk_1"
+        ],
+        "why": "The relevant comparison is already discriminated by established evidence."
+      }
+    },
+    {
+      "case_id": "alfworld-n1-002-soapbottle-resolved",
+      "case_type": "N1",
+      "task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-soapbottle-comparison-resolved",
+        "scope": "This exact ALFWorld task state and its matching pick-and-place tasks.",
+        "guidance": "A listed-order search route completes the task reliably.",
+        "prior_comparison_evidence": "A matched replay completed with the listed-order route in 30 steps. A source-directed local route completed in 6 steps, including opening the destination cabinet, and also succeeded. The comparison is already settled for this scope."
+      },
+      "established_actions": [
+        "look",
+        "go to bathtubbasin_1",
+        "go to cabinet_1",
+        "open cabinet_1",
+        "go to cabinet_3",
+        "open cabinet_3",
+        "go to cabinet_2",
+        "open cabinet_2",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "go to cabinet_5",
+        "open cabinet_5",
+        "go to cabinet_6",
+        "open cabinet_6",
+        "go to cabinet_7",
+        "open cabinet_7",
+        "go to cabinet_8",
+        "open cabinet_8",
+        "go to cabinet_9",
+        "open cabinet_9",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to drawer_1",
+        "go to garbagecan_1",
+        "go to handtowelholder_1",
+        "go to sinkbasin_1",
+        "go to toilet_1",
+        "take soapbottle_1 from toilet_1",
+        "go to cabinet_1",
+        "put soapbottle_1 in/on cabinet_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "look",
+          "go to toilet_1",
+          "take soapbottle_1 from toilet_1",
+          "go to cabinet_1",
+          "open cabinet_1",
+          "put soapbottle_1 in/on cabinet_1"
+        ],
+        "why": "The relevant comparison is already discriminated by established evidence."
+      }
+    },
+    {
+      "case_id": "alfworld-n1-003-pencil-resolved",
+      "case_type": "N1",
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-pencil-comparison-resolved",
+        "scope": "This exact ALFWorld task state and its matching pick-and-place tasks.",
+        "guidance": "A listed-order search route completes the task reliably.",
+        "prior_comparison_evidence": "A matched replay completed with the listed-order route in 14 steps. A source-directed local route completed in 5 steps and also succeeded. The lower-step route is already established for this scope."
+      },
+      "established_actions": [
+        "look",
+        "go to bed_1",
+        "go to cabinet_1",
+        "open cabinet_1",
+        "go to cabinet_3",
+        "open cabinet_3",
+        "go to cabinet_2",
+        "open cabinet_2",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "go to desk_1",
+        "take pencil_3 from desk_1",
+        "go to shelf_1",
+        "put pencil_3 in/on shelf_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "look",
+          "go to desk_1",
+          "take pencil_3 from desk_1",
+          "go to shelf_1",
+          "put pencil_3 in/on shelf_1"
+        ],
+        "why": "The relevant comparison is already discriminated by established evidence."
+      }
+    },
+    {
+      "case_id": "alfworld-n2-001-book-redundant-observation",
+      "case_type": "N2",
+      "task_id": "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-book-start-look",
+        "scope": "A one-off ALFWorld pick-and-place task where the initial room observation already lists all navigation targets.",
+        "guidance": "Use one initial look before navigation, then take the requested object from the first visible source and put it at the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to armchair_1",
+        "take book_2 from armchair_1",
+        "go to sofa_1",
+        "put book_2 in/on sofa_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "inventory",
+          "go to armchair_1",
+          "take book_2 from armchair_1",
+          "go to sofa_1",
+          "put book_2 in/on sofa_1"
+        ],
+        "why": "Inventory is legal but adds no task-relevant information here; resolving the observation-command comparison would not change future policy."
+      }
+    },
+    {
+      "case_id": "alfworld-n2-002-laptop-redundant-observation",
+      "case_type": "N2",
+      "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-laptop-start-look",
+        "scope": "A one-off ALFWorld pick-and-place task where the initial room observation already lists all navigation targets.",
+        "guidance": "Use one initial look before navigation, then take the requested object from the first visible source and put it at the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to bed_1",
+        "take laptop_2 from bed_1",
+        "go to desk_1",
+        "put laptop_2 in/on desk_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "inventory",
+          "go to bed_1",
+          "take laptop_2 from bed_1",
+          "go to desk_1",
+          "put laptop_2 in/on desk_1"
+        ],
+        "why": "Inventory is legal but adds no task-relevant information here; resolving the observation-command comparison would not change future policy."
+      }
+    },
+    {
+      "case_id": "alfworld-n2-003-candle-redundant-observation",
+      "case_type": "N2",
+      "task_id": "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103",
+      "seed": 42,
+      "established_memory": {
+        "memory_id": "established-candle-start-look",
+        "scope": "A one-off ALFWorld pick-and-place task where the initial room observation already lists all navigation targets.",
+        "guidance": "Use one initial look before navigation, then take the requested object from the first visible source and put it at the requested destination.",
+        "prior_comparison_evidence": null
+      },
+      "established_actions": [
+        "look",
+        "go to bathtubbasin_1",
+        "go to countertop_1",
+        "take candle_2 from countertop_1",
+        "go to toilet_1",
+        "put candle_2 in/on toilet_1"
+      ],
+      "evaluator_notes": {
+        "expected_b": "NONE",
+        "oracle_alternative_actions": [
+          "inventory",
+          "go to bathtubbasin_1",
+          "go to countertop_1",
+          "take candle_2 from countertop_1",
+          "go to toilet_1",
+          "put candle_2 in/on toilet_1"
+        ],
+        "why": "Inventory is legal but adds no task-relevant information here; resolving the observation-command comparison would not change future policy."
+      }
+    }
+  ]
+}
