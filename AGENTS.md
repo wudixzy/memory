@@ -6,362 +6,324 @@ This file defines the implementation contract for coding agents on branch:
 exp/minimal-exploratory-memory-validation
 ```
 
-This branch is running a **small mechanism-validation program** for exploratory persistent memory. It supersedes older H1-H4 / AppWorld priorities for work performed here.
+This branch is running a small mechanism-validation program for exploratory persistent memory. Older H1-H4 / AppWorld priorities do not override this branch-level contract.
 
 ## 1. Current scientific objective
 
-The previous cycles established enough controlled evidence for:
+The core architecture is frozen for this cycle.
+
+The latest controlled experiments support enough of the mechanism to stop redesigning B/C/H/A and instead clean remaining attribution confounds.
+
+The current question is:
 
 ```text
-frozen B
--> C probe policy
--> stepwise exploratory-memory intervention
+Are the remaining failures primarily:
+implementation/interface
+vs.
+model execution reliability
+vs.
+method-level online-control weakness?
 ```
 
-The current cycle tests the last two MVP questions:
+This cycle performs only four cleanup tasks:
 
-```text
-source trajectory
-  -> frozen B
-  -> LOCAL C input
-  -> exploratory memory H
-  -> DIFFERENT scope-matched target task
-  -> one-shot stepwise probe
-  -> comparative evidence
-  -> conservative A reconciliation
-  -> updated established memory
-```
+1. remove researcher-suggested alternatives from local C packets;
+2. remove E0/counterfactual information from A;
+3. diagnose the Laptop loop using minimal mechanical probe state, then a stronger actor only if needed;
+4. test one clean negative fallback case whose E0 baseline actually completes.
 
-Do not build a publication-scale benchmark or the full production memory system in this cycle.
+Do not add a new method module.
 
 ## 2. Required read order
 
-Before coding, read:
+Before changing code, read:
 
-1. `docs/49_local_c_and_a_closure_validation_plan.md`
-2. `docs/50_coding_agent_prompt_local_c_a_closure.md`
-3. `docs/48_c_probe_policy_stepwise_online_results.md`
-4. `docs/45_b_c_boundary_corrected_retest_results.md`
+1. `docs/52_cleanup_attribution_validation_plan.md`
+2. `docs/53_coding_agent_prompt_cleanup_attribution.md`
+3. `docs/51_local_c_a_closure_validation_results.md`
+4. `docs/49_local_c_and_a_closure_validation_plan.md`
 5. current code under `experiments/exploratory_memory_mvp/`
 6. this file
 
-Docs 49-50 define the current experiment. Older documents are historical context and must not override them.
+Docs 52-53 define the current coding cycle.
 
-## 3. Freeze validated components
+## 3. Freeze the method structure
 
-Unless an actual reproducibility bug is found, do not redesign:
+Unless a real reproducibility bug is found, do not redesign:
 
-- B's corrected prompt, schema, or responsibility;
-- B's separation of current trajectory from pre-update established memory;
+```text
+B: Which incumbent comparison is worth opening?
+
+C: What grounded local probe policy should be tried once?
+
+H: one-shot exploratory memory / local experimental guidance
+
+Online: stepwise action selection from current observations and affordances
+
+A: What does the observed evidence establish, conservatively?
+```
+
+Keep frozen:
+
+- B prompt/schema/responsibility;
+- current-trajectory vs. pre-update-memory separation;
 - Functional Contract semantics;
-- the C probe-policy idea;
-- the stepwise one-action actor;
-- current-state admissibility checking;
-- one-shot persistent exploratory-memory lifecycle.
+- C local-input principle;
+- source-grounding vs. future-facing H separation;
+- stepwise one-action actor;
+- exact current-state admissibility checks;
+- persistent `active -> consumed` H lifecycle plus same-episode runtime guidance;
+- Stage 1 bypass for this validation cycle.
 
-Do not optimize the previous source-replay step-count results.
+Do not add graph search, automatic retrieval, strategy taxonomies, VOI scores, or a new controller.
 
 ## 4. B remains frozen
 
-B's role is:
-
-```text
-Which incumbent comparison is worth opening?
-```
-
-B may inspect:
-
-```text
-current task
-current public state
-current completed trajectory
-pre-update established memory
-```
-
-B does not need to know a concrete alternative.
+B is not part of this cleanup cycle.
 
 Do not:
 
-- give B target hidden information;
-- give B the full capability document to make it open cases;
-- move alternative synthesis back into B;
-- add OPEN/NONE heuristics;
-- expand B evaluation in this cycle.
+- retune B;
+- give B more capability information;
+- move C synthesis back into B;
+- expand B evaluation.
 
-If ignored B artifacts are unavailable, rerun the frozen corrected B only as input preparation.
+If prior B artifacts are unavailable, rerun the frozen corrected B only for artifact reconstruction.
 
-## 5. C must be local
+## 5. C packets must be fact-only
 
-C's role remains:
-
-```text
-What grounded local test should be tried once to answer B's open comparison?
-```
-
-After B has already produced a replaceable segment / Functional Contract / warrant, C should receive only:
+C's scientific input remains:
 
 ```text
-B OPEN diagnosis / Functional Contract
-+ local state/evidence required to instantiate that contract
+B Functional Contract / OPEN diagnosis
++ local public facts
 + relevant established memory
-+ relevant real capability/tool information
++ relevant public capabilities
 ```
 
-C should not receive the entire source trajectory by default.
+The hand-curated local packet may state facts such as:
 
-Especially do not pass later source observations that reveal the source answer merely because they appear later in the completed trajectory.
+- which categories of receptacles/affordances are publicly present;
+- that the requested object is not visible;
+- what local function is under comparison;
+- what downstream task state must remain possible.
 
-For the small controlled experiment, construct the local packet by direct semantic inspection.
+It must not recommend the candidate realization.
 
-Do not build a generic automatic trajectory segmenter or context-window rule system.
-
-## 6. H semantics
-
-In this experiment:
+Do not include wording equivalent to:
 
 ```text
-H = C's exploratory memory
+try open surfaces first
+prefer cabinets first
+check X before Y
 ```
 
-H is one-shot experimental guidance, not established knowledge.
+The purpose of the next C retest is to determine whether C can synthesize a meaningful alternative from facts, not merely formalize a researcher suggestion.
 
-H should be:
+Do not build an automatic semantic packet generator.
 
-- more concrete than `explore more`;
-- less source-specific than a fixed source action or cached source answer.
+## 6. H semantics remain unchanged
 
-A useful semantic separation is:
+H is exploratory memory, not established knowledge.
+
+Future-facing H should contain:
 
 ```text
-future-facing:
-  scope
-  hypothesis
-  guidance
-  probe_policy
-
-source-grounding:
-  public evidence that made the proposal grounded at creation time
-  provenance
+scope
+hypothesis
+guidance
+probe_policy
 ```
 
-The future-facing policy should express a local realization pattern and capability requirements, not require source exact entity IDs/actions as its only meaning.
+Source exact action/entity grounding remains creation-time provenance and must not be the future actor's instruction.
 
-## 7. Source -> different-target validation
+Do not change H solely to repair the Laptop loop in this cycle.
 
-Construct only **2-3 clean pairs** using ALFWorld TextWorld.
+## 7. A must be deployment-faithful
 
-For each pair:
-
-- source and target must be different task instances and/or seeds;
-- C/H creation must not see target hidden location/outcome;
-- source and target must share H.scope / local Functional Contract;
-- researcher-confirmed scope matching is allowed;
-- automatic retrieval is intentionally deferred.
-
-Prefer at least one useful positive transfer and one useful negative transfer if the carrier permits it.
-
-A negative probe is valid evidence when it:
+A must receive only evidence a deployed online updater could actually observe:
 
 ```text
-fails to support the tested alternative
--> produces discriminative evidence
--> stops locally
--> falls back
--> allows original task completion
+pre-update established memory
++ consumed H
++ actual E1 target task
++ actual E1 public trajectory
++ actual E1 probe trace
++ actual E1 success/failure/reward/steps/cost
++ provenance
 ```
 
-Evaluator-side target inspection/replay is allowed for selecting clean validation pairs, but that knowledge must not enter C/H/actor/A.
+A must not receive:
+
+- E0 actions;
+- E0 step counts;
+- E0 success/failure;
+- matched counterfactual outcome;
+- evaluator transfer class;
+- oracle target location;
+- researcher expected conclusion.
+
+E0 exists only for researcher-side experimental comparison.
+
+Retest A from existing E1 artifacts where possible; do not rerun environments unnecessarily.
+
+## 8. Laptop loop attribution
+
+Use the existing P002 -> Laptop case as the fixed diagnostic.
+
+### First diagnostic: interface/state representation
+
+Keep:
+
+- same H;
+- same Qwen3.8-Flash actor;
+- same target;
+- same step cap;
+- same stepwise loop.
+
+Add only mechanically derived probe-progress facts when useful, e.g.:
+
+```text
+visited receptacle IDs
+probe action count
+executed action history
+```
+
+These facts may summarize public execution history but must not choose the next action or make semantic evidence judgments.
+
+Clarify the actor prompt to use this state when H distinguishes visited/unvisited candidates.
+
+Do not add a search controller or rule-based fallback route.
+
+If the loop disappears, classify the prior failure primarily as an interface/state-representation issue.
+
+### Second diagnostic: model reliability
+
+Only if Qwen still fails under the cleaned interface, rerun the same Laptop E1 setup with a stronger available actor model.
+
+Do not change H, target, runtime facts, or semantics between actor-model arms.
+
+Interpretation:
+
+```text
+Qwen fails + stronger actor succeeds
+=> model execution reliability is the leading explanation.
+
+Both fail
+=> method-level H/online-control risk becomes stronger.
+```
+
+The stronger-model arm is diagnostic only.
+
+## 9. Negative fallback needs a clean target
+
+The previous negative SoapBottle target is not a clean fallback test because E0 also failed.
+
+Select exactly one target by direct inspection where:
+
+1. H.scope / Functional Contract genuinely matches;
+2. H can produce a negative local probe result;
+3. E0 completes with the same Qwen actor and step cap;
+4. target hidden answer remains evaluator-only;
+5. ordinary task policy has a realistic opportunity to finish after H stops.
+
+Verify E0 completion before treating the target as the cleanup negative case.
 
 Do not build an automatic target miner.
 
-## 8. Online actor
-
-Keep the existing true stepwise loop:
+Run matched E0/E1 and inspect:
 
 ```text
-latest observation + latest admissible actions + memory
--> model chooses ONE action
--> validate exact current legality
--> execute
--> observe
--> repeat
+negative evidence
+-> local H termination
+-> runtime guidance removed
+-> normal task resumes
+-> task completion or failure
 ```
 
-### E0
+Only `E0 success + E1 failure after a cleanly terminated H` is strong evidence of a genuine fallback/continuation concern.
 
-```text
-established memory only
-```
+## 10. Runtime probe-state rule
 
-### E1
+Deterministic code may provide mechanical public facts, including:
 
-```text
-same established memory
-+ H generated from a different source task
-```
+- executed actions;
+- mechanically extracted visited receptacle IDs;
+- probe action count;
+- current observation;
+- current admissible actions;
+- H persistent/runtime status.
 
-Automatic H retrieval is out of scope. Inject H only after direct researcher scope-match confirmation.
+Deterministic code must not provide:
 
-Observe:
+- best next candidate;
+- semantic evidence conclusion;
+- hidden target source;
+- fallback route;
+- rule-selected next action.
 
-```text
-H visible?
-activated?
-target-time grounding successful?
-probe evidence ready?
-probe stopped locally?
-runtime guidance removed?
-normal task resumed?
-task completed?
-```
+The model still decides actions, semantic evidence readiness, and continuation.
 
-Do not require E1 to outperform E0 in every pair.
+## 11. Probe status remains non-epistemic
 
-## 9. Probe status is not an epistemic conclusion
-
-The runtime actor may keep using:
-
-```text
-EVIDENCE_OBTAINED
-```
-
-for compatibility.
-
-Semantically interpret it as:
+`EVIDENCE_OBTAINED` continues to mean:
 
 ```text
 PROBE_EVIDENCE_READY
 ```
 
-It means only that enough public probe observations/outcomes are available for A to judge.
-
 It does not mean:
 
 - H is true;
-- the alternative is globally better;
-- the comparison is globally resolved.
+- alternative is globally better;
+- comparison is globally resolved.
 
-Only A decides what the evidence establishes.
-
-## 10. Add minimal A; Stage 1 remains bypassed
-
-Do not implement Stage 1 in this cycle.
-
-After the target episode, A receives:
-
-```text
-pre-update established memory snapshot
-+ consumed H
-+ target task/public trajectory
-+ local probe trace/observations
-+ environment success/failure/reward/steps/cost
-+ provenance IDs
-```
-
-A must not receive evaluator labels, oracle target location, researcher expected conclusion, or hidden benchmark diagnostics.
-
-A asks:
-
-```text
-What does this new evidence change about what we already know?
-```
-
-A may:
-
-- add a scope-limited established experience;
-- refine/specialize an existing scope;
-- record comparative evidence;
-- record a scoped failure lesson;
-- make no change when evidence is insufficient.
-
-A must remain conservative.
-
-Do not let one positive case become a universal optimum claim.
-
-Do not let one negative case falsify an entire hypothesis family.
-
-Do not reactivate consumed H.
-
-## 11. Minimal A output
-
-Prefer a compact auditable structure such as:
-
-```json
-{
-  "decision": "NO_CHANGE | UPDATE",
-  "updates": [
-    {
-      "operation": "ADD | REFINE | SPECIALIZE | MERGE",
-      "scope": "...",
-      "guidance": "...",
-      "evidence_basis": "...",
-      "provenance": ["..."]
-    }
-  ],
-  "still_unresolved": ["..."]
-}
-```
-
-Do not build deterministic semantic rules for choosing these operations.
-
-For 2-3 outputs, direct review is preferred.
+A decides what the observed evidence establishes.
 
 ## 12. Ground-truth / evaluator isolation
 
-Hard requirement:
-
-> evaluator-only information must never enter C, H, the target actor, or A.
+Hard requirement: evaluator-only information must never enter C, H, target actor, runtime probe state, or A.
 
 Keep hidden:
 
-- target positive/negative classification;
+- target transfer class;
 - oracle target location;
-- oracle alternative;
-- evaluator rationale;
-- researcher-written expected A conclusion;
+- oracle target outcome;
+- researcher expected conclusion;
+- target-selection rationale;
 - hidden benchmark diagnostics.
 
-Add mechanical assertions/tests where practical.
+Retain/add mechanical assertions around model-facing payloads.
 
 ## 13. No handcrafted semantic-rule system
 
 Do not create rule/classifier systems for:
 
-- local semantic context selection;
+- C alternative selection;
+- probe quality;
+- evidence semantics;
 - source-target scope equivalence;
-- positive/negative probe value;
-- A generalization/specialization;
-- hypothesis truth;
-- strategy families;
-- exploration value;
-- semantic trajectory segmentation.
+- A update semantics;
+- policy relevance;
+- fallback strategy;
+- exploration value.
 
-For the tiny controlled set, direct coding/research-agent inspection is preferred.
+For this tiny controlled set, use direct research/coding-agent inspection for semantic judgments.
 
-Use deterministic code only for:
-
-- structured provenance boundaries;
-- evaluator leakage checks;
-- schema validation;
-- current action legality;
-- environment execution;
-- matched E0/E1 setup;
-- success/steps/cost;
-- one-shot H lifecycle;
-- artifact storage/telemetry.
+Use deterministic code only for mechanical/auditable facts.
 
 ## 14. Current protocol
 
-Keep this cycle simple:
+Execute exactly this cleanup sequence:
 
-1. freeze B;
-2. localize C input;
-3. create H from a source task;
-4. manually confirm a different target matches H.scope;
-5. run stepwise E0/E1 on 2-3 pairs;
-6. collect probe evidence;
-7. run minimal A directly on the evidence package;
-8. review A for evidence binding, scope discipline, and uncertainty preservation;
+1. clean the source-local C packets;
+2. rerun the tiny C synthesis check;
+3. remove E0 from A and rerun A from saved E1 evidence;
+4. run Laptop Qwen diagnostic with minimal mechanical probe state;
+5. only if needed, run one stronger-actor Laptop diagnostic;
+6. select one E0-solvable negative target;
+7. run one matched negative E0/E1 fallback case;
+8. classify remaining failures as implementation/interface vs. model vs. method;
 9. stop and report.
 
 ## 15. Explicit non-goals
@@ -375,46 +337,15 @@ Do not add:
 - graph memory;
 - generic exploration baseline;
 - VOI/exploration scoring;
-- complex hypothesis lifecycle;
 - automatic semantic segmentation;
-- large target mining;
-- broad multi-seed sweeps;
-- publication-scale statistics.
+- search controller;
+- rule-based planner;
+- publication-scale evaluation;
+- broad multi-seed sweeps.
 
-## 16. Stop conditions
+## 16. Model policy
 
-Stop and report before patching repeatedly if:
-
-- C only works by encoding source exact answers;
-- H cannot be grounded in a different scope-matched target;
-- negative probes cannot terminate/fallback cleanly;
-- A repeatedly overgeneralizes one-case evidence;
-- A cannot distinguish observed evidence from the exploratory hypothesis.
-
-Do not rescue these with ad-hoc semantic rules in the same cycle.
-
-## 17. Required artifacts
-
-Preserve:
-
-- source B output used by C;
-- exact local C input;
-- C prompt/raw/parsed output;
-- H future-facing policy and source-grounding/provenance;
-- source/target pair metadata;
-- evaluator-side scope-match notes stored separately;
-- target E0/E1 stepwise traces;
-- target-current admissible actions;
-- probe lifecycle;
-- target success/steps/cost;
-- exact A public input;
-- A prompt/raw/parsed output;
-- pre/post established-memory representation;
-- token/cost telemetry.
-
-## 18. Model policy
-
-Keep the current screening model unless technically blocked:
+Main cleanup runs:
 
 ```yaml
 provider: dashscope
@@ -423,15 +354,60 @@ thinking: false
 temperature: 0
 ```
 
-Use the same configuration across matched conditions.
+Only the optional Laptop stronger-actor diagnostic may use a stronger model, and only after Qwen fails under the cleaned interface.
 
 Do not depend on hidden chain-of-thought.
+
+## 17. Tests required
+
+Add focused tests for:
+
+- fact-only local C packet boundary;
+- completed source trajectory exclusion from C;
+- source grounding exclusion from future H;
+- A input exclusion of E0/counterfactual information;
+- probe runtime state derivation from public executed actions;
+- current-action admissibility checking;
+- matched E0/E1 initialization;
+- H consumed/runtime lifecycle;
+- evaluator isolation;
+- failure artifact persistence.
+
+Do not confuse fixture phrase checks with scientific semantic validation.
+
+## 18. Required report
+
+Add one tracked report under `docs/` containing:
+
+1. clean C packet changes and C retest;
+2. old vs. E1-only A outputs;
+3. Laptop attribution ladder;
+4. clean negative fallback result;
+5. final attribution table:
+
+```text
+issue | implementation/interface evidence | model evidence | method evidence | current judgment
+```
+
+Do not assign arbitrary numeric scores.
+
+The report must state what remains unresolved.
 
 ## 19. Secrets and Git discipline
 
 Never commit API keys, `.env`, cookies, credentials, private URLs, or large runtime benchmark artifacts.
 
-When asked to implement and submit work, commit and push to:
+Before commit:
+
+```bash
+git status
+git diff
+git diff --check
+```
+
+Run focused tests, Ruff, and compile checks.
+
+When complete, commit and push to:
 
 ```text
 exp/minimal-exploratory-memory-validation
@@ -439,17 +415,15 @@ exp/minimal-exploratory-memory-validation
 
 Do not force-push.
 
-Report failures accurately.
-
 ## 20. Completion criterion
 
 This cycle is complete when it contains:
 
-1. a documented local C boundary;
-2. 2-3 source->different-target validation pairs;
-3. source-generated H with no target-answer leakage;
-4. matched target E0/E1 stepwise traces;
-5. useful comparative evidence from the target probes;
-6. minimal A reconciliation with Stage 1 bypassed;
-7. direct review of A evidence binding and conservatism;
-8. a concise report saying whether the core MVP is ready for broader evaluation or exactly what single issue remains blocking.
+1. fact-only C packet retest;
+2. E1-only A reconciliation retest;
+3. Laptop interface/model attribution result;
+4. one baseline-solvable negative fallback case;
+5. a clean implementation-vs-model-vs-method conclusion;
+6. no new architecture module.
+
+If these checks are clean, the mechanism-validation stage is mature enough to plan broader evaluation rather than continue patching the core method.
