@@ -173,8 +173,6 @@ def run_transfer_pair(
         },
         environment_outcome={
             "e1": e1.get("execution", {}),
-            "e0_reference": e0.get("execution", {}),
-            "matched_initial_public_state": target_initial_match,
         },
         provenance=[
             f"source_c:{source_id}",

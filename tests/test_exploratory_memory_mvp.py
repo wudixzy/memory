@@ -16,11 +16,13 @@ from experiments.exploratory_memory_mvp.common import (
     assert_b_prompt_isolated,
     build_a_input,
     c_context,
+    derive_probe_runtime_state,
     future_exploratory_memory,
     load_cases,
     parse_json_object,
     prompt_has_evaluator_fields,
     public_context,
+    read_json,
     validate_a_public_input,
     validate_a_result,
     validate_action_grounding,
@@ -61,6 +63,28 @@ class FixtureTests(unittest.TestCase):
             {"P": 5, "N1": 3, "N2": 3},
         )
         self.assertTrue(all(c["established_actions"] for c in cases))
+
+    def test_local_c_packets_are_fact_only_fixture_inputs(self):
+        packet_file = Path(
+            "experiments/exploratory_memory_mvp/cases/local_c_packets.json"
+        )
+        document = read_json(packet_file)
+        self.assertIsInstance(document["packets"], list)
+        prohibited = (
+            "try open",
+            "try an open",
+            "prefer open",
+            "check open",
+            "open-surface-first",
+            "cabinet-first",
+            "recommended",
+        )
+        for packet in document["packets"]:
+            evidence = " ".join(packet["public_evidence"]).lower()
+            self.assertFalse(
+                any(phrase in evidence for phrase in prohibited),
+                msg=f"candidate realization leaked into {packet['source_case_id']}",
+            )
 
     def test_public_context_and_actor_context_exclude_evaluator_fields(self):
         case = load_cases(DEFAULT_CASES)[0]
@@ -310,6 +334,35 @@ class FixtureTests(unittest.TestCase):
         serialized = json.dumps(messages)
         self.assertIn("exactly ONE next action", serialized)
         self.assertIn("future action sequence", serialized)
+        self.assertIn("probe_runtime_state", serialized)
+        self.assertIn(
+            "do not revisit an already-tested candidate",
+            serialized.replace("\\n", " ").lower(),
+        )
+
+    def test_probe_runtime_state_is_mechanical_and_tracks_unique_navigation(self):
+        runtime = derive_probe_runtime_state(
+            ["go to desk_1", "look", "go to shelf_1", "go to desk_1"],
+            probe_action_history=["go to desk_1", "go to shelf_1"],
+        )
+        self.assertEqual(runtime["visited_receptacles"], ["desk_1", "shelf_1"])
+        self.assertEqual(runtime["probe_action_count"], 2)
+        actor = actor_context(
+            {
+                "current_task": {"task_id": "task", "seed": 42},
+                "current_initial_state": {
+                    "observation": "room",
+                    "admissible_actions": ["look"],
+                    "won": False,
+                },
+                "current_trajectory": {},
+                "pre_update_established_memories": [],
+            },
+            executed_action_history=["go to desk_1"],
+            probe_action_history=["go to desk_1"],
+        )
+        self.assertEqual(actor["probe_runtime_state"]["visited_receptacles"], ["desk_1"])
+        self.assertEqual(actor["probe_runtime_state"]["probe_action_count"], 1)
 
 
 class FakeDashScopeTransport:
@@ -901,10 +954,7 @@ class ModelAndRunnerTests(unittest.TestCase):
             target_task={"task_id": "target", "seed": 7, "instruction": "put x in y"},
             target_trajectory={"executed_actions": ["look"], "final": {"won": True}},
             probe_evidence={"probe_status_history": ["ACTIVE", "EVIDENCE_OBTAINED"]},
-            environment_outcome={
-                "e1": {"executed_steps": 2},
-                "e0_reference": {"executed_steps": 5},
-            },
+            environment_outcome={"e1": {"executed_steps": 2}},
             provenance=["source-c", "target-episode"],
         )
         self.assertEqual(validate_a_public_input(a_input), a_input)
@@ -922,10 +972,15 @@ class ModelAndRunnerTests(unittest.TestCase):
             "What does this new public target-task evidence change",
             a_messages(a_input)[0]["content"],
         )
+        self.assertNotIn("e0_reference", json.dumps(a_messages(a_input)))
         leaked = json.loads(json.dumps(a_input))
         leaked["environment_outcome"]["oracle_target_location"] = "bed_1"
         with self.assertRaises(SchemaError):
             validate_a_public_input(leaked)
+        counterfactual = json.loads(json.dumps(a_input))
+        counterfactual["environment_outcome"]["e0_reference"] = {"executed_steps": 5}
+        with self.assertRaises(SchemaError):
+            validate_a_public_input(counterfactual)
 
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "a"
@@ -1069,7 +1124,10 @@ class ModelAndRunnerTests(unittest.TestCase):
             h_view = json.loads((root / "transfer/target_h_actor_view.json").read_text())
             self.assertNotIn("source_grounding", h_view)
             self.assertNotIn("look", json.dumps(h_view["probe_policy"]))
-            a_serialized = (root / "transfer/a_input.json").read_text()
+            a_input = read_json(root / "transfer/a_input.json")
+            self.assertEqual(set(a_input["environment_outcome"]), {"e1"})
+            a_serialized = json.dumps(a_input)
+            self.assertNotIn("e0_reference", a_serialized)
             self.assertNotIn("scope_match_reason", a_serialized)
             self.assertNotIn("oracle_target_location", a_serialized)
             e0_input = json.loads(

@@ -186,6 +186,12 @@ that appears in that list exactly. The environment will execute only this one
 action and then provide a new observation for the next call. Never return a
 future action sequence, a plan, or multiple actions.
 
+When exploratory_memory distinguishes visited from unvisited candidates, use
+probe_runtime_state and executed_action_history as the authoritative factual
+record of probe progress. Do not revisit an already-tested candidate unless
+the environment has changed in a way that makes revisiting necessary. These
+fields record what has happened; they do not choose the next action for you.
+
 Use the task instruction and established memory to finish the original task.
 If exploratory_memory is present, it is a one-shot transferable local probe
 policy. Ground its first action from the target's current observation and
@@ -216,10 +222,11 @@ Answer only this question:
     What does this new public target-task evidence change about what we already know?
 
 The input contains the pre-update established memory, one consumed exploratory
-memory H, a target public trajectory, a local probe trace, matched execution
-outcomes, and provenance. It does not contain evaluator labels, oracle answers,
-or a researcher-written expected conclusion. EVIDENCE_OBTAINED means only that
-the probe produced enough observations for you to judge; it does not establish
+memory H, an actual E1 target public trajectory, an actual local probe trace,
+the actual E1 execution outcome, and provenance. It does not contain E0 or any
+other counterfactual baseline, evaluator labels, oracle answers, or a
+researcher-written expected conclusion. EVIDENCE_OBTAINED means only that the
+probe produced enough observations for you to judge; it does not establish
 that H is true or globally superior.
 
 Return exactly one JSON object and no prose or markdown:

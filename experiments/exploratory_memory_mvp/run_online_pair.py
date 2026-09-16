@@ -16,6 +16,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
     actor_context,
+    derive_probe_runtime_state,
     future_exploratory_memory,
     load_cases,
     make_run_directory,
@@ -101,6 +102,7 @@ def _run_actor_condition(
     client = None
     episode = None
     history: list[str] = []
+    probe_action_history: list[str] = []
     probe_status_history: list[str] = []
     runtime_memory = exploratory_memory
     execution = None
@@ -119,6 +121,7 @@ def _run_actor_condition(
                 runtime_memory,
                 current_state=current_state,
                 executed_action_history=history,
+                probe_action_history=probe_action_history,
                 explicit_diagnostic=explicit_diagnostic,
             )
             messages = actor_messages(actor_input)
@@ -135,6 +138,7 @@ def _run_actor_condition(
                 "persistent_exploratory_status": row["persistent_exploratory_status"],
                 "runtime_probe_status_before_call": row["runtime_probe_status"],
                 "executed_action_history": list(history),
+                "probe_runtime_state": actor_input["probe_runtime_state"],
             }
             try:
                 if prompt_has_evaluator_fields(messages, case):
@@ -206,6 +210,7 @@ def _run_actor_condition(
                             "probe_status": probe_status,
                         }
                     row["persistent_exploratory_status"] = "consumed"
+                    probe_action_history.append(result["action"])
                 if runtime_memory is not None and probe_status in TERMINAL_PROBE_STATUSES:
                     runtime_memory = None
                 row["runtime_probe_status"] = probe_status
@@ -257,6 +262,9 @@ def _run_actor_condition(
                 "probe_follow_review": "",
                 "probe_informative_review": "",
                 "task_continuation_review": "",
+                "probe_runtime_state_final": derive_probe_runtime_state(
+                    history, probe_action_history=probe_action_history
+                ),
             }
         )
     except Exception as error:

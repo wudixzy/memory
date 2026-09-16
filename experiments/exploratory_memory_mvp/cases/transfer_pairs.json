@@ -38,6 +38,18 @@
         "oracle_target_location": "toilet_1",
         "researcher_expected_conclusion": "A negative local result should narrow or leave the hypothesis unresolved, not falsify surface-first search everywhere."
       }
+    },
+    {
+      "pair_id": "p005-soapbottle-to-clean-apple-microwave-14",
+      "source_case_id": "alfworld-p-005-soapbottle-417",
+      "target_task_id": "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379",
+      "target_seed": 42,
+      "review_only": {
+        "target_transfer_class": "negative_transfer",
+        "scope_match_reason": "Different ALFWorld pick-and-clean task with a hidden requested object, accessible open surfaces, closed storage, and the same local locate-before-acquisition Functional Contract; the cleaning and placement obligations are the downstream state that the probe must preserve. Evaluator replay selected fridge_1 as the target source, so an open-surface-first probe can yield negative evidence before fallback to closed storage.",
+        "oracle_target_location": "fridge_1",
+        "researcher_expected_conclusion": "A negative local observation should terminate the surface probe or narrow the lesson, then allow ordinary search and downstream cleaning/placement without falsifying open-surface search generally."
+      }
     }
   ]
 }

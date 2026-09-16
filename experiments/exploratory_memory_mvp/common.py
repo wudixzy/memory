@@ -78,7 +78,19 @@ A_INPUT_KEYS = frozenset(
         "provenance",
     }
 )
+A_ENVIRONMENT_OUTCOME_KEYS = frozenset({"e1"})
+A_COUNTERFACTUAL_KEYS = frozenset(
+    {
+        "e0",
+        "e0_reference",
+        "baseline",
+        "counterfactual",
+        "matched_counterfactual",
+        "matched_initial_public_state",
+    }
+)
 ENTITY_RE = re.compile(r"\b[a-z][a-z0-9_]*_\d+\b", re.IGNORECASE)
+GO_TO_ENTITY_RE = re.compile(r"^go to ([a-z][a-z0-9_]*_\d+)$", re.IGNORECASE)
 
 
 class SchemaError(ValueError):
@@ -265,6 +277,7 @@ def actor_context(
     *,
     current_state: dict | None = None,
     executed_action_history: list[str] | None = None,
+    probe_action_history: list[str] | None = None,
     explicit_diagnostic: bool = False,
 ) -> dict:
     """Build one actor decision's current public context.
@@ -277,6 +290,10 @@ def actor_context(
 
     initial_state = b_input["current_initial_state"]
     state = current_state or initial_state
+    history = list(executed_action_history or [])
+    runtime_state = derive_probe_runtime_state(
+        history, probe_action_history=probe_action_history
+    )
     result = {
         "current_task": {
             **b_input["current_task"],
@@ -289,7 +306,8 @@ def actor_context(
             "done": state.get("done", False),
         },
         "pre_update_established_memories": b_input["pre_update_established_memories"],
-        "executed_action_history": list(executed_action_history or []),
+        "executed_action_history": history,
+        "probe_runtime_state": runtime_state,
     }
     if exploratory_memory is not None:
         result["exploratory_memory"] = exploratory_memory
@@ -299,6 +317,40 @@ def actor_context(
         )
     assert_no_evaluator_keys(result)
     return result
+
+
+def derive_probe_runtime_state(
+    executed_action_history: list[str], *, probe_action_history: list[str] | None = None
+) -> dict:
+    """Summarize only mechanically observable probe progress.
+
+    Receptacles are marked visited only when a public executed action is an
+    exact ``go to <entity_id>`` command.  The model still decides what a
+    visited observation means, when evidence is sufficient, and what action to
+    take next.  ``probe_action_count`` is supplied from the runner's executed
+    probe-action ledger; it is not a semantic progress score.
+    """
+
+    if not isinstance(executed_action_history, list) or any(
+        not isinstance(action, str) for action in executed_action_history
+    ):
+        raise SchemaError("Executed action history must be a list of strings")
+    probe_actions = (
+        executed_action_history if probe_action_history is None else probe_action_history
+    )
+    if not isinstance(probe_actions, list) or any(
+        not isinstance(action, str) for action in probe_actions
+    ):
+        raise SchemaError("Probe action history must be a list of strings")
+    visited = []
+    for action in executed_action_history:
+        match = GO_TO_ENTITY_RE.fullmatch(action.strip())
+        if match and match.group(1) not in visited:
+            visited.append(match.group(1))
+    return {
+        "visited_receptacles": visited,
+        "probe_action_count": len(probe_actions),
+    }
 
 
 def build_actor_base_input(
@@ -723,6 +775,9 @@ def validate_a_public_input(public: dict) -> dict:
     for key in ("target_trajectory", "probe_evidence", "environment_outcome"):
         if not isinstance(public[key], dict):
             raise SchemaError("A " + key + " must be an object")
+    outcome = public["environment_outcome"]
+    if set(outcome) != A_ENVIRONMENT_OUTCOME_KEYS or not isinstance(outcome["e1"], dict):
+        raise SchemaError("A environment_outcome must contain actual E1 evidence only")
     provenance = public["provenance"]
     if (
         not isinstance(provenance, list)
@@ -731,6 +786,7 @@ def validate_a_public_input(public: dict) -> dict:
     ):
         raise SchemaError("A provenance must be non-empty strings")
     assert_no_evaluator_keys(public)
+    _assert_no_counterfactual_keys(public)
     serialized = json.dumps(public, ensure_ascii=False, sort_keys=True).lower()
     for forbidden in (
         "evaluator",
@@ -743,6 +799,18 @@ def validate_a_public_input(public: dict) -> dict:
         if forbidden in serialized:
             raise SchemaError("Evaluator-only target information entered A input")
     return public
+
+
+def _assert_no_counterfactual_keys(value: Any) -> None:
+    if isinstance(value, dict):
+        leaked = A_COUNTERFACTUAL_KEYS.intersection(value)
+        if leaked:
+            raise SchemaError("Counterfactual baseline entered A public input")
+        for item in value.values():
+            _assert_no_counterfactual_keys(item)
+    elif isinstance(value, list):
+        for item in value:
+            _assert_no_counterfactual_keys(item)
 
 
 def validate_a_result(result: dict) -> dict:

@@ -5,25 +5,22 @@
     {
       "source_case_id": "alfworld-p-001-alarmclock",
       "public_evidence": [
-        "At entry the public room observation names several candidate receptacles, including open surfaces, closed drawers, a dresser, and a garbage can; the requested object is not visible in that entry observation.",
-        "The local function under comparison is choosing an order for attempting candidate receptacles before acquiring the requested object and preserving the downstream placement task.",
-        "Later source observations, the eventual source object location, and the completed source action trace are intentionally outside this C packet."
+        "The entry observation names candidate receptacles including open surfaces, closed drawers, a dresser, and a garbage can. The requested object is not visible in the entry observation.",
+        "The local function under comparison is selecting a search realization before acquiring the requested object while preserving the downstream placement task."
       ]
     },
     {
       "source_case_id": "alfworld-p-002-pencil",
       "public_evidence": [
-        "At entry the public room observation names multiple open and closed candidate receptacles, including a desk and cabinets; the requested object is not visible in that entry observation.",
-        "The local function under comparison is the search-order choice before object acquisition, while retaining a state from which the requested object can be carried to its destination.",
-        "Later source observations, the eventual source object location, and the completed source action trace are intentionally outside this C packet."
+        "The entry observation names multiple open and closed candidate receptacles, including a desk and cabinets. The requested object is not visible in the entry observation.",
+        "The local function under comparison is selecting a search realization before acquiring the requested object while preserving a state from which it can be carried to its destination."
       ]
     },
     {
       "source_case_id": "alfworld-p-005-soapbottle-417",
       "public_evidence": [
-        "At entry the public bathroom observation names closed cabinets and open-access surfaces such as a countertop and sinks; the requested object is not visible in that entry observation.",
-        "The local function under comparison is whether an open-access surface can be tried before the incumbent closed-container search without losing the downstream placement contract.",
-        "Later source observations, the eventual source object location, and the completed source action trace are intentionally outside this C packet."
+        "The entry observation names closed cabinets and accessible surfaces such as a countertop and sinks. The requested object is not visible in the entry observation.",
+        "The local function under comparison is selecting a search realization before acquiring the requested object while preserving the downstream placement contract."
       ]
     }
   ]
