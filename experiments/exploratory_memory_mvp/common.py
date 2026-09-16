@@ -2,8 +2,8 @@
 
 This module deliberately does not decide whether a case is semantically good,
 open, local, or informative.  Those are review judgments.  It only constructs
-the public context, validates JSON shape, and checks that proposed ALFWorld
-actions are structurally grounded in the real carrier capabilities.
+the separated public context, validates JSON shape, and checks that proposed
+ALFWorld actions are structurally grounded in the real carrier capabilities.
 """
 
 from __future__ import annotations
@@ -28,6 +28,20 @@ EVALUATOR_ONLY_KEYS = frozenset(
     }
 )
 DECISIONS = frozenset({"NONE", "OPEN"})
+B_INPUT_KEYS = frozenset(
+    {
+        "current_task",
+        "current_initial_state",
+        "current_trajectory",
+        "pre_update_established_memories",
+    }
+)
+B_EVIDENCE_KEYS = frozenset(
+    {"feasibility_support", "comparative_support", "policy_relevance"}
+)
+B_CONTRACT_KEYS = frozenset(
+    {"available_state", "local_function", "required_downstream_state", "constraints"}
+)
 
 
 class SchemaError(ValueError):
@@ -122,24 +136,23 @@ def _copy_public_memory(case: dict) -> dict:
     return result
 
 
-def public_context(case: dict, current: dict, historical: dict) -> dict:
-    """Return the exact B-visible context, without labels or oracle fields."""
+def public_context(case: dict, current: dict, current_trajectory: dict) -> dict:
+    """Return B's separated public context, without labels or oracle fields."""
 
     context = {
-        "current_task_and_state": {
+        "current_task": {
             "task_id": case["task_id"],
             "seed": case["seed"],
+        },
+        "current_initial_state": {
             "observation": current["observation"],
             "admissible_actions": current["admissible_actions"],
+            "won": current.get("won"),
         },
-        "established_memories": [
-            {
-                **_copy_public_memory(case),
-                "historical_experience": historical,
-            }
-        ],
+        "current_trajectory": current_trajectory,
+        "pre_update_established_memories": [{**_copy_public_memory(case)}],
     }
-    assert_public_isolated(context, case)
+    validate_b_public_input(context, case)
     return context
 
 
@@ -148,7 +161,7 @@ def c_context(b_input: dict, b_result: dict, capabilities: dict) -> dict:
 
     context = {
         "b_diagnosis": b_result,
-        "established_memories": b_input["established_memories"],
+        "established_memories": b_input["pre_update_established_memories"],
         "real_capabilities": capabilities,
     }
     assert_no_evaluator_keys(context)
@@ -161,8 +174,9 @@ def actor_context(
     """Build actor-visible E0/E1 context; diagnostic wording is explicit and separate."""
 
     result = {
-        "current_task_and_state": b_input["current_task_and_state"],
-        "established_memories": b_input["established_memories"],
+        "current_task": b_input["current_task"],
+        "current_initial_state": b_input["current_initial_state"],
+        "pre_update_established_memories": b_input["pre_update_established_memories"],
     }
     if exploratory_memory is not None:
         result["exploratory_memory"] = exploratory_memory
@@ -199,6 +213,78 @@ def assert_public_isolated(public: dict, case: dict) -> None:
     oracle = case["evaluator_notes"]["oracle_alternative_actions"]
     if json.dumps(oracle, ensure_ascii=False) in serialized:
         raise SchemaError("Oracle action list leaked into model context")
+
+
+def validate_b_public_input(public: dict, case: dict) -> dict:
+    """Validate B's provenance-separated public input mechanically.
+
+    This checks representation and leakage only.  It does not decide whether
+    the supplied case contains a meaningful comparison.
+    """
+
+    if not isinstance(public, dict) or set(public) != B_INPUT_KEYS:
+        raise SchemaError("B public input has the wrong top-level fields")
+    task = public["current_task"]
+    if not isinstance(task, dict) or set(task) != {"task_id", "seed"}:
+        raise SchemaError("B current_task is malformed")
+    if task["task_id"] != case["task_id"] or task["seed"] != case["seed"]:
+        raise SchemaError("B current_task does not match the case")
+    initial = public["current_initial_state"]
+    if not isinstance(initial, dict) or set(initial) != {
+        "observation",
+        "admissible_actions",
+        "won",
+    }:
+        raise SchemaError("B current_initial_state is malformed")
+    _nonempty_string(initial["observation"], "B current_initial_state.observation")
+    if not isinstance(initial["admissible_actions"], list) or any(
+        not isinstance(action, str) or not action.strip()
+        for action in initial["admissible_actions"]
+    ):
+        raise SchemaError("B current_initial_state.admissible_actions is malformed")
+    if initial["won"] is not None and type(initial["won"]) is not bool:
+        raise SchemaError("B current_initial_state.won is malformed")
+    trajectory = public["current_trajectory"]
+    if not isinstance(trajectory, dict):
+        raise SchemaError("B current_trajectory is malformed")
+    memories = public["pre_update_established_memories"]
+    if not isinstance(memories, list) or not memories or any(
+        not isinstance(memory, dict) for memory in memories
+    ):
+        raise SchemaError("B pre_update_established_memories is malformed")
+    serialized = json.dumps(public, ensure_ascii=False, sort_keys=True)
+    if "historical_experience" in serialized:
+        raise SchemaError("Current trajectory is nested as historical experience")
+    for forbidden in (
+        "real_capabilities",
+        "action_schema",
+        "observed_exact_actions",
+        "observed_entity_ids",
+        "currently_admissible",
+    ):
+        if '"' + forbidden + '"' in serialized:
+            raise SchemaError("Full capability data entered B public input")
+    assert_public_isolated(public, case)
+    return public
+
+
+def assert_b_prompt_isolated(messages: list[dict], case: dict) -> None:
+    """Ensure the main B prompt has no evaluator or full-capability payload."""
+
+    if prompt_has_evaluator_fields(messages, case):
+        raise SchemaError("Evaluator-only data entered B prompt")
+    serialized = json.dumps(messages, ensure_ascii=False, sort_keys=True)
+    if "capabilities.json" in serialized:
+        raise SchemaError("capabilities.json entered B prompt")
+    for forbidden in (
+        '"real_capabilities"',
+        '"action_schema"',
+        '"observed_exact_actions"',
+        '"observed_entity_ids"',
+        '"currently_admissible"',
+    ):
+        if forbidden in serialized:
+            raise SchemaError("Full capability document entered B prompt")
 
 
 def build_carrier_context(case: dict) -> tuple[dict, dict, dict]:
@@ -248,30 +334,43 @@ def _nonempty_string(value: Any, name: str) -> None:
 def validate_b_result(result: dict) -> dict:
     if not isinstance(result, dict) or result.get("decision") not in DECISIONS:
         raise SchemaError("B decision must be NONE or OPEN")
-    if result["decision"] == "NONE":
-        if set(result) != {"decision"}:
-            raise SchemaError("B NONE result has unexpected fields")
-        return result
-    expected = {"decision", "replaceable_segment", "functional_contract", "warrant"}
+    expected = {
+        "decision",
+        "incumbent_segment",
+        "evidence_status",
+        "functional_contract",
+        "warrant",
+    }
     if set(result) != expected:
-        raise SchemaError("B OPEN result has unexpected fields")
-    _nonempty_string(result["replaceable_segment"], "B replaceable_segment")
+        raise SchemaError("B result has unexpected fields")
+    segment = result["incumbent_segment"]
+    if segment is not None:
+        _nonempty_string(segment, "B incumbent_segment")
+    evidence = result["evidence_status"]
+    if not isinstance(evidence, dict) or set(evidence) != B_EVIDENCE_KEYS:
+        raise SchemaError("B evidence_status is malformed")
+    for key in B_EVIDENCE_KEYS:
+        _nonempty_string(evidence[key], "B evidence_status." + key)
     contract = result["functional_contract"]
-    if not isinstance(contract, dict) or set(contract) != {
-        "available_state",
-        "local_function",
-        "required_downstream_state",
-        "constraints",
-    }:
-        raise SchemaError("B functional_contract is malformed")
-    for key in ("available_state", "local_function", "required_downstream_state"):
-        _nonempty_string(contract[key], "B functional_contract." + key)
-    if (
-        not isinstance(contract["constraints"], list)
-        or not contract["constraints"]
-        or any(not isinstance(item, str) or not item.strip() for item in contract["constraints"])
-    ):
-        raise SchemaError("B constraints must be non-empty strings")
+    if contract is not None:
+        if not isinstance(contract, dict) or set(contract) != B_CONTRACT_KEYS:
+            raise SchemaError("B functional_contract is malformed")
+        for key in ("available_state", "local_function", "required_downstream_state"):
+            _nonempty_string(contract[key], "B functional_contract." + key)
+        if (
+            not isinstance(contract["constraints"], list)
+            or not contract["constraints"]
+            or any(
+                not isinstance(item, str) or not item.strip()
+                for item in contract["constraints"]
+            )
+        ):
+            raise SchemaError("B constraints must be non-empty strings")
+    if result["decision"] == "OPEN":
+        if segment is None:
+            raise SchemaError("B OPEN result needs an incumbent_segment")
+        if contract is None:
+            raise SchemaError("B OPEN result needs a functional_contract")
     _nonempty_string(result["warrant"], "B warrant")
     return result
 

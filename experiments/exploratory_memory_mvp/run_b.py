@@ -16,17 +16,23 @@ if str(EXPERIMENTS) not in sys.path:
 from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
+    assert_b_prompt_isolated,
     build_carrier_context,
     load_cases,
     make_run_directory,
     parse_json_object,
-    prompt_has_evaluator_fields,
     safe_error,
+    validate_b_public_input,
+    validate_b_result,
     write_json,
     write_jsonl,
 )
 from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
-from exploratory_memory_mvp.prompts import b_baseline_messages, b_messages  # noqa: E402
+from exploratory_memory_mvp.prompts import (  # noqa: E402
+    b_baseline_messages,
+    b_messages,
+    b_segment_hint_messages,
+)
 
 
 def _sha256(value: dict) -> str:
@@ -43,11 +49,15 @@ def run_b(
     env_file: Path = DEFAULT_ENV_FILE,
     limit: int | None = None,
     prompt_variant: str = "optimized",
+    segment_hint: str | None = None,
+    prepare_only: bool = False,
     transport_factory: Callable | None = None,
     context_factory: Callable | None = None,
 ) -> dict:
     if prompt_variant not in {"baseline", "optimized"}:
         raise ValueError("prompt_variant must be baseline or optimized")
+    if segment_hint is not None and prompt_variant != "optimized":
+        raise ValueError("segment_hint requires the optimized B prompt")
     cases = load_cases(cases_path)
     if limit is not None:
         if type(limit) is not int or limit < 1:
@@ -63,6 +73,8 @@ def run_b(
             "thinking": False,
             "temperature": 0,
             "prompt_variant": prompt_variant,
+            "segment_hint_diagnostic": segment_hint is not None,
+            "prepare_only": prepare_only,
             "cases_path": str(cases_path),
             "network_opt_in": allow_network,
             "proxy_policy": "direct transport; proxy variables removed and NO_PROXY=*",
@@ -70,7 +82,12 @@ def run_b(
         },
     )
     context_factory = context_factory or build_carrier_context
+    message_builder = b_baseline_messages if prompt_variant == "baseline" else b_messages
+    prepared = []
     rows = []
+
+    # Prepare every public input and prompt before creating any model client.
+    # This makes the representation audit a real gate before paid calls.
     for case in cases:
         case_dir = output / case["case_id"]
         case_dir.mkdir()
@@ -83,19 +100,58 @@ def run_b(
             "status": "started",
             "case_artifacts": str(case_dir),
         }
-        client = None
         try:
-            public_input, historical, capabilities = context_factory(case)
+            public_input, current_trajectory, capabilities = context_factory(case)
+            validate_b_public_input(public_input, case)
             write_json(case_dir / "b_input.json", public_input)
-            write_json(case_dir / "historical_experience.json", historical)
+            write_json(
+                case_dir / "current_initial_state.json", public_input["current_initial_state"]
+            )
+            write_json(case_dir / "current_trajectory.json", current_trajectory)
+            write_json(
+                case_dir / "pre_update_established_memories.json",
+                public_input["pre_update_established_memories"],
+            )
             write_json(case_dir / "capabilities.json", capabilities)
-            message_builder = b_baseline_messages if prompt_variant == "baseline" else b_messages
-            messages = message_builder(public_input)
-            if prompt_has_evaluator_fields(messages, case):
-                raise ValueError("Evaluator-only data entered B prompt")
+            if segment_hint is None:
+                messages = message_builder(public_input)
+            else:
+                messages = b_segment_hint_messages(public_input, segment_hint)
+            assert_b_prompt_isolated(messages, case)
             write_json(case_dir / "b_prompt.json", messages)
             row["public_input_sha256"] = _sha256(public_input)
             row["prompt_sha256"] = _sha256({"messages": messages})
+            row.update({"status": "prepared", "b_status": "input_ready"})
+            prepared.append({"case": case, "case_dir": case_dir, "messages": messages, "row": row})
+        except Exception as error:  # Continue so one malformed call is auditable.
+            row.update({"status": "failed", "error": safe_error(error)})
+            write_json(case_dir / "error.json", row["error"])
+        rows.append(row)
+
+    preparation_errors = [row for row in rows if row["status"] == "failed"]
+    if preparation_errors:
+        for item in prepared:
+            write_json(item["case_dir"] / "usage.json", {"status": "not_started"})
+            write_jsonl(item["case_dir"] / "model_events.jsonl", [])
+        result = {"stage": "B", "status": "input_preparation_failed", "cases": rows}
+        write_json(output / "b_results.json", result)
+        raise RuntimeError("B public-input preparation failed; no model calls were made")
+
+    if prepare_only:
+        for item in prepared:
+            write_json(item["case_dir"] / "usage.json", {"status": "not_started"})
+            write_jsonl(item["case_dir"] / "model_events.jsonl", [])
+        result = {"stage": "B", "status": "prepared_only", "cases": rows}
+        write_json(output / "b_results.json", result)
+        return result
+
+    for item in prepared:
+        case = item["case"]
+        case_dir = item["case_dir"]
+        messages = item["messages"]
+        row = item["row"]
+        client = None
+        try:
             factory = transport_factory
             if factory is None:
                 from exploratory_memory_mvp.common import default_transport_factory
@@ -108,17 +164,14 @@ def run_b(
             row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
             message = client.complete(messages, phase="B", max_tokens=1400)
             write_json(case_dir / "b_raw_response.json", message)
-            result = parse_json_object(message.get("content"), stage="B")
-            from exploratory_memory_mvp.common import validate_b_result
-
-            validate_b_result(result)
-            write_json(case_dir / "b_parsed.json", result)
+            parsed = validate_b_result(parse_json_object(message.get("content"), stage="B"))
+            write_json(case_dir / "b_parsed.json", parsed)
             row.update(
                 {
                     "status": "completed",
                     "b_status": "parsed",
-                    "b_decision": result["decision"],
-                    "parsed_output": result,
+                    "b_decision": parsed["decision"],
+                    "parsed_output": parsed,
                 }
             )
         except Exception as error:  # Continue so one malformed call is auditable.
@@ -131,8 +184,7 @@ def run_b(
             else:
                 write_json(case_dir / "usage.json", client_usage_report(client))
                 write_jsonl(case_dir / "model_events.jsonl", client.events)
-        rows.append(row)
-    result = {"stage": "B", "cases": rows}
+    result = {"stage": "B", "status": "completed", "cases": rows}
     write_json(output / "b_results.json", result)
     return result
 
@@ -151,6 +203,8 @@ def main() -> None:
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--prompt-variant", choices=("baseline", "optimized"), default="optimized")
+    parser.add_argument("--segment-hint")
+    parser.add_argument("--prepare-only", action="store_true")
     args = parser.parse_args()
     run_b(
         args.cases,
@@ -159,6 +213,8 @@ def main() -> None:
         env_file=args.env_file,
         limit=args.limit,
         prompt_variant=args.prompt_variant,
+        segment_hint=args.segment_hint,
+        prepare_only=args.prepare_only,
     )
 
 

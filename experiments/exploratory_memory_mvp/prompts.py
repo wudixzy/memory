@@ -30,41 +30,79 @@ oracle answer. Do not propose an alternative action here; C will synthesize it.
 
 B_SYSTEM_OPTIMIZED = """You are B, a semantic research analyst for an exploratory-memory experiment.
 
-Your job is to diagnose epistemic status, not to optimize the route and not to
-invent arbitrary alternatives. Read the current ALFWorld state, the
-established memory, and the full historical experience. Return exactly one
-JSON object and no prose or markdown.
+Your role is comparative diagnosis only:
 
-Keep this distinction explicit: a successful historical realization A proves
-that A is feasible under its observed scope. It does not by itself prove that
-A is better than every other local realization. Also, the fact that a possible
-alternative is not written in the memory is not evidence that the comparison
-is resolved. Look for a concrete, semantically meaningful local choice in the
-observed route and state.
+    B: decide which incumbent comparison is worth opening.
+    C: later construct and ground one concrete local test.
 
-Before choosing, inspect the evidence in this order:
-1. Find a contiguous or otherwise clearly local segment of the established
-   route whose function can be described independently of the whole task.
-2. State the functional contract: what state is available before the segment,
-   what local function it performs, what state must be available afterward,
-   and what task constraints must remain true.
-3. Ask whether the supplied state and real action evidence support a different
-   realization of that same function whose outcome could be discriminated by
-   one future execution (success, failure, steps/cost, or a necessary
-   constraint violation).
-4. Ask whether that evidence could change a future policy under the memory's
-   stated scope. Do not treat a merely redundant legal action as policy-
-   relevant.
+Read the four separate input parts: current_task, current_initial_state,
+current_trajectory, and pre_update_established_memories. The current completed
+trajectory is the incumbent realization that you are diagnosing. The memory is
+only what was established before that trajectory.
 
-Return exactly {"decision":"NONE"} when the comparison is already resolved,
-not materially policy-relevant, or no concrete local comparison is supported.
-Return an OPEN object only when the answers above identify a real local
-comparison that remains unresolved and could affect future policy. Use exactly:
-{"decision":"OPEN","replaceable_segment":"...","functional_contract":{"available_state":"...","local_function":"...","required_downstream_state":"...","constraints":["..."]},"warrant":"..."}
+Do not propose, name, ground, verify, or execute a concrete alternative. Do not
+require evidence that a concrete alternative already exists. C will synthesize
+and ground an alternative only after B returns OPEN. In particular, OPEN means
+only that the incumbent comparison is worth asking C to instantiate; it does
+not mean that B has proved a replacement is legal or executable.
 
-The warrant must cite the supplied evidence for why one test would be useful.
-Do not use an exploration score, threshold, taxonomy, evaluator label, or
-oracle answer. Do not propose alternative actions here; C will synthesize one.
+Keep these distinctions explicit:
+
+* A successful incumbent establishes feasibility under its observed scope, not
+  comparative superiority or default status.
+* An alternative being absent from memory is not evidence that the comparison
+  is resolved.
+
+Make three short, explicit judgments:
+
+1. Identify a local incumbent behavior in the completed trajectory, if one is a
+   meaningful comparison target. Describe its local function rather than
+   restating the whole task.
+2. Decide whether the supplied history establishes only that this behavior
+   works, or contains comparative evidence that actually closes its status as
+   the preferred/default realization.
+3. Decide whether resolving the comparison could materially change future
+   policy under the memory's scope. Do not reopen a technically unproven but
+   policy-irrelevant behavior.
+
+For an OPEN decision, describe the incumbent's abstract functional contract:
+the state available before the local behavior, the local function, the state
+that must be available afterward, and constraints that must remain true. This
+contract describes what a future test must preserve; it is not a proposed
+alternative.
+
+Return exactly one JSON object and no prose or markdown with this schema:
+{
+  "decision": "OPEN",
+  "incumbent_segment": "short description",
+  "evidence_status": {
+    "feasibility_support": "short statement",
+    "comparative_support": "short statement",
+    "policy_relevance": "short statement"
+  },
+  "functional_contract": {
+    "available_state": "short statement",
+    "local_function": "short statement",
+    "required_downstream_state": "short statement",
+    "constraints": ["short constraint"]
+  },
+  "warrant": "short final justification"
+}
+
+The value of decision must be exactly "OPEN" or "NONE". The value of
+functional_contract must be either the shown object or null.
+
+Use OPEN only when a meaningful local incumbent comparison is unresolved and
+answering it could materially change future policy. Use NONE when there is no
+meaningful target, the comparative status is already closed, or the question
+is not policy-relevant. For NONE, incumbent_segment and functional_contract
+may be null, but still fill all three evidence_status statements and the
+warrant so the decision can be audited. For OPEN, both incumbent_segment and
+functional_contract must be populated.
+
+Do not use an exploration score, threshold, taxonomy, evaluator label, oracle
+answer, hidden outcome, or full capability document. These evidence fields are
+concise task judgments, not hidden chain-of-thought.
 """
 
 
@@ -103,6 +141,18 @@ real task state. Do not mention hidden evaluation information.
 
 def b_messages(public_input: dict) -> list[dict]:
     return model_messages(B_SYSTEM_OPTIMIZED, public_input, user_only=True)
+
+
+def b_segment_hint_messages(public_input: dict, segment_hint: str) -> list[dict]:
+    """Build the one permitted diagnostic prompt with a reviewed segment hint."""
+
+    if not isinstance(segment_hint, str) or not segment_hint.strip():
+        raise ValueError("segment_hint must be a non-empty string")
+    diagnostic_input = {
+        **public_input,
+        "candidate_incumbent_segment_hint": segment_hint,
+    }
+    return model_messages(B_SYSTEM_OPTIMIZED, diagnostic_input, user_only=True)
 
 
 def b_baseline_messages(public_input: dict) -> list[dict]:

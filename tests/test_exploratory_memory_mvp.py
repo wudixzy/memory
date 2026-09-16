@@ -13,12 +13,14 @@ from experiments.exploratory_memory_mvp.common import (
     DEFAULT_CASES,
     SchemaError,
     actor_context,
+    assert_b_prompt_isolated,
     load_cases,
     parse_json_object,
     prompt_has_evaluator_fields,
     public_context,
     validate_action_grounding,
     validate_actor_result,
+    validate_b_public_input,
     validate_b_result,
     validate_c_result,
 )
@@ -56,6 +58,22 @@ class FixtureTests(unittest.TestCase):
             "final": {"won": True},
         }
         public = public_context(case, current, historical)
+        self.assertEqual(
+            set(public),
+            {
+                "current_task",
+                "current_initial_state",
+                "current_trajectory",
+                "pre_update_established_memories",
+            },
+        )
+        self.assertEqual(public["current_trajectory"], historical)
+        self.assertEqual(
+            public["pre_update_established_memories"][0]["memory_id"],
+            case["established_memory"]["memory_id"],
+        )
+        self.assertNotIn("historical_experience", json.dumps(public))
+        validate_b_public_input(public, case)
         public_messages = [{"role": "user", "content": json.dumps(public)}]
         self.assertFalse(prompt_has_evaluator_fields(public_messages, case))
         actor = actor_context(public)
@@ -63,17 +81,35 @@ class FixtureTests(unittest.TestCase):
         self.assertFalse(prompt_has_evaluator_fields(actor_messages, case))
         self.assertNotIn("case_type", json.dumps(public))
         self.assertNotIn("oracle_alternative_actions", json.dumps(public))
+        self.assertIn("current_trajectory", json.dumps(public_messages))
+        self.assertIn("pre_update_established_memories", json.dumps(public_messages))
 
     def test_json_and_stage_contracts_are_strict(self):
-        self.assertEqual(parse_json_object('{"decision":"NONE"}', stage="B"), {"decision": "NONE"})
+        b_none = {
+            "decision": "NONE",
+            "incumbent_segment": None,
+            "evidence_status": {
+                "feasibility_support": "The incumbent completed.",
+                "comparative_support": "Prior evidence already closes the comparison.",
+                "policy_relevance": "No policy change is warranted.",
+            },
+            "functional_contract": None,
+            "warrant": "The comparison is already resolved.",
+        }
         self.assertEqual(
-            parse_json_object('```json\n{"decision":"NONE"}\n```', stage="B"), {"decision": "NONE"}
+            parse_json_object(json.dumps(b_none), stage="B"),
+            b_none,
         )
-        validate_b_result({"decision": "NONE"})
+        self.assertEqual(
+            parse_json_object("```json\n" + json.dumps(b_none) + "\n```", stage="B"),
+            b_none,
+        )
+        validate_b_result(b_none)
         validate_c_result({"decision": "NONE"})
         validate_actor_result({"actions": ["look"]})
         for parser, value in (
             (parse_json_object, "not json"),
+            (validate_b_result, {"decision": "NONE"}),
             (validate_b_result, {"decision": "OPEN"}),
             (validate_c_result, {"decision": "CREATE"}),
             (validate_actor_result, {"actions": []}),
@@ -116,7 +152,12 @@ class FakeDashScopeTransport:
             content = json.dumps(
                 {
                     "decision": "OPEN",
-                    "replaceable_segment": "the local search before taking the object",
+                    "incumbent_segment": "the local search before taking the object",
+                    "evidence_status": {
+                        "feasibility_support": "The incumbent route completed.",
+                        "comparative_support": "No comparative result is in the pre-update memory.",
+                        "policy_relevance": "Changing search cost could affect future policy.",
+                    },
                     "functional_contract": {
                         "available_state": "the object and destination are reachable",
                         "local_function": "locate and take the requested object",
@@ -209,13 +250,24 @@ class ModelAndRunnerTests(unittest.TestCase):
                     self.assertNotIn(secret, repr(transport))
 
     def test_optimized_b_prompt_adds_positive_diagnosis_and_avoids_system_role(self):
-        payload = {"current_task_and_state": {}, "established_memories": []}
+        payload = {
+            "current_task": {},
+            "current_initial_state": {},
+            "current_trajectory": {},
+            "pre_update_established_memories": [],
+        }
         optimized = b_messages(payload)
         baseline = b_baseline_messages(payload)
         self.assertEqual(len(optimized), 1)
         self.assertEqual(optimized[0]["role"], "user")
         self.assertEqual(len(baseline), 2)
-        self.assertIn("successful historical realization A proves", optimized[0]["content"])
+        self.assertIn("successful incumbent establishes feasibility", optimized[0]["content"])
+        self.assertIn(
+            "require evidence that a concrete alternative already exists",
+            optimized[0]["content"],
+        )
+        self.assertNotIn('"real_capabilities"', optimized[0]["content"])
+        assert_b_prompt_isolated(optimized, load_cases(DEFAULT_CASES)[0])
 
     def test_b_and_c_runners_save_raw_contracts_with_fake_transport(self):
         case = load_cases(DEFAULT_CASES)[0]
@@ -267,6 +319,82 @@ class ModelAndRunnerTests(unittest.TestCase):
             self.assertEqual(c["cases"][0]["c_decision"], "CREATE")
             self.assertTrue(c["cases"][0]["mechanical_grounding"]["valid"])
             self.assertGreaterEqual(len(transports), 2)
+
+    def test_b_prepares_all_inputs_before_model_calls_and_persists_failures(self):
+        cases = load_cases(DEFAULT_CASES)
+        events = []
+
+        def context(case):
+            events.append(("context", case["case_id"]))
+            current = {
+                "observation": "A room with desk_1.",
+                "admissible_actions": ["look", "go to desk_1"],
+            }
+            trajectory = {
+                "initial": {"observation": "A room with desk_1."},
+                "steps": [],
+                "final": {"won": True},
+                "completed_requested_sequence": True,
+            }
+            capabilities = {
+                "action_names": ["look", "inventory", "go to", "take", "put"],
+                "observed_entity_ids": ["desk_1"],
+            }
+            return public_context(case, current, trajectory), trajectory, capabilities
+
+        def factory(case):
+            events.append(("transport", case["case_id"]))
+            return FakeDashScopeTransport()
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "prepared"
+            prepared = run_b(
+                DEFAULT_CASES,
+                root,
+                allow_network=False,
+                limit=2,
+                prepare_only=True,
+                transport_factory=factory,
+                context_factory=context,
+            )
+            self.assertEqual(prepared["status"], "prepared_only")
+            self.assertEqual([kind for kind, _ in events], ["context", "context"])
+            self.assertEqual(
+                len(list(root.glob("*/b_input.json"))),
+                2,
+            )
+            self.assertEqual(
+                [json.loads(path.read_text())["status"] for path in root.glob("*/usage.json")],
+                ["not_started", "not_started"],
+            )
+
+            class InvalidResponseTransport:
+                proxy_disabled = True
+
+                def __call__(self, payload):
+                    return {
+                        "usage": {
+                            "prompt_tokens": 12,
+                            "completion_tokens": 1,
+                            "total_tokens": 13,
+                        },
+                        "choices": [],
+                    }
+
+            failed_root = Path(directory) / "failed"
+            failed = run_b(
+                DEFAULT_CASES,
+                failed_root,
+                allow_network=False,
+                limit=1,
+                transport_factory=lambda _case: InvalidResponseTransport(),
+                context_factory=context,
+            )
+            failed_case = cases[0]["case_id"]
+            self.assertEqual(failed["cases"][0]["status"], "failed")
+            self.assertTrue((failed_root / failed_case / "error.json").is_file())
+            self.assertTrue((failed_root / failed_case / "usage.json").is_file())
+            self.assertTrue((failed_root / failed_case / "model_events.jsonl").is_file())
 
 
 if __name__ == "__main__":
