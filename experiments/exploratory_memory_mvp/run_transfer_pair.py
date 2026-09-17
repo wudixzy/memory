@@ -11,7 +11,11 @@ EXPERIMENTS = Path(__file__).resolve().parents[1]
 if str(EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(EXPERIMENTS))
 
-from exploratory_memory_mvp.alfworld_carrier import reset_task  # noqa: E402
+from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
+    PairingError,
+    StepwiseTask,
+    build_pairing_proof,
+)
 from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_ENV_FILE,
     build_a_input,
@@ -20,6 +24,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     future_exploratory_memory,
     make_run_directory,
     read_json,
+    safe_error,
     validate_c_result,
     write_json,
 )
@@ -99,111 +104,169 @@ def run_transfer_pair(
         raise ValueError("Transfer pair requires a future-facing exploratory memory")
 
     make_run_directory(output)
-    initial_e0 = reset_task(target_id, target_seed)
-    initial_e1 = reset_task(target_id, target_seed)
-    target_initial_match = (
-        initial_e0["observation"] == initial_e1["observation"]
-        and initial_e0["admissible_actions"] == initial_e1["admissible_actions"]
-    )
-    write_json(
-        output / "paired_initial_states.json",
-        {"match": target_initial_match, "e0": initial_e0, "e1": initial_e1},
-    )
-    if not target_initial_match:
-        raise RuntimeError("Target E0/E1 initial public states do not match")
+    e0_episode = None
+    e1_episode = None
+    pairing_proof = None
+    try:
+        # These are the actual target episodes passed to E0 and E1.  The
+        # pairing check is not based on separate discarded preflight resets.
+        e0_episode = StepwiseTask(target_id, target_seed)
+        e1_episode = StepwiseTask(
+            target_id, target_seed, replay_spec=e0_episode.replay_spec
+        )
+        pairing_proof = build_pairing_proof(e0_episode, e1_episode)
+        write_json(output / "pairing_proof.json", pairing_proof)
+        initial_e0 = e0_episode.state
+        initial_e1 = e1_episode.state
+        write_json(
+            output / "paired_initial_states.json",
+            {
+                "match": pairing_proof["public_initial_match"],
+                "actual_execution": True,
+                "e0": {
+                    **initial_e0,
+                    "initial_public_state_fingerprint": e0_episode.initial_public_state_fingerprint,
+                },
+                "e1": {
+                    **initial_e1,
+                    "initial_public_state_fingerprint": e1_episode.initial_public_state_fingerprint,
+                },
+            },
+        )
+        if not pairing_proof["pairing_valid"]:
+            raise PairingError("Actual target E0/E1 episodes do not have a valid pairing proof")
 
-    target_base = build_actor_base_input(
-        task_id=target_id,
-        seed=target_seed,
-        initial_state={
-            key: initial_e0[key]
-            for key in ("observation", "admissible_actions", "won")
-        },
-        established_memories=source_b_input["pre_update_established_memories"],
-    )
-    write_json(output / "target_actor_base_input.json", target_base)
-    write_json(output / "source_h_full.json", source_c_result)
-    write_json(output / "target_h_actor_view.json", h)
-    target_case = {
-        "case_id": target_id,
-        "task_id": target_id,
-        "seed": target_seed,
-    }
-    e0 = _run_actor_condition(
-        "e0_established_only",
-        target_base,
-        target_case,
-        output,
-        exploratory_memory=None,
-        allow_network=allow_network,
-        env_file=env_file,
-        step_cap=step_cap,
-        transport_factory=transport_factory,
-    )
-    e1 = _run_actor_condition(
-        "e1_established_plus_source_h",
-        target_base,
-        target_case,
-        output,
-        exploratory_memory=h,
-        allow_network=allow_network,
-        env_file=env_file,
-        step_cap=step_cap,
-        transport_factory=transport_factory,
-    )
+        target_base = build_actor_base_input(
+            task_id=target_id,
+            seed=target_seed,
+            initial_state={
+                key: initial_e0[key]
+                for key in ("observation", "admissible_actions", "won")
+            },
+            established_memories=source_b_input["pre_update_established_memories"],
+        )
+        write_json(output / "target_actor_base_input.json", target_base)
+        write_json(output / "source_h_full.json", source_c_result)
+        write_json(output / "target_h_actor_view.json", h)
+        target_case = {
+            "case_id": target_id,
+            "task_id": target_id,
+            "seed": target_seed,
+        }
+        e0 = _run_actor_condition(
+            "e0_established_only",
+            target_base,
+            target_case,
+            output,
+            exploratory_memory=None,
+            allow_network=allow_network,
+            env_file=env_file,
+            step_cap=step_cap,
+            transport_factory=transport_factory,
+            episode=e0_episode,
+            pairing_proof=pairing_proof,
+            pairing_role="e0",
+        )
+        e1 = _run_actor_condition(
+            "e1_established_plus_source_h",
+            target_base,
+            target_case,
+            output,
+            exploratory_memory=h,
+            allow_network=allow_network,
+            env_file=env_file,
+            step_cap=step_cap,
+            transport_factory=transport_factory,
+            episode=e1_episode,
+            pairing_proof=pairing_proof,
+            pairing_role="e1",
+        )
 
-    e1_execution = read_json(output / "e1_established_plus_source_h" / "execution.json")
-    e1_steps = _step_records(output / "e1_established_plus_source_h")
-    probe_steps = [
-        step
-        for step in e1_steps
-        if step.get("exploratory_memory_visible")
-        or step.get("probe_status") not in (None, "NOT_ACTIVE")
-    ]
-    target_task = _public_target_task(initial_e1, target_id, target_seed)
-    a_input = build_a_input(
-        pre_update_established_memories=source_b_input["pre_update_established_memories"],
-        consumed_exploratory_memory=source_c_result,
-        target_task=target_task,
-        target_trajectory=e1_execution,
-        probe_evidence={
-            "condition": "E1",
-            "probe_steps": probe_steps,
-            "probe_status_history": e1.get("probe_status_history", []),
-        },
-        environment_outcome={
-            "e1": e1.get("execution", {}),
-        },
-        provenance=[
-            f"source_c:{source_id}",
-            f"target_task:{target_id}",
-            "target_pair:stepwise_e0_e1",
-        ],
-    )
-    write_json(output / "a_input.json", a_input)
-    a = run_a(
-        a_input,
-        output / "a",
-        allow_network=allow_network,
-        env_file=env_file,
-        transport_factory=transport_factory,
-    )
-    result = {
-        "stage": "local_c_transfer_and_a",
-        "pair_id": pair_id,
-        "source_case_id": source_id,
-        "target_task_id": target_id,
-        "target_seed": target_seed,
-        "target_initial_public_state_match": target_initial_match,
-        "e0": e0,
-        "e1": e1,
-        "a": a,
-        "artifacts": str(output),
-        "review_only": pair["review_only"],
-        "semantic_review_required": True,
-    }
-    write_json(output / "transfer_pair.json", result)
-    return result
+        e1_execution = read_json(output / "e1_established_plus_source_h" / "execution.json")
+        e1_steps = _step_records(output / "e1_established_plus_source_h")
+        probe_steps = [
+            step
+            for step in e1_steps
+            if step.get("exploratory_memory_visible")
+            or step.get("probe_status") not in (None, "NOT_ACTIVE")
+        ]
+        target_task = _public_target_task(initial_e1, target_id, target_seed)
+        a_input = build_a_input(
+            pre_update_established_memories=source_b_input["pre_update_established_memories"],
+            consumed_exploratory_memory=source_c_result,
+            target_task=target_task,
+            target_trajectory=e1_execution,
+            probe_evidence={
+                "condition": "E1",
+                "probe_steps": probe_steps,
+                "probe_status_history": e1.get("probe_status_history", []),
+            },
+            environment_outcome={
+                "e1": e1.get("execution", {}),
+            },
+            provenance=[
+                f"source_c:{source_id}",
+                f"target_task:{target_id}",
+                "target_pair:stepwise_e0_e1",
+            ],
+        )
+        write_json(output / "a_input.json", a_input)
+        a = run_a(
+            a_input,
+            output / "a",
+            allow_network=allow_network,
+            env_file=env_file,
+            transport_factory=transport_factory,
+        )
+        result = {
+            "stage": "local_c_transfer_and_a",
+            "pair_id": pair_id,
+            "source_case_id": source_id,
+            "target_task_id": target_id,
+            "target_seed": target_seed,
+            "pairing_valid": pairing_proof["pairing_valid"],
+            "target_initial_public_state_match": pairing_proof["public_initial_match"],
+            "pairing_proof": pairing_proof,
+            "e0": e0,
+            "e1": e1,
+            "a": a,
+            "artifacts": str(output),
+            "review_only": pair["review_only"],
+            "semantic_review_required": True,
+        }
+        write_json(output / "transfer_pair.json", result)
+        return result
+    except Exception as error:
+        if pairing_proof is None:
+            write_json(
+                output / "pairing_proof.json",
+                {
+                    "schema_version": "0.1",
+                    "pairing_mode": "replayable_episode_spec",
+                    "pairing_valid": False,
+                    "task_id": target_id,
+                    "requested_seed": target_seed,
+                    "error": safe_error(error),
+                },
+            )
+        else:
+            write_json(
+                output / "pairing_proof.json",
+                {
+                    **pairing_proof,
+                    "pairing_valid": False,
+                    "error": safe_error(error),
+                },
+            )
+        write_json(output / "error.json", safe_error(error))
+        raise
+    finally:
+        for episode in (e0_episode, e1_episode):
+            if episode is not None:
+                try:
+                    episode.close()
+                except Exception:
+                    pass
 
 
 def main() -> None:

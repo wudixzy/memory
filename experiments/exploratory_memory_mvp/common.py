@@ -34,6 +34,19 @@ EVALUATOR_ONLY_KEYS = frozenset(
         "why",
     }
 )
+MODEL_INVISIBLE_KEYS = frozenset(
+    {
+        "pairing_proof",
+        "pairing_mode",
+        "game_identity",
+        "game_file_sha256",
+        "initial_state_sha256",
+        "pddl_problem_sha256",
+        "underlying_state_match_evidence",
+        "e0_initial_fingerprint",
+        "e1_initial_fingerprint",
+    }
+)
 DECISIONS = frozenset({"NONE", "OPEN"})
 C_DECISIONS = frozenset({"NONE", "CREATE"})
 A_DECISIONS = frozenset({"NO_CHANGE", "UPDATE"})
@@ -392,6 +405,9 @@ def assert_no_evaluator_keys(value: Any) -> None:
         leaked = EVALUATOR_ONLY_KEYS.intersection(value)
         if leaked:
             raise SchemaError("Evaluator-only field leaked into model context")
+        pairing_fields = MODEL_INVISIBLE_KEYS.intersection(value)
+        if pairing_fields:
+            raise SchemaError("Model-invisible pairing field leaked into model context")
         for item in value.values():
             assert_no_evaluator_keys(item)
     elif isinstance(value, list):
@@ -1062,7 +1078,10 @@ def prompt_has_evaluator_fields(messages: list[dict], case: dict) -> bool:
     """Test helper: hidden structured fields must not be injected in prompts."""
 
     serialized = json.dumps(messages, ensure_ascii=False, sort_keys=True)
-    if any(('"' + key + '"') in serialized for key in EVALUATOR_ONLY_KEYS):
+    if any(
+        ('"' + key + '"') in serialized
+        for key in EVALUATOR_ONLY_KEYS | MODEL_INVISIBLE_KEYS
+    ):
         return True
     oracle = case.get("evaluator_notes", {}).get("oracle_alternative_actions")
     return isinstance(oracle, list) and json.dumps(oracle, ensure_ascii=False) in serialized

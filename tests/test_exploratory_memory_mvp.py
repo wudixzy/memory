@@ -9,6 +9,12 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from experiments.exploratory_memory_mvp.alfworld_carrier import (
+    PairingError,
+    assert_pairing_proof_matches_episode,
+    build_pairing_proof,
+    canonical_initial_public_state_fingerprint,
+)
 from experiments.exploratory_memory_mvp.common import (
     DEFAULT_CASES,
     SchemaError,
@@ -389,6 +395,36 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual(actor["probe_runtime_state"]["visited_receptacles"], ["desk_1"])
         self.assertEqual(actor["probe_runtime_state"]["probe_action_count"], 1)
 
+    def test_initial_public_fingerprint_is_canonical_but_order_sensitive(self):
+        state = {
+            "observation": "A room.",
+            "admissible_actions": ["look", "go to desk_1"],
+            "won": False,
+        }
+        self.assertEqual(
+            canonical_initial_public_state_fingerprint(dict(state)),
+            canonical_initial_public_state_fingerprint(dict(state)),
+        )
+        reordered = {**state, "admissible_actions": ["go to desk_1", "look"]}
+        self.assertNotEqual(
+            canonical_initial_public_state_fingerprint(state),
+            canonical_initial_public_state_fingerprint(reordered),
+        )
+
+    def test_unprovable_pair_cannot_match_a_causal_pairing_proof(self):
+        e0 = FakeStepwiseTask("fixture", 42)
+        e1 = FakeStepwiseTask("fixture", 42)
+        e1._initial["observation"] = "A different room."
+        e1._state = dict(e1._initial)
+        e1._initial_public_state_fingerprint = canonical_initial_public_state_fingerprint(
+            e1._initial
+        )
+        proof = build_pairing_proof(e0, e1)
+        self.assertFalse(proof["pairing_valid"])
+        self.assertIn("public_initial_state_mismatch", proof["invalid_reasons"])
+        with self.assertRaises(PairingError):
+            assert_pairing_proof_matches_episode(proof, e0, "e0")
+
 
 class FakeDashScopeTransport:
     def __init__(self):
@@ -482,9 +518,19 @@ class FakeDashScopeTransport:
 
 
 class FakeStepwiseTask:
-    def __init__(self, task_id, seed):
+    created_replay_specs = []
+
+    def __init__(self, task_id, seed, replay_spec=None):
         self.task_id = task_id
         self.seed = seed
+        type(self).created_replay_specs.append(replay_spec)
+        self.replay_spec = replay_spec or {
+            "game_identity": "fixture/game.tw-pddl",
+            "game_file_sha256": "fixture-game",
+            "initial_state_sha256": "fixture-initial",
+            "pddl_problem_sha256": "fixture-pddl",
+            "pddl_problem_matches_initial_state": True,
+        }
         self._initial = {
             "observation": "Your task is: put pencil_1 in shelf_1.",
             "admissible_actions": ["look"],
@@ -493,12 +539,31 @@ class FakeStepwiseTask:
         }
         self._state = dict(self._initial)
         self._steps = []
+        self._initial_public_state_fingerprint = canonical_initial_public_state_fingerprint(
+            self._initial
+        )
 
     @property
     def state(self):
         return {
             **self._state,
             "admissible_actions": list(self._state["admissible_actions"]),
+        }
+
+    @property
+    def initial_public_state_fingerprint(self):
+        return self._initial_public_state_fingerprint
+
+    @property
+    def pairing_metadata(self):
+        return {
+            "task_id": self.task_id,
+            "requested_seed": self.seed,
+            "game_identity": self.replay_spec["game_identity"],
+            "game_file_sha256": self.replay_spec["game_file_sha256"],
+            "initial_state_sha256": self.replay_spec["initial_state_sha256"],
+            "pddl_problem_sha256": self.replay_spec["pddl_problem_sha256"],
+            "initial_public_state_fingerprint": self.initial_public_state_fingerprint,
         }
 
     def step(self, action):
@@ -808,14 +873,8 @@ class ModelAndRunnerTests(unittest.TestCase):
                 transports.append(transport)
                 return transport
 
+            FakeStepwiseTask.created_replay_specs.clear()
             with patch(
-                "experiments.exploratory_memory_mvp.run_online_pair.reset_task",
-                return_value={
-                    "observation": "Your task is: put pencil_1 in shelf_1.",
-                    "admissible_actions": ["look"],
-                    "won": False,
-                },
-            ), patch(
                 "experiments.exploratory_memory_mvp.run_online_pair.StepwiseTask",
                 FakeStepwiseTask,
             ):
@@ -828,6 +887,51 @@ class ModelAndRunnerTests(unittest.TestCase):
                     step_cap=5,
                 )
             self.assertTrue(result["paired_initial_state_match"])
+            self.assertEqual(len(FakeStepwiseTask.created_replay_specs), 2)
+            self.assertIsNone(FakeStepwiseTask.created_replay_specs[0])
+            self.assertIsInstance(FakeStepwiseTask.created_replay_specs[1], dict)
+            pairing_proof = read_json(root / "online/pairing_proof.json")
+            self.assertTrue(pairing_proof["pairing_valid"])
+            self.assertEqual(
+                pairing_proof["e0_initial_fingerprint"],
+                read_json(root / "online/e0_established_only/initial_state.json")[
+                    "initial_public_state_fingerprint"
+                ],
+            )
+            self.assertEqual(
+                pairing_proof["e1_initial_fingerprint"],
+                read_json(root / "online/e1_established_plus_exploratory/initial_state.json")[
+                    "initial_public_state_fingerprint"
+                ],
+            )
+            self.assertTrue(
+                read_json(root / "online/paired_initial_states.json")["actual_execution"]
+            )
+            self.assertFalse(
+                any(
+                    "pairing_proof" in json.dumps(payload)
+                    for transport in transports
+                    for payload in transport.payloads
+                )
+            )
+            for field in (
+                "pairing_mode",
+                "game_identity",
+                "game_file_sha256",
+                "initial_state_sha256",
+                "pddl_problem_sha256",
+                "e0_initial_fingerprint",
+                "e1_initial_fingerprint",
+                "underlying_state_match_evidence",
+            ):
+                self.assertFalse(
+                    any(
+                        field in json.dumps(payload)
+                        for transport in transports
+                        for payload in transport.payloads
+                    ),
+                    field,
+                )
             self.assertEqual(result["e0"]["actor_steps"], 3)
             self.assertEqual(result["e1"]["actor_steps"], 3)
             self.assertEqual(result["e1"]["execution"]["won"], True)
@@ -987,9 +1091,6 @@ class ModelAndRunnerTests(unittest.TestCase):
                     }
 
             with patch(
-                "experiments.exploratory_memory_mvp.run_online_pair.reset_task",
-                return_value={**current, "won": False},
-            ), patch(
                 "experiments.exploratory_memory_mvp.run_online_pair.StepwiseTask",
                 FakeStepwiseTask,
             ):
@@ -1241,16 +1342,9 @@ class ModelAndRunnerTests(unittest.TestCase):
                 },
             )
 
-            def target_reset(_task_id, _seed):
-                return {
-                    "observation": "Your task is: put pencil_1 in shelf_1.",
-                    "admissible_actions": ["look"],
-                    "won": False,
-                }
-
             with patch(
-                "experiments.exploratory_memory_mvp.run_transfer_pair.reset_task",
-                side_effect=target_reset,
+                "experiments.exploratory_memory_mvp.run_transfer_pair.StepwiseTask",
+                FakeStepwiseTask,
             ), patch(
                 "experiments.exploratory_memory_mvp.run_online_pair.StepwiseTask",
                 FakeStepwiseTask,
@@ -1277,6 +1371,12 @@ class ModelAndRunnerTests(unittest.TestCase):
                     step_cap=5,
                 )
             self.assertTrue(result["target_initial_public_state_match"])
+            self.assertTrue(result["pairing_valid"])
+            proof = read_json(root / "transfer/pairing_proof.json")
+            self.assertTrue(proof["pairing_valid"])
+            self.assertTrue(
+                read_json(root / "transfer/paired_initial_states.json")["actual_execution"]
+            )
             self.assertTrue(result["e1"]["target_time_grounding"]["current_action_valid"])
             h_view = json.loads((root / "transfer/target_h_actor_view.json").read_text())
             self.assertNotIn("source_grounding", h_view)

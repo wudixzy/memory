@@ -11,7 +11,12 @@ EXPERIMENTS = Path(__file__).resolve().parents[1]
 if str(EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(EXPERIMENTS))
 
-from exploratory_memory_mvp.alfworld_carrier import StepwiseTask, reset_task  # noqa: E402
+from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
+    PairingError,
+    StepwiseTask,
+    assert_pairing_proof_matches_episode,
+    build_pairing_proof,
+)
 from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
@@ -79,6 +84,9 @@ def _run_actor_condition(
     step_cap: int,
     transport_factory: Callable | None,
     explicit_diagnostic: bool = False,
+    episode: StepwiseTask | None = None,
+    pairing_proof: dict | None = None,
+    pairing_role: str | None = None,
 ) -> dict:
     """Run one condition while keeping the real carrier episode open."""
 
@@ -100,16 +108,26 @@ def _run_actor_condition(
         "status": "started",
     }
     client = None
-    episode = None
+    owns_episode = episode is None
     history: list[str] = []
     probe_action_history: list[str] = []
     probe_status_history: list[str] = []
     runtime_memory = exploratory_memory
     execution = None
     try:
-        episode = StepwiseTask(case["task_id"], case["seed"])
+        if episode is None:
+            episode = StepwiseTask(case["task_id"], case["seed"])
+        if pairing_proof is not None:
+            if pairing_role is None:
+                raise PairingError("A pairing role is required with a pairing proof")
+            assert_pairing_proof_matches_episode(pairing_proof, episode, pairing_role)
         first_state = episode.state
-        write_json(condition_dir / "initial_state.json", first_state)
+        initial_fingerprint = episode.initial_public_state_fingerprint
+        write_json(
+            condition_dir / "initial_state.json",
+            {**first_state, "initial_public_state_fingerprint": initial_fingerprint},
+        )
+        row["initial_public_state_fingerprint"] = initial_fingerprint
         for step_number in range(1, step_cap + 1):
             current_state = episode.state
             if current_state.get("done"):
@@ -300,7 +318,7 @@ def _run_actor_condition(
         row.update({"status": "failed", "error": safe_error(error)})
         write_json(condition_dir / "error.json", row["error"])
     finally:
-        if episode is not None:
+        if owns_episode and episode is not None:
             try:
                 episode.close()
             except Exception:
@@ -368,51 +386,55 @@ def run_online_pair(
             "established_memory_source": str(b_root / "b_input.json"),
             "exploratory_memory_source": str(c_root / "c_parsed.json"),
             "e2_is_diagnostic_only": True,
+            "pairing_mode": "replayable_episode_spec",
         },
     )
-    e0_state = reset_task(case["task_id"], case["seed"])
-    e1_state = reset_task(case["task_id"], case["seed"])
-    paired_initial_state_match = (
-        e0_state["observation"] == e1_state["observation"]
-        and e0_state["admissible_actions"] == e1_state["admissible_actions"]
-    )
-    write_json(
-        output / "paired_initial_states.json",
-        {
-            "match": paired_initial_state_match,
-            "e0": e0_state,
-            "e1": e1_state,
-        },
-    )
-    if not paired_initial_state_match:
-        raise RuntimeError("E0/E1 initial public states do not match")
+    e0_episode = None
+    e1_episode = None
+    pairing_proof = None
+    try:
+        # These are the actual episodes subsequently passed to the actor loop.
+        # No separate preflight reset is used as pairing evidence.
+        e0_episode = StepwiseTask(case["task_id"], case["seed"])
+        e1_episode = StepwiseTask(
+            case["task_id"], case["seed"], replay_spec=e0_episode.replay_spec
+        )
+        pairing_proof = build_pairing_proof(e0_episode, e1_episode)
+        write_json(output / "pairing_proof.json", pairing_proof)
+        write_json(
+            output / "paired_initial_states.json",
+            {
+                "match": pairing_proof["public_initial_match"],
+                "actual_execution": True,
+                "e0": {
+                    **e0_episode.state,
+                    "initial_public_state_fingerprint": e0_episode.initial_public_state_fingerprint,
+                },
+                "e1": {
+                    **e1_episode.state,
+                    "initial_public_state_fingerprint": e1_episode.initial_public_state_fingerprint,
+                },
+            },
+        )
+        if not pairing_proof["pairing_valid"]:
+            raise PairingError("Actual E0/E1 episodes do not have a valid pairing proof")
 
-    e0 = _run_actor_condition(
-        "e0_established_only",
-        b_input,
-        case,
-        output,
-        exploratory_memory=None,
-        allow_network=allow_network,
-        env_file=env_file,
-        step_cap=step_cap,
-        transport_factory=transport_factory,
-    )
-    e1 = _run_actor_condition(
-        "e1_established_plus_exploratory",
-        b_input,
-        case,
-        output,
-        exploratory_memory=future_exploratory_memory(c_result),
-        allow_network=allow_network,
-        env_file=env_file,
-        step_cap=step_cap,
-        transport_factory=transport_factory,
-    )
-    e2 = None
-    if run_e2 and e1.get("status") in {"completed", "step_cap_reached"}:
-        e2 = _run_actor_condition(
-            "e2_explicit_oracle_diagnostic",
+        e0 = _run_actor_condition(
+            "e0_established_only",
+            b_input,
+            case,
+            output,
+            exploratory_memory=None,
+            allow_network=allow_network,
+            env_file=env_file,
+            step_cap=step_cap,
+            transport_factory=transport_factory,
+            episode=e0_episode,
+            pairing_proof=pairing_proof,
+            pairing_role="e0",
+        )
+        e1 = _run_actor_condition(
+            "e1_established_plus_exploratory",
             b_input,
             case,
             output,
@@ -421,33 +443,76 @@ def run_online_pair(
             env_file=env_file,
             step_cap=step_cap,
             transport_factory=transport_factory,
-            explicit_diagnostic=True,
+            episode=e1_episode,
+            pairing_proof=pairing_proof,
+            pairing_role="e1",
         )
+        e2 = None
+        if run_e2 and e1.get("status") in {"completed", "step_cap_reached"}:
+            e2 = _run_actor_condition(
+                "e2_explicit_oracle_diagnostic",
+                b_input,
+                case,
+                output,
+                exploratory_memory=future_exploratory_memory(c_result),
+                allow_network=allow_network,
+                env_file=env_file,
+                step_cap=step_cap,
+                transport_factory=transport_factory,
+                explicit_diagnostic=True,
+            )
 
-    comparison = {
-        "e0": _execution_summary_from_row(e0),
-        "e1": _execution_summary_from_row(e1),
-        "mechanically_different_outcome_signature": _execution_summary_from_row(e0)
-        != _execution_summary_from_row(e1),
-    }
-    result = {
-        "experiment": "B",
-        "case_id": case_id,
-        "paired_initial_state_match": paired_initial_state_match,
-        "e0": e0,
-        "e1": e1,
-        "e2": e2,
-        "comparative_evidence": comparison,
-        "semantic_review": {
-            "actor_locally_followed_exploratory_memory": "",
-            "probe_informative": "",
-            "probe_stopped_locally": "",
-            "actor_continued_original_task": "",
-            "e2_is_not_method_evidence": True,
-        },
-    }
-    write_json(output / "online_pair.json", result)
-    return result
+        comparison = {
+            "e0": _execution_summary_from_row(e0),
+            "e1": _execution_summary_from_row(e1),
+            "mechanically_different_outcome_signature": _execution_summary_from_row(e0)
+            != _execution_summary_from_row(e1),
+        }
+        result = {
+            "experiment": "B",
+            "case_id": case_id,
+            "pairing_valid": pairing_proof["pairing_valid"],
+            "paired_initial_state_match": pairing_proof["public_initial_match"],
+            "pairing_proof": pairing_proof,
+            "e0": e0,
+            "e1": e1,
+            "e2": e2,
+            "comparative_evidence": comparison,
+            "semantic_review": {
+                "actor_locally_followed_exploratory_memory": "",
+                "probe_informative": "",
+                "probe_stopped_locally": "",
+                "actor_continued_original_task": "",
+                "e2_is_not_method_evidence": True,
+            },
+        }
+        write_json(output / "online_pair.json", result)
+        return result
+    except Exception as error:
+        if pairing_proof is None:
+            write_json(
+                output / "pairing_proof.json",
+                {
+                    "schema_version": "0.1",
+                    "pairing_mode": "replayable_episode_spec",
+                    "pairing_valid": False,
+                    "task_id": case["task_id"],
+                    "requested_seed": case["seed"],
+                    "error": safe_error(error),
+                },
+            )
+        else:
+            failed_proof = {**pairing_proof, "pairing_valid": False, "error": safe_error(error)}
+            write_json(output / "pairing_proof.json", failed_proof)
+        write_json(output / "error.json", safe_error(error))
+        raise
+    finally:
+        for episode in (e0_episode, e1_episode):
+            if episode is not None:
+                try:
+                    episode.close()
+                except Exception:
+                    pass
 
 
 def _execution_summary_from_row(row: dict) -> dict:

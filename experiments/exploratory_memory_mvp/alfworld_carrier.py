@@ -9,6 +9,8 @@ records observations/reward/termination information.
 from __future__ import annotations
 
 import contextlib
+import hashlib
+import json
 import random
 import re
 import sys
@@ -23,6 +25,10 @@ CONFIG = UPSTREAM / "automanual_alfworld" / "base_config.yaml"
 
 class CarrierUnavailable(RuntimeError):
     """The pinned real carrier cannot be loaded in the current environment."""
+
+
+class PairingError(RuntimeError):
+    """The carrier cannot prove that a scientific E0/E1 pair is valid."""
 
 
 ACTION_SCHEMA = [
@@ -104,7 +110,239 @@ def _safe_task_path(task_id: str) -> Path:
     return path
 
 
-def _make_env(task_id: str, seed: int):
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def _sha256_file(path: Path) -> str:
+    try:
+        return _sha256_bytes(path.read_bytes())
+    except OSError:
+        raise CarrierUnavailable("Pinned ALFWorld task file cannot be read") from None
+
+
+def episode_replay_spec(task_id: str, seed: int) -> dict:
+    """Return the exact cached TextWorld episode specification.
+
+    The text carrier does not place objects at reset time.  ``PddlEnv`` loads
+    the cached ``game.tw-pddl`` JSON and constructs its initial state from the
+    embedded static ``pddl_problem``.  Hashing both that problem and its
+    source ``initial_state.pddl`` makes the replay assumption explicit and
+    auditable without putting hidden state into an actor prompt.
+    """
+
+    if type(seed) is not int:
+        raise CarrierUnavailable("Requested seed must be an integer")
+    task_path = _safe_task_path(task_id)
+    game_path = task_path / "game.tw-pddl"
+    initial_path = task_path / "initial_state.pddl"
+    trajectory_path = task_path / "traj_data.json"
+    domain_path = DATA / "logic" / "alfred.pddl"
+    if not game_path.is_file() or not initial_path.is_file() or not trajectory_path.is_file():
+        raise CarrierUnavailable("Pinned ALFWorld episode specification is incomplete")
+    try:
+        game_data = json.loads(game_path.read_text(encoding="utf-8"))
+    except (OSError, TypeError, json.JSONDecodeError):
+        raise CarrierUnavailable("Pinned ALFWorld game specification is invalid") from None
+    pddl_problem = game_data.get("pddl_problem")
+    if not isinstance(pddl_problem, str) or not pddl_problem:
+        raise CarrierUnavailable("Pinned ALFWorld game has no static PDDL problem")
+    try:
+        initial_bytes = initial_path.read_bytes()
+    except OSError:
+        raise CarrierUnavailable("Pinned ALFWorld initial state cannot be read") from None
+    pddl_bytes = pddl_problem.encode("utf-8")
+    if pddl_bytes != initial_bytes:
+        raise PairingError(
+            "Cached game.tw-pddl and initial_state.pddl do not describe the same state"
+        )
+    try:
+        game_identity = str(game_path.relative_to(ROOT))
+        initial_identity = str(initial_path.relative_to(ROOT))
+        trajectory_identity = str(trajectory_path.relative_to(ROOT))
+    except ValueError:
+        raise CarrierUnavailable("Pinned ALFWorld episode path is outside the repository") from None
+    return {
+        "task_id": task_id,
+        "requested_seed": seed,
+        "game_identity": game_identity,
+        "game_file_sha256": _sha256_file(game_path),
+        "initial_state_identity": initial_identity,
+        "initial_state_sha256": _sha256_bytes(initial_bytes),
+        "pddl_problem_sha256": _sha256_bytes(pddl_bytes),
+        "trajectory_identity": trajectory_identity,
+        "trajectory_sha256": _sha256_file(trajectory_path),
+        "domain_sha256": _sha256_file(domain_path),
+        "pddl_problem_matches_initial_state": True,
+        "replay_spec_kind": "cached_static_pddl_problem",
+    }
+
+
+def canonical_initial_public_state(state: dict) -> dict:
+    """Return the ordered, actor-visible fields used for a reset fingerprint."""
+
+    if not isinstance(state, dict):
+        raise PairingError("Initial public state must be an object")
+    observation = state.get("observation")
+    admissible_actions = state.get("admissible_actions")
+    if not isinstance(observation, str) or not observation:
+        raise PairingError("Initial public observation is malformed")
+    if not isinstance(admissible_actions, list) or any(
+        not isinstance(action, str) or not action for action in admissible_actions
+    ):
+        raise PairingError("Initial public admissible actions are malformed")
+    won = state.get("won")
+    if won is not None and type(won) is not bool:
+        raise PairingError("Initial public won flag is malformed")
+    return {
+        "observation": observation,
+        "admissible_actions": list(admissible_actions),
+        "won": won,
+    }
+
+
+def canonical_initial_public_state_fingerprint(state: dict) -> str:
+    """Hash the exact ordered public reset state, without semantic normalization."""
+
+    canonical = json.dumps(
+        canonical_initial_public_state(state),
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return _sha256_bytes(canonical.encode("utf-8"))
+
+
+def _pairing_metadata(episode: "StepwiseTask") -> dict:
+    spec = getattr(episode, "replay_spec", None)
+    if not isinstance(spec, dict) or not isinstance(
+        getattr(episode, "initial_public_state_fingerprint", None), str
+    ):
+        raise PairingError("Pairing requires an initialized episode with replay metadata")
+    required = {
+        "game_identity",
+        "game_file_sha256",
+        "initial_state_sha256",
+        "pddl_problem_sha256",
+        "pddl_problem_matches_initial_state",
+    }
+    if not required.issubset(spec) or spec["pddl_problem_matches_initial_state"] is not True:
+        raise PairingError("Pairing replay metadata is incomplete or unproven")
+    return {
+        "task_id": episode.task_id,
+        "requested_seed": episode.seed,
+        "game_identity": spec["game_identity"],
+        "game_file_sha256": spec["game_file_sha256"],
+        "initial_state_sha256": spec["initial_state_sha256"],
+        "pddl_problem_sha256": spec["pddl_problem_sha256"],
+        "initial_public_state_fingerprint": episode.initial_public_state_fingerprint,
+    }
+
+
+def build_pairing_proof(e0: "StepwiseTask", e1: "StepwiseTask") -> dict:
+    """Build a model-invisible proof for the two actual execution episodes."""
+
+    e0_meta = _pairing_metadata(e0)
+    e1_meta = _pairing_metadata(e1)
+    static_keys = (
+        "task_id",
+        "requested_seed",
+        "game_identity",
+        "game_file_sha256",
+        "initial_state_sha256",
+        "pddl_problem_sha256",
+    )
+    static_match = all(e0_meta[key] == e1_meta[key] for key in static_keys)
+    public_match = (
+        e0_meta["initial_public_state_fingerprint"]
+        == e1_meta["initial_public_state_fingerprint"]
+    )
+    underlying_match = {
+        "same_game_file_sha256": e0_meta["game_file_sha256"] == e1_meta["game_file_sha256"],
+        "same_initial_state_sha256": e0_meta["initial_state_sha256"]
+        == e1_meta["initial_state_sha256"],
+        "same_pddl_problem_sha256": e0_meta["pddl_problem_sha256"]
+        == e1_meta["pddl_problem_sha256"],
+        "cached_pddl_matches_initial_state": e0.replay_spec[
+            "pddl_problem_matches_initial_state"
+        ]
+        and e1.replay_spec["pddl_problem_matches_initial_state"],
+        "carrier_state_construction": (
+            "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs "
+            "GameProgression from that static problem without object-placement RNG."
+        ),
+    }
+    underlying_checks = tuple(
+        value
+        for key, value in underlying_match.items()
+        if key != "carrier_state_construction"
+    )
+    valid = static_match and public_match and all(underlying_checks)
+    proof = {
+        "schema_version": "0.1",
+        "pairing_mode": "replayable_episode_spec",
+        "pairing_valid": valid,
+        "task_id": e0_meta["task_id"],
+        "requested_seed": e0_meta["requested_seed"],
+        "game_identity": e0_meta["game_identity"],
+        "game_file_sha256": e0_meta["game_file_sha256"],
+        "initial_state_sha256": e0_meta["initial_state_sha256"],
+        "pddl_problem_sha256": e0_meta["pddl_problem_sha256"],
+        "e0_initial_fingerprint": e0_meta["initial_public_state_fingerprint"],
+        "e1_initial_fingerprint": e1_meta["initial_public_state_fingerprint"],
+        "public_initial_match": public_match,
+        "underlying_state_match_evidence": underlying_match,
+        "actual_execution_episodes": {
+            "e0": e0_meta,
+            "e1": e1_meta,
+        },
+    }
+    if not valid:
+        proof["invalid_reasons"] = [
+            reason
+            for reason, condition in (
+                ("replay_spec_mismatch", not static_match),
+                ("public_initial_state_mismatch", not public_match),
+                ("underlying_state_match_not_proven", not all(underlying_checks)),
+            )
+            if condition
+        ]
+    return proof
+
+
+def assert_pairing_proof_matches_episode(proof: dict, episode: "StepwiseTask", role: str) -> None:
+    """Ensure the episode handed to the runner is the episode in the proof."""
+
+    if role not in {"e0", "e1"}:
+        raise PairingError("Pairing proof role must be e0 or e1")
+    if not isinstance(proof, dict) or proof.get("pairing_valid") is not True:
+        raise PairingError("Pairing proof is not valid")
+    expected = proof.get(f"{role}_initial_fingerprint")
+    actual = episode.initial_public_state_fingerprint
+    if expected != actual:
+        raise PairingError(f"Actual {role} episode does not match pairing proof")
+    metadata = _pairing_metadata(episode)
+    for key in (
+        "task_id",
+        "requested_seed",
+        "game_identity",
+        "game_file_sha256",
+        "initial_state_sha256",
+        "pddl_problem_sha256",
+    ):
+        if metadata[key] != proof.get(key):
+            raise PairingError(f"Actual {role} replay specification does not match pairing proof")
+    proof_episode = proof.get("actual_execution_episodes", {}).get(role)
+    if not isinstance(proof_episode, dict):
+        raise PairingError("Pairing proof does not identify the actual episode")
+    if any(proof_episode.get(key) != metadata[key] for key in metadata):
+        raise PairingError(f"Actual {role} episode metadata does not match pairing proof")
+
+
+def _make_env(task_id: str, seed: int, replay_spec: dict | None = None):
+    actual_spec = episode_replay_spec(task_id, seed)
+    if replay_spec is not None and actual_spec != replay_spec:
+        raise PairingError("Pinned ALFWorld replay specification changed before episode creation")
     task_path = _safe_task_path(task_id)
     if not CONFIG.is_file() or not (DATA / "logic" / "alfred.pddl").is_file():
         raise CarrierUnavailable("Pinned ALFWorld source/data are unavailable")
@@ -170,10 +408,15 @@ def reset_task(task_id: str, seed: int = 42) -> dict:
 class StepwiseTask:
     """Keep one real ALFWorld episode open for one-action-at-a-time control."""
 
-    def __init__(self, task_id: str, seed: int = 42):
+    def __init__(self, task_id: str, seed: int = 42, replay_spec: dict | None = None):
         self.task_id = task_id
         self.seed = seed
-        self._env = _make_env(task_id, seed)
+        if replay_spec is None:
+            replay_spec = episode_replay_spec(task_id, seed)
+        elif not isinstance(replay_spec, dict):
+            raise PairingError("Replay specification must be an object")
+        self.replay_spec = replay_spec
+        self._env = _make_env(task_id, seed, replay_spec=self.replay_spec)
         self._steps: list[dict] = []
         try:
             observations, infos = self._env.reset()
@@ -184,6 +427,9 @@ class StepwiseTask:
                 "done": False,
             }
             self._state = dict(self._initial)
+            self._initial_public_state_fingerprint = canonical_initial_public_state_fingerprint(
+                self._initial
+            )
         except Exception:
             self._env.close()
             raise
@@ -198,6 +444,18 @@ class StepwiseTask:
             "won": self._state.get("won"),
             "done": self._state.get("done", False),
         }
+
+    @property
+    def initial_public_state_fingerprint(self) -> str:
+        """Fingerprint captured before any action is executed."""
+
+        return self._initial_public_state_fingerprint
+
+    @property
+    def pairing_metadata(self) -> dict:
+        """Return model-invisible identity data for pairing audits."""
+
+        return _pairing_metadata(self)
 
     def step(self, action: str) -> dict:
         """Execute exactly one currently admissible action and return its result."""
@@ -233,7 +491,10 @@ class StepwiseTask:
         return {
             "task_id": self.task_id,
             "seed": self.seed,
-            "initial": dict(self._initial),
+            "initial": {
+                **self._initial,
+                "initial_public_state_fingerprint": self.initial_public_state_fingerprint,
+            },
             "steps": [dict(step) for step in self._steps],
             "executed_actions": [step["action"] for step in self._steps],
             "final": final,
