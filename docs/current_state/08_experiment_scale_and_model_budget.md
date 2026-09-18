@@ -134,13 +134,13 @@ Pilot 默认：
 
 actor episode 数约：
 
-[
+\[
 20\text{–}30
 \times 3
 \times 2
 =
 120\text{–}180
-]
+\]
 
 unique scientific units 仍然只有：
 
@@ -213,13 +213,13 @@ B/C 必须固定。
 
 这可能对应每 benchmark 约：
 
-[
+\[
 50\text{–}100
 \times 3
 \times 2\text{–}3
 =
 300\text{–}900
-]
+\]
 
 actor episodes。
 
@@ -328,14 +328,14 @@ held-out 比较：
 
 actor evaluation episode 数大约：
 
-[
+\[
 10\text{–}15
 \times 3\text{–}5
 \times 2
 \times 2
 =
 120\text{–}300
-]
+\]
 
 另加 10–15 个产生 update 的 exploratory episodes。
 

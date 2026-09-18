@@ -39,12 +39,12 @@ Read in this order:
 
 Method-native initialization is fixed conceptually as:
 
-[
+\[
 G_0=G_{tool},\quad
 K_0^{established}=\varnothing,\quad
 K_0^{exploratory}=\varnothing,\quad
 \mathcal T_0=\varnothing
-]
+\]
 
 but **Phase 1 deliberately uses a controlled warm-start K***. Do not confuse the experiment initialization with the method definition.
 
@@ -52,9 +52,9 @@ but **Phase 1 deliberately uses a controlled warm-start K***. Do not confuse the
 
 Prepare the smallest defensible experiment for:
 
-[
+\[
 \boxed{C3\;vs.\;C2}
-]
+\]
 
 where:
 
