@@ -26,6 +26,9 @@
 6. [06_open_questions_and_handoff.md](./06_open_questions_and_handoff.md)  
    当前尚未解决的科学问题、接下来应该讨论什么、不应该重新打开什么，以及新人接手时的操作顺序。
 
+7. [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)  
+   当前正式实验推进路线：Phase 0–5、每阶段科学问题与 stop rule、benchmark admission、native cold-start 与 full-system evaluation 的进入条件。
+
 ## 当前一句话定位
 
 现有 persistent memory 主要擅长复用已经成功的历史经验，但“历史上成功过”只提供 feasibility evidence，并不等价于“这个 realization 相比替代方案更好”。本工作希望 memory 不仅保存 established knowledge，还能从历史行为中识别重要但尚未解决的 comparative question，并把它转化成 future-facing、one-shot、grounded 的 exploratory memory，使未来匹配任务主动产生新的 comparative evidence。
@@ -92,3 +95,17 @@
 当前阶段默认优先级已经从“这个 idea 能不能跑”转向：
 
     这个 idea 相比合理 baseline 是否具有系统性、可重复、可归因的价值？
+
+
+## 当前实验推进路线
+
+后续默认按以下科学 gate 恢复系统复杂度：
+
+    Phase 0  Mechanism sanity（基本完成）
+      -> Phase 1  Targeting value：C3 vs fair C2
+      -> Phase 2  Native cold-start memory formation：Stage1 + A
+      -> Phase 3  One-step memory evolution：K_t vs K_{t+1}
+      -> Phase 4  Automatic retrieval / activation
+      -> Phase 5  Full native cold-start longitudinal system
+
+从 Phase 1 开始使用真实 benchmark task distribution，但仍属于 controlled benchmark-backed evaluation；Phase 3 才开始形成较正式的 method-level benchmark claim；Phase 5 才是完整 cold-start system 的正式 longitudinal benchmark evaluation。详见 [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)。

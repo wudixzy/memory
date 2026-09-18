@@ -436,32 +436,59 @@ Repeated runs 属于 nested repetitions。
 
 ## 17. 当前推荐的评测推进顺序
 
-### Step 1
+完整阶段定义见 [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)。当前顺序收束为：
 
-把 C2 定义成真正公平 baseline。
+### Phase 1 — Targeting Value
 
-### Step 2
+- 把 C2 定义成真正公平的 structured generic-exploration baseline；
+- 并行筛 2–3 个 benchmark candidate，并做 base-actor reliability / admission audit；
+- 用固定 warm-start `K*`、oracle/structural match 做 C1/C2/C3 Frozen-history pilot；
+- target 必须来自预注册的真实 benchmark scope-matched distribution，不能依据 hidden outcome 挑 positive case；
+- 第一核心结论是 C3 vs C2，而不是 C3 vs C0。
 
-决定是否加入 C2b on-demand exploration。
+C2b on-demand exploration 保留为 strong baseline；推荐在 C3 相对 C2 已出现稳定信号后再加入，而不是第一次 pilot 同时增加变量。
 
-### Step 3
+### Phase 2 — Native Cold-Start Memory Formation
 
-筛选 2–3 个 benchmark candidate。
+恢复方法原生初始化：
 
-### Step 4
+[
+G_0=G_{tool},\quad
+K_0^{est}=\varnothing,\quad
+K_0^{exp}=\varnothing,\quad
+\mathcal T_0=\varnothing
+]
 
-做 base actor reliability + benchmark admission audit。
+接入最小 Stage1 + A，先审计 raw trajectory -> established memory / Semantic Concept 的形成质量，特别检查 feasibility 是否被错误升级为 comparative preference。
 
-### Step 5
+### Phase 3 — One-Step Memory Evolution
 
-先做 Frozen-history pilot。
+闭合一次：
 
-### Step 6
+    K_t -> B -> C/H -> evidence -> A -> K_{t+1}
 
-加入 auto retrieval。
+然后在新的 held-out tasks 上比较 `K_t` 与 `K_{t+1}`，验证 exploratory evidence 是否真正带来 later-task memory benefit。
 
-### Step 7
+### Phase 4 — Automatic Retrieval
 
-最后接 Stage1 + full closed-loop longitudinal evaluation。
+在 H content / execution / memory update 已分别有信号后，再比较：
 
-不要一次性把所有模块和 benchmark 都接上。
+    C3_oracle-match
+    vs.
+    C3_auto-retrieval
+
+分离 retrieval miss、wrong activation、grounding 与 actor failure。
+
+### Phase 5 — Full Longitudinal System
+
+最后才从 method-native cold start 实现完整：
+
+    task
+    -> online acting
+    -> Stage1/A/B/C
+    -> K_{t+1}
+    -> next task
+
+并进行 longitudinal benchmark evaluation。
+
+不要一次性把所有模块和 benchmark 都接上。每个 phase 都应有 stop rule；前一个科学 gate 没有可解释信号时，不恢复下一层系统复杂度。

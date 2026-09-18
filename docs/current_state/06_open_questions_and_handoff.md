@@ -13,9 +13,18 @@
 
 因此当前默认策略是：
 
-> Freeze core MVP method; shift effort to evaluation design.
+> Freeze core MVP method; shift effort to staged contribution validation.
 
 如果没有新的反例，不再围绕少量 controlled case 持续修改 B/C/H/A。
+
+当前正式实验路线已收束到 [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)：
+
+    Phase 0  Mechanism sanity（基本完成）
+      -> Phase 1  Targeting value：C3 vs fair C2
+      -> Phase 2  Native cold-start memory formation：Stage1 + A
+      -> Phase 3  One-step memory evolution：K_t vs K_{t+1}
+      -> Phase 4  Automatic retrieval
+      -> Phase 5  Full native cold-start longitudinal system
 
 ## 2. 最优先未决问题
 
@@ -37,7 +46,7 @@
 
 否则 C3 > C2 无法解释。
 
-## Q2. 是否加入 On-demand Target-time Exploration Baseline？
+## Q2. 什么时候加入 On-demand Target-time Exploration Baseline？
 
 候选：
 
@@ -45,9 +54,16 @@
 
 它不保存 source H，而在 target 到来时现场生成 local alternative。
 
-需要讨论：
+当前默认顺序：
 
-- 是否是 reviewer 很可能要求的强 baseline；
+    先 C1 / fair C2 / C3
+    -> 若 C3 相对 C2 有稳定信号
+    -> 再加入 C2b
+
+这样先回答 history-derived targeting 是否有额外信息，再回答这种信息是否值得持久化而不是 target-time 重建。
+
+仍需讨论：
+
 - online cost 是否过大；
 - 是否能公平控制 model capability；
 - 是否应作为主表还是 appendix/ablation。
@@ -66,21 +82,31 @@
 
 不能混用。
 
-## Q4. Automatic H Retrieval 怎么测？
+## Q4. Automatic H Retrieval 什么时候、怎么测？
 
-需要至少拆：
+当前不作为 Phase 1 的首要变量。
 
-    oracle/researcher match
+先用：
+
+    oracle / structural scope match
+
+隔离 H content + execution；在 targeted exploration、native memory formation 和至少一次 memory-evolution value 已获得可解释信号后，再进入：
+
+    C3_oracle-match
     vs.
-    automatic retrieval
+    C3_auto-retrieval
 
 否则 retrieval miss 会污染 H quality 判断。
 
 ## Q5. Stage1 在什么时候接入？
 
-建议不要立即接。
+当前顺序已经明确：
 
-先完成 B/C/H 的正式 intervention evaluation，再加入 Stage1。
+1. Phase 1 先 bypass Stage1，验证 C3 vs fair C2 的 targeting value；
+2. 若有稳定信号，Phase 2 立即回到 method-native cold start，接入最小 Stage1 + A；
+3. Stage1/A 应在 automatic retrieval 与 full longitudinal system 之前完成 upstream realizability audit。
+
+Stage1 不是最终才补的工程模块，而是决定方法能否从空 experience memory 自然长出可信 established memory 的关键科学 gate。
 
 ## Q6. 选哪 2–3 个 Benchmark？
 
@@ -205,55 +231,70 @@
 
 ## 8. 下一轮讨论的推荐议程
 
-### 第一部分：Baseline Fairness
+### 第一部分：Phase 1 Baseline Fairness
 
-- C2 的结构化 generic H 怎么定义；
-- 是否加入 C2b；
-- C1/C2/C3 的 A update 是否统一。
+- C2 的 structured generic H 怎么定义；
+- C1/C2/C3 如何共享 authority / lifecycle / actor / budget；
+- target-pool scope 如何在看 outcome 前预注册；
+- C2b 暂不要求同时实现。
 
-### 第二部分：Evaluation Regimes
-
-- Frozen-history；
-- Oracle H match；
-- Auto retrieval；
-- Full closed-loop。
-
-### 第三部分：Benchmark Audit
+### 第二部分：Benchmark Admission
 
 重新筛 2–3 个候选 benchmark。
 
 每个 benchmark 都明确：
 
-- 可以观察哪一层；
+- Phase 1 可以观察哪一层；
+- 是否支持后续 Phase 2 native formation 与 Phase 5 longitudinal sequence；
 - base actor 是否可靠；
 - pairing/randomization 是否成立；
+- objective 是否原生区分 behavior quality；
 - 成本；
 - failure taxonomy。
 
-### 第四部分：Actor / Budget
+### 第三部分：Actor / Pilot Protocol
 
 - main actor；
 - weak-model robustness actor；
-- API vs local；
+- base reliability threshold；
 - pilot run count；
-- token/cost budget。
+- token/cost budget；
+- statistical unit。
+
+### 第四部分：Phase 1 Frozen-History Protocol
+
+- 固定 warm-start K*；
+- oracle / structural H match；
+- C1/C2/C3；
+- artifact / telemetry；
+- stop rule。
+
+Auto retrieval、production Stage1、longitudinal runner 暂不进入下一实现周期。
 
 ## 9. 下一阶段完成标准
 
-在启动 broad run 前，至少应该确定：
+在启动 Phase 1 pilot 前，至少应该确定：
 
 - 公平 C2；
-- 是否有 C2b；
+- 固定 warm-start K* 的实验边界；
+- scope-matched target-pool sampling protocol；
 - Frozen-history protocol；
-- retrieval protocol；
-- 2–3 admitted benchmark；
-- main actor；
+- 至少 1 个先行 admitted benchmark / carrier，另有 1–2 个候选 admission memo；
+- main actor 与 base reliability screen；
 - metric table；
 - statistical unit；
 - pilot budget；
-- failure attribution schema。
+- failure attribution schema；
+- Phase 1 stop rule。
 
-如果这些没定清楚，不建议直接启动大规模实验。
+当前不要求先完成：
+
+- C2b；
+- automatic retrieval protocol；
+- production Stage1；
+- full longitudinal runner。
+
+这些由 Phase 1–3 的科学 gate 决定是否值得继续投入。
 
 ## 10. 当前仓库状态
 
