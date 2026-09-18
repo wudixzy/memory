@@ -452,12 +452,12 @@ C2b on-demand exploration 保留为 strong baseline；推荐在 C3 相对 C2 已
 
 恢复方法原生初始化：
 
-[
+\[
 G_0=G_{tool},\quad
 K_0^{est}=\varnothing,\quad
 K_0^{exp}=\varnothing,\quad
 \mathcal T_0=\varnothing
-]
+\]
 
 接入最小 Stage1 + A，先审计 raw trajectory -> established memory / Semantic Concept 的形成质量，特别检查 feasibility 是否被错误升级为 comparative preference。
 

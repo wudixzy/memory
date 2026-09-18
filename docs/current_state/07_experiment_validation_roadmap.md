@@ -37,7 +37,7 @@
 
 方法原生 cold start 定义为：
 
-[
+\[
 \boxed{
 \begin{aligned}
 G_0 &= G_{tool} \\
@@ -45,7 +45,7 @@ K_0^{established} &= \varnothing \\
 K_0^{exploratory} &= \varnothing \\
 \mathcal T_0 &= \varnothing
 \end{aligned}}
-]
+\]
 
 其中：
 
@@ -56,9 +56,9 @@ K_0^{exploratory} &= \varnothing \\
 
 但是，前几阶段实验允许使用固定 warm-start snapshot：
 
-[
+\[
 K_{0,MVP}^{established}=K^*
-]
+\]
 
 它只用于控制变量，不属于方法 native initialization，也不能被当作 full-system result。
 
@@ -115,9 +115,9 @@ K_{0,MVP}^{established}=K^*
 
 核心 comparison：
 
-[
+\[
 \boxed{C3\;vs.\;C2}
-]
+\]
 
 辅助条件：
 
@@ -214,9 +214,9 @@ Mechanism：
 
 核心 paired/statistical quantity可以包括：
 
-[
+\[
 \Delta cost = cost(C3)-cost(C2)
-]
+\]
 
 以及 C3 相对 C1 的 incremental effect。
 
@@ -304,12 +304,12 @@ Benchmark admission 与 Phase 1 准备并行进行。
 
 从方法原生 cold start：
 
-[
+\[
 G_0=G_{tool},\quad
 K_0^{est}=\varnothing,\quad
 K_0^{exp}=\varnothing,\quad
 \mathcal T_0=\varnothing
-]
+\]
 
 出发：
 
@@ -386,14 +386,14 @@ K_0^{exp}=\varnothing,\quad
 
 在 Phase 1 和 Phase 2 都通过后，第一次闭合：
 
-[
+\[
 K_t
 \rightarrow B
 \rightarrow C/H
 \rightarrow E
 \rightarrow A
 \rightarrow K_{t+1}
-]
+\]
 
 ### 7.1 科学问题
 
@@ -411,11 +411,11 @@ K_t
 
 然后在新的 held-out task pool 上比较：
 
-[
+\[
 Actor(K_t)
 \quad vs.\quad
 Actor(K_{t+1})
-]
+\]
 
 为了隔离 established-memory update 的价值，held-out evaluation 第一版可以不再提供 active H。
 
@@ -423,14 +423,14 @@ Actor(K_{t+1})
 
 如果 K_{t+1} 在 held-out tasks 上稳定优于 K_t，才真正支持：
 
-[
+\[
 \boxed{
 Exploration
 \rightarrow Evidence
 \rightarrow Memory Evolution
 \rightarrow Later-task Benefit
 }
-]
+\]
 
 而不只是：
 
@@ -460,21 +460,21 @@ Phase 4 才加入：
 
 ### 8.1 核心比较
 
-[
+\[
 C3_{oracle-match}
 \quad vs.\quad
 C3_{auto-retrieval}
-]
+\]
 
 定义：
 
-[
+\[
 Retrieval\ Gap
 =
 Performance(C3_{oracle})
 -
 Performance(C3_{auto})
-]
+\]
 
 ### 8.2 Failure attribution
 
@@ -506,69 +506,69 @@ retrieval 可以：
 
 必须从方法原生 cold start 开始：
 
-[
+\[
 \boxed{
 G_0=G_{tool},\quad
 K_0^{est}=\varnothing,\quad
 K_0^{exp}=\varnothing,\quad
 \mathcal T_0=\varnothing
 }
-]
+\]
 
 不是人工 seed strategy memory。
 
 ### 9.2 完整 loop
 
-[
+\[
 Task_t
 \rightarrow Online\ Retrieval/Activation/Acting
 \rightarrow \tau_t
-]
+\]
 
 然后：
 
-[
+\[
 \tau_t
 \xrightarrow{Stage1}
 M_t^{cand}
-]
+\]
 
 并行：
 
-[
+\[
 M_t^{cand}
 \rightarrow A
 \rightarrow established\ update
-]
+\]
 
 以及：
 
-[
+\[
 (M_t^{cand},K_{pre})
 \rightarrow B
 \rightarrow C
 \rightarrow H
-]
+\]
 
 统一 materialize：
 
-[
+\[
 K_{t+1}
-]
+\]
 
 继续：
 
-[
+\[
 K_0\rightarrow K_1\rightarrow K_2\rightarrow\cdots
-]
+\]
 
 ### 9.3 主要纵向性质
 
 周期性在 frozen held-out probe pool 上测：
 
-[
+\[
 J(K_t)
-]
+\]
 
 同时报告：
 
@@ -585,23 +585,23 @@ J(K_t)
 
 理想性质不是每 episode 单调变好，而是分布意义上：
 
-[
+\[
 Performance(t)\uparrow
-]
+\]
 
 同时后期：
 
-[
+\[
 B\text{-OPEN}(t)\downarrow
-]
+\]
 
-[
+\[
 A\text{-Update}(t)\downarrow
-]
+\]
 
-[
+\[
 Memory\ Churn(t)\downarrow
-]
+\]
 
 最终形成在 observed task distribution / proposal space 下相对稳定的 memory。
 
