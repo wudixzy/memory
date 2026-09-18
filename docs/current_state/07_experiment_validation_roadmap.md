@@ -715,3 +715,12 @@ Phase 5 承担长期 system claim。
 核心纪律：
 
 > Do not restore a source of system complexity until the previous scientific gate has produced interpretable evidence.
+
+
+## 14. 规模与模型预算
+
+每个阶段的 pilot / paper-scale 数据量、repetition、模型角色和 actor-episode 数量级不在本文重复展开，统一见：
+
+    docs/current_state/08_experiment_scale_and_model_budget.md
+
+当前 Phase 1 readiness 不直接执行未来的 120–180 episode paid pilot；先冻结 fair C2、K* provenance、target-pool sampling、lead benchmark 与 main actor，再启动 paid matrix。

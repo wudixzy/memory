@@ -29,6 +29,9 @@
 7. [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)  
    当前正式实验推进路线：Phase 0–5、每阶段科学问题与 stop rule、benchmark admission、native cold-start 与 full-system evaluation 的进入条件。
 
+8. [08_experiment_scale_and_model_budget.md](./08_experiment_scale_and_model_budget.md)  
+   各阶段 pilot / paper-scale 数据量、repetition、模型角色、actor episode 数量级、成本升级条件与下一实现周期规模。
+
 ## 当前一句话定位
 
 现有 persistent memory 主要擅长复用已经成功的历史经验，但“历史上成功过”只提供 feasibility evidence，并不等价于“这个 realization 相比替代方案更好”。本工作希望 memory 不仅保存 established knowledge，还能从历史行为中识别重要但尚未解决的 comparative question，并把它转化成 future-facing、one-shot、grounded 的 exploratory memory，使未来匹配任务主动产生新的 comparative evidence。
