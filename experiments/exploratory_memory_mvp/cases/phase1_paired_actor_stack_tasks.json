@@ -1,0 +1,41 @@
+{
+  "schema_version": "phase1-paired-actor-stack-task-manifest-v1",
+  "manifest_id": "phase1a-paired-actor-stack-development-v1",
+  "status": "frozen_development_only",
+  "selection_basis": "The five existing actor-stack development tasks used for D0/D1/D2; membership is frozen before P0/P1/P2 model calls and is not an admission or target registry.",
+  "source_partition": "former_hard_calibration_development_set",
+  "development_only": true,
+  "manifest_sha256": "5895aac538f1d1c39f9242ed82ec6a61a05ce4bba3ad3d6ab4ba1bb1eb11c90b",
+  "tasks": [
+    {
+      "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "a0027e8b0249344bf81475d15fad3936066547d5da2a07e3560da5f35ea4f840"
+    },
+    {
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "080e5ab166e57d024e6aca9b97901a22c64319d564df24cdd93d2b0c7f3db74c"
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "1b981390b4bf797a10629184e82b3c18d396c786684331d6cdbf824c3e7c97b4"
+    },
+    {
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020",
+      "task_family": "pick_cool_then_place_in_recep",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "747d54ac50ae9a54cef349152a696ea006f6532868d3d07033c37d87c7906aa2"
+    },
+    {
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316",
+      "task_family": "pick_cool_then_place_in_recep",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc"
+    }
+  ]
+}

@@ -52,7 +52,7 @@ C_DECISIONS = frozenset({"NONE", "CREATE"})
 A_DECISIONS = frozenset({"NO_CHANGE", "UPDATE"})
 A_OPERATIONS = frozenset({"ADD", "REFINE", "SPECIALIZE", "MERGE"})
 PROBE_STATUSES = frozenset({"NOT_ACTIVE", "ACTIVE", "EVIDENCE_OBTAINED", "ABORTED"})
-HISTORY_MODES = frozenset({"actions_only", "action_observation"})
+HISTORY_MODES = frozenset({"actions_only", "action_observation", "interaction"})
 B_INPUT_KEYS = frozenset(
     {
         "current_task",
@@ -294,6 +294,7 @@ def actor_context(
     probe_action_history: list[str] | None = None,
     history_mode: str = "actions_only",
     action_observation_history: list[dict[str, str]] | None = None,
+    interaction_history: list[dict[str, str]] | None = None,
     explicit_diagnostic: bool = False,
 ) -> dict:
     """Build one actor decision's current public context.
@@ -309,7 +310,18 @@ def actor_context(
     initial_state = b_input["current_initial_state"]
     state = current_state or initial_state
     history = list(executed_action_history or [])
-    raw_history = list(action_observation_history or [])
+    if history_mode == "interaction":
+        if action_observation_history:
+            raise SchemaError(
+                "interaction actor history cannot also contain action_observation_history"
+            )
+        raw_history = list(interaction_history or [])
+    else:
+        if interaction_history:
+            raise SchemaError(
+                "Only interaction actor history may contain interaction_history"
+            )
+        raw_history = list(action_observation_history or [])
     if history_mode == "actions_only" and raw_history:
         raise SchemaError("actions_only actor history cannot contain observations")
     if any(
@@ -322,7 +334,7 @@ def actor_context(
         for item in raw_history
     ):
         raise SchemaError("Action-observation history must contain raw public facts")
-    if history_mode == "action_observation" and len(raw_history) != len(history):
+    if history_mode in {"action_observation", "interaction"} and len(raw_history) != len(history):
         raise SchemaError("Action-observation history must align with executed actions")
     runtime_state = derive_probe_runtime_state(
         history, probe_action_history=probe_action_history
@@ -339,9 +351,12 @@ def actor_context(
             "done": state.get("done", False),
         },
         "pre_update_established_memories": b_input["pre_update_established_memories"],
-        "executed_action_history": history,
         "probe_runtime_state": runtime_state,
     }
+    if history_mode == "interaction":
+        result["interaction_history"] = raw_history
+    else:
+        result["executed_action_history"] = history
     if history_mode == "action_observation":
         result["action_observation_history"] = raw_history
     if exploratory_memory is not None:

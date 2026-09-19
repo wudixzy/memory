@@ -130,6 +130,7 @@ def _run_actor_condition(
     owns_episode = episode is None
     history: list[str] = []
     action_observation_history: list[dict[str, str]] = []
+    interaction_history: list[dict[str, str]] = []
     probe_action_history: list[str] = []
     probe_status_history: list[str] = []
     runtime_memory = exploratory_memory
@@ -167,6 +168,9 @@ def _run_actor_condition(
                     if history_mode == "action_observation"
                     else []
                 ),
+                interaction_history=(
+                    interaction_history if history_mode == "interaction" else []
+                ),
                 explicit_diagnostic=explicit_diagnostic,
             )
             messages = actor_messages(actor_input)
@@ -184,6 +188,7 @@ def _run_actor_condition(
                 "runtime_probe_status_before_call": row["runtime_probe_status"],
                 "executed_action_history": list(history),
                 "action_observation_history": list(action_observation_history),
+                "interaction_history": list(interaction_history),
                 "probe_runtime_state": actor_input["probe_runtime_state"],
                 "action_index": None,
                 "resolved_action": None,
@@ -273,6 +278,12 @@ def _run_actor_condition(
                 write_json(step_dir / "environment_result.json", environment_result)
                 history.append(action)
                 action_observation_history.append(
+                    {
+                        "action": action,
+                        "observation": environment_result["observation"],
+                    }
+                )
+                interaction_history.append(
                     {
                         "action": action,
                         "observation": environment_result["observation"],
