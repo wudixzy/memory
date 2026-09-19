@@ -1,0 +1,116 @@
+{
+  "action_observation_history": [
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. cabinet_1 is closed."
+    },
+    {
+      "action": "open cabinet_1",
+      "observation": "You open cabinet_1. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_12. cabinet_2 is closed."
+    },
+    {
+      "action": "open cabinet_2",
+      "observation": "You open cabinet_2. In cabinet_2, you see cloth_1, and soapbottle_2."
+    },
+    {
+      "action": "go to towelholder_1",
+      "observation": "You arrive at loc_16. On towelholder_1, you see towel_1."
+    },
+    {
+      "action": "take towel_1 from towelholder_1",
+      "observation": "You take towel_1 from towelholder_1."
+    },
+    {
+      "action": "go to sinkbasin_1",
+      "observation": "You arrive at loc_1. On sinkbasin_1, you see nothing."
+    },
+    {
+      "action": "go to toilet_1",
+      "observation": "You arrive at loc_6. On toilet_1, you see candle_2, candle_1, soapbar_1, and soapbottle_1."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are carrying: towel_1."
+    }
+  ],
+  "current_state": {
+    "admissible_actions": [
+      "examine toilet_1",
+      "examine towel_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to sinkbasin_2",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "observation": "You are carrying: towel_1.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "clean some soapbar and put it in cabinet.",
+    "seed": 42,
+    "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951"
+  },
+  "executed_action_history": [
+    "go to cabinet_1",
+    "open cabinet_1",
+    "go to cabinet_2",
+    "open cabinet_2",
+    "go to towelholder_1",
+    "take towel_1 from towelholder_1",
+    "go to sinkbasin_1",
+    "go to toilet_1",
+    "inventory"
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search the public receptacle affordances to find and acquire the requested object. Inspect or open candidates as needed. Once the requested object is acquired, stop using generic search guidance and follow the task-required downstream routine.",
+      "memory_id": "development-search-listed-order-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the requested object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "memory_id": "development-clean-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "memory_id": "development-heat-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "memory_id": "development-cool-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "towelholder_1",
+      "sinkbasin_1",
+      "toilet_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

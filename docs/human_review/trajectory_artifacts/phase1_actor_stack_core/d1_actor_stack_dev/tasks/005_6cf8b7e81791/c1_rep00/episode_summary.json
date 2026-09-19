@@ -1,0 +1,21 @@
+{
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "actor_steps": 9,
+  "artifacts_dir": "artifacts/exploratory_memory_mvp/actor-stack-dev-d1-20260920-bd72f86/tasks/005_6cf8b7e81791/c1_rep00",
+  "condition": "C1",
+  "k_star_sha256": "e248e8a8604d8f64bde8f849986c08660d019281e35c9f6399d2d36ec529f80f",
+  "model": "qwen3.8-flash",
+  "probe_activated": false,
+  "probe_budget_exhausted": false,
+  "probe_budget_sha256": "6513813712b26a474ebce8cbfcc49b8544d7681cc004cabfc3b0b24be034184e",
+  "probe_budget_violation": null,
+  "probe_evidence_ready": false,
+  "probe_stopped_locally": false,
+  "provider": "dashscope",
+  "repetition_index": 0,
+  "runtime_guidance_removed": false,
+  "status": "completed",
+  "target_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316",
+  "target_seed": 42,
+  "won": true
+}

@@ -1,0 +1,22 @@
+{
+  "admissible_actions": [
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look"
+  ],
+  "done": false,
+  "initial_public_state_fingerprint": "080e5ab166e57d024e6aca9b97901a22c64319d564df24cdd93d2b0c7f3db74c",
+  "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet.",
+  "won": false
+}

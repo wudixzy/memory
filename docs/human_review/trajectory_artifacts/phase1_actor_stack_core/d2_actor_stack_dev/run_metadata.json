@@ -1,0 +1,27 @@
+{
+  "actor_gate_status_written": false,
+  "actor_manifest": {
+    "model_name": "qwen3.8-flash",
+    "prompt_version": null,
+    "provider": "dashscope",
+    "step_cap": 32,
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "actor_selection_status_at_start": "candidate_pending_independent_reliability_gate",
+  "allow_network": true,
+  "calibration_registry_sha256": "87605dd5bd9810ee8c9e7867e8e176d60034c6969babff58fbb81b73e5a4e120",
+  "development_partition": "hard_calibration",
+  "development_variant": "D2",
+  "git_head": "bd72f86944a21f951f0f9a2173a6f8225e7cf5b8",
+  "history_mode": "action_observation",
+  "history_mode_is_the_only_diagnostic_intervention": true,
+  "k_star_candidate_path": "experiments/exploratory_memory_mvp/cases/phase1_k_star_candidate_v2.json",
+  "k_star_candidate_status": "development_candidate",
+  "k_star_candidate_version": "phase1-k-star-candidate-v2",
+  "schema_version": "phase1-actor-stack-development-run-v1",
+  "scientific_admission": false,
+  "status": "started",
+  "task_count": 10
+}

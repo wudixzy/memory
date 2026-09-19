@@ -1,0 +1,21 @@
+{
+  "admissible_actions": [
+    "go to bed_1",
+    "go to desk_1",
+    "go to drawer_1",
+    "go to drawer_2",
+    "go to drawer_3",
+    "go to drawer_4",
+    "go to drawer_5",
+    "go to garbagecan_1",
+    "go to laundryhamper_1",
+    "go to shelf_1",
+    "go to sidetable_1",
+    "inventory",
+    "look"
+  ],
+  "done": false,
+  "initial_public_state_fingerprint": "a0027e8b0249344bf81475d15fad3936066547d5da2a07e3560da5f35ea4f840",
+  "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see bed_1, desk_1, drawer_5, drawer_4, drawer_3, drawer_2, drawer_1, garbagecan_1, laundryhamper_1, shelf_1, and sidetable_1.\n\nYour task is to: put some laptop on desk.",
+  "won": false
+}

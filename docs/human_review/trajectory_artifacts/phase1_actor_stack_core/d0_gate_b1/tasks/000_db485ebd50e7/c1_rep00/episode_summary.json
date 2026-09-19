@@ -1,0 +1,21 @@
+{
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "actor_steps": 11,
+  "artifacts_dir": "artifacts/exploratory_memory_mvp/gate-b1-qwen38-c1-20260919-ef44ff2-automanual/tasks/000_db485ebd50e7/c1_rep00",
+  "condition": "C1",
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "model": "qwen3.8-flash",
+  "probe_activated": false,
+  "probe_budget_exhausted": false,
+  "probe_budget_sha256": "6513813712b26a474ebce8cbfcc49b8544d7681cc004cabfc3b0b24be034184e",
+  "probe_budget_violation": null,
+  "probe_evidence_ready": false,
+  "probe_stopped_locally": false,
+  "provider": "dashscope",
+  "repetition_index": 0,
+  "runtime_guidance_removed": false,
+  "status": "completed",
+  "target_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+  "target_seed": 42,
+  "won": true
+}

@@ -1,0 +1,31 @@
+{
+  "actor_gate_is_not_written_by_this_command": true,
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "actor_selection_status_at_start": "candidate_pending_independent_reliability_gate",
+  "allow_network": true,
+  "calibration_registry_sha256": "87605dd5bd9810ee8c9e7867e8e176d60034c6969babff58fbb81b73e5a4e120",
+  "gate_criteria": {
+    "condition": "C1",
+    "criteria_frozen_before_model_calls": true,
+    "denominator": 10,
+    "diagnostic_tasks_can_determine_admission": false,
+    "family_success_floor": {
+      "pick_and_place_simple": 1,
+      "pick_clean_then_place_in_recep": 1,
+      "pick_cool_then_place_in_recep": 1,
+      "pick_heat_then_place_in_recep": 1
+    },
+    "invalid_action_index_max": 0,
+    "memory": "K*",
+    "semantic_loop_tasks_max": 2,
+    "step_cap_failures_max": 2,
+    "success_min": 8
+  },
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "parent_registry_sha256": "0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d",
+  "partition": "hard_calibration",
+  "schema_version": "phase1-c1-calibration-run-v1",
+  "status": "started",
+  "step_cap": 32,
+  "task_count": 10
+}

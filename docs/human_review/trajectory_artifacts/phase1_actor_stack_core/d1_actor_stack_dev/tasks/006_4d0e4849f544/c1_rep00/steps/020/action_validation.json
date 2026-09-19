@@ -1,0 +1,25 @@
+{
+  "action_index": 10,
+  "admissible_actions": [
+    "close cabinet_2",
+    "examine cabinet_2",
+    "examine soapbottle_2",
+    "go to cabinet_1",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look",
+    "put soapbottle_2 in/on cabinet_2"
+  ],
+  "issue": null,
+  "resolved_action": "go to sinkbasin_2",
+  "valid": true
+}

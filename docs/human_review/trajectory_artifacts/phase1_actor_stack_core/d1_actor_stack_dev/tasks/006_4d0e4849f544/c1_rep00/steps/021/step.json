@@ -1,0 +1,245 @@
+{
+  "action_index": 1,
+  "action_observation_history": [
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. cabinet_1 is closed."
+    },
+    {
+      "action": "open cabinet_1",
+      "observation": "You open cabinet_1. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_12. cabinet_2 is closed."
+    },
+    {
+      "action": "open cabinet_2",
+      "observation": "You open cabinet_2. In cabinet_2, you see cloth_1, and soapbottle_2."
+    },
+    {
+      "action": "go to towelholder_1",
+      "observation": "You arrive at loc_16. On towelholder_1, you see towel_1."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_12. In cabinet_2, you see cloth_1, and soapbottle_2."
+    },
+    {
+      "action": "go to towelholder_1",
+      "observation": "You arrive at loc_16. On towelholder_1, you see towel_1."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to countertop_1",
+      "observation": "You arrive at loc_7. On countertop_1, you see handtowel_1, and toiletpaper_1."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to towelholder_1",
+      "observation": "You arrive at loc_16. On towelholder_1, you see towel_1."
+    },
+    {
+      "action": "go to sinkbasin_1",
+      "observation": "You arrive at loc_1. On sinkbasin_1, you see nothing."
+    },
+    {
+      "action": "go to sinkbasin_2",
+      "observation": "You arrive at loc_4. On sinkbasin_2, you see nothing."
+    },
+    {
+      "action": "go to sinkbasin_1",
+      "observation": "You arrive at loc_1. On sinkbasin_1, you see nothing."
+    },
+    {
+      "action": "go to sinkbasin_2",
+      "observation": "You arrive at loc_4. On sinkbasin_2, you see nothing."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_13. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_12. In cabinet_2, you see cloth_1, and soapbottle_2."
+    },
+    {
+      "action": "take soapbottle_2 from cabinet_2",
+      "observation": "You take soapbottle_2 from cabinet_2."
+    },
+    {
+      "action": "go to sinkbasin_2",
+      "observation": "You arrive at loc_4. On sinkbasin_2, you see nothing."
+    }
+  ],
+  "action_validation": {
+    "action_index": 1,
+    "admissible_actions": [
+      "examine sinkbasin_2",
+      "examine soapbottle_2",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "issue": null,
+    "resolved_action": "examine soapbottle_2",
+    "valid": true
+  },
+  "actor_result": {
+    "action_index": 1,
+    "probe_status": "NOT_ACTIVE"
+  },
+  "current_admissible_actions": [
+    "examine sinkbasin_2",
+    "examine soapbottle_2",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look"
+  ],
+  "current_state": {
+    "admissible_actions": [
+      "examine sinkbasin_2",
+      "examine soapbottle_2",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_4. On sinkbasin_2, you see nothing.",
+    "won": false
+  },
+  "environment_result": {
+    "action": "examine soapbottle_2",
+    "admissible_actions": [
+      "examine sinkbasin_2",
+      "examine soapbottle_2",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "executed": true,
+    "observation": "There's nothing special about soapbottle_2.",
+    "reward": 0.0,
+    "step": 21,
+    "won": false
+  },
+  "executed": true,
+  "executed_action_history": [
+    "go to cabinet_1",
+    "open cabinet_1",
+    "go to cabinet_2",
+    "open cabinet_2",
+    "go to towelholder_1",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to towelholder_1",
+    "go to cabinet_1",
+    "go to countertop_1",
+    "go to cabinet_1",
+    "go to towelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "take soapbottle_2 from cabinet_2",
+    "go to sinkbasin_2"
+  ],
+  "exploratory_memory_visible": false,
+  "persistent_exploratory_status": "not_present",
+  "persistent_exploratory_status_after": "not_present",
+  "probe_budget_check": {
+    "configured": true,
+    "distinct_candidate_visit_count": 0,
+    "distinct_candidate_visit_limit_reached": false,
+    "max_distinct_candidate_visits": 2,
+    "max_probe_actions": 4,
+    "probe_action_count": 0,
+    "valid": true,
+    "violations": []
+  },
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "towelholder_1",
+      "countertop_1",
+      "sinkbasin_1",
+      "sinkbasin_2"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_runtime_state_after": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "towelholder_1",
+      "countertop_1",
+      "sinkbasin_1",
+      "sinkbasin_2"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_status": "NOT_ACTIVE",
+  "resolved_action": "examine soapbottle_2",
+  "runtime_exploratory_memory_retained_next_step": false,
+  "runtime_probe_status_before_call": "NOT_ACTIVE",
+  "selected_action": "examine soapbottle_2",
+  "step": 21
+}

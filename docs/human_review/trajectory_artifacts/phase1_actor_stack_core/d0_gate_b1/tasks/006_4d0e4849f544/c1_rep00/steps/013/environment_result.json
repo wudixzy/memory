@@ -1,0 +1,27 @@
+{
+  "action": "put soapbar_1 in/on cabinet_1",
+  "admissible_actions": [
+    "close cabinet_1",
+    "examine cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look",
+    "take soapbar_1 from cabinet_1"
+  ],
+  "done": true,
+  "executed": true,
+  "observation": "You put soapbar_1 in/on cabinet_1.",
+  "reward": 1.0,
+  "step": 13,
+  "won": true
+}

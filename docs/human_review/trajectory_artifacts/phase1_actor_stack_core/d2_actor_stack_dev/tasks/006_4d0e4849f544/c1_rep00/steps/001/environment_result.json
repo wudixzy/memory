@@ -1,0 +1,26 @@
+{
+  "action": "go to cabinet_1",
+  "admissible_actions": [
+    "examine cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look",
+    "open cabinet_1"
+  ],
+  "done": false,
+  "executed": true,
+  "observation": "You arrive at loc_13. cabinet_1 is closed.",
+  "reward": 0.0,
+  "step": 1,
+  "won": false
+}

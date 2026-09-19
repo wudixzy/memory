@@ -1,0 +1,105 @@
+{
+  "current_state": {
+    "admissible_actions": [
+      "close cabinet_8",
+      "examine cabinet_8",
+      "examine mug_2",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "put mug_2 in/on cabinet_8"
+    ],
+    "done": false,
+    "observation": "You take mug_2 from cabinet_8.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "cool some mug and put it in shelf.",
+    "seed": 42,
+    "task_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020"
+  },
+  "executed_action_history": [
+    "go to cabinet_1",
+    "open cabinet_1",
+    "go to cabinet_2",
+    "look",
+    "go to cabinet_7",
+    "open cabinet_7",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_7",
+    "go to cabinet_8",
+    "open cabinet_8",
+    "look",
+    "take mug_2 from cabinet_8"
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+      "memory_id": "established-search-listed-order-general",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+      "memory_id": "established-clean-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+      "memory_id": "established-heat-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+      "memory_id": "established-cool-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "cabinet_7",
+      "cabinet_8"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

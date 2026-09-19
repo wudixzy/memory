@@ -137,6 +137,21 @@ admissible actions、index/resolved action/validation、environment result、ste
 model events 和 failure/error artifact（若有）。D2 的 CoffeeMachine task 的 invalid
 index failure 也保留了完整的失败 step artifact。
 
+为方便协作者直接在 GitHub 上检查关键逐步证据，本次另外提交了四个 task 在 D0/D1/D2
+中的完整 task artifact（共 12 条完整轨迹），而不是提交所有 30 个 task：
+
+```text
+docs/human_review/trajectory_artifacts/phase1_actor_stack_core/
+```
+
+该 tracked subset 选择了 Laptop 的跨变体成功控制、Shelf cool 的持续失败、
+CoffeeMachine 的 D1 成功/D2 invalid-index 对照，以及 SoapBar 的 D0 成功到 D1/D2
+回归。每个选中 task 目录完整保留 initial state、每一步 actor input/prompt/response、
+admissible actions、action index/resolved action、环境结果、execution、usage 和失败
+artifact；目录内的 variant metadata/manifest 也一并保留。它们均标记为
+`ORIGINAL SAVED ARTIFACT`，不是重建或重跑结果。完整 10-task roots 仍按 artifact policy
+保留在本地 ignored 路径中。
+
 ## 5. Per-task mechanical results
 
 下表的 D0 是原 Gate B1 结果，仅作为历史 control；D1/D2 是本轮同一 10-task development

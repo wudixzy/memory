@@ -1,0 +1,68 @@
+{
+  "actor_manifest": {
+    "actor_prompt_version": "actor_action_index_probe_runtime_v1",
+    "manifest_id": "phase1_actor_candidate_pending_gate_v1",
+    "manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+    "model_name": "qwen3.8-flash",
+    "provider": "dashscope",
+    "schema_version": "phase1-actor-manifest-v1",
+    "selection_status": "candidate_pending_independent_reliability_gate",
+    "step_cap": 32,
+    "temperature": 0.0,
+    "thinking": false,
+    "transport_config_provenance": "direct_dashscope_transport_no_proxy_v1"
+  },
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "allow_network": true,
+  "condition": "C1",
+  "config_sha256": "b2103f2160c5ad9abe05ffc996686eaa5436d2c55dba742b07ee6555b0a74be4",
+  "dry_run": false,
+  "explicit_diagnostic": false,
+  "exploratory_memory": null,
+  "h_id": null,
+  "h_manifest_sha256": null,
+  "k_star": [
+    {
+      "guidance": "Search the public receptacle affordances to find and acquire the requested object. Inspect or open candidates as needed. Once the requested object is acquired, stop using generic search guidance and follow the task-required downstream routine.",
+      "memory_id": "development-search-listed-order-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the requested object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "memory_id": "development-clean-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "memory_id": "development-heat-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "memory_id": "development-cool-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement."
+    }
+  ],
+  "k_star_sha256": "e248e8a8604d8f64bde8f849986c08660d019281e35c9f6399d2d36ec529f80f",
+  "model_name": "qwen3.8-flash",
+  "output_dir": "artifacts/exploratory_memory_mvp/actor-stack-dev-d1-20260920-bd72f86/tasks/006_4d0e4849f544",
+  "probe_budget": {
+    "counting_rule": "Hard-stop only after max_probe_actions executed actions in the active probe; record distinct probe-local receptacle IDs as telemetry only; do not encode a semantic next-action choice.",
+    "max_distinct_candidate_visits": 2,
+    "max_probe_actions": 4,
+    "schema_version": "phase1-symmetric-local-probe-budget-v1"
+  },
+  "probe_budget_sha256": "6513813712b26a474ebce8cbfcc49b8544d7681cc004cabfc3b0b24be034184e",
+  "provider": "dashscope",
+  "repetition_index": 0,
+  "step_cap": 32,
+  "target_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+  "target_registry_sha256": null,
+  "target_seed": 42,
+  "temperature": 0.0,
+  "thinking": false
+}

@@ -1,0 +1,23 @@
+{
+  "action_index": 2,
+  "admissible_actions": [
+    "examine bed_1",
+    "examine laptop_1",
+    "go to desk_1",
+    "go to drawer_1",
+    "go to drawer_2",
+    "go to drawer_3",
+    "go to drawer_4",
+    "go to drawer_5",
+    "go to garbagecan_1",
+    "go to laundryhamper_1",
+    "go to shelf_1",
+    "go to sidetable_1",
+    "inventory",
+    "look",
+    "put laptop_1 in/on bed_1"
+  ],
+  "issue": null,
+  "resolved_action": "go to desk_1",
+  "valid": true
+}

@@ -1,0 +1,281 @@
+{
+  "actor_gate_status_written": false,
+  "actor_manifest": {
+    "model_name": "qwen3.8-flash",
+    "prompt_version": null,
+    "provider": "dashscope",
+    "step_cap": 32,
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "actor_selection_status_at_start": "candidate_pending_independent_reliability_gate",
+  "allow_network": true,
+  "calibration_registry_sha256": "87605dd5bd9810ee8c9e7867e8e176d60034c6969babff58fbb81b73e5a4e120",
+  "development_not_admission": true,
+  "development_partition": "hard_calibration",
+  "development_variant": "D2",
+  "family_summary": {
+    "pick_and_place_simple": {
+      "successes": 1,
+      "tasks": 1
+    },
+    "pick_clean_then_place_in_recep": {
+      "successes": 1,
+      "tasks": 4
+    },
+    "pick_cool_then_place_in_recep": {
+      "successes": 0,
+      "tasks": 2
+    },
+    "pick_heat_then_place_in_recep": {
+      "successes": 1,
+      "tasks": 3
+    }
+  },
+  "git_head": "bd72f86944a21f951f0f9a2173a6f8225e7cf5b8",
+  "history_mode": "action_observation",
+  "history_mode_is_the_only_diagnostic_intervention": true,
+  "infrastructure_failures": [],
+  "invalid_action_steps": 1,
+  "k_star_candidate_path": "experiments/exploratory_memory_mvp/cases/phase1_k_star_candidate_v2.json",
+  "k_star_candidate_status": "development_candidate",
+  "k_star_candidate_version": "phase1-k-star-candidate-v2",
+  "rows": [
+    {
+      "artifact_path": "tasks/000_db485ebd50e7",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "a0027e8b0249344bf81475d15fad3936066547d5da2a07e3560da5f35ea4f840",
+      "requested_seed": 42,
+      "status": "completed",
+      "step_cap": 32,
+      "step_cap_reached": false,
+      "steps": 5,
+      "task_family": "pick_and_place_simple",
+      "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "usage": {
+        "cached_input_tokens": 0,
+        "calls": 5,
+        "input_tokens": 7077,
+        "known_cost_cny": 0.0058587,
+        "known_cost_records": 5,
+        "output_tokens": 73
+      },
+      "won": true
+    },
+    {
+      "artifact_path": "tasks/001_f5d0f35d6dfd",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "62db83dda0efc2db5e2295dcd7feaf6a93ca6067d7a5a3e2ed062e368ca96452",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_clean_then_place_in_recep",
+      "task_id": "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723",
+      "usage": {
+        "cached_input_tokens": 19072,
+        "calls": 32,
+        "input_tokens": 71788,
+        "known_cost_cny": 0.020762100000000002,
+        "known_cost_records": 14,
+        "output_tokens": 503
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/002_a04b6f263f6d",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "747d54ac50ae9a54cef349152a696ea006f6532868d3d07033c37d87c7906aa2",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020",
+      "usage": {
+        "cached_input_tokens": 16384,
+        "calls": 32,
+        "input_tokens": 68706,
+        "known_cost_cny": 0.023799400000000005,
+        "known_cost_records": 16,
+        "output_tokens": 507
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/003_9fa5d3902fe0",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "1b981390b4bf797a10629184e82b3c18d396c786684331d6cdbf824c3e7c97b4",
+      "requested_seed": 42,
+      "status": "completed",
+      "step_cap": 32,
+      "step_cap_reached": false,
+      "steps": 24,
+      "task_family": "pick_heat_then_place_in_recep",
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+      "usage": {
+        "cached_input_tokens": 8192,
+        "calls": 24,
+        "input_tokens": 47607,
+        "known_cost_cny": 0.023722299999999998,
+        "known_cost_records": 16,
+        "output_tokens": 389
+      },
+      "won": true
+    },
+    {
+      "artifact_path": "tasks/004_6b27915dcc20",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "43fd2a214ff3d7c2180c699b5edf2accc54c015c9f9907cb6dde2cd7f7d3e3f9",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_heat_then_place_in_recep",
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762",
+      "usage": {
+        "cached_input_tokens": 17408,
+        "calls": 32,
+        "input_tokens": 70348,
+        "known_cost_cny": 0.022122600000000003,
+        "known_cost_records": 15,
+        "output_tokens": 506
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/005_6cf8b7e81791",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 1,
+      "public_initial_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc",
+      "requested_seed": 42,
+      "status": "failed_invalid_action_index",
+      "step_cap": 32,
+      "step_cap_reached": false,
+      "steps": 17,
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316",
+      "usage": {
+        "cached_input_tokens": 3072,
+        "calls": 18,
+        "input_tokens": 38839,
+        "known_cost_cny": 0.025775000000000003,
+        "known_cost_records": 15,
+        "output_tokens": 288
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/006_4d0e4849f544",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "080e5ab166e57d024e6aca9b97901a22c64319d564df24cdd93d2b0c7f3db74c",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_clean_then_place_in_recep",
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+      "usage": {
+        "cached_input_tokens": 19072,
+        "calls": 32,
+        "input_tokens": 67144,
+        "known_cost_cny": 0.0188848,
+        "known_cost_records": 14,
+        "output_tokens": 492
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/007_2d9170ac03a8",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "967fdbad410183b1566c6f8ccc15be730998c38a1ea185d96d1ba5cb68e3fc54",
+      "requested_seed": 42,
+      "status": "completed",
+      "step_cap": 32,
+      "step_cap_reached": false,
+      "steps": 16,
+      "task_family": "pick_clean_then_place_in_recep",
+      "task_id": "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018",
+      "usage": {
+        "cached_input_tokens": 3072,
+        "calls": 16,
+        "input_tokens": 28572,
+        "known_cost_cny": 0.018170500000000003,
+        "known_cost_records": 13,
+        "output_tokens": 249
+      },
+      "won": true
+    },
+    {
+      "artifact_path": "tasks/008_622e1e897f57",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "48080358e49266640e0050d02fad85ad1c1c72c36ec77cc6f978de4518d1d943",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_clean_then_place_in_recep",
+      "task_id": "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
+      "usage": {
+        "cached_input_tokens": 26368,
+        "calls": 32,
+        "input_tokens": 82755,
+        "known_cost_cny": 0.0187951,
+        "known_cost_records": 12,
+        "output_tokens": 515
+      },
+      "won": false
+    },
+    {
+      "artifact_path": "tasks/009_b07fc9fbab42",
+      "infrastructure_failure": false,
+      "invalid_action_steps": 0,
+      "public_initial_fingerprint": "0cab2f0de9ff0b10140cd281443cfb89e4626cf0706738bb8e82c84371315a1f",
+      "requested_seed": 42,
+      "status": "step_cap_reached",
+      "step_cap": 32,
+      "step_cap_reached": true,
+      "steps": 32,
+      "task_family": "pick_heat_then_place_in_recep",
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051",
+      "usage": {
+        "cached_input_tokens": 18048,
+        "calls": 32,
+        "input_tokens": 72634,
+        "known_cost_cny": 0.022123499999999997,
+        "known_cost_records": 15,
+        "output_tokens": 502
+      },
+      "won": false
+    }
+  ],
+  "schema_version": "phase1-actor-stack-development-run-v1",
+  "scientific_admission": false,
+  "status": "completed_with_manual_trajectory_review_required",
+  "step_cap_failures": 6,
+  "successful_tasks": 3,
+  "task_count": 10,
+  "trajectory_manifest_path": "artifacts/exploratory_memory_mvp/actor-stack-dev-d2-20260920-bd72f86/trajectory_manifest.json",
+  "usage": {
+    "cached_input_tokens": 130688,
+    "calls": 255,
+    "input_tokens": 555470,
+    "known_cost_cny": 0.20001400000000003,
+    "known_cost_records": 135,
+    "output_tokens": 4024
+  }
+}

@@ -52,6 +52,16 @@ artifacts/exploratory_memory_mvp/action-index-sanity-20260916-v2/
 
 运行 artifact 默认被 `.gitignore` 忽略；本文档只追踪经过压缩、去除运行噪声的 review excerpt。完整英文原始 JSON、每步 prompt、raw response、environment result 请按各文件末尾的 artifact path 查阅。
 
+为便于远程协作，本轮还提交了一个小型但完整的 D0/D1/D2 逐轨迹子集：
+
+```text
+docs/human_review/trajectory_artifacts/phase1_actor_stack_core/
+```
+
+其中包含同四个 task（Laptop、Shelf cool、CoffeeMachine、SoapBar）在三个变体中的
+12 条完整 task artifact，均为 `ORIGINAL SAVED ARTIFACT`。选择理由和每条轨迹的机械
+结果见该目录下的 `README.md`；完整十任务运行根目录仍只保留在本地 ignored artifacts。
+
 ## 4. 阅读边界
 
 - `case_type`、evaluator rationale、oracle alternative/location/outcome 和 `review_only` 内容只在文档中作为 reviewer-side 注释出现，绝不能误认为模型输入。

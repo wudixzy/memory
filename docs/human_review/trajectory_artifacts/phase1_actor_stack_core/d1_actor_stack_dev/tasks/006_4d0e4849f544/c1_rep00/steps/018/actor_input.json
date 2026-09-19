@@ -1,0 +1,87 @@
+{
+  "current_state": {
+    "admissible_actions": [
+      "close cabinet_1",
+      "examine cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to sinkbasin_2",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_13. In cabinet_1, you see nothing.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "clean some soapbar and put it in cabinet.",
+    "seed": 42,
+    "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951"
+  },
+  "executed_action_history": [
+    "go to cabinet_1",
+    "open cabinet_1",
+    "go to cabinet_2",
+    "open cabinet_2",
+    "go to towelholder_1",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to towelholder_1",
+    "go to cabinet_1",
+    "go to countertop_1",
+    "go to cabinet_1",
+    "go to towelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to cabinet_1"
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search the public receptacle affordances to find and acquire the requested object. Inspect or open candidates as needed. Once the requested object is acquired, stop using generic search guidance and follow the task-required downstream routine.",
+      "memory_id": "development-search-listed-order-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the requested object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "memory_id": "development-clean-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "memory_id": "development-heat-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the requested object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "memory_id": "development-cool-then-place-routine-v2",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "towelholder_1",
+      "countertop_1",
+      "sinkbasin_1",
+      "sinkbasin_2"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

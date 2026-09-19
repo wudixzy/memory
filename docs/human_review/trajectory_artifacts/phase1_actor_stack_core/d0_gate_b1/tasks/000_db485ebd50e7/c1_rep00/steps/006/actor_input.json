@@ -1,0 +1,72 @@
+{
+  "current_state": {
+    "admissible_actions": [
+      "examine cellphone_1",
+      "examine desk_1",
+      "go to bed_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to garbagecan_1",
+      "go to laundryhamper_1",
+      "go to shelf_1",
+      "go to sidetable_1",
+      "inventory",
+      "look",
+      "put cellphone_1 in/on desk_1",
+      "use desklamp_1"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "put some laptop on desk.",
+    "seed": 42,
+    "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389"
+  },
+  "executed_action_history": [
+    "go to desk_1",
+    "go to bed_1",
+    "take cellphone_1 from bed_1",
+    "inventory",
+    "go to desk_1"
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+      "memory_id": "established-search-listed-order-general",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+      "memory_id": "established-clean-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+      "memory_id": "established-heat-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+      "memory_id": "established-cool-then-place-routine",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "desk_1",
+      "bed_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "action_index": 35,
+  "action_observation_history": [
+    {
+      "action": "go to fridge_1",
+      "observation": "You arrive at loc_16. fridge_1 is closed."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing."
+    }
+  ],
+  "action_validation": {
+    "action_index": 35,
+    "admissible_actions": [
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "open fridge_1"
+    ],
+    "issue": null,
+    "resolved_action": "look",
+    "valid": true
+  },
+  "actor_result": {
+    "action_index": 35,
+    "probe_status": "NOT_ACTIVE"
+  },
+  "current_admissible_actions": [
+    "examine fridge_1",
+    "go to cabinet_1",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to cabinet_5",
+    "go to cabinet_6",
+    "go to cabinet_7",
+    "go to cabinet_8",
+    "go to cabinet_9",
+    "go to coffeemachine_1",
+    "go to countertop_1",
+    "go to countertop_2",
+    "go to countertop_3",
+    "go to drawer_1",
+    "go to drawer_2",
+    "go to drawer_3",
+    "go to drawer_4",
+    "go to drawer_5",
+    "go to drawer_6",
+    "go to drawer_7",
+    "go to drawer_8",
+    "go to drawer_9",
+    "go to garbagecan_1",
+    "go to microwave_1",
+    "go to shelf_1",
+    "go to shelf_2",
+    "go to shelf_3",
+    "go to sinkbasin_1",
+    "go to stoveburner_1",
+    "go to stoveburner_2",
+    "go to stoveburner_3",
+    "go to stoveburner_4",
+    "go to toaster_1",
+    "inventory",
+    "look",
+    "open fridge_1"
+  ],
+  "current_state": {
+    "admissible_actions": [
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "open fridge_1"
+    ],
+    "done": false,
+    "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing.",
+    "won": false
+  },
+  "environment_result": {
+    "action": "look",
+    "admissible_actions": [
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "open fridge_1"
+    ],
+    "done": false,
+    "executed": true,
+    "observation": "You are facing fridge_1 (is closed). Next to it, you see nothing.",
+    "reward": 0.0,
+    "step": 19,
+    "won": false
+  },
+  "executed": true,
+  "executed_action_history": [
+    "go to fridge_1",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look",
+    "look"
+  ],
+  "exploratory_memory_visible": false,
+  "persistent_exploratory_status": "not_present",
+  "persistent_exploratory_status_after": "not_present",
+  "probe_budget_check": {
+    "configured": true,
+    "distinct_candidate_visit_count": 0,
+    "distinct_candidate_visit_limit_reached": false,
+    "max_distinct_candidate_visits": 2,
+    "max_probe_actions": 4,
+    "probe_action_count": 0,
+    "valid": true,
+    "violations": []
+  },
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "fridge_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_runtime_state_after": {
+    "episode_visited_receptacles": [
+      "fridge_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_status": "NOT_ACTIVE",
+  "resolved_action": "look",
+  "runtime_exploratory_memory_retained_next_step": false,
+  "runtime_probe_status_before_call": "NOT_ACTIVE",
+  "selected_action": "look",
+  "step": 19
+}
