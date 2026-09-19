@@ -22,6 +22,8 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     MODEL_INVISIBLE_KEYS,
     SchemaError,
     _nonempty_string,
+    assert_no_evaluator_keys,
+    read_json,
 )
 
 K_STAR_ENTRIES: list[dict[str, Any]] = [
@@ -121,6 +123,38 @@ def compute_k_star_digest(k_star: list[dict[str, Any]]) -> str:
     """Compute deterministic SHA-256 digest over canonical serialized K*."""
     serialized = json.dumps(k_star, ensure_ascii=False, sort_keys=True, allow_nan=False)
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def load_k_star_candidate(path: Path) -> dict[str, Any]:
+    """Load a non-canonical development K* candidate.
+
+    The candidate wrapper is intentionally separate from the canonical
+    warm-start provider.  Development diagnostics may opt into it explicitly,
+    but this loader does not promote it or alter ``get_phase1_k_star``.
+    """
+
+    document = read_json(path)
+    required = {
+        "schema_version",
+        "candidate_version",
+        "status",
+        "initialization_mode",
+        "construction_note",
+        "provenance",
+        "entries",
+    }
+    if not isinstance(document, dict) or set(document) != required:
+        raise SchemaError("K* candidate has invalid wrapper fields")
+    if document["status"] != "development_candidate":
+        raise SchemaError("Only development_candidate K* artifacts may use this loader")
+    for key in ("schema_version", "candidate_version", "initialization_mode", "construction_note"):
+        _nonempty_string(document[key], "K* candidate " + key)
+    if not isinstance(document["provenance"], dict):
+        raise SchemaError("K* candidate provenance must be an object")
+    entries = document["entries"]
+    assert_k_star_valid(entries)
+    assert_no_evaluator_keys(document)
+    return json.loads(json.dumps(document, ensure_ascii=False))
 
 
 def assert_k_star_valid(k_star: list[dict[str, Any]]) -> None:

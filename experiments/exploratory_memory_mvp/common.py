@@ -52,6 +52,7 @@ C_DECISIONS = frozenset({"NONE", "CREATE"})
 A_DECISIONS = frozenset({"NO_CHANGE", "UPDATE"})
 A_OPERATIONS = frozenset({"ADD", "REFINE", "SPECIALIZE", "MERGE"})
 PROBE_STATUSES = frozenset({"NOT_ACTIVE", "ACTIVE", "EVIDENCE_OBTAINED", "ABORTED"})
+HISTORY_MODES = frozenset({"actions_only", "action_observation"})
 B_INPUT_KEYS = frozenset(
     {
         "current_task",
@@ -291,6 +292,8 @@ def actor_context(
     current_state: dict | None = None,
     executed_action_history: list[str] | None = None,
     probe_action_history: list[str] | None = None,
+    history_mode: str = "actions_only",
+    action_observation_history: list[dict[str, str]] | None = None,
     explicit_diagnostic: bool = False,
 ) -> dict:
     """Build one actor decision's current public context.
@@ -301,9 +304,26 @@ def actor_context(
     runner rather than exposed as evaluator information.
     """
 
+    if history_mode not in HISTORY_MODES:
+        raise SchemaError(f"Unsupported actor history mode: {history_mode}")
     initial_state = b_input["current_initial_state"]
     state = current_state or initial_state
     history = list(executed_action_history or [])
+    raw_history = list(action_observation_history or [])
+    if history_mode == "actions_only" and raw_history:
+        raise SchemaError("actions_only actor history cannot contain observations")
+    if any(
+        not isinstance(item, dict)
+        or set(item) != {"action", "observation"}
+        or not isinstance(item["action"], str)
+        or not item["action"].strip()
+        or not isinstance(item["observation"], str)
+        or not item["observation"].strip()
+        for item in raw_history
+    ):
+        raise SchemaError("Action-observation history must contain raw public facts")
+    if history_mode == "action_observation" and len(raw_history) != len(history):
+        raise SchemaError("Action-observation history must align with executed actions")
     runtime_state = derive_probe_runtime_state(
         history, probe_action_history=probe_action_history
     )
@@ -322,6 +342,8 @@ def actor_context(
         "executed_action_history": history,
         "probe_runtime_state": runtime_state,
     }
+    if history_mode == "action_observation":
+        result["action_observation_history"] = raw_history
     if exploratory_memory is not None:
         result["exploratory_memory"] = exploratory_memory
     if explicit_diagnostic:

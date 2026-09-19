@@ -1,0 +1,40 @@
+{
+  "schema_version": "phase1-k-star-development-candidate-v2",
+  "candidate_version": "phase1-k-star-candidate-v2",
+  "status": "development_candidate",
+  "initialization_mode": "controlled_warm_start",
+  "construction_note": "Manual feasibility-only development fixture. This candidate is not canonical and is not a native cold-start memory result.",
+  "provenance": {
+    "method": "public carrier action-contract audit plus prior trajectory review",
+    "hidden_information_used": false,
+    "case_specific_rules_added": false,
+    "comparative_winner_claim": false,
+    "promotion_status": "must remain separate from canonical phase1 K* until researcher review"
+  },
+  "entries": [
+    {
+      "memory_id": "development-search-listed-order-v2",
+      "scope": "ALFWorld pick-and-place tasks where the requested object is not immediately visible in the entry observation.",
+      "guidance": "Search the public receptacle affordances to find and acquire the requested object. Inspect or open candidates as needed. Once the requested object is acquired, stop using generic search guidance and follow the task-required downstream routine.",
+      "prior_comparison_evidence": null
+    },
+    {
+      "memory_id": "development-clean-then-place-routine-v2",
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement.",
+      "guidance": "After acquiring the requested object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "prior_comparison_evidence": null
+    },
+    {
+      "memory_id": "development-heat-then-place-routine-v2",
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement.",
+      "guidance": "After acquiring the requested object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "prior_comparison_evidence": null
+    },
+    {
+      "memory_id": "development-cool-then-place-routine-v2",
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement.",
+      "guidance": "After acquiring the requested object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "prior_comparison_evidence": null
+    }
+  ]
+}

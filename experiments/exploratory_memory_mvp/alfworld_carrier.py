@@ -97,14 +97,19 @@ ACTION_NAMES = tuple(item["name"] for item in ACTION_SCHEMA)
 ENTITY_RE = re.compile(r"\b[a-z][a-z0-9_]*_\d+\b", re.IGNORECASE)
 
 
-def _safe_task_path(task_id: str) -> Path:
+SUPPORTED_SPLITS = frozenset({"train", "valid_seen", "valid_unseen"})
+
+
+def _safe_task_path(task_id: str, *, split: str = "train") -> Path:
+    if split not in SUPPORTED_SPLITS:
+        raise CarrierUnavailable(f"Unsupported pinned ALFWorld split: {split}")
     if not isinstance(task_id, str) or not task_id or Path(task_id).is_absolute():
         raise CarrierUnavailable("Invalid task identifier")
     parts = Path(task_id).parts
     if ".." in parts or any(part in ("", ".") for part in parts):
         raise CarrierUnavailable("Invalid task identifier")
-    path = (DATA / "json_2.1.1" / "train" / task_id).resolve()
-    root = (DATA / "json_2.1.1" / "train").resolve()
+    path = (DATA / "json_2.1.1" / split / task_id).resolve()
+    root = (DATA / "json_2.1.1" / split).resolve()
     if root not in path.parents or not (path / "game.tw-pddl").is_file():
         raise CarrierUnavailable("Pinned ALFWorld task is unavailable")
     return path
@@ -121,7 +126,7 @@ def _sha256_file(path: Path) -> str:
         raise CarrierUnavailable("Pinned ALFWorld task file cannot be read") from None
 
 
-def episode_replay_spec(task_id: str, seed: int) -> dict:
+def episode_replay_spec(task_id: str, seed: int, *, split: str = "train") -> dict:
     """Return the exact cached TextWorld episode specification.
 
     The text carrier does not place objects at reset time.  ``PddlEnv`` loads
@@ -133,7 +138,7 @@ def episode_replay_spec(task_id: str, seed: int) -> dict:
 
     if type(seed) is not int:
         raise CarrierUnavailable("Requested seed must be an integer")
-    task_path = _safe_task_path(task_id)
+    task_path = _safe_task_path(task_id, split=split)
     game_path = task_path / "game.tw-pddl"
     initial_path = task_path / "initial_state.pddl"
     trajectory_path = task_path / "traj_data.json"
@@ -165,6 +170,7 @@ def episode_replay_spec(task_id: str, seed: int) -> dict:
     return {
         "task_id": task_id,
         "requested_seed": seed,
+        "split": split,
         "game_identity": game_identity,
         "game_file_sha256": _sha256_file(game_path),
         "initial_state_identity": initial_identity,
@@ -339,11 +345,17 @@ def assert_pairing_proof_matches_episode(proof: dict, episode: "StepwiseTask", r
         raise PairingError(f"Actual {role} episode metadata does not match pairing proof")
 
 
-def _make_env(task_id: str, seed: int, replay_spec: dict | None = None):
-    actual_spec = episode_replay_spec(task_id, seed)
+def _make_env(
+    task_id: str,
+    seed: int,
+    replay_spec: dict | None = None,
+    *,
+    split: str = "train",
+):
+    actual_spec = episode_replay_spec(task_id, seed, split=split)
     if replay_spec is not None and actual_spec != replay_spec:
         raise PairingError("Pinned ALFWorld replay specification changed before episode creation")
-    task_path = _safe_task_path(task_id)
+    task_path = _safe_task_path(task_id, split=split)
     if not CONFIG.is_file() or not (DATA / "logic" / "alfred.pddl").is_file():
         raise CarrierUnavailable("Pinned ALFWorld source/data are unavailable")
     if str(ALFWORLD) not in sys.path:
@@ -388,10 +400,10 @@ def _make_env(task_id: str, seed: int, replay_spec: dict | None = None):
         raise CarrierUnavailable("ALFWorld environment initialization failed") from None
 
 
-def reset_task(task_id: str, seed: int = 42) -> dict:
+def reset_task(task_id: str, seed: int = 42, *, split: str = "train") -> dict:
     """Reset one real task and return only actor-visible initial state."""
 
-    env = _make_env(task_id, seed)
+    env = _make_env(task_id, seed, split=split)
     try:
         observations, infos = env.reset()
         return {
@@ -408,15 +420,24 @@ def reset_task(task_id: str, seed: int = 42) -> dict:
 class StepwiseTask:
     """Keep one real ALFWorld episode open for one-action-at-a-time control."""
 
-    def __init__(self, task_id: str, seed: int = 42, replay_spec: dict | None = None):
+    def __init__(
+        self,
+        task_id: str,
+        seed: int = 42,
+        replay_spec: dict | None = None,
+        *,
+        split: str = "train",
+    ):
         self.task_id = task_id
         self.seed = seed
         if replay_spec is None:
-            replay_spec = episode_replay_spec(task_id, seed)
+            replay_spec = episode_replay_spec(task_id, seed, split=split)
         elif not isinstance(replay_spec, dict):
             raise PairingError("Replay specification must be an object")
         self.replay_spec = replay_spec
-        self._env = _make_env(task_id, seed, replay_spec=self.replay_spec)
+        self._env = _make_env(
+            task_id, seed, replay_spec=self.replay_spec, split=split
+        )
         self._steps: list[dict] = []
         try:
             observations, infos = self._env.reset()

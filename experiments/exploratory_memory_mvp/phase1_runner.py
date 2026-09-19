@@ -123,6 +123,7 @@ def run_phase1_episode(
     episode: StepwiseTask | None = None,
     pairing_proof: dict | None = None,
     pairing_role: str | None = None,
+    history_mode: str = "actions_only",
 ) -> dict[str, Any]:
     """Execute one Phase 1 episode under the specified config-driven condition."""
     validate_phase1_config(config)
@@ -168,6 +169,7 @@ def run_phase1_episode(
         pairing_role=pairing_role,
         actor_manifest=config.actor_manifest,
         probe_budget=config.probe_budget,
+        history_mode=history_mode,
     )
 
     # Keep each condition's immutable config beside its own artifacts.  The

@@ -20,6 +20,7 @@ from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
 from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
+    HISTORY_MODES,
     actor_context,
     derive_probe_runtime_state,
     future_exploratory_memory,
@@ -93,9 +94,12 @@ def _run_actor_condition(
     pairing_role: str | None = None,
     actor_manifest: dict | None = None,
     probe_budget: dict | None = None,
+    history_mode: str = "actions_only",
 ) -> dict:
     """Run one condition while keeping the real carrier episode open."""
 
+    if history_mode not in HISTORY_MODES:
+        raise ValueError(f"Unsupported actor history mode: {history_mode}")
     if probe_budget is not None:
         probe_budget = validate_probe_budget(probe_budget)
     condition_dir = output / condition
@@ -120,10 +124,12 @@ def _run_actor_condition(
         "probe_budget_exhausted": False,
         "probe_budget_violation": None,
         "status": "started",
+        "history_mode": history_mode,
     }
     client = None
     owns_episode = episode is None
     history: list[str] = []
+    action_observation_history: list[dict[str, str]] = []
     probe_action_history: list[str] = []
     probe_status_history: list[str] = []
     runtime_memory = exploratory_memory
@@ -155,6 +161,12 @@ def _run_actor_condition(
                 current_state=current_state,
                 executed_action_history=history,
                 probe_action_history=probe_action_history,
+                history_mode=history_mode,
+                action_observation_history=(
+                    action_observation_history
+                    if history_mode == "action_observation"
+                    else []
+                ),
                 explicit_diagnostic=explicit_diagnostic,
             )
             messages = actor_messages(actor_input)
@@ -171,6 +183,7 @@ def _run_actor_condition(
                 "persistent_exploratory_status": row["persistent_exploratory_status"],
                 "runtime_probe_status_before_call": row["runtime_probe_status"],
                 "executed_action_history": list(history),
+                "action_observation_history": list(action_observation_history),
                 "probe_runtime_state": actor_input["probe_runtime_state"],
                 "action_index": None,
                 "resolved_action": None,
@@ -259,6 +272,12 @@ def _run_actor_condition(
                 environment_result = episode.step(action)
                 write_json(step_dir / "environment_result.json", environment_result)
                 history.append(action)
+                action_observation_history.append(
+                    {
+                        "action": action,
+                        "observation": environment_result["observation"],
+                    }
+                )
                 probe_status = result["probe_status"]
                 probe_status_history.append(probe_status)
                 record.update(
