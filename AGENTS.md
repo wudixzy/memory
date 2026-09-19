@@ -4,10 +4,11 @@ This file defines the active implementation contract for branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1A Final Pre-Actor Patch**.
+Current cycle: **Gate B1 — Independent C1 Actor Calibration**.
 
-The core method is frozen. The immediate goal is to close the last scientific
-invariants before the first real actor-calibration and source-H model calls.
+The core method and Phase 1A registries are frozen. This cycle first makes a
+small zero-model protocol transition, then permits exactly one real actor
+experiment: the ten frozen hard-calibration tasks under C1.
 
 ## 1. Required read order
 
@@ -93,72 +94,84 @@ execution requires actor-manifest status `passed_independent_reliability_gate`; 
 candidate is calibration-only. Phase 1A H assignment must satisfy the frozen public applicability
 contract for `h_family_receptacle_search`, and source-H provenance remains model-invisible.
 
-## 6. Current required work: Final Pre-Actor Patch
+## 6. Current required work: Gate B1
 
-Only address these remaining review blockers.
+The Final Pre-Actor Patch at commit `56dcb311...` is the baseline. Do not
+redesign the method or reopen those invariants. The current cycle only:
 
-### A. Calibration domain
+- updates the Gate B1 criteria/report contract before any model call;
+- verifies the existing hard-calibration membership and family floor;
+- runs the independent ten-task C1 calibration once;
+- preserves all traces and produces a researcher-review result memo.
 
-The hard actor gate must use in-domain Phase 1A task families.
+The frozen hard gate is:
 
-Out-of-domain tasks may remain diagnostic only.
+- `invalid_action_index = 0`;
+- at least `8 / 10` successful in-domain C1 tasks;
+- at most `2 / 10` step-cap failures;
+- at most `2 / 10` manually reviewed semantic-loop tasks;
+- at least one successful hard-calibration task in each frozen Phase 1A
+  family: `pick_and_place_simple`, `pick_clean_then_place_in_recep`,
+  `pick_cool_then_place_in_recep`, and `pick_heat_then_place_in_recep`.
 
-Selection must remain deterministic, outcome-blind and disjoint from Source/Target.
+The denominator, family floor, and exclusion of diagnostic calibration from
+admission are frozen before model calls. The calibration runner may aggregate
+mechanical facts, but semantic-loop labels remain manual trace review.
 
-### B. Probe budget fairness
+## 7. Gate B1 execution boundary
 
-Do not hard-terminate on distinct receptacle count.
+Before the transition commit and its self-check, make zero model/API calls.
+After that checkpoint, the only permitted real experiment is:
 
-Use a shared mechanical probe-action cap as the hard budget.
+    10 frozen hard-calibration tasks × C1 × 1 repetition
 
-Separate episode-level visited receptacles from probe-local visited receptacles.
-Probe-local facts must be derived only from probe actions.
+Use `run_phase1_calibration` with the committed calibration registry, pending
+actor manifest, canonical K*, actor manifest settings, and direct DashScope
+transport with proxy variables disabled. Do not run diagnostic calibration,
+source B/C generation, B3 context audit, or any Phase 1A target condition.
 
-Do not add semantic candidate-completion rules or a next-action controller.
+The runner must never update the actor manifest to
+`passed_independent_reliability_gate`. After the ten tasks, review only saved
+traces for semantic loops. If an infrastructure/API failure cannot be
+separated from an actor failure, preserve the artifact and return
+`RESEARCHER_REVIEW_REQUIRED`.
 
-### C. Source-H referential integrity
+## 8. Existing frozen invariants
 
-Real H freeze must verify actual source set, canonical K*, source history artifact,
-B artifact, C artifact, projected future H, hashes and offline model/config.
+Preserve all current method and harness invariants, including:
 
-Do not accept arbitrary user-supplied SHA strings as scientific provenance.
+- B/C responsibility boundary and Functional Contract;
+- fact-only C boundary and source/future grounding separation;
+- future-facing adaptive H and one-shot lifecycle;
+- action-index actor interface and mechanical `probe_runtime_state`;
+- E1-only A and heavy-offline/light-online architecture;
+- public-only Source/Calibration/Target registry and pairing proof;
+- actor-manifest parity and scientific-runner fail-closed status;
+- `max_probe_actions` as the only hard probe cap.
 
-### D. Public H-family applicability
+Do not add a semantic controller, fallback planner, automatic retrieval,
+trajectory segmenter, VOI gate, Stage 1, longitudinal loop, second actor, or
+new benchmark in this cycle.
 
-Define and enforce a public-only applicability contract for
-h_family_receptacle_search.
+## 9. Provider scope
 
-Do not use hidden placement, PDDL, oracle route or target outcome.
+Current executable model transport is DashScope-compatible. Do not claim
+arbitrary-provider support or build a generic provider abstraction here.
 
-### E. Actor gate status
-
-Scientific Phase 1A execution must reject an actor manifest unless:
-
-    selection_status = passed_independent_reliability_gate
-
-Calibration mode may use a pending candidate.
-
-The current Qwen3.8-Flash manifest must remain pending in this no-model cycle.
-
-## 7. Provider scope
-
-Current executable model transport is DashScope-compatible.
-
-Do not claim arbitrary-provider support and do not build a generic provider abstraction in this cycle.
-
-## 8. No-model rule
-
-This cycle must make ZERO paid/model API calls.
+## 10. Prohibited experiments
 
 Do not:
 
-- run actor calibration;
-- generate live B/C Hs;
-- run target C1/C2/C3;
-- inspect hidden target outcomes;
+- run anything other than the single ten-task Gate B1 calibration after the
+  transition checkpoint;
+- run diagnostic calibration;
+- generate live B/C Hs or source-H manifests;
+- run C2/C3, the Phase 1A target matrix, or B3 context audit;
+- inspect target outcomes or use them to change any registry;
+- call a second actor candidate;
 - modify source/target membership based on results.
 
-## 9. Explicit non-goals
+## 11. Explicit non-goals
 
 Do not implement:
 
@@ -174,21 +187,18 @@ Do not implement:
 
 Do not redesign B/C/H/A.
 
-## 10. Required outputs
+## 12. Required outputs
 
 Produce:
 
-1. final no-model patch;
-2. updated frozen partitions/registries if calibration changes;
-3. probe-budget/runtime bookkeeping correction;
-4. live-H freeze referential validator;
-5. H-family public applicability contract;
-6. actor gate status enforcement;
-7. focused regression tests;
-8. concise result memo;
-9. executable templates for the next Actor Gate / H Freeze, but do not run them.
+1. an independent transition commit;
+2. one new Gate B1 output directory with all ten task artifacts;
+3. a concise Gate B1 result memo with mechanical metrics and manual-loop review;
+4. no actor-manifest status promotion;
+5. the two deferred B2 TODOs: source-history referential binding and narrower
+   live-C applicability handling.
 
-## 11. Review criteria
+## 13. Review criteria
 
 The authoritative review checklist is:
 
@@ -196,9 +206,9 @@ The authoritative review checklist is:
 
 If a change cannot pass that review without looking at target outcomes, it is not acceptable.
 
-## 12. Verification
+## 14. Verification
 
-Before commit:
+Before the transition commit and again after the result memo:
 
     git status
     git diff
@@ -208,13 +218,14 @@ Run focused tests, existing Phase 1/MVP regressions, Ruff and compile checks.
 
 Do not claim full-suite success if unrelated missing AppWorld fixtures still fail.
 
-## 13. Stop rule
+## 15. Stop rule
 
-After the Final Pre-Actor Patch is implemented and verified:
+After Gate B1 is executed, reviewed, documented, committed and pushed:
 
     STOP
-    commit
-    push
     return for researcher review
 
-Do not start Gate B1/B2 in the same cycle.
+Do not start Gate B2, B3, source-H freeze, or Phase 1A targets in the same
+cycle. Keep the committed actor manifest at
+`candidate_pending_independent_reliability_gate` regardless of the mechanical
+Gate B1 outcome.

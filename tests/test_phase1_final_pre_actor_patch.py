@@ -51,6 +51,10 @@ from exploratory_memory_mvp.phase1_population import build_deterministic_partiti
 from exploratory_memory_mvp.phase1_runner import run_phase1_paired_target  # noqa: E402
 from exploratory_memory_mvp.probe_budget import PHASE1_PROBE_BUDGET  # noqa: E402
 from exploratory_memory_mvp.run_online_pair import _run_actor_condition  # noqa: E402
+from exploratory_memory_mvp.run_phase1_calibration import (  # noqa: E402
+    aggregate_calibration_rows,
+    evaluate_b1_gate,
+)
 from exploratory_memory_mvp.target_registry import (  # noqa: E402
     compute_partition_digest,
     compute_registry_digest,
@@ -68,6 +72,45 @@ from tests.test_phase1_readiness import (  # noqa: E402
 
 
 class Phase1FinalPreActorPatchTests(unittest.TestCase):
+    def test_b1_family_floor_blocks_eight_of_ten_without_family_coverage(self):
+        families = sorted(PHASE1A_TARGET_FAMILIES)
+        rows = [
+            {
+                "task_id": f"task-{index}",
+                "task_family": families[1 if index < 8 else 0],
+                "won": index < 8,
+                "status": "completed" if index < 8 else "failed",
+                "invalid_action_steps": 0,
+            }
+            for index in range(10)
+        ]
+        metrics = aggregate_calibration_rows(rows, denominator=10)
+        self.assertEqual(metrics["successful_tasks"], 8)
+        self.assertFalse(metrics["family_floor_satisfied"])
+        self.assertIn(families[2], metrics["family_floor_failures"])
+        decision = evaluate_b1_gate(metrics, semantic_loop_tasks=0)
+        self.assertEqual(decision["candidate_gate_result"], "FAIL")
+
+    def test_b1_family_floor_allows_mechanical_pass_when_all_families_succeed(self):
+        families = sorted(PHASE1A_TARGET_FAMILIES)
+        rows = []
+        for index in range(10):
+            family = families[index % len(families)]
+            rows.append(
+                {
+                    "task_id": f"task-{index}",
+                    "task_family": family,
+                    "won": index < 8,
+                    "status": "completed" if index < 8 else "failed",
+                    "invalid_action_steps": 0,
+                }
+            )
+        metrics = aggregate_calibration_rows(rows, denominator=10)
+        self.assertEqual(metrics["task_counts_by_family"][families[0]], 3)
+        self.assertTrue(metrics["family_floor_satisfied"])
+        decision = evaluate_b1_gate(metrics, semantic_loop_tasks=0)
+        self.assertEqual(decision["candidate_gate_result"], "PASS")
+
     def test_hard_calibration_is_in_domain_and_all_partitions_are_disjoint(self):
         registry = load_target_registry()
         universe = registry["candidate_universe"]

@@ -1,8 +1,8 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> 状态：当前项目单一接手入口（2026-09-19）
+> 状态：当前项目单一接手入口（2026-09-19，Gate B1 cycle）
 > Branch：exp/minimal-exploratory-memory-validation
-> Baseline commit：a738366b5d8e1905a430f2403bf85c1813cbfffd
+> Baseline commit：56dcb311106c063a305dbb936659e3151fb80387
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
 > 原则：本文只写当前共识与当前证据边界；历史设计演化请查顶层 docs/00–69。
 
@@ -612,9 +612,10 @@ C2 与 C3 必须尽量共享 H schema、one-shot authority、lifecycle、runtime
 
     eligible: 54
     source: 5
-    calibration: 15
+    hard calibration: 10
+    diagnostic calibration: 18
     target: 20
-    residual: 14
+    residual: 1
 
 当前 target 共 20 个，来自 public-only outcome-blind partition。
 
@@ -858,6 +859,28 @@ commit a738366...：
 
 No paid model/API call。
 
+## 17.9 Gate B1 Protocol Transition
+
+Current cycle is **Gate B1 — Independent C1 Actor Calibration**. The method,
+K*, Source/Calibration/Target partitions, actor prompt, step cap and transport
+configuration are frozen. The only permitted real model experiment is one C1
+run on the ten hard-calibration tasks; the 18 diagnostic tasks, all targets,
+live B/C H generation, B3 context audit and any second actor are prohibited.
+
+The admission criteria are frozen before the calls:
+
+- invalid action index = 0;
+- at least 8/10 successful hard-calibration tasks;
+- at most 2/10 step-cap failures;
+- at most 2/10 manually reviewed semantic-loop tasks;
+- at least one successful task in each of the four Phase 1A task families.
+
+The committed Qwen3.8-Flash actor manifest remains
+`candidate_pending_independent_reliability_gate`; calibration may use it, but
+the scientific target runner remains fail closed until a separate researcher
+review promotes a manifest. This gate tests only baseline C1 execution
+reliability, not C3 targeting value or exploratory-memory effectiveness.
+
 ---
 
 # 18. 当前证据支持等级
@@ -892,91 +915,43 @@ No paid model/API call。
 
 # 19. 当前正式 review 结论
 
-截至 a738366...，上一轮主要 readiness blocker 基本已经 code-enforced，但进入 Actor Gate 前仍有几个需要修的科学约束：
+截至 `56dcb311...`，上一轮 readiness blockers 已经 code-enforced，当前进入
+Gate B1 的 protocol transition。Gate B1 只审查共同 actor 在 Phase 1A
+`Actor + K* = C1` 下的基础执行可靠性，不审查 C2/C3 的科学贡献。
 
-### Must-fix A — Calibration domain mismatch
+### Gate B1 hard admission criteria
 
-当前 15 calibration：
+    invalid action index = 0
+    success >= 8/10
+    step-cap failures <= 2/10
+    manually reviewed semantic loops <= 2/10
+    each Phase 1A family has >= 1 success
 
-    look_at_obj_in_light: 6
-    pick_two_obj_and_place: 5
-    Phase1A in-domain four families: only 1 each
-
-因此 hard actor gate 主要测的是非目标域。
-
-应改成：
-
-    in-domain calibration = hard gate
-    out-of-domain = diagnostic only
-
-### Must-fix B — Probe budget semantics
-
-当前 max_distinct_candidate_visits=2 做 hard termination 会对 closed cabinet 与 open surface 形成不公平。
-
-同时 visited_receptacles 当前来自 entire episode history，会把 pre-probe visit 算进 budget。
-
-建议：
-
-- hard cap 只保留 max_probe_actions；
-- distinct candidate visits 只做 telemetry；
-- 分开 episode visited 与 probe-local visited。
-
-### Must-fix C — Source-H referential integrity
-
-H manifest schema 有 source/K*/B/C hash 字段，但 live freeze 时必须真正交叉验证 source set、canonical K*、source history artifact、B/C artifacts、future H projection 和 offline model config。
-
-### Must-fix D — Public H-family applicability
-
-仅 h_family_receptacle_search 相等还不够。
-
-需要冻结 public-only applicability contract，确保目标确实满足 H family 的可观察 scope。
-
-### Must-fix E — Actor gate status
-
-Scientific runner 最终只能接受：
-
-    passed_independent_reliability_gate
-
-pending/rejected actor 不能启动正式 Phase 1A。
+Hard calibration is fixed at 10 in-domain tasks. The 18 out-of-domain
+diagnostic tasks cannot affect admission and are not run in this cycle.
 
 ---
 
 # 20. 当前下一步
 
-下一步不是 paid pilot。
+当前只允许使用：
 
-先做一个很小的 Final Pre-Actor Patch：
+    run_phase1_calibration
+    hard_calibration
+    C1
+    10 tasks × 1 repetition
 
-1. calibration domain 修正；
-2. probe budget 修正；
-3. live H referential freeze validator；
-4. public applicability contract；
-5. actor status semantics。
+执行后必须保留每个 trace，人工审核 semantic-loop，不得自动升级 actor
+manifest。结果为 `PASS`、`FAIL` 或 `RESEARCHER_REVIEW_REQUIRED` 后即停止，
+等待 researcher review。
 
-零模型/API call。
+在 review 前禁止：
 
-通过 review 后：
-
-### Gate B1
-
-独立 C1 actor calibration。
-
-### Gate B2
-
-5 source 的真实 B/C H freeze。
-
-### Gate B3
-
-C2/C3 actual context/token parity audit。
-
-三者通过后：
-
-### Gate C
-
-正式运行：
-
-    20 target × C1/C2/C3 × 2 reps
-    = 120 episodes
+- Gate B2 live B/C/source-H freeze；
+- Gate B3 C2/C3 context audit；
+- diagnostic calibration；
+- 20-target C1/C2/C3 matrix；
+- second actor 或 Phase 2。
 
 ---
 

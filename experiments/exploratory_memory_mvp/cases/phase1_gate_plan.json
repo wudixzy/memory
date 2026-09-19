@@ -1,6 +1,7 @@
 {
   "schema_version": "phase1a-gate-plan-v1",
-  "status": "prepared_not_executed",
+  "status": "gate_b1_ready_not_executed",
+  "cycle": "Gate B1 — Independent C1 Actor Calibration",
   "phase": "Phase 1A — Receptacle-Search Targeting Pilot",
   "carrier": "alfworld_text",
   "actor_manifest": "experiments/exploratory_memory_mvp/cases/phase1_actor_manifest.json",
@@ -24,6 +25,14 @@
     "step_cap_failures_max": 2,
     "semantic_loop_tasks_max": 2,
     "denominator": 10,
+    "family_success_floor": {
+      "pick_and_place_simple": 1,
+      "pick_clean_then_place_in_recep": 1,
+      "pick_cool_then_place_in_recep": 1,
+      "pick_heat_then_place_in_recep": 1
+    },
+    "family_floor_rule": "Each frozen Phase 1A task family must contain at least one successful hard-calibration C1 task.",
+    "criteria_frozen_before_model_calls": true,
     "diagnostic_tasks_can_determine_admission": false
   },
   "command_templates": {
@@ -32,7 +41,8 @@
     "gate_b3_context_audit": "PYTHONPATH=src:experiments:. python -m exploratory_memory_mvp.phase1_context_audit --artifact C2=<saved-C2-actor-input.json> --artifact C3=<saved-C3-actor-input.json>"
   },
   "notes": [
-    "No command template is executed by the pre-actor patch.",
+    "Gate B1 is the only real model experiment permitted in the current cycle: 10 hard-calibration tasks, C1, one repetition.",
+    "Diagnostic calibration is not run in this cycle and can never determine admission.",
     "Gate B1 must create a passed actor manifest only after the independent hard-calibration gate.",
     "Gate B2 must use actual saved source/B/C artifacts; arbitrary claimed SHA strings are not accepted.",
     "Gate B3 must be completed before target outcomes are inspected."

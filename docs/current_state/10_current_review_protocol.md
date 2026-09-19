@@ -1,8 +1,8 @@
 # 10. Current Review Protocol：这一轮如何审查与决定是否进入 Actor Gate
 
-> 状态：当前 reviewer contract（2026-09-19）
-> Baseline commit：a738366b5d8e1905a430f2403bf85c1813cbfffd
-> 当前目标：审查 Final Pre-Actor Patch；通过后才允许真实 Actor Gate / B-C H freeze。
+> 状态：当前 reviewer contract（2026-09-19，Gate B1 cycle）
+> Baseline commit：56dcb311106c063a305dbb936659e3151fb80387
+> 当前目标：执行并审查唯一的独立 C1 Actor Gate；通过后仍需 researcher review，才允许 B2 / B3。
 
 ---
 
@@ -17,7 +17,9 @@
 
 这一轮只回答：
 
-> Phase 1A 的实验封装是否已经足够 fail-closed，使第一次真实模型 gate 的结果可解释？
+> 当前 actor 在冻结的 Phase 1A `Actor + K* = C1` 条件下是否达到预注册的基础可靠性门槛？
+
+Gate B1 不回答 C3 是否优于 C2，也不回答 exploratory memory 或 targeting 是否有效。
 
 review 优先级：
 
@@ -34,7 +36,7 @@ review 优先级：
 检查：
 
     branch = exp/minimal-exploratory-memory-validation
-    baseline >= a738366...
+    baseline >= 56dcb311...
 
 确认最新提交没有偷偷：
 
@@ -429,11 +431,11 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 
 ---
 
-# 11. 对当前 a738366 的 review verdict
+# 11. 对当前 Gate B1 transition 的 review verdict
 
 当前：
 
-    PASS_WITH_REQUIRED_PRE_ACTOR_PATCH
+    TRANSITION_TO_GATE_B1
 
 已解决：
 
@@ -444,24 +446,12 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 - actor manifest；
 - pairing/action-index regressions。
 
-仍阻塞 Actor Gate：
-
-1. calibration domain mismatch；
-2. probe-budget semantics；
-3. source-H referential integrity；
-4. family applicability contract；
-5. actor gate status enforcement。
-
-所以当前正确下一步：
-
-    Final Pre-Actor Patch
-    (zero model/API calls)
-
-而不是直接 C1 actor calibration 或 120-episode Phase 1A。
+上述五项 blocker 已在 `56dcb311...` 中完成。当前唯一下一步是一次
+10-task hard-calibration C1 run；不要运行 diagnostic 18、B2/B3 或 target matrix。
 
 ---
 
-# 12. Final Pre-Actor Patch 通过后的顺序
+# 12. Gate B1 通过后的顺序
 
 ## Gate B1 — Actor Calibration
 

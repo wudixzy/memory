@@ -2,7 +2,7 @@
 
 > 更新时间：2026-09-19  
 > 分支：exp/minimal-exploratory-memory-validation  
-> 当前项目接手基线 commit：a738366b5d8e1905a430f2403bf85c1813cbfffd
+> 当前项目接手基线 commit：56dcb311106c063a305dbb936659e3151fb80387
 
 这组文档不是历史讨论日志，而是对当前项目共识、已经完成的验证、仍未解决的问题和下一阶段实验设计的整理。后续新参与者、新 Agent 或组会讨论应优先从这里进入；顶层 docs/ 中更早的文档主要用于追溯设计演化和实验细节。
 
@@ -136,4 +136,9 @@
 - **新参与者提示词**：docs/70_project_onboarding_prompt.md
 - **当前实现契约**：根目录 AGENTS.md
 
-当前状态不是“直接启动 paid pilot”。a738366... 之后仍需完成 Final Pre-Actor Patch：in-domain calibration、probe-budget fairness、live H referential integrity、public family applicability、actor gate status enforcement。通过 review 后才进入真实 Actor Gate / Source-H Freeze。
+当前 active cycle 是 **Gate B1 — Independent C1 Actor Calibration**。只允许对冻结的
+10 个 hard-calibration task 运行一次 C1；18 个 diagnostic task、B2 live B/C
+generation、B3 context audit 和 20-target Phase 1A matrix 均禁止。Gate B1 只检验共同
+actor 在 `Actor + K* = C1` 下的基础执行可靠性，不支持 C3/C2 或 exploratory-memory
+effectiveness claim。无论结果如何，committed actor manifest 仍保持
+`candidate_pending_independent_reliability_gate`，等待 researcher review。

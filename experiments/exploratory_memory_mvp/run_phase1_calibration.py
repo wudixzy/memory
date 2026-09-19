@@ -31,11 +31,16 @@ from .common import (
     write_json,
 )
 from .k_star import compute_k_star_digest, get_phase1_k_star
+from .phase1_applicability import PHASE1A_TARGET_FAMILIES
 from .phase1_config import Phase1RunConfig
 from .phase1_runner import run_phase1_episode
 from .target_registry import DEFAULT_REGISTRY_PATH
 
 CALIBRATION_PARTITIONS = frozenset({"hard_calibration", "diagnostic_calibration"})
+FROZEN_B1_DENOMINATOR = 10
+FROZEN_B1_FAMILY_SUCCESS_FLOOR = {
+    family: 1 for family in sorted(PHASE1A_TARGET_FAMILIES)
+}
 
 
 def _record_artifact_dir(output: Path, task_id: str, seed: int, index: int) -> Path:
@@ -62,6 +67,139 @@ def _count_invalid_action_steps(task_dir: Path) -> int:
     return count
 
 
+def frozen_b1_criteria(denominator: int) -> dict[str, Any]:
+    """Return the pre-registered Gate B1 criteria for a calibration run."""
+
+    if type(denominator) is not int or denominator <= 0:
+        raise SchemaError("Gate B1 denominator must be a positive integer")
+    return {
+        "condition": "C1",
+        "memory": "K*",
+        "invalid_action_index_max": 0,
+        "success_min": 8,
+        "step_cap_failures_max": 2,
+        "semantic_loop_tasks_max": 2,
+        "denominator": denominator,
+        "family_success_floor": dict(FROZEN_B1_FAMILY_SUCCESS_FLOOR),
+        "diagnostic_tasks_can_determine_admission": False,
+        "criteria_frozen_before_model_calls": True,
+    }
+
+
+def aggregate_calibration_rows(
+    rows: list[dict[str, Any]], *, denominator: int | None = None
+) -> dict[str, Any]:
+    """Aggregate mechanical calibration facts without judging semantic loops.
+
+    ``semantic_loop_tasks`` deliberately remains unset here.  The saved traces
+    are reviewed by a researcher; this function only aggregates auditable row
+    fields and the pre-registered family floor.
+    """
+
+    if denominator is None:
+        denominator = len(rows)
+    criteria = frozen_b1_criteria(denominator)
+    task_counts_by_family: dict[str, int] = {}
+    successes_by_family: dict[str, int] = {}
+    for row in rows:
+        family = row.get("task_family")
+        if isinstance(family, str) and family:
+            task_counts_by_family[family] = task_counts_by_family.get(family, 0) + 1
+            if row.get("won") is True:
+                successes_by_family[family] = successes_by_family.get(family, 0) + 1
+    task_counts_by_family = dict(sorted(task_counts_by_family.items()))
+    successes_by_family = dict(sorted(successes_by_family.items()))
+    family_success_floor = {
+        family: {
+            "required_successes": required,
+            "observed_successes": successes_by_family.get(family, 0),
+            "satisfied": successes_by_family.get(family, 0) >= required,
+        }
+        for family, required in criteria["family_success_floor"].items()
+    }
+    family_floor_failures = [
+        family for family, result in family_success_floor.items() if not result["satisfied"]
+    ]
+    return {
+        "task_count": len(rows),
+        "successful_tasks": sum(row.get("won") is True for row in rows),
+        "failed_tasks": sum(row.get("won") is False for row in rows),
+        "step_cap_failures": sum(
+            row.get("status") == "step_cap_reached" for row in rows
+        ),
+        "invalid_action_steps": sum(
+            int(row.get("invalid_action_steps", 0) or 0) for row in rows
+        ),
+        "infrastructure_failure_tasks": sum(
+            row.get("status") == "infrastructure_failure" for row in rows
+        ),
+        "task_counts_by_family": task_counts_by_family,
+        "successes_by_family": successes_by_family,
+        "family_success_floor": family_success_floor,
+        "family_floor_satisfied": not family_floor_failures,
+        "family_floor_failures": family_floor_failures,
+        "semantic_loop_tasks": None,
+        "semantic_loop_review": "manual_review_required; not inferred by this runner",
+    }
+
+
+def evaluate_b1_gate(
+    metrics: dict[str, Any], *, semantic_loop_tasks: int | None
+) -> dict[str, Any]:
+    """Evaluate frozen mechanical criteria plus a human trace-review count.
+
+    This is an auditable reducer, not a semantic-loop detector.  Passing a
+    ``None`` loop count intentionally yields ``RESEARCHER_REVIEW_REQUIRED``.
+    """
+
+    denominator = metrics.get("task_count")
+    criteria = frozen_b1_criteria(denominator)
+    checks = {
+        "invalid_action_index": {
+            "observed": metrics.get("invalid_action_steps"),
+            "maximum": criteria["invalid_action_index_max"],
+        },
+        "success": {
+            "observed": metrics.get("successful_tasks"),
+            "minimum": criteria["success_min"],
+            "denominator": denominator,
+        },
+        "step_cap_failures": {
+            "observed": metrics.get("step_cap_failures"),
+            "maximum": criteria["step_cap_failures_max"],
+        },
+        "semantic_loop_tasks": {
+            "observed": semantic_loop_tasks,
+            "maximum": criteria["semantic_loop_tasks_max"],
+        },
+        "family_success_floor": {
+            "observed": metrics.get("family_success_floor"),
+            "satisfied": metrics.get("family_floor_satisfied") is True,
+        },
+    }
+    mechanical_pass = (
+        metrics.get("task_count") == denominator
+        and metrics.get("infrastructure_failure_tasks", 0) == 0
+        and metrics.get("invalid_action_steps") == 0
+        and metrics.get("successful_tasks", 0) >= criteria["success_min"]
+        and metrics.get("step_cap_failures", 0) <= criteria["step_cap_failures_max"]
+        and metrics.get("family_floor_satisfied") is True
+    )
+    if semantic_loop_tasks is None or metrics.get("infrastructure_failure_tasks", 0):
+        result = "RESEARCHER_REVIEW_REQUIRED"
+    elif mechanical_pass and semantic_loop_tasks <= criteria["semantic_loop_tasks_max"]:
+        result = "PASS"
+    else:
+        result = "FAIL"
+    return {
+        "candidate_gate_result": result,
+        "criteria": criteria,
+        "checks": checks,
+        "infrastructure_review_required": metrics.get("infrastructure_failure_tasks", 0)
+        > 0,
+    }
+
+
 def run_phase1_calibration(
     *,
     calibration_registry_path: Path = DEFAULT_CALIBRATION_REGISTRY_PATH,
@@ -83,10 +221,17 @@ def run_phase1_calibration(
     if actor_manifest["selection_status"] == "rejected_independent_reliability_gate":
         raise SchemaError("A rejected actor candidate cannot be used for calibration")
     records = _partition_records(calibration, partition)
+    if partition == "hard_calibration" and len(records) != FROZEN_B1_DENOMINATOR:
+        raise SchemaError(
+            "Gate B1 hard calibration denominator is frozen at "
+            f"{FROZEN_B1_DENOMINATOR}, got {len(records)}"
+        )
     if output.exists():
         raise SchemaError(f"Calibration output already exists: {output}")
     make_run_directory(output)
     effective_step_cap = actor_manifest["step_cap"] if step_cap is None else step_cap
+    if step_cap is not None and step_cap != actor_manifest["step_cap"]:
+        raise SchemaError("Gate B1 calibration step_cap must match the actor manifest")
     if type(effective_step_cap) is not int or effective_step_cap <= 0:
         raise SchemaError("Calibration step_cap must be a positive integer")
 
@@ -103,6 +248,7 @@ def run_phase1_calibration(
         "step_cap": effective_step_cap,
         "allow_network": allow_network,
         "actor_gate_is_not_written_by_this_command": True,
+        "gate_criteria": frozen_b1_criteria(len(records)),
     }
     write_json(output / "run_metadata.json", run_metadata)
 
@@ -143,10 +289,14 @@ def run_phase1_calibration(
                 {
                     "task_id": task_id,
                     "requested_seed": seed,
+                    "task_family": record["task_family"],
                     "registered_public_initial_fingerprint": expected_fingerprint,
                     "actual_public_initial_fingerprint": actual_fingerprint,
+                    "steps": row.get("actor_steps", 0),
+                    "step_cap": effective_step_cap,
+                    "step_cap_reached": row.get("status") == "step_cap_reached",
                     "invalid_action_steps": _count_invalid_action_steps(task_dir),
-                    "semantic_loop_review": "required_from_saved_trace",
+                    "semantic_loop_review": "manual_trace_review_required",
                 }
             )
             rows.append(row)
@@ -154,6 +304,12 @@ def run_phase1_calibration(
             failure = {
                 "task_id": task_id,
                 "requested_seed": seed,
+                "task_family": record["task_family"],
+                "won": None,
+                "steps": 0,
+                "step_cap": effective_step_cap,
+                "invalid_action_steps": 0,
+                "semantic_loop_review": "manual_trace_review_required",
                 "error": safe_error(error),
             }
             write_json(task_dir / "failure.json", failure)
@@ -166,24 +322,16 @@ def run_phase1_calibration(
                 except Exception:
                     pass
 
+    metrics = aggregate_calibration_rows(rows, denominator=len(records))
     summary = {
         **run_metadata,
         "status": "completed_with_manual_review_required",
         "rows": rows,
         "infrastructure_failures": infrastructure_failures,
-        "metrics": {
-            "successful_tasks": sum(row.get("won") is True for row in rows),
-            "step_cap_failures": sum(row.get("status") == "step_cap_reached" for row in rows),
-            "invalid_action_steps": sum(row.get("invalid_action_steps", 0) for row in rows),
-            "semantic_loop_tasks": None,
-            "semantic_loop_review": "manual_review_required; not inferred by this runner",
-        },
+        "metrics": metrics,
+        "candidate_gate_result": "RESEARCHER_REVIEW_REQUIRED",
         "proposed_hard_gate": {
-            "invalid_action_index_max": 0,
-            "success_min": 8,
-            "step_cap_failures_max": 2,
-            "semantic_loop_tasks_max": 2,
-            "denominator": len(records),
+            **frozen_b1_criteria(len(records)),
             "admission_decision": "not_decided_by_calibration_runner",
         },
     }
