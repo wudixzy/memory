@@ -65,22 +65,25 @@ ALFWorld train split 的完整 54 个 task/trial 目录经 public-only reset eli
 （包含 public observation 和 ordered admissible actions），并通过稳定 hash partition 为：
 
 ```text
-Source 5 / Calibration 15 / Target 20 / residual 14
+Source 5 / hard calibration 10 / diagnostic calibration 18 / Target 20 / residual 1
 ```
 
 每条 target 记录只保存 public task identity、public instruction、reset 后 actor-visible
 initial fingerprint、task family 和预先声明的 H-family key。registry 还保存：
 
 - 完整 candidate universe、candidate-ID digest 和 public-record digest；
-- inclusion predicate 与 partition salt/algorithm；
-- Source/Calibration/Residual 的 exclusion reasons，用于保证三组 partition 与 target 不重叠；
+- inclusion predicate、public applicability contract 与 partition salt/algorithm；
+- Source/hard-calibration/diagnostic-calibration/Residual 的 exclusion reasons，用于保证
+  五组 partition 两两不重叠；
 - `human_review.performed = false` 的 provenance 声明；
 - registry digest：
-  `fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd`。
+  `0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d`。
 - candidate IDs digest：
   `6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283`。
 - partition digest：
-  `676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6`。
+  `fc548e0f4f493074ed2bc20b05433b6d7a94602e8c77a694cc745030037b120f`。
+- applicability contract digest：
+  `71d982a25ab3d9b7da40b71e1f3900e39fcd0f59ddd40e551b040c38d4499d82`。
 
 `validate_target_registry()` 拒绝 evaluator/oracle fields、重复 ID、universe 外 target、
 错误 fingerprint 和不一致的 candidate-universe hash。target inclusion 不读取 static
@@ -105,11 +108,12 @@ ALFWorld，AppWorld 的状态回滚/actor/cost 风险保留为后续候选。
 
 ## 6. Main actor reliability gate
 
-`docs/67_phase1_actor_reliability_screening_protocol.md` 规定先做约 15 个 C1
-(`Actor + K*`) calibration tasks，C0/no-H 只作为辅助诊断，记录：success、step-cap、
-semantic loop/drift、invalid index、steps/tool calls、tokens/cost。待 researcher review 的
-gate 是：invalid action index = 0、至少 12/15 C1 成功、至多 2/15 step-cap、至多 2/15
-clear semantic-loop。C1/C2/C3 必须共享通过筛选的同一 actor manifest；memory intervention
+`docs/67_phase1_actor_reliability_screening_protocol.md` 规定先做 10 个 in-domain C1
+(`Actor + K*`) hard-calibration tasks；另有 18 个 out-of-domain diagnostic tasks，C0/no-H
+只作为辅助诊断，记录：success、step-cap、semantic loop/drift、invalid index、steps/tool
+calls、tokens/cost。待 researcher review 的 gate 是：invalid action index = 0、至少 8/10
+in-domain C1 成功、至多 2/10 step-cap、至多 2/10 clear semantic-loop；diagnostic tasks
+不得决定 admission。C1/C2/C3 必须共享通过筛选的同一 actor manifest；memory intervention
 不能补偿不可靠的基础执行器。
 
 本轮**没有**执行这个 paid screen，因此 Qwen3.8-Flash 仍只是当前 MVP 的 planning
@@ -171,8 +175,8 @@ source-H manifest 会 fail closed，等待下一 gate 填入真实 B/C artifacts
 ## 10. Recommendation and non-claims
 
 建议先由研究者 review docs/63–69，再决定是否运行 C1 actor screen；只有 actor gate、
-C2/C3 实际 token/context audit、source/calibration/target disjointness、source-H manifest
-freeze 和 target registry freeze 都通过后，才启动
+C2/C3 实际 token/context audit、source/calibration/target disjointness、public applicability
+audit、source-H manifest freeze 和 target registry freeze 都通过后，才启动
 20-target pilot，再按 stop rule 决定是否扩到 30 targets。
 
 本轮不支持以下结论：C3 已优于 C2、H 在自然任务分布上普遍有用、Qwen3.8-Flash 已是可靠

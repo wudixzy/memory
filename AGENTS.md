@@ -73,7 +73,8 @@ It is not a general exploratory-memory benchmark claim.
 Preserve:
 
 - complete public-only eligible universe;
-- deterministic disjoint Source / Calibration / Target partitions;
+- deterministic disjoint Source / hard-calibration / diagnostic-calibration / Target partitions;
+  only hard-calibration can determine actor admission;
 - target registry digest;
 - registered seed and actual public-fingerprint verification;
 - replayable actual-execution pairing proof;
@@ -85,6 +86,12 @@ Preserve:
 - actor manifest parity across C1/C2/C3;
 - K* parity;
 - failure artifact persistence.
+
+The current frozen probe contract uses `max_probe_actions` as the only hard runtime termination
+cap. Distinct candidate visits are probe-local telemetry, not a stop rule. Scientific C1/C2/C3
+execution requires actor-manifest status `passed_independent_reliability_gate`; a pending
+candidate is calibration-only. Phase 1A H assignment must satisfy the frozen public applicability
+contract for `h_family_receptacle_search`, and source-H provenance remains model-invisible.
 
 ## 6. Current required work: Final Pre-Actor Patch
 

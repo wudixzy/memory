@@ -1,4 +1,9 @@
-"""Independent C1 actor-calibration registry derived from the frozen population."""
+"""Independent in-domain and diagnostic calibration registries.
+
+Only ``hard_calibration`` is eligible to determine actor admission.  The
+diagnostic partition is retained for stress characterization and is explicitly
+excluded from the hard gate.
+"""
 
 from __future__ import annotations
 
@@ -24,9 +29,12 @@ CALIBRATION_KEYS = frozenset(
         "registry_id",
         "parent_registry_sha256",
         "partition_digest",
-        "task_count",
-        "task_ids_sha256",
-        "records",
+        "hard_task_count",
+        "hard_task_ids_sha256",
+        "hard_records",
+        "diagnostic_task_count",
+        "diagnostic_task_ids_sha256",
+        "diagnostic_records",
         "selection_note",
         "registry_sha256",
     }
@@ -40,22 +48,28 @@ def _digest(value: Any) -> str:
 
 def build_calibration_registry(registry: dict[str, Any]) -> dict[str, Any]:
     validate_target_registry(registry)
-    ids = registry["partitions"]["calibration"]
+    hard_ids = registry["partitions"]["hard_calibration"]
+    diagnostic_ids = registry["partitions"]["diagnostic_calibration"]
     record_map = {
         record["target_id"]: record for record in registry["candidate_universe"]["records"]
     }
-    records = [record_map[target_id] for target_id in ids]
+    hard_records = [record_map[target_id] for target_id in hard_ids]
+    diagnostic_records = [record_map[target_id] for target_id in diagnostic_ids]
     result = {
-        "schema_version": "phase1-calibration-registry-v1",
-        "registry_id": "phase1a_alfworld_c1_calibration_v1",
+        "schema_version": "phase1-calibration-registry-v2",
+        "registry_id": "phase1a_alfworld_c1_calibration_v2",
         "parent_registry_sha256": compute_registry_digest(registry),
         "partition_digest": registry["partitions"]["digest"],
-        "task_count": len(ids),
-        "task_ids_sha256": _digest(ids),
-        "records": records,
+        "hard_task_count": len(hard_ids),
+        "hard_task_ids_sha256": _digest(hard_ids),
+        "hard_records": hard_records,
+        "diagnostic_task_count": len(diagnostic_ids),
+        "diagnostic_task_ids_sha256": _digest(diagnostic_ids),
+        "diagnostic_records": diagnostic_records,
         "selection_note": (
-            "Public hash partition reserved before any actor outcome; disjoint from frozen "
-            "Source and Phase 1A Target partitions."
+            "Public hash partitions were reserved before any actor outcome. Hard calibration "
+            "is in-domain and determines admission; diagnostic calibration is out-of-domain "
+            "and never determines admission. Both are disjoint from Source and Target."
         ),
     }
     result["registry_sha256"] = _digest(result)
@@ -75,21 +89,33 @@ def validate_calibration_registry(
         "selection_note",
     ):
         _nonempty_string(calibration[key], "calibration." + key)
-    for key in ("parent_registry_sha256", "partition_digest", "task_ids_sha256", "registry_sha256"):
+    for key in (
+        "parent_registry_sha256",
+        "partition_digest",
+        "hard_task_ids_sha256",
+        "diagnostic_task_ids_sha256",
+        "registry_sha256",
+    ):
         if not isinstance(calibration[key], str) or len(calibration[key]) != 64 or any(
             char not in "0123456789abcdef" for char in calibration[key]
         ):
             raise SchemaError(f"Calibration {key} must be lowercase SHA-256")
-    if type(calibration["task_count"]) is not int or calibration["task_count"] <= 0:
-        raise SchemaError("Calibration task_count must be positive")
-    records = calibration["records"]
-    if not isinstance(records, list) or len(records) != calibration["task_count"]:
-        raise SchemaError("Calibration records do not match task_count")
-    ids = [record.get("target_id") for record in records if isinstance(record, dict)]
-    if len(ids) != len(records) or len(set(ids)) != len(ids):
-        raise SchemaError("Calibration records have duplicate/malformed IDs")
-    if calibration["task_ids_sha256"] != _digest(ids):
-        raise SchemaError("Calibration task ID digest does not match")
+    for count_key, records_key, ids_key in (
+        ("hard_task_count", "hard_records", "hard_task_ids_sha256"),
+        ("diagnostic_task_count", "diagnostic_records", "diagnostic_task_ids_sha256"),
+    ):
+        if type(calibration[count_key]) is not int or calibration[count_key] < 0:
+            raise SchemaError(f"Calibration {count_key} must be non-negative")
+        if count_key == "hard_task_count" and calibration[count_key] == 0:
+            raise SchemaError("Hard calibration must contain at least one task")
+        records = calibration[records_key]
+        if not isinstance(records, list) or len(records) != calibration[count_key]:
+            raise SchemaError(f"Calibration {records_key} do not match {count_key}")
+        ids = [record.get("target_id") for record in records if isinstance(record, dict)]
+        if len(ids) != len(records) or len(set(ids)) != len(ids):
+            raise SchemaError(f"Calibration {records_key} have duplicate/malformed IDs")
+        if calibration[ids_key] != _digest(ids):
+            raise SchemaError(f"Calibration {ids_key} does not match")
     payload = {
         key: calibration[key] for key in CALIBRATION_KEYS if key != "registry_sha256"
     }
@@ -99,19 +125,31 @@ def validate_calibration_registry(
         validate_target_registry(parent_registry)
         if calibration["parent_registry_sha256"] != compute_registry_digest(parent_registry):
             raise SchemaError("Calibration parent registry digest does not match")
-        expected = parent_registry["partitions"]["calibration"]
-        if ids != expected:
-            raise SchemaError("Calibration registry IDs do not match parent partition")
         parent_records = {
             record["target_id"]: record
             for record in parent_registry["candidate_universe"]["records"]
         }
-        if any(record != parent_records[target_id] for record, target_id in zip(records, ids)):
-            raise SchemaError("Calibration records do not match the parent public records")
-        if set(ids).intersection(parent_registry["partitions"]["source"]):
-            raise SchemaError("Calibration overlaps source partition")
-        if set(ids).intersection(parent_registry["partitions"]["target"]):
-            raise SchemaError("Calibration overlaps target partition")
+        for partition, records_key in (
+            ("hard_calibration", "hard_records"),
+            ("diagnostic_calibration", "diagnostic_records"),
+        ):
+            ids = [record["target_id"] for record in calibration[records_key]]
+            expected = parent_registry["partitions"][partition]
+            if ids != expected:
+                raise SchemaError(f"Calibration registry IDs do not match {partition}")
+            if any(
+                record != parent_records[target_id]
+                for record, target_id in zip(calibration[records_key], ids)
+            ):
+                raise SchemaError("Calibration records do not match the parent public records")
+            if set(ids).intersection(parent_registry["partitions"]["source"]):
+                raise SchemaError("Calibration overlaps source partition")
+            if set(ids).intersection(parent_registry["partitions"]["target"]):
+                raise SchemaError("Calibration overlaps target partition")
+        hard_ids = set(parent_registry["partitions"]["hard_calibration"])
+        diagnostic_ids = set(parent_registry["partitions"]["diagnostic_calibration"])
+        if hard_ids.intersection(diagnostic_ids):
+            raise SchemaError("Hard and diagnostic calibration partitions overlap")
     return calibration
 
 

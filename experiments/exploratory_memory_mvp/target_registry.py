@@ -26,6 +26,11 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     read_json,
     write_json,
 )
+from exploratory_memory_mvp.phase1_applicability import (  # noqa: E402
+    PHASE1A_APPLICABILITY_CONTRACT_ID,
+    PHASE1A_APPLICABILITY_CONTRACT_SHA256,
+    validate_public_applicability,
+)
 
 DEFAULT_REGISTRY_PATH = (
     Path(__file__).resolve().parent / "cases" / "phase1_registered_targets.json"
@@ -61,14 +66,26 @@ SELECTION_PROTOCOL_KEYS = frozenset(
         "algorithm",
         "salt",
         "source_reservation_ids_sha256",
-        "calibration_count",
+        "hard_calibration_count",
+        "diagnostic_calibration_count",
         "target_count",
         "target_scope_families",
         "h_family_id",
+        "applicability_contract_id",
+        "applicability_contract_sha256",
         "partition_digest",
     }
 )
-PARTITION_KEYS = frozenset({"source", "calibration", "target", "residual_excluded", "digest"})
+PARTITION_KEYS = frozenset(
+    {
+        "source",
+        "hard_calibration",
+        "diagnostic_calibration",
+        "target",
+        "residual_excluded",
+        "digest",
+    }
+)
 EXCLUSION_KEYS = frozenset({"target_id", "partition", "reason"})
 HUMAN_REVIEW_KEYS = frozenset({"performed", "mode", "note"})
 INCLUSION_CRITERIA_KEYS = frozenset(
@@ -79,6 +96,8 @@ INCLUSION_CRITERIA_KEYS = frozenset(
         "requested_seed",
         "required_public_fields",
         "hidden_state_or_outcome_fields_used",
+        "applicability_contract_id",
+        "applicability_contract_sha256",
     }
 )
 PUBLIC_RECORD_KEYS = frozenset(
@@ -112,6 +131,12 @@ def compute_candidate_universe_digest(candidate_ids: list[str]) -> str:
     return hashlib.sha256(_canonical(candidate_ids).encode("utf-8")).hexdigest()
 
 
+def compute_source_reservation_digest(source_ids: list[str]) -> str:
+    """Hash the ordered frozen Source reservation independently of the universe."""
+
+    return hashlib.sha256(_canonical(source_ids).encode("utf-8")).hexdigest()
+
+
 def compute_public_records_digest(records: list[dict[str, Any]]) -> str:
     return hashlib.sha256(_canonical(records).encode("utf-8")).hexdigest()
 
@@ -119,7 +144,13 @@ def compute_public_records_digest(records: list[dict[str, Any]]) -> str:
 def compute_partition_digest(partitions: dict[str, list[str]]) -> str:
     payload = {
         key: partitions[key]
-        for key in ("source", "calibration", "target", "residual_excluded")
+        for key in (
+            "source",
+            "hard_calibration",
+            "diagnostic_calibration",
+            "target",
+            "residual_excluded",
+        )
     }
     return hashlib.sha256(_canonical(payload).encode("utf-8")).hexdigest()
 
@@ -200,14 +231,24 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
             char not in "0123456789abcdef" for char in digest
         ):
             raise SchemaError("selection_protocol digest is malformed")
-    for key in ("calibration_count", "target_count"):
+    for key in ("hard_calibration_count", "target_count"):
         if type(protocol[key]) is not int or protocol[key] <= 0:
             raise SchemaError(f"selection_protocol.{key} must be positive")
+    if type(protocol["diagnostic_calibration_count"]) is not int or protocol[
+        "diagnostic_calibration_count"
+    ] < 0:
+        raise SchemaError("selection_protocol.diagnostic_calibration_count must be non-negative")
     scope = protocol["target_scope_families"]
     if not isinstance(scope, list) or not scope or any(
         not isinstance(item, str) or not item.strip() for item in scope
     ):
         raise SchemaError("selection_protocol.target_scope_families is malformed")
+    if protocol["applicability_contract_id"] != PHASE1A_APPLICABILITY_CONTRACT_ID:
+        raise SchemaError(
+            "Selection protocol applicability contract is not the frozen Phase 1A contract"
+        )
+    if protocol["applicability_contract_sha256"] != PHASE1A_APPLICABILITY_CONTRACT_SHA256:
+        raise SchemaError("Selection protocol applicability contract digest does not match")
 
     universe = registry["candidate_universe"]
     if not isinstance(universe, dict) or set(universe) != CANDIDATE_UNIVERSE_KEYS:
@@ -255,13 +296,23 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
     hidden_fields = inclusion["hidden_state_or_outcome_fields_used"]
     if hidden_fields != []:
         raise SchemaError("Target registry inclusion lists hidden or outcome fields")
+    if inclusion["applicability_contract_id"] != PHASE1A_APPLICABILITY_CONTRACT_ID:
+        raise SchemaError("Inclusion applicability contract is not the frozen Phase 1A contract")
+    if inclusion["applicability_contract_sha256"] != PHASE1A_APPLICABILITY_CONTRACT_SHA256:
+        raise SchemaError("Inclusion applicability contract digest does not match")
 
     partitions = registry["partitions"]
     if not isinstance(partitions, dict) or set(partitions) != PARTITION_KEYS:
         raise SchemaError("partitions has invalid fields")
     universe_set = set(candidate_ids)
     partition_sets = []
-    for key in ("source", "calibration", "target", "residual_excluded"):
+    for key in (
+        "source",
+        "hard_calibration",
+        "diagnostic_calibration",
+        "target",
+        "residual_excluded",
+    ):
         values = partitions[key]
         if not isinstance(values, list) or any(not isinstance(item, str) for item in values):
             raise SchemaError(f"partitions.{key} must be a list of strings")
@@ -270,14 +321,32 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
         partition_sets.append(set(values))
     if any(
         partition_sets[i].intersection(partition_sets[j])
-        for i in range(4)
-        for j in range(i + 1, 4)
+        for i in range(len(partition_sets))
+        for j in range(i + 1, len(partition_sets))
     ):
         raise SchemaError("Source, calibration, target and residual partitions overlap")
     if set().union(*partition_sets) != universe_set:
         raise SchemaError("Partitions do not cover the complete eligible universe")
-    if len(partitions["calibration"]) != protocol["calibration_count"]:
-        raise SchemaError("Calibration partition count does not match protocol")
+    public_record_map = {record["target_id"]: record for record in records}
+    target_scope = set(protocol["target_scope_families"])
+    if any(
+        public_record_map[target_id]["task_family"] not in target_scope
+        for target_id in partitions["hard_calibration"]
+    ):
+        raise SchemaError("Hard calibration contains an out-of-domain task family")
+    if any(
+        public_record_map[target_id]["task_family"] in target_scope
+        for target_id in partitions["diagnostic_calibration"]
+    ):
+        raise SchemaError("Diagnostic calibration contains an in-domain task family")
+    if len(partitions["hard_calibration"]) != protocol["hard_calibration_count"]:
+        raise SchemaError("Hard calibration partition count does not match protocol")
+    if len(partitions["diagnostic_calibration"]) != protocol["diagnostic_calibration_count"]:
+        raise SchemaError("Diagnostic calibration partition count does not match protocol")
+    if protocol["source_reservation_ids_sha256"] != compute_source_reservation_digest(
+        partitions["source"]
+    ):
+        raise SchemaError("Source reservation digest does not match source partition")
     if len(partitions["target"]) != protocol["target_count"]:
         raise SchemaError("Target partition count does not match protocol")
     if partitions["digest"] != compute_partition_digest(partitions):
@@ -297,7 +366,12 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
         _nonempty_string(exclusion["reason"], "exclusion.reason")
         if exclusion["target_id"] not in universe_set:
             raise SchemaError("exclusion target is absent from candidate_universe")
-        if exclusion["partition"] not in {"source", "calibration", "residual_excluded"}:
+        if exclusion["partition"] not in {
+            "source",
+            "hard_calibration",
+            "diagnostic_calibration",
+            "residual_excluded",
+        }:
             raise SchemaError("exclusion partition is invalid")
         exclusion_ids.add(exclusion["target_id"])
     if exclusion_ids != universe_set - set(partitions["target"]):
@@ -314,9 +388,7 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
     targets = registry["targets"]
     if not isinstance(targets, list) or len(targets) != len(partitions["target"]):
         raise SchemaError("targets must exactly represent the target partition")
-    public_record_map = {
-        record["target_id"]: record for record in universe["records"]
-    }
+    public_record_map = {record["target_id"]: record for record in universe["records"]}
     target_ids = []
     for target in targets:
         if not isinstance(target, dict) or set(target) != TARGET_REQUIRED_KEYS:
@@ -336,6 +408,7 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
             raise SchemaError("Registered target is outside the public target scope")
         if target["matched_h_family"] != protocol["h_family_id"]:
             raise SchemaError("Registered target H family differs from the frozen protocol family")
+        validate_public_applicability(public)
     if target_ids != partitions["target"]:
         raise SchemaError("targets must follow the target partition order")
 

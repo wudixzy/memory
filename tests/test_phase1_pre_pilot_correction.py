@@ -106,6 +106,12 @@ class Phase1PrePilotCorrectionTests(unittest.TestCase):
             "h_manifest_sha256": h_sha,
             "h_manifest_path": h_manifest_path,
         }
+        actor_manifest = json.loads(json.dumps(load_actor_manifest()))
+        actor_manifest["selection_status"] = "passed_independent_reliability_gate"
+        actor_manifest["manifest_sha256"] = compute_actor_manifest_digest(actor_manifest)
+        actor_manifest_path = root / "actor_manifest.json"
+        write_json(actor_manifest_path, actor_manifest)
+        kwargs["actor_manifest_path"] = actor_manifest_path
         kwargs.update(overrides)
         with patch(
             "exploratory_memory_mvp.phase1_runner.StepwiseTask", FakeStepwiseTask
@@ -122,22 +128,37 @@ class Phase1PrePilotCorrectionTests(unittest.TestCase):
         )
         self.assertEqual(partitions, registry["partitions"])
         self.assertEqual(len(set(partitions["source"])), 5)
-        self.assertEqual(len(set(partitions["calibration"])), 15)
+        self.assertEqual(len(set(partitions["hard_calibration"])), 10)
+        self.assertEqual(len(set(partitions["diagnostic_calibration"])), 18)
         self.assertEqual(len(set(partitions["target"])), 20)
         self.assertEqual(
             set().union(
                 *(
                     set(partitions[key])
-                    for key in ("source", "calibration", "target", "residual_excluded")
+                    for key in (
+                        "source",
+                        "hard_calibration",
+                        "diagnostic_calibration",
+                        "target",
+                        "residual_excluded",
+                    )
                 )
             ),
             set(universe["candidate_ids"]),
         )
         calibration = load_calibration_registry()
-        calibration_ids = {record["target_id"] for record in calibration["records"]}
-        self.assertEqual(calibration_ids, set(registry["partitions"]["calibration"]))
-        self.assertTrue(calibration_ids.isdisjoint(registry["partitions"]["source"]))
-        self.assertTrue(calibration_ids.isdisjoint(registry["partitions"]["target"]))
+        hard_ids = {record["target_id"] for record in calibration["hard_records"]}
+        diagnostic_ids = {
+            record["target_id"] for record in calibration["diagnostic_records"]
+        }
+        self.assertEqual(hard_ids, set(registry["partitions"]["hard_calibration"]))
+        self.assertEqual(
+            diagnostic_ids, set(registry["partitions"]["diagnostic_calibration"])
+        )
+        self.assertTrue(hard_ids.isdisjoint(registry["partitions"]["source"]))
+        self.assertTrue(hard_ids.isdisjoint(registry["partitions"]["target"]))
+        self.assertTrue(diagnostic_ids.isdisjoint(registry["partitions"]["source"]))
+        self.assertTrue(diagnostic_ids.isdisjoint(registry["partitions"]["target"]))
 
     def test_public_universe_builder_never_needs_hidden_fields(self):
         state = {

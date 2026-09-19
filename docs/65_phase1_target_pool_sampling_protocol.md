@@ -170,19 +170,23 @@ static PDDL、placement、专家轨迹或任何条件结果。`partitions` 通�
 `phase1a-public-universe-partition-v1` 以及 public task family 分层 + SHA-256 排序生成：
 
 ```text
-Source      5   （固定 source reservation）
-Calibration 15  （独立 no-H actor gate）
-Target      20  （Phase 1A target scope）
-Residual    14  （public hash quota 外的 eligible candidates）
+Source                 5   （固定 source reservation）
+Hard calibration      10   （Phase 1A in-domain C1 actor gate）
+Diagnostic calibration 18  （out-of-domain stress only; never admission）
+Target                20   （Phase 1A target scope）
+Residual               1   （public hash quota 外的 eligible candidates）
 ```
 
-四个集合两两不交并覆盖完整 54 条 universe。当前 digests：
+五个集合两两不交并覆盖完整 54 条 universe。hard calibration 只包含
+`pick_and_place_simple`、`pick_clean_then_place_in_recep`、
+`pick_cool_then_place_in_recep`、`pick_heat_then_place_in_recep`。当前 digests：
 
 ```text
 candidate IDs:  6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283
 public records: f0c2157f2a78bccc2a36750b696866c6f87a2fb570a3a6bc89f7bb5cc438ecf3
-partitions:     676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6
-registry:       fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd
+partitions:     fc548e0f4f493074ed2bc20b05433b6d7a94602e8c77a694cc745030037b120f
+registry:       0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d
+applicability:  71d982a25ab3d9b7da40b71e1f3900e39fcd0f59ddd40e551b040c38d4499d82
 ```
 
 `public_initial_fingerprint` 只由 reset 后 actor 可见的 observation、有序 admissible

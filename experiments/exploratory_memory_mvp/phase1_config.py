@@ -18,6 +18,7 @@ if str(_EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(_EXPERIMENTS))
 
 from exploratory_memory_mvp.actor_manifest import (  # noqa: E402
+    assert_actor_gate_passed,
     get_phase1_actor_manifest,
     validate_actor_manifest,
 )
@@ -115,7 +116,9 @@ def compute_phase1_config_digest(config_dict: dict[str, Any]) -> str:
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
-def validate_phase1_config(config: Phase1RunConfig) -> Phase1RunConfig:
+def validate_phase1_config(
+    config: Phase1RunConfig, *, require_actor_gate: bool = False
+) -> Phase1RunConfig:
     """Validate Phase 1 run configuration against condition contracts and isolation rules."""
     if config.condition not in {"C1", "C2", "C3"}:
         raise SchemaError(f"Invalid Phase 1 condition: {config.condition}")
@@ -128,6 +131,8 @@ def validate_phase1_config(config: Phase1RunConfig) -> Phase1RunConfig:
     if type(config.step_cap) is not int or config.step_cap <= 0:
         raise SchemaError("step_cap must be a positive integer")
     manifest = validate_actor_manifest(config.actor_manifest)
+    if require_actor_gate:
+        assert_actor_gate_passed(manifest)
     for field_name in ("provider", "model_name", "thinking", "temperature", "step_cap"):
         if getattr(config, field_name) != manifest[field_name]:
             raise SchemaError(f"Phase 1 {field_name} differs from frozen actor manifest")
@@ -199,13 +204,15 @@ def validate_phase1_config(config: Phase1RunConfig) -> Phase1RunConfig:
     return config
 
 
-def validate_condition_parity(configs: dict[str, Phase1RunConfig]) -> dict[str, Phase1RunConfig]:
+def validate_condition_parity(
+    configs: dict[str, Phase1RunConfig], *, require_actor_gate: bool = False
+) -> dict[str, Phase1RunConfig]:
     """Check frozen factors shared by C1/C2/C3 before execution."""
 
     if set(configs) != {"C1", "C2", "C3"}:
         raise SchemaError("Phase 1 parity requires exactly C1, C2, and C3")
     for config in configs.values():
-        validate_phase1_config(config)
+        validate_phase1_config(config, require_actor_gate=require_actor_gate)
     first = configs["C1"]
     first_k = compute_k_star_digest(first.k_star)
     first_actor = first.actor_manifest["manifest_sha256"]

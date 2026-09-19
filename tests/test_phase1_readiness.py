@@ -59,6 +59,10 @@ from exploratory_memory_mvp.k_star import (  # noqa: E402
     get_phase1_k_star,
     get_phase1_k_star_provenance,
 )
+from exploratory_memory_mvp.phase1_applicability import (  # noqa: E402
+    PHASE1A_APPLICABILITY_CONTRACT_ID,
+    PHASE1A_APPLICABILITY_CONTRACT_SHA256,
+)
 from exploratory_memory_mvp.phase1_budget import project_phase1_budget  # noqa: E402
 from exploratory_memory_mvp.phase1_config import (  # noqa: E402
     Phase1RunConfig,
@@ -76,6 +80,7 @@ from exploratory_memory_mvp.target_registry import (  # noqa: E402
     compute_partition_digest,
     compute_public_records_digest,
     compute_registry_digest,
+    compute_source_reservation_digest,
     filter_registered_targets,
     load_target_registry,
     validate_target_registry,
@@ -254,22 +259,33 @@ def _fake_public_record(target_id, *, fingerprint, task_family="pick_and_place_s
 
 def _fake_registry_for_runner(fake_episode):
     target_id = "target_pick_01"
+    source_id = "source_fixture/trial_001"
     calibration_id = "calibration_01"
+    diagnostic_id = "diagnostic_01"
     target_record = _fake_public_record(
         target_id, fingerprint=fake_episode.initial_public_state_fingerprint
     )
     calibration_record = _fake_public_record(
         calibration_id, fingerprint=fake_episode.initial_public_state_fingerprint
     )
-    records = [target_record, calibration_record]
+    source_record = _fake_public_record(
+        source_id, fingerprint=fake_episode.initial_public_state_fingerprint
+    )
+    diagnostic_record = _fake_public_record(
+        diagnostic_id,
+        fingerprint=fake_episode.initial_public_state_fingerprint,
+        task_family="look_at_obj_in_light",
+    )
+    records = [target_record, source_record, calibration_record, diagnostic_record]
     partitions = {
-        "source": [],
-        "calibration": [calibration_id],
+        "source": [source_id],
+        "hard_calibration": [calibration_id],
+        "diagnostic_calibration": [diagnostic_id],
         "target": [target_id],
         "residual_excluded": [],
     }
     partitions["digest"] = compute_partition_digest(partitions)
-    source_digest = compute_candidate_universe_digest([])
+    source_digest = compute_source_reservation_digest([source_id])
     registry = {
         "schema_version": "phase1-public-universe-partition-v2",
         "registry_id": "test-registry",
@@ -280,18 +296,21 @@ def _fake_registry_for_runner(fake_episode):
             "algorithm": "test",
             "salt": "test",
             "source_reservation_ids_sha256": source_digest,
-            "calibration_count": 1,
+            "hard_calibration_count": 1,
+            "diagnostic_calibration_count": 1,
             "target_count": 1,
             "target_scope_families": ["pick_and_place_simple"],
             "h_family_id": "h_family_receptacle_search",
+            "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
+            "applicability_contract_sha256": PHASE1A_APPLICABILITY_CONTRACT_SHA256,
             "partition_digest": partitions["digest"],
         },
         "candidate_universe": {
             "source": "test public fixture",
-            "candidate_ids": [target_id, calibration_id],
-            "candidate_count": 2,
+            "candidate_ids": [target_id, source_id, calibration_id, diagnostic_id],
+            "candidate_count": 4,
             "candidate_ids_sha256": compute_candidate_universe_digest(
-                [target_id, calibration_id]
+                [target_id, source_id, calibration_id, diagnostic_id]
             ),
             "records": records,
             "records_sha256": compute_public_records_digest(records),
@@ -309,14 +328,26 @@ def _fake_registry_for_runner(fake_episode):
                 "public_affordance_structure",
             ],
             "hidden_state_or_outcome_fields_used": [],
+            "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
+            "applicability_contract_sha256": PHASE1A_APPLICABILITY_CONTRACT_SHA256,
         },
         "partitions": partitions,
         "exclusion_reasons": [
             {
+                "target_id": source_id,
+                "partition": "source",
+                "reason": "source fixture",
+            },
+            {
                 "target_id": calibration_id,
-                "partition": "calibration",
-                "reason": "independent calibration fixture",
-            }
+                "partition": "hard_calibration",
+                "reason": "hard calibration fixture",
+            },
+            {
+                "target_id": diagnostic_id,
+                "partition": "diagnostic_calibration",
+                "reason": "diagnostic calibration fixture",
+            },
         ],
         "human_review": {
             "performed": False,
@@ -340,9 +371,10 @@ def _fake_h_manifest():
     entry = {
         "h_id": "h_fixture_001",
         "h_family_id": "h_family_receptacle_search",
+        "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
         "source_task_id": "source_fixture/trial_001",
         "source_task_seed": 42,
-        "source_history_identity": "source_fixture_history",
+        "source_history_identity": "sha256:" + "1" * 64,
         "source_history_sha256": "1" * 64,
         "k_star_sha256": compute_k_star_digest(get_phase1_k_star()),
         "b_artifact_sha256": "2" * 64,
@@ -359,7 +391,7 @@ def _fake_h_manifest():
         "creation_version": "fixture-v1",
     }
     manifest = {
-        "schema_version": "phase1-source-h-manifest-v1",
+        "schema_version": "phase1-source-h-manifest-v2",
         "manifest_id": "fixture-h-manifest",
         "created_at": "2026-09-19T00:00:00Z",
         "manifest_status": "test_fixture",
@@ -554,9 +586,10 @@ class Phase1ReadinessTests(unittest.TestCase):
         self.assertEqual(len(validated["exclusion_reasons"]), 34)
         excluded_ids = {item["target_id"] for item in validated["exclusion_reasons"]}
         self.assertEqual(len(validated["partitions"]["source"]), 5)
-        self.assertEqual(len(validated["partitions"]["calibration"]), 15)
+        self.assertEqual(len(validated["partitions"]["hard_calibration"]), 10)
+        self.assertEqual(len(validated["partitions"]["diagnostic_calibration"]), 18)
         self.assertEqual(len(validated["partitions"]["target"]), 20)
-        self.assertEqual(len(validated["partitions"]["residual_excluded"]), 14)
+        self.assertEqual(len(validated["partitions"]["residual_excluded"]), 1)
         self.assertTrue(
             excluded_ids.isdisjoint({item["target_id"] for item in validated["targets"]})
         )
@@ -704,6 +737,11 @@ class Phase1ReadinessTests(unittest.TestCase):
             c3_h = h_manifest["entries"][0]["future_h"]
             h_manifest_path = root / "h_manifest.json"
             write_json(h_manifest_path, h_manifest)
+            actor_manifest = _fake_actor_manifest()
+            actor_manifest["selection_status"] = "passed_independent_reliability_gate"
+            actor_manifest["manifest_sha256"] = compute_actor_manifest_digest(actor_manifest)
+            actor_manifest_path = root / "actor_manifest.json"
+            write_json(actor_manifest_path, actor_manifest)
             registry_sha = compute_registry_digest(registry)
             h_manifest_sha = compute_h_manifest_digest(h_manifest)
             total_episodes = 0
@@ -727,6 +765,7 @@ class Phase1ReadinessTests(unittest.TestCase):
                             target_registry_path=registry_path,
                             h_manifest_sha256=h_manifest_sha,
                             h_manifest_path=h_manifest_path,
+                            actor_manifest_path=actor_manifest_path,
                         )
                     self.assertTrue(paired_res["pairing_valid"])
                     self.assertEqual(paired_res["c1"]["condition"], "C1")

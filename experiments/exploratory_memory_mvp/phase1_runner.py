@@ -17,6 +17,7 @@ if str(_EXPERIMENTS) not in sys.path:
 
 from exploratory_memory_mvp.actor_manifest import (  # noqa: E402
     DEFAULT_ACTOR_MANIFEST_PATH,
+    assert_actor_gate_passed,
     load_actor_manifest,
 )
 from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
@@ -40,6 +41,7 @@ from exploratory_memory_mvp.h_manifest import (  # noqa: E402
     compute_h_manifest_digest,
     find_h_entry,
     load_h_manifest,
+    validate_h_entry_referential_integrity,
     verify_h_assignment,
 )
 from exploratory_memory_mvp.k_star import (  # noqa: E402
@@ -220,7 +222,9 @@ def _load_verified_target(
 
 def _load_verified_source_h(
     *,
+    registry: dict[str, Any],
     target: dict[str, Any],
+    k_star: list[dict[str, Any]],
     h_manifest_path: Path,
     expected_h_manifest_sha256: str | None,
     requested_h_id: str | None,
@@ -241,10 +245,12 @@ def _load_verified_source_h(
         raise PairingError("Requested C3 H differs from the frozen deterministic assignment")
     h_id = assignment["h_id"]
     entry = find_h_entry(manifest, h_id)
+    validate_h_entry_referential_integrity(entry, registry, k_star=k_star)
     verify_h_assignment(
         entry,
         target_id=target["target_id"],
         target_family=target["matched_h_family"],
+        target_record=target,
     )
     assignment = {
         **assignment,
@@ -293,15 +299,19 @@ def run_phase1_paired_target(
             registry_path=target_registry_path,
             expected_registry_sha256=target_registry_sha256,
         )
+        actor_manifest = load_actor_manifest(actor_manifest_path)
+        assert_actor_gate_passed(actor_manifest)
+        if k_star is None:
+            k_star = get_phase1_k_star()
         h_entry, registered_c3_h, h_assignment = _load_verified_source_h(
+            registry=registry,
             target=target_record,
+            k_star=k_star,
             h_manifest_path=h_manifest_path,
             expected_h_manifest_sha256=h_manifest_sha256,
             requested_h_id=c3_h_id,
             requested_h=c3_exploratory_memory,
         )
-        if k_star is None:
-            k_star = get_phase1_k_star()
         if c2_exploratory_memory is None:
             c2_exploratory_memory = get_fair_c2_exploratory_memory()
 
@@ -383,11 +393,11 @@ def run_phase1_paired_target(
             step_cap=step_cap,
             allow_network=allow_network,
             target_registry_sha256=target_registry_sha256,
-            actor_manifest=load_actor_manifest(actor_manifest_path),
+            actor_manifest=actor_manifest,
             h_id=h_entry["h_id"],
             h_manifest_sha256=h_manifest_sha256,
         )
-        validate_condition_parity(configs)
+        validate_condition_parity(configs, require_actor_gate=True)
         c1_config = configs["C1"]
         c1_summary = run_phase1_episode(
             c1_config,

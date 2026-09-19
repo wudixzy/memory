@@ -1,8 +1,9 @@
 """Shared mechanical probe-budget contract for Phase 1 conditions.
 
-The budget is a frozen audit contract, not a semantic controller.  The actor
-still chooses actions; the runner only records mechanically observable counts
-and may later reject an episode that violates the pre-registered cap.
+Only ``max_probe_actions`` is a hard runtime termination cap.  Distinct
+candidate visits remain telemetry because a closed ALFWorld receptacle may
+require multiple actions before it is inspected.  Neither field chooses the
+next action.
 """
 
 from __future__ import annotations
@@ -27,8 +28,9 @@ PHASE1_PROBE_BUDGET: dict[str, Any] = {
     "max_probe_actions": 4,
     "max_distinct_candidate_visits": 2,
     "counting_rule": (
-        "Count only mechanically observed probe actions and distinct receptacle IDs in "
-        "probe_runtime_state; do not encode a semantic next-action choice."
+        "Hard-stop only after max_probe_actions executed actions in the active probe; "
+        "record distinct probe-local receptacle IDs as telemetry only; do not encode a "
+        "semantic next-action choice."
     ),
 }
 

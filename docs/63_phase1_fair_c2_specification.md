@@ -18,9 +18,12 @@
 }
 ```
 
-该 contract 同时进入 C2/C3 immutable run config；计数只来自真实执行的 action 和
-`probe_runtime_state`，不决定模型下一步选什么，也不提供 rule-based planner。C2/C3
-必须使用同一 `probe_budget_sha256`。
+该 contract 同时进入 C2/C3 immutable run config；`max_probe_actions` 是唯一的硬性
+runtime termination cap。`max_distinct_candidate_visits` 仅作为 telemetry，不再触发
+H 移除或 episode 终止，因为 ALFWorld 的 closed receptacle 往往需要先导航再 `open`
+才能真正检查。所有计数只来自真实执行的 action 和 `probe_runtime_state`，不决定模型
+下一步选什么，也不提供 rule-based planner。C2/C3 必须使用同一
+`probe_budget_sha256`。
 
 在 Phase 1 中，本研究的核心科学检验是：
 
@@ -160,17 +163,19 @@ flowchart TD
    - 模型面临的动作选项列表严格为当前状态的有序 `admissible_actions`；
    - 零修改 Actor 提示词模板中关于 `action_index` 与 `probe_status` 的使用说明。
 3. **机械状态追踪（Mechanical `probe_runtime_state`）**：
-   - $C2$ 运行过程中，系统机械地向模型反馈当前的探测进度事实：
+   - $C2$ 运行过程中，系统机械地向模型反馈当前的探测进度事实。`visited_receptacles`
+     是 probe-local 兼容别名，同时显式保存 episode-level 与 probe-level 计数：
      ```json
      {
-       "probe_active": true,
-       "probe_step_count": 2,
-       "probe_navigation_steps": 2,
-       "visited_receptacles_under_probe": ["countertop_1", "sinkbasin_1"],
-       "current_probe_status": "ACTIVE"
+       "visited_receptacles": ["countertop_1"],
+       "episode_visited_receptacles": ["cabinet_1", "countertop_1"],
+       "probe_visited_receptacles": ["countertop_1"],
+       "probe_action_count": 2
      }
      ```
-   - 绝不引入任何语义打分、奖励塑形或外部启发式评价。
+   - probe-local 列表从 H 激活后的 `probe_action_history` 派生；激活前的导航不会
+     消耗 probe-local candidate telemetry。绝不引入任何语义打分、奖励塑形或外部
+     启发式评价。
 
 ---
 

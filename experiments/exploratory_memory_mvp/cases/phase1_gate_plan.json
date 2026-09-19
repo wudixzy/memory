@@ -1,0 +1,40 @@
+{
+  "schema_version": "phase1a-gate-plan-v1",
+  "status": "prepared_not_executed",
+  "phase": "Phase 1A — Receptacle-Search Targeting Pilot",
+  "carrier": "alfworld_text",
+  "actor_manifest": "experiments/exploratory_memory_mvp/cases/phase1_actor_manifest.json",
+  "actor_manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94",
+  "calibration_registry": "experiments/exploratory_memory_mvp/cases/phase1_calibration_registry.json",
+  "hard_calibration_partition": "hard_calibration",
+  "hard_calibration_count": 10,
+  "diagnostic_calibration_partition": "diagnostic_calibration",
+  "diagnostic_calibration_count": 18,
+  "target_registry": "experiments/exploratory_memory_mvp/cases/phase1_registered_targets.json",
+  "target_registry_sha256": "0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d",
+  "source_h_manifest": "experiments/exploratory_memory_mvp/cases/phase1_source_h_manifest.json",
+  "source_h_manifest_sha256": "8ebee748294f3ed48559988b30c96cc10d4e538063302bf52c8cdc440691dc85",
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "probe_budget_sha256": "6513813712b26a474ebce8cbfcc49b8544d7681cc004cabfc3b0b24be034184e",
+  "actor_gate": {
+    "condition": "C1",
+    "memory": "K*",
+    "invalid_action_index_max": 0,
+    "success_min": 8,
+    "step_cap_failures_max": 2,
+    "semantic_loop_tasks_max": 2,
+    "denominator": 10,
+    "diagnostic_tasks_can_determine_admission": false
+  },
+  "command_templates": {
+    "gate_b1_actor_calibration": "PYTHONPATH=src:experiments:. python -m exploratory_memory_mvp.run_phase1_calibration --calibration-registry experiments/exploratory_memory_mvp/cases/phase1_calibration_registry.json --partition hard_calibration --actor-manifest experiments/exploratory_memory_mvp/cases/phase1_actor_manifest.json --output <gate-b1-output> --allow-network",
+    "gate_b2_source_h_freeze": "PYTHONPATH=src:experiments:. python -m exploratory_memory_mvp.freeze_source_h --h-id <h-id> --source-task-id <frozen-source-task-id> --source-history <source-history.json> --b-artifact <b-envelope-with-offline-config.json> --c-artifact <c-envelope-with-offline-config.json> --offline-config <normalized-offline-config.json> --creation-version <freeze-version> --manifest experiments/exploratory_memory_mvp/cases/phase1_source_h_manifest.json",
+    "gate_b3_context_audit": "PYTHONPATH=src:experiments:. python -m exploratory_memory_mvp.phase1_context_audit --artifact C2=<saved-C2-actor-input.json> --artifact C3=<saved-C3-actor-input.json>"
+  },
+  "notes": [
+    "No command template is executed by the pre-actor patch.",
+    "Gate B1 must create a passed actor manifest only after the independent hard-calibration gate.",
+    "Gate B2 must use actual saved source/B/C artifacts; arbitrary claimed SHA strings are not accepted.",
+    "Gate B3 must be completed before target outcomes are inspected."
+  ]
+}

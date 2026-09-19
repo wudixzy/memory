@@ -293,7 +293,20 @@ def _run_actor_condition(
                     "valid": True,
                     "probe_action_count": probe_runtime_state_after["probe_action_count"],
                     "distinct_candidate_visit_count": len(
-                        probe_runtime_state_after["visited_receptacles"]
+                        probe_runtime_state_after["probe_visited_receptacles"]
+                    ),
+                    "max_probe_actions": (
+                        probe_budget["max_probe_actions"] if probe_budget is not None else None
+                    ),
+                    "max_distinct_candidate_visits": (
+                        probe_budget["max_distinct_candidate_visits"]
+                        if probe_budget is not None
+                        else None
+                    ),
+                    "distinct_candidate_visit_limit_reached": bool(
+                        probe_budget is not None
+                        and len(probe_runtime_state_after["probe_visited_receptacles"])
+                        >= probe_budget["max_distinct_candidate_visits"]
                     ),
                     "violations": [],
                 }
@@ -304,11 +317,6 @@ def _run_actor_condition(
                         > probe_budget["max_probe_actions"]
                     ):
                         violations.append("max_probe_actions_exceeded")
-                    if (
-                        len(probe_runtime_state_after["visited_receptacles"])
-                        > probe_budget["max_distinct_candidate_visits"]
-                    ):
-                        violations.append("max_distinct_candidate_visits_exceeded")
                     budget_check["valid"] = not violations
                     budget_check["violations"] = violations
                     if violations:
@@ -318,8 +326,6 @@ def _run_actor_condition(
                     elif (
                         probe_runtime_state_after["probe_action_count"]
                         >= probe_budget["max_probe_actions"]
-                        or len(probe_runtime_state_after["visited_receptacles"])
-                        >= probe_budget["max_distinct_candidate_visits"]
                     ):
                         row["probe_budget_exhausted"] = True
                         runtime_memory = None

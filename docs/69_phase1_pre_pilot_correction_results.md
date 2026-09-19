@@ -13,7 +13,7 @@
 pinned split
   -> public reset records
   -> complete eligible universe
-  -> deterministic Source/Calibration/Target partition
+  -> deterministic Source/in-domain Calibration/diagnostic Calibration/Target partition
   -> registry-bound target execution
 ```
 
@@ -42,23 +42,26 @@ public instruction、public observation、public action set 和 public affordanc
 | partition | count | role |
 |---|---:|---|
 | Source | 5 | frozen source reservation |
-| Calibration | 15 | independent C1 actor gate |
+| Hard calibration | 10 | in-domain C1 actor gate |
+| Diagnostic calibration | 18 | out-of-domain stress only; never admission |
 | Target | 20 | Phase 1A target pool |
-| Residual excluded | 14 | public hash quota outside target/calibration |
+| Residual excluded | 1 | public hash quota outside target/calibration partitions |
 | eligible universe | 54 | complete public registry coverage |
 
-四组 partition 两两不交并覆盖全部 54 条 eligible records。选择使用固定 salt
-`phase1a-public-universe-partition-v1`，先保留 source，再按 public family 覆盖和 SHA-256
-排序完成 calibration/target quota；没有根据任何运行结果重采样。
+五组 partition 两两不交并覆盖全部 54 条 eligible records。选择使用固定 salt
+`phase1a-public-universe-partition-v1`，target reservation 保持原有 public-only hash
+protocol；随后从剩余四个 Phase 1A task families 中抽取 hard calibration，并把剩余
+out-of-domain candidates 作为 diagnostic calibration。没有根据任何运行结果重采样。
 
 冻结 digests：
 
 ```text
 candidate IDs:  6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283
 public records: f0c2157f2a78bccc2a36750b696866c6f87a2fb570a3a6bc89f7bb5cc438ecf3
-partitions:     676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6
-registry:       fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd
+partitions:     fc548e0f4f493074ed2bc20b05433b6d7a94602e8c77a694cc745030037b120f
+registry:       0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d
 source set:     a6c9d990b60d8563ba83baadd7845e1a8df440c8c371a15aadb62253860bf55d
+applicability contract: 71d982a25ab3d9b7da40b71e1f3900e39fcd0f59ddd40e551b040c38d4499d82
 ```
 
 Target records all belong to the pre-registered public scope `h_family_receptacle_search`.
@@ -75,8 +78,10 @@ Target records all belong to the pre-registered public scope `h_family_receptacl
 5. instantiate the actual target episode;
 6. recompute its actor-visible initial fingerprint;
 7. compare it with the registered fingerprint;
-8. load and verify the source-H manifest and resolve a same-family H assignment;
-9. only then construct C1/C2/C3 and retain the existing actual pairing proof.
+8. verify the target against the public Phase 1A applicability contract;
+9. load and verify the source-H manifest, source-set/K*/artifact provenance contract and
+   resolve a same-family deterministic H assignment;
+10. only then construct C1/C2/C3 and retain the existing actual pairing proof.
 
 The root artifact keeps registry verification, H assignment and source-only H provenance. None
 of these artifacts is passed into actor prompts. Tests cover wrong registry digest, unregistered
@@ -91,6 +96,7 @@ H content with a stale digest.
 ```text
 h_id
 h_family_id
+applicability_contract_id
 source_task_id / source_task_seed
 source_history_identity / source_history_sha256
 k_star_sha256
@@ -105,8 +111,16 @@ intentional because this correction cycle makes no B/C paid calls. `h_assignment
 stable target-to-H assignment among registered same-family entries using a public target ID and
 frozen salt only. It is tested with fake registered entries and does not inspect target outcomes.
 
-`future_h` is the only part eligible for actor context. Source IDs, history hashes and B/C
-artifact provenance remain model-invisible.
+`h_manifest.py` now provides `freeze_source_h_entry()` and
+`validate_frozen_h_entry_artifacts()`. The freeze path computes file hashes itself, requires
+the source history to identify the frozen source task/seed, projects `future_h` from the
+validated C result, checks canonical K*, and rejects stale/mutated source/B/C artifacts. It
+does not accept manually claimed SHA strings as evidence. B/C freeze envelopes must embed the
+same normalized offline model configuration; a separate claimed configuration is not accepted
+as provenance. The standalone Source reservation must exactly match the registry Source
+partition. `future_h` is the only part eligible for actor context; source IDs, history hashes and
+B/C artifact provenance remain model-invisible. The committed manifest remains empty in this
+no-model cycle.
 
 ## 5. Actor manifest and probe budget
 
@@ -134,9 +148,11 @@ max_probe_actions = 4
 max_distinct_candidate_visits = 2
 ```
 
-It is stored and hashed in all condition configs. It does not select a semantic next action.
-The stepwise runner records the executed probe count and distinct visited receptacles; when a
-configured cap is reached it removes runtime H mechanically, and records any over-cap violation.
+Probe-budget digest: `6513813712b26a474ebce8cbfcc49b8544d7681cc004cabfc3b0b24be034184e`.
+It is stored and hashed in all condition configs. `max_probe_actions` is the only hard
+termination cap. Distinct candidate visits are telemetry only, and cannot remove H. The
+stepwise runner now records both `episode_visited_receptacles` and probe-local
+`probe_visited_receptacles`; pre-H navigation cannot consume probe-local telemetry.
 
 ## 6. Context/token audit
 
@@ -149,14 +165,15 @@ parity claim. No C2/C3 text was changed from target outcomes in this cycle.
 
 ## 7. Reliability gate and scientific scope
 
-The next paid gate is **Actor + K* = C1** on the disjoint 15-task Calibration partition. C0 can
-be an auxiliary diagnostic, but is not sufficient as the main gate. The proposed pre-run gate is:
+The next paid gate is **Actor + K* = C1** on the disjoint 10-task hard-calibration partition.
+C0 can be an auxiliary diagnostic, but is not sufficient as the main gate. The proposed
+pre-run gate is:
 
 ```text
 invalid action index = 0
-at least 12/15 C1 tasks successful
-at most 2/15 step-cap failures
-at most 2/15 clear semantic-loop tasks
+at least 8/10 in-domain C1 tasks successful
+at most 2/10 step-cap failures
+at most 2/10 clear semantic-loop tasks
 ```
 
 These thresholds were not tuned against target outcomes and were not executed here.
@@ -172,11 +189,13 @@ No model/API call was made. ALFWorld public reset collection used the local pinn
 the fake runner used no-network transports. Focused tests cover registry/partition stability,
 runner fail-closed checks, source-H provenance isolation, actor-manifest parity, shared probe
 budget, assignment stability, context audit, action-index and existing pairing/lifecycle
-invariants. The focused suites passed (12 new pre-pilot tests, 14 Phase 1 readiness tests, and
-21 existing MVP tests).
+invariants. The focused suites passed (9 final pre-actor tests, 12 pre-pilot tests, 14 Phase 1
+readiness tests, and 21 existing MVP tests; 56 tests total).
 
-The full repository suite completed 308 tests with 8 skips and 2 unrelated errors because this
+The full repository suite completed 317 tests with 8 skips and 2 unrelated errors because this
 checkout lacks the AppWorld playbook and target input-state fixtures
 (`third_party/ace-appworld/...`). This correction does not claim that the paid Phase 1 pilot is
 ready to run until the researcher reviews the registry, creates valid B/C-derived H entries,
-audits C2/C3 context budgets, and runs the independent C1 actor gate.
+audits C2/C3 context budgets, and runs the independent C1 actor gate. The current actor
+manifest remains `candidate_pending_independent_reliability_gate`; the scientific runner now
+fails closed on that status.

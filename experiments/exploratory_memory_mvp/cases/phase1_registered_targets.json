@@ -3558,149 +3558,149 @@
       "target_id": "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777"
-    },
-    {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
       "target_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
       "target_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_two_obj_and_place-Statue-None-Dresser-213/trial_T20190909_065343_750913"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "look_at_obj_in_light-Pencil-None-DeskLamp-320/trial_T20190908_143748_669974"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_two_obj_and_place-Vase-None-CoffeeTable-214/trial_T20190910_173303_364989"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_two_obj_and_place-CreditCard-None-ArmChair-227/trial_T20190907_075635_674582"
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767"
+    },
+    {
+      "partition": "hard_calibration",
+      "reason": "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+      "target_id": "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
       "target_id": "look_at_obj_in_light-Newspaper-None-DeskLamp-216/trial_T20190908_143004_004127"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673"
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "look_at_obj_in_light-Pencil-None-DeskLamp-320/trial_T20190908_143748_669974"
     },
     {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_two_obj_and_place-CellPhone-None-Bed-314/trial_T20190909_013435_646326"
-    },
-    {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "pick_two_obj_and_place-Pencil-None-CoffeeTable-229/trial_T20190910_231706_006365"
-    },
-    {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
-      "target_id": "look_at_obj_in_light-Pillow-None-DeskLamp-216/trial_T20190907_220638_188496"
-    },
-    {
-      "partition": "calibration",
-      "reason": "independent no-H actor calibration partition; not a Phase 1A target",
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
       "target_id": "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500"
     },
     {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-CellPhone-None-Dresser-229/trial_T20190911_131442_170447"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "look_at_obj_in_light-Plate-None-DeskLamp-218/trial_T20190907_212525_656549"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-Pencil-None-CoffeeTable-229/trial_T20190910_231706_006365"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "look_at_obj_in_light-Pillow-None-DeskLamp-216/trial_T20190907_220638_188496"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
       "target_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895"
     },
     {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
       "target_id": "look_at_obj_in_light-Newspaper-None-DeskLamp-218/trial_T20190909_045059_467374"
     },
     {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "look_at_obj_in_light-Plate-None-DeskLamp-218/trial_T20190907_212525_656549"
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-CreditCard-None-ArmChair-227/trial_T20190907_075635_674582"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-SoapBottle-None-Toilet-405/trial_T20190909_014901_056414"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-CD-None-SideTable-321/trial_T20190912_055724_501328"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-Statue-None-Dresser-213/trial_T20190909_065343_750913"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-Vase-None-CoffeeTable-214/trial_T20190910_173303_364989"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-RemoteControl-None-ArmChair-230/trial_T20190907_195427_201890"
+    },
+    {
+      "partition": "diagnostic_calibration",
+      "reason": "out-of-domain actor diagnostic partition; never determines actor admission",
+      "target_id": "pick_two_obj_and_place-CellPhone-None-Bed-314/trial_T20190909_013435_646326"
     },
     {
       "partition": "residual_excluded",
       "reason": "not selected by the pre-registered public hash quota",
       "target_id": "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_two_obj_and_place-CD-None-SideTable-321/trial_T20190912_055724_501328"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_two_obj_and_place-CellPhone-None-Dresser-229/trial_T20190911_131442_170447"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_two_obj_and_place-RemoteControl-None-ArmChair-230/trial_T20190907_195427_201890"
-    },
-    {
-      "partition": "residual_excluded",
-      "reason": "not selected by the pre-registered public hash quota",
-      "target_id": "pick_two_obj_and_place-SoapBottle-None-Toilet-405/trial_T20190909_014901_056414"
     }
   ],
   "human_review": {
@@ -3709,6 +3709,8 @@
     "performed": false
   },
   "inclusion_criteria": {
+    "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+    "applicability_contract_sha256": "71d982a25ab3d9b7da40b71e1f3900e39fcd0f59ddd40e551b040c38d4499d82",
     "hidden_state_or_outcome_fields_used": [],
     "outcome_blind": true,
     "pinned_split": "third_party/automanual/alfworld/downloaded/json_2.1.1/train",
@@ -3723,39 +3725,41 @@
     ]
   },
   "partitions": {
-    "calibration": [
-      "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777",
-      "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
-      "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
-      "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316",
-      "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
-      "pick_two_obj_and_place-Statue-None-Dresser-213/trial_T20190909_065343_750913",
-      "look_at_obj_in_light-Pencil-None-DeskLamp-320/trial_T20190908_143748_669974",
-      "pick_two_obj_and_place-Vase-None-CoffeeTable-214/trial_T20190910_173303_364989",
-      "pick_two_obj_and_place-CreditCard-None-ArmChair-227/trial_T20190907_075635_674582",
+    "diagnostic_calibration": [
       "look_at_obj_in_light-Newspaper-None-DeskLamp-216/trial_T20190908_143004_004127",
-      "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673",
-      "pick_two_obj_and_place-CellPhone-None-Bed-314/trial_T20190909_013435_646326",
+      "look_at_obj_in_light-Pencil-None-DeskLamp-320/trial_T20190908_143748_669974",
+      "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500",
+      "pick_two_obj_and_place-CellPhone-None-Dresser-229/trial_T20190911_131442_170447",
+      "look_at_obj_in_light-Plate-None-DeskLamp-218/trial_T20190907_212525_656549",
       "pick_two_obj_and_place-Pencil-None-CoffeeTable-229/trial_T20190910_231706_006365",
       "look_at_obj_in_light-Pillow-None-DeskLamp-216/trial_T20190907_220638_188496",
-      "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500"
-    ],
-    "digest": "676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6",
-    "residual_excluded": [
       "look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895",
+      "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673",
       "look_at_obj_in_light-Newspaper-None-DeskLamp-218/trial_T20190909_045059_467374",
-      "look_at_obj_in_light-Plate-None-DeskLamp-218/trial_T20190907_212525_656549",
-      "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103",
-      "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
-      "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018",
+      "pick_two_obj_and_place-CreditCard-None-ArmChair-227/trial_T20190907_075635_674582",
+      "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777",
+      "pick_two_obj_and_place-SoapBottle-None-Toilet-405/trial_T20190909_014901_056414",
+      "pick_two_obj_and_place-CD-None-SideTable-321/trial_T20190912_055724_501328",
+      "pick_two_obj_and_place-Statue-None-Dresser-213/trial_T20190909_065343_750913",
+      "pick_two_obj_and_place-Vase-None-CoffeeTable-214/trial_T20190910_173303_364989",
+      "pick_two_obj_and_place-RemoteControl-None-ArmChair-230/trial_T20190907_195427_201890",
+      "pick_two_obj_and_place-CellPhone-None-Bed-314/trial_T20190909_013435_646326"
+    ],
+    "digest": "fc548e0f4f493074ed2bc20b05433b6d7a94602e8c77a694cc745030037b120f",
+    "hard_calibration": [
+      "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
       "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723",
       "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020",
+      "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
       "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762",
-      "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051",
-      "pick_two_obj_and_place-CD-None-SideTable-321/trial_T20190912_055724_501328",
-      "pick_two_obj_and_place-CellPhone-None-Dresser-229/trial_T20190911_131442_170447",
-      "pick_two_obj_and_place-RemoteControl-None-ArmChair-230/trial_T20190907_195427_201890",
-      "pick_two_obj_and_place-SoapBottle-None-Toilet-405/trial_T20190909_014901_056414"
+      "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316",
+      "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+      "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018",
+      "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
+      "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051"
+    ],
+    "residual_excluded": [
+      "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103"
     ],
     "source": [
       "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
@@ -3791,9 +3795,12 @@
   "schema_version": "phase1-public-universe-partition-v2",
   "selection_protocol": {
     "algorithm": "public_eligibility_then_family_reservation_and_stable_hash_sampling",
-    "calibration_count": 15,
+    "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+    "applicability_contract_sha256": "71d982a25ab3d9b7da40b71e1f3900e39fcd0f59ddd40e551b040c38d4499d82",
+    "diagnostic_calibration_count": 18,
     "h_family_id": "h_family_receptacle_search",
-    "partition_digest": "676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6",
+    "hard_calibration_count": 10,
+    "partition_digest": "fc548e0f4f493074ed2bc20b05433b6d7a94602e8c77a694cc745030037b120f",
     "salt": "phase1a-public-universe-partition-v1",
     "source_reservation_ids_sha256": "a6c9d990b60d8563ba83baadd7845e1a8df440c8c371a15aadb62253860bf55d",
     "target_count": 20,

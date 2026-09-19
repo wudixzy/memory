@@ -35,25 +35,39 @@
 - **接口**：严格使用零基动作索引（Zero-based `action_index`）；
 - **参数控制**：`temperature = 0`，`thinking = false`，`step_cap = 32`。
 
-### 2.2 筛查样本池（冻结的 15 个 Calibration tasks）
+### 2.2 筛查样本池（冻结的 in-domain / diagnostic partitions）
 
-Calibration 不再手写一组可能与 target 重叠的 task。它是
-`cases/phase1_calibration_registry.json` 中由完整 public universe 通过固定 hash
-partition 生成的 15 个 task，parent registry digest 为：
+Calibration 不再手写一组可能与 target 重叠的 task。它是完整 public universe 通过固定
+hash partition 生成的两个互不相交分区：
+
+- `hard_calibration`：10 个（当前 pinned split 可用的最大 defensible in-domain gate
+  domain），只包含 Phase 1A 的四个 task families；
+- `diagnostic_calibration`：18 个 out-of-domain stress tasks，只用于描述压力表现，
+  **不得决定 actor admission**。
+
+两者都与 Source（5）和 Phase 1A Target（20）不相交。hard gate 的 denominator 固定为
+实际冻结的 `hard_task_count`；如果未来 pinned split 改变而无法得到 10 个，必须先冻结并
+报告新的 denominator，不能看 target outcome 后补 task。parent registry digest 为：
 
 ```text
-fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd
+0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d
 ```
 
 该 registry 的 digest 为：
 
 ```text
-fa76c5048384f8899e3563166f1db33ce10d1f322a74705056c597fe3a97ae52
+87605dd5bd9810ee8c9e7867e8e176d60034c6969babff58fbb81b73e5a4e120
 ```
 
-它与 Source（5）和 Phase 1A Target（20）通过 validator 强制不相交；执行前应加载该
-registry，而不是临时补 task。它覆盖当前 pinned split 的六个公开 task families，且
-selection 不读取任何 task outcome。
+执行前应加载该 registry，而不是临时补 task。hard gate 只覆盖当前 Phase 1A 的四个
+公开 task families；diagnostic 分区覆盖剩余 out-of-domain families。selection 不读取
+任何 task outcome。
+
+下一轮执行入口为 `experiments/exploratory_memory_mvp/run_phase1_calibration.py`。它只读取
+冻结的 `hard_calibration`/`diagnostic_calibration` registry，pending candidate 可以用于
+calibration，但命令不会写入 `passed_independent_reliability_gate`；输出中的
+semantic-loop 字段保持为人工 review 待标注。执行前必须显式传入 `--allow-network`，当前
+transport 仍为 direct DashScope-compatible path。
 
 ---
 
@@ -62,9 +76,9 @@ selection 不读取任何 task outcome。
 | 指标名称 | 定义与统计方式 | 准入及格线（Pass Threshold） | 违规性质 |
 |---|---|---|---|
 | **非法索引率 (`invalid_action_index_rate`)** | 智能体输出的 `action_index` 超出范围或非整数的比例 | **严格 = 0.0%** (0 / 全部决策步) | 基础设施与交互契约致命违规 |
-| **基础任务成功率 (`base_success_rate`)** | 15 个 C1 任务中成功达成目标（`won == True`）的比例 | **至少 12/15**（80%） | 基础解题能力不足 |
-| **步数上限耗尽率 (`step_cap_rate`)** | 达到最大步数 32 步仍未终止的任务比例 | **至多 2/15** | 规划迟滞或探索过度冗余 |
-| **语义死循环率 (`semantic_loop_rate`)** | 出现连续 4 步在两个容器之间往复 `go to A` $\leftrightarrow$ `go to B` 的任务比例 | **至多 2/15** | 缺乏基础空间与记忆更新能力 |
+| **基础任务成功率 (`base_success_rate`)** | 10 个 hard-calibration C1 任务中成功达成目标（`won == True`）的比例 | **至少 8/10**（当前冻结 denominator） | 基础解题能力不足 |
+| **步数上限耗尽率 (`step_cap_rate`)** | 达到最大步数 32 步仍未终止的任务比例 | **至多 2/10** | 规划迟滞或探索过度冗余 |
+| **语义死循环率 (`semantic_loop_rate`)** | 出现连续 4 步在两个容器之间往复 `go to A` $\leftrightarrow$ `go to B` 的任务比例 | **至多 2/10** | 缺乏基础空间与记忆更新能力 |
 | **平均完成步数 (`avg_steps_completed`)** | 成功完成任务的平均物理交互步数 | **仅记录，不作为本轮硬 gate** | 正常交互效率基线 |
 | **单任务平均 Token 开销** | 每次任务调用的平均 Input/Output Token 总数 | **作为基准记录**，供成本测算 | 预算基准 |
 

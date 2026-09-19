@@ -355,13 +355,22 @@ def derive_probe_runtime_state(
         not isinstance(action, str) for action in probe_actions
     ):
         raise SchemaError("Probe action history must be a list of strings")
-    visited = []
-    for action in executed_action_history:
-        match = GO_TO_ENTITY_RE.fullmatch(action.strip())
-        if match and match.group(1) not in visited:
-            visited.append(match.group(1))
+    def visited_receptacles(actions: list[str]) -> list[str]:
+        visited = []
+        for action in actions:
+            match = GO_TO_ENTITY_RE.fullmatch(action.strip())
+            if match and match.group(1) not in visited:
+                visited.append(match.group(1))
+        return visited
+
+    episode_visited = visited_receptacles(executed_action_history)
+    probe_visited = visited_receptacles(probe_actions)
     return {
-        "visited_receptacles": visited,
+        # ``visited_receptacles`` is retained as the compatibility alias used
+        # by existing actor prompts; it now means probe-local visits.
+        "visited_receptacles": probe_visited,
+        "episode_visited_receptacles": episode_visited,
+        "probe_visited_receptacles": probe_visited,
         "probe_action_count": len(probe_actions),
     }
 

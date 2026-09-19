@@ -188,8 +188,10 @@ to the exact current environment action and executes only that one action.
 Never return a future action sequence, a plan, or multiple actions.
 
 When exploratory_memory distinguishes visited from unvisited candidates, use
-probe_runtime_state and executed_action_history as the authoritative factual
-record of probe progress. Do not revisit an already-tested candidate unless
+probe_runtime_state.probe_visited_receptacles and the probe portion of
+executed_action_history as the authoritative factual record of probe progress;
+episode_visited_receptacles may include navigation before probe activation.
+Do not revisit an already-tested candidate unless
 the environment has changed in a way that makes revisiting necessary. These
 fields record what has happened; they do not choose the next action for you.
 

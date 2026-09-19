@@ -26,6 +26,12 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     extract_task_instruction,
     read_json,
 )
+from exploratory_memory_mvp.phase1_applicability import (  # noqa: E402
+    PHASE1A_APPLICABILITY_CONTRACT_ID,
+    PHASE1A_APPLICABILITY_CONTRACT_SHA256,
+    PHASE1A_H_FAMILY,
+    PHASE1A_TARGET_FAMILIES,
+)
 from exploratory_memory_mvp.target_registry import (  # noqa: E402
     compute_candidate_universe_digest,
     compute_partition_digest,
@@ -46,13 +52,9 @@ DEFAULT_SOURCE_RESERVATION_PATH = (
 )
 PUBLIC_UNIVERSE_SALT = "phase1a-public-universe-partition-v1"
 DEFAULT_REQUESTED_SEED = 42
-TARGET_SCOPE_FAMILIES = [
-    "pick_and_place_simple",
-    "pick_clean_then_place_in_recep",
-    "pick_cool_then_place_in_recep",
-    "pick_heat_then_place_in_recep",
-]
-TARGET_H_FAMILY = "h_family_receptacle_search"
+# Compatibility aliases for callers that used the old population module.
+TARGET_SCOPE_FAMILIES = list(PHASE1A_TARGET_FAMILIES)
+TARGET_H_FAMILY = PHASE1A_H_FAMILY
 TASK_FAMILY_RE = re.compile(r"^([^-/]+)-")
 
 
@@ -212,55 +214,68 @@ def build_deterministic_partitions(
     records: list[dict[str, Any]],
     source_task_ids: list[str],
     *,
-    calibration_count: int = 15,
+    hard_calibration_count: int = 10,
+    diagnostic_calibration_count: int | None = None,
     target_count: int = 20,
     salt: str = PUBLIC_UNIVERSE_SALT,
 ) -> dict[str, Any]:
-    """Reserve source, then hash-sample disjoint calibration and target sets.
+    """Build disjoint public-only Source/Calibration/Target partitions.
 
-    Target selection is restricted to public task families in
-    ``TARGET_SCOPE_FAMILIES``.  Calibration first covers each public family,
-    then fills from non-target-scope families to preserve target capacity.
-    No execution outcome is read.
+    The target reservation is kept mechanically identical to the previous
+    public hash protocol so that the already frozen 20-task target pool does
+    not move merely because the actor gate's domain was corrected.  The old
+    calibration reservation is used only as an intermediate public hash
+    input for that target reservation; it is not retained as a calibration
+    partition.  Hard calibration is then sampled from the remaining
+    Phase-1A families, and diagnostic calibration from the remaining
+    out-of-domain families.
+
+    ``diagnostic_calibration_count=None`` means retain every remaining
+    out-of-domain public candidate as a diagnostic task.  No outcome is read.
     """
 
-    if calibration_count <= 0 or target_count <= 0:
+    if hard_calibration_count <= 0 or target_count <= 0:
         raise ValueError("Partition counts must be positive")
     record_map = {record["target_id"]: record for record in records}
     source_ids = list(source_task_ids)
     if len(set(source_ids)) != len(source_ids) or not set(source_ids).issubset(record_map):
         raise SchemaError("Frozen source reservation is not a subset of the public universe")
     source = [task_id for task_id in sorted(source_ids)]
-    remaining = [record for record in records if record["target_id"] not in set(source)]
+    source_set = set(source)
+    remaining = [record for record in records if record["target_id"] not in source_set]
 
-    calibration = _take_one_per_family(remaining, salt + ":calibration")
-    calibration_ids = {record["target_id"] for record in calibration}
-    fill_candidates = [
-        record for record in remaining if record["target_id"] not in calibration_ids
+    # Preserve the existing public-only target reservation.  This intermediate
+    # list is deliberately not exposed as a scientific calibration set.
+    legacy_calibration = _take_one_per_family(remaining, salt + ":calibration")
+    legacy_calibration_ids = {record["target_id"] for record in legacy_calibration}
+    legacy_fill_candidates = [
+        record for record in remaining if record["target_id"] not in legacy_calibration_ids
     ]
-    non_scope = [
-        record for record in fill_candidates
+    legacy_non_scope = [
+        record
+        for record in legacy_fill_candidates
         if record["task_family"] not in TARGET_SCOPE_FAMILIES
     ]
-    scope_fill = [
-        record for record in fill_candidates
+    legacy_scope_fill = [
+        record
+        for record in legacy_fill_candidates
         if record["task_family"] in TARGET_SCOPE_FAMILIES
     ]
-    fill_order = _ranked(non_scope, salt + ":calibration-fill") + _ranked(
-        scope_fill, salt + ":calibration-fill-scope"
+    legacy_fill_order = _ranked(legacy_non_scope, salt + ":calibration-fill") + _ranked(
+        legacy_scope_fill, salt + ":calibration-fill-scope"
     )
-    for record in fill_order:
-        if len(calibration) >= calibration_count:
+    for record in legacy_fill_order:
+        if len(legacy_calibration) >= 15:
             break
-        calibration.append(record)
-        calibration_ids.add(record["target_id"])
-    if len(calibration) != calibration_count:
-        raise SchemaError("Not enough public candidates for calibration partition")
+        legacy_calibration.append(record)
+        legacy_calibration_ids.add(record["target_id"])
+    if len(legacy_calibration) != 15:
+        raise SchemaError("Not enough public candidates for target reservation")
 
     target_candidates = [
         record
         for record in remaining
-        if record["target_id"] not in calibration_ids
+        if record["target_id"] not in legacy_calibration_ids
         and record["task_family"] in TARGET_SCOPE_FAMILIES
     ]
     target = _take_one_per_family(target_candidates, salt + ":target")
@@ -274,11 +289,46 @@ def build_deterministic_partitions(
     if len(target) != target_count:
         raise SchemaError("Not enough public scope-matched candidates for target partition")
 
-    assigned = set(source) | calibration_ids | target_ids
+    target_ids = {record["target_id"] for record in target}
+    calibration_candidates = [
+        record
+        for record in remaining
+        if record["target_id"] not in target_ids
+        and record["task_family"] in TARGET_SCOPE_FAMILIES
+    ]
+    hard_calibration = _take_one_per_family(
+        calibration_candidates, salt + ":hard-calibration"
+    )
+    hard_ids = {record["target_id"] for record in hard_calibration}
+    for record in _ranked(calibration_candidates, salt + ":hard-calibration-fill"):
+        if len(hard_calibration) >= hard_calibration_count:
+            break
+        if record["target_id"] not in hard_ids:
+            hard_calibration.append(record)
+            hard_ids.add(record["target_id"])
+    if len(hard_calibration) != hard_calibration_count:
+        raise SchemaError("Not enough public in-domain candidates for hard calibration")
+
+    diagnostic_candidates = [
+        record
+        for record in remaining
+        if record["target_id"] not in target_ids | hard_ids
+        and record["task_family"] not in TARGET_SCOPE_FAMILIES
+    ]
+    diagnostic_order = _ranked(diagnostic_candidates, salt + ":diagnostic-calibration")
+    if diagnostic_calibration_count is None:
+        diagnostic_calibration_count = len(diagnostic_order)
+    if diagnostic_calibration_count < 0 or len(diagnostic_order) < diagnostic_calibration_count:
+        raise SchemaError("Not enough public out-of-domain candidates for diagnostics")
+    diagnostic_calibration = diagnostic_order[:diagnostic_calibration_count]
+    diagnostic_ids = {record["target_id"] for record in diagnostic_calibration}
+
+    assigned = set(source) | hard_ids | diagnostic_ids | target_ids
     residual = [record["target_id"] for record in records if record["target_id"] not in assigned]
     partitions = {
         "source": source,
-        "calibration": [record["target_id"] for record in calibration],
+        "hard_calibration": [record["target_id"] for record in hard_calibration],
+        "diagnostic_calibration": [record["target_id"] for record in diagnostic_calibration],
         "target": [record["target_id"] for record in target],
         "residual_excluded": residual,
     }
@@ -309,7 +359,14 @@ def build_phase1_registry(
     non_target_reasons = []
     for partition_name, reason in (
         ("source", "frozen source reservation; reserved before target outcomes"),
-        ("calibration", "independent no-H actor calibration partition; not a Phase 1A target"),
+        (
+            "hard_calibration",
+            "independent in-domain C1 actor calibration partition; not a Phase 1A target",
+        ),
+        (
+            "diagnostic_calibration",
+            "out-of-domain actor diagnostic partition; never determines actor admission",
+        ),
         ("residual_excluded", "not selected by the pre-registered public hash quota"),
     ):
         for target_id in partitions[partition_name]:
@@ -326,10 +383,13 @@ def build_phase1_registry(
             "algorithm": "public_eligibility_then_family_reservation_and_stable_hash_sampling",
             "salt": salt,
             "source_reservation_ids_sha256": source_digest,
-            "calibration_count": len(partitions["calibration"]),
+            "hard_calibration_count": len(partitions["hard_calibration"]),
+            "diagnostic_calibration_count": len(partitions["diagnostic_calibration"]),
             "target_count": len(partitions["target"]),
             "target_scope_families": list(TARGET_SCOPE_FAMILIES),
             "h_family_id": TARGET_H_FAMILY,
+            "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
+            "applicability_contract_sha256": PHASE1A_APPLICABILITY_CONTRACT_SHA256,
             "partition_digest": partitions["digest"],
         },
         "candidate_universe": {
@@ -356,6 +416,8 @@ def build_phase1_registry(
                 "public_affordance_structure",
             ],
             "hidden_state_or_outcome_fields_used": [],
+            "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
+            "applicability_contract_sha256": PHASE1A_APPLICABILITY_CONTRACT_SHA256,
         },
         "partitions": partitions,
         "exclusion_reasons": non_target_reasons,

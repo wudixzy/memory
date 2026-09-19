@@ -38,6 +38,13 @@ ACTOR_MANIFEST_KEYS = frozenset(
         "manifest_sha256",
     }
 )
+ACTOR_SELECTION_STATUSES = frozenset(
+    {
+        "candidate_pending_independent_reliability_gate",
+        "passed_independent_reliability_gate",
+        "rejected_independent_reliability_gate",
+    }
+)
 
 
 def compute_actor_manifest_digest(manifest: dict[str, Any]) -> str:
@@ -65,6 +72,10 @@ def validate_actor_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
         "selection_status",
     ):
         _nonempty_string(manifest[key], "actor_manifest." + key)
+    if manifest["selection_status"] not in ACTOR_SELECTION_STATUSES:
+        raise SchemaError(
+            "actor_manifest.selection_status is not a recognized independent-gate status"
+        )
     if type(manifest["thinking"]) is not bool:
         raise SchemaError("actor_manifest.thinking must be boolean")
     if type(manifest["temperature"]) not in {int, float} or manifest["temperature"] < 0:
@@ -80,6 +91,20 @@ def validate_actor_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
         raise SchemaError("actor_manifest.manifest_sha256 must be lowercase SHA-256")
     if digest != compute_actor_manifest_digest(manifest):
         raise SchemaError("Actor manifest digest does not match its contents")
+    return manifest
+
+
+def assert_actor_gate_passed(manifest: dict[str, Any]) -> dict[str, Any]:
+    """Fail closed for scientific C1/C2/C3 execution until the gate passes."""
+
+    validate_actor_manifest(manifest)
+    status = manifest["selection_status"]
+    if status != "passed_independent_reliability_gate":
+        raise SchemaError(
+            "Scientific Phase 1A execution requires an actor manifest with "
+            "selection_status=passed_independent_reliability_gate; "
+            f"got {status}"
+        )
     return manifest
 
 
