@@ -1,8 +1,8 @@
 # 10. Current Review Protocol：这一轮如何审查与决定是否进入 Actor Gate
 
-> 状态：当前 reviewer contract（2026-09-19，Gate B1 cycle）
-> Baseline commit：56dcb311106c063a305dbb936659e3151fb80387
-> 当前目标：审查已完成的唯一独立 C1 Actor Gate；结果为 FAIL，等待 researcher review，不允许进入 B2 / B3。
+> 状态：当前 reviewer contract（2026-09-20，Actor-Stack Development Diagnostic）
+> Baseline commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
+> 当前目标：用 D1/D2 隔离 K*/carrier 与 raw-history confound；保留完整轨迹；不把 development result 当 independent gate。
 
 ---
 
@@ -431,72 +431,42 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 
 ---
 
-# 11. 对当前 Gate B1 的 review verdict
+# 11. 当前 review verdict 与 development transition
 
 当前：
 
-    GATE_B1_FAIL_PENDING_RESEARCHER_REVIEW
+    GATE_B1_FAIL_ACCEPTED
+    -> ACTOR_STACK_DEVELOPMENT_DIAGNOSTIC
 
-已解决：
+Gate B1 的 4/10、6/10 step-cap 与 cool 0/2 是有效 negative evidence，但人工逐轨迹诊断表明：
+当前只能归因到完整 C1 actor stack，不足以主要归因到模型。
 
-- public universe；
-- deterministic partition；
-- registry-bound execution；
-- H manifest schema；
-- actor manifest；
-- pairing/action-index regressions。
+当前 review 接受两个优先 development intervention：
 
-上述五项 blocker 已在 `56dcb311...` 中完成，transition commit 为
-`ef44ff24...`。唯一的 10-task hard-calibration C1 run 已完成，结果为
-FAIL：4/10 success、6/10 step-cap、0 invalid action index，且
-`pick_cool_then_place_in_recep` family 为 0 success。完整结果见
-`docs/71_phase1_gate_b1_actor_calibration_results.md`。
+1. carrier-correct K* candidate v2；
+2. raw public action->observation history。
 
-当前不要运行 diagnostic 18、B2/B3、target matrix、第二 actor 或任何
-method redesign。committed actor manifest 仍是 pending。
+不接受在本 cycle 中加入 semantic phase/controller、prompt tuning、第二模型或 target experiment。
 
----
+原 10 hard-calibration tasks 从现在起是 development evidence，不再具有 independent admission
+地位。完整计划见 docs/73_phase1_actor_stack_development_diagnostic_plan.md。
 
-# 12. Gate B1 之后的顺序
+# 12. 下一次 researcher review 应检查什么
 
-## Gate B1 — Actor Calibration（已执行，FAIL）
+D1/D2 完成后，review 重点不是“是否达到 8/10”，而是逐轨迹比较：
 
-独立 in-domain C1 calibration 已执行一次，10 tasks × 1 repetition；
-当前 candidate 未通过冻结 gate。
+- D0 vs D1：明确 K*/carrier contract failure 是否修复，是否出现新 regression；
+- D1 vs D2：raw observation history 是否减少已知空 receptacle 重访、inventory/look 停滞、
+  object grounding drift；
+- 哪些错误在这些 confound 降低后仍然发生于信息充分的公开状态；
+- K* v2 与 raw-history interface 是否值得冻结为后续正式 actor stack。
 
-如果 candidate fails：
+D1/D2 的 raw trajectories 必须可直接访问，summary 不能替代 trajectory evidence。
 
-- 不看 target；
-- researcher 选一个新 candidate；
-- 重建 actor manifest；
-- 同一个 frozen calibration protocol 再测。
+如果 fresh independent Gate B1-R 已在 D1/D2 前 public-only 预注册，review 只确认其 independence
+和 membership freeze；不要在同一 review 中直接执行它。
 
-在 researcher review 前不允许任何 B2/B3 或 target 实验。
-
-## Gate B2 — Source-H Freeze
-
-对 5 frozen source：
-
-    source history
-    -> B
-    -> C
-    -> live H manifest
-
-最多约 5 B + 5 C calls。
-
-如果有效 live H 数太少，应停，不要直接跑 targets。
-
-## Gate B3 — Context Audit
-
-真实 live C3 H 生成后，审计 C2/C3 assembled context/token。
-
-## Gate C — Phase 1A
-
-才允许：
-
-    20 targets × 3 arms × 2 reps
-
----
+下一 gate 仍需 researcher 明确授权。
 
 # 13. Reviewer 不应做什么
 

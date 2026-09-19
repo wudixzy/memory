@@ -1,8 +1,8 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> 状态：当前项目单一接手入口（2026-09-19，Gate B1 cycle）
+> 状态：当前项目单一接手入口（2026-09-20，Actor-Stack Development Diagnostic）
 > Branch：exp/minimal-exploratory-memory-validation
-> Baseline commit：56dcb311106c063a305dbb936659e3151fb80387
+> Baseline commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
 > 原则：本文只写当前共识与当前证据边界；历史设计演化请查顶层 docs/00–69。
 
@@ -953,29 +953,36 @@ diagnostic tasks cannot affect admission and are not run in this cycle.
 
 # 20. 当前下一步
 
-当前 Gate B1 已停止，等待 researcher review。若 researcher 选择继续，
-下一步仍必须先冻结/替换 actor manifest，再重新执行同一 hard-calibration
-protocol；不能直接进入任何目标实验。
+Gate B1 已完成并 FAIL；随后对 10 条真实轨迹进行了人工诊断（docs/72）。
+当前证据不足以把失败主要归因于 Qwen3.8-Flash，至少存在两个需要先隔离的 stack-level confound：
 
-本轮已经使用过的唯一命令为：
+1. K* 与 actor-facing carrier contract 部分不一致，尤其 cool realization，以及 generic search
+   在 transformation family 上“找到后直接去 destination”的过宽 guidance；
+2. actor history 只有 action strings，没有历史 public observations，导致已检查/为空等原始
+   交互事实无法直接回看。
 
-    run_phase1_calibration
-    hard_calibration
-    C1
-    10 tasks × 1 repetition
+当前 active cycle 改为：
 
-结果已经保留每个 trace，人工审核 semantic-loop，且没有自动升级 actor
-manifest。当前结果为 `FAIL`，等待 researcher review。
+    Phase 1A Actor-Stack Development Diagnostic
 
-在 review 前禁止：
+正式计划见：
 
-- Gate B2 live B/C/source-H freeze；
-- Gate B3 C2/C3 context audit；
-- diagnostic calibration；
-- 20-target C1/C2/C3 matrix；
-- second actor 或 Phase 2。
+    docs/73_phase1_actor_stack_development_diagnostic_plan.md
 
----
+本 cycle 使用原 10 tasks 作为 development set：
+
+    D0 = 已有 Gate B1，不重跑
+    D1 = K* carrier-correct candidate v2 + action-only history
+    D2 = same K* v2 + raw action->observation history
+
+D1/D2 必须完整保存逐步 trajectory 供下一轮人工 review。不要只保留 aggregate。
+
+旧 10 tasks 经本轮调优后不再可作为 independent gate。若可行，必须在 D1/D2 模型调用前，
+仅用 public-only criteria 从未使用 ALFWorld split 预注册 fresh Gate B1-R；不得使用原 20 targets
+补 gate，也不得在本 cycle 执行 Gate B1-R。
+
+D2 完成后 STOP。下一轮 researcher review 再决定最终 K*/actor interface、是否需要 prompt
+diagnostic/stronger actor，以及何时执行 fresh independent Gate B1-R。
 
 # 21. 当前不要重新打开的问题
 

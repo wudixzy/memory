@@ -1,8 +1,8 @@
 # Exploratory Persistent Memory：当前状态总索引
 
-> 更新时间：2026-09-19  
+> 更新时间：2026-09-20  
 > 分支：exp/minimal-exploratory-memory-validation  
-> 当前项目接手基线 commit：56dcb311106c063a305dbb936659e3151fb80387
+> 当前项目接手基线 commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
 
 这组文档不是历史讨论日志，而是对当前项目共识、已经完成的验证、仍未解决的问题和下一阶段实验设计的整理。后续新参与者、新 Agent 或组会讨论应优先从这里进入；顶层 docs/ 中更早的文档主要用于追溯设计演化和实验细节。
 
@@ -136,11 +136,14 @@
 - **新参与者提示词**：docs/70_project_onboarding_prompt.md
 - **当前实现契约**：根目录 AGENTS.md
 
-当前 active cycle 是 **Gate B1 — Independent C1 Actor Calibration**，且唯一的
-10-task C1 run 已完成，结果为 **FAIL**。结果详情见
-[71_phase1_gate_b1_actor_calibration_results.md](../71_phase1_gate_b1_actor_calibration_results.md)。
-18 个 diagnostic task、B2 live B/C generation、B3 context audit 和 20-target
-Phase 1A matrix 均禁止。Gate B1 只检验共同 actor 在 `Actor + K* = C1` 下的基础
-执行可靠性，不支持 C3/C2 或 exploratory-memory effectiveness claim。committed
-actor manifest 仍保持 `candidate_pending_independent_reliability_gate`，等待
-researcher review；在 review 前不得进入下一 gate。
+当前 active cycle 是 **Phase 1A Actor-Stack Development Diagnostic (D1/D2)**。
+Gate B1 已 FAIL，且 docs/72 的逐轨迹诊断显示失败不能主要归因于模型；当前优先隔离
+K*/carrier contract 与 raw-history representation 两个 confound。
+
+原 10 个 hard-calibration tasks 已转为 development evidence。D1/D2 必须完整保留原始逐步
+trajectory 供下一轮 review；不得在这些任务上调优后继续把它们当 independent Gate B1。
+正式计划见 [docs/73_phase1_actor_stack_development_diagnostic_plan.md](../73_phase1_actor_stack_development_diagnostic_plan.md)。
+
+原 20 个 Phase 1A targets 继续封存。若数据允许，应在 D1/D2 模型调用前从未使用的 pinned
+ALFWorld split 以 public-only deterministic protocol 预注册 fresh Gate B1-R，但本 cycle 不执行它。
+D2 后 STOP，等待 researcher review。
