@@ -1,0 +1,262 @@
+{
+  "schema_version": "0.1",
+  "registry_id": "phase1_alfworld_lead_target_pool_v1",
+  "carrier": "alfworld_text",
+  "split": "train",
+  "created_at": "2026-09-19T00:00:00Z",
+  "candidate_universe": {
+    "source": "pinned ALFWorld train task IDs enumerated from the public task directory before pilot outcomes",
+    "candidate_ids": [
+      "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+      "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605",
+      "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103",
+      "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+      "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+      "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116",
+      "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006",
+      "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885",
+      "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379",
+      "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
+      "pick_clean_then_place_in_recep-DishSponge-None-Cabinet-414/trial_T20190909_061502_436342",
+      "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018",
+      "pick_clean_then_place_in_recep-DishSponge-None-Toilet-427/trial_T20190908_234203_467365",
+      "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723",
+      "pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190909_100824_609831",
+      "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+      "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+      "pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172429_549227",
+      "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012",
+      "pick_heat_then_place_in_recep-Egg-None-SideTable-21/trial_T20190907_045036_700265",
+      "pick_heat_then_place_in_recep-Mug-None-Cabinet-20/trial_T20190908_230106_156334",
+      "pick_heat_then_place_in_recep-Plate-None-CounterTop-28/trial_T20190907_180117_721981",
+      "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762"
+    ],
+    "candidate_count": 25,
+    "candidate_ids_sha256": "e4473778e5534f62f2fb5e9860416313d4136b67fc967b41f8deb1487b8817c0"
+  },
+  "inclusion_criteria": {
+    "public_task_families": [
+      "pick_and_place_simple",
+      "pick_clean_then_place_in_recep",
+      "pick_heat_then_place_in_recep",
+      "pick_cool_then_place_in_recep"
+    ],
+    "object_initially_hidden": true,
+    "carrier_split": "train",
+    "public_only": true,
+    "outcome_blind": true,
+    "hidden_outcome_free": true,
+    "scope_match_rule": "public task family and initial public affordance structure only"
+  },
+  "exclusion_reasons": [
+    {
+      "target_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+      "reason": "reserved as a source task for the frozen H family; excluded before target outcomes"
+    },
+    {
+      "target_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+      "reason": "reserved as a source task for the frozen H family; excluded before target outcomes"
+    },
+    {
+      "target_id": "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+      "reason": "reserved as a source task for the frozen H family; excluded before target outcomes"
+    },
+    {
+      "target_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "reason": "reserved as a source task for the frozen H family; excluded before target outcomes"
+    },
+    {
+      "target_id": "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116",
+      "reason": "reserved as a source task for the frozen H family; excluded before target outcomes"
+    }
+  ],
+  "human_review": {
+    "performed": false,
+    "mode": "mechanical_public_only",
+    "note": "No semantic outcome review was used for inclusion; the registry records only public task identity, instruction, initial observation fingerprint, and action affordance structure."
+  },
+  "targets": [
+    {
+      "target_id": "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_instruction": "put a book in sofa.",
+      "public_initial_fingerprint": "e71a6777085359f36b83a8b881e0db74751d83acadbf3e066acdd5f8e8b731e3",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_instruction": "put some candle on toilet.",
+      "public_initial_fingerprint": "efe47c53ecc7cbf2a50b57076f1e99161eac9caf7c8c269ddac6a4037b0e1bf8",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_instruction": "put some laptop on desk.",
+      "public_initial_fingerprint": "a0027e8b0249344bf81475d15fad3936066547d5da2a07e3560da5f35ea4f840",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_instruction": "put some spraybottle on toilet.",
+      "public_initial_fingerprint": "03bed48d4d29da4d6029e26ec0571d9c9a07251c452730083b2b1099c04d6ef0",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some apple and put it in fridge.",
+      "public_initial_fingerprint": "33d4d086db9816ed8f705be3b2016fa1e63b284c0c81dcb7812e6ff6ea7aab4a",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "put a clean apple in microwave.",
+      "public_initial_fingerprint": "60064b175a17a77e4c02b79a2bebc2b8070af7401969d6c816448961032fc8c0",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some cup and put it in shelf.",
+      "public_initial_fingerprint": "48080358e49266640e0050d02fad85ad1c1c72c36ec77cc6f978de4518d1d943",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Cabinet-414/trial_T20190909_061502_436342",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "put a clean dishsponge in cabinet.",
+      "public_initial_fingerprint": "f414c9e65e091aa29238e636b03b74f99ca6789a4d926028eeb23d9c2505e1fe",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "put a clean dishsponge in cart.",
+      "public_initial_fingerprint": "967fdbad410183b1566c6f8ccc15be730998c38a1ea185d96d1ba5cb68e3fc54",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Toilet-427/trial_T20190908_234203_467365",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some dishsponge and put it in toilet.",
+      "public_initial_fingerprint": "f1622c7a966bac0e35e7336e6932a8df53c65950af3d98e104f0cd45df2aabf8",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some knife and put it in diningtable.",
+      "public_initial_fingerprint": "62db83dda0efc2db5e2295dcd7feaf6a93ca6067d7a5a3e2ed062e368ca96452",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190909_100824_609831",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some ladle and put it in diningtable.",
+      "public_initial_fingerprint": "358cb54fb8e1a6685f92abeb7dcd2ecc9e3318c5e10b8df0afaf7a6712e0f323",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "clean some soapbar and put it in cabinet.",
+      "public_initial_fingerprint": "080e5ab166e57d024e6aca9b97901a22c64319d564df24cdd93d2b0c7f3db74c",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "heat some apple and put it in fridge.",
+      "public_initial_fingerprint": "1b981390b4bf797a10629184e82b3c18d396c786684331d6cdbf824c3e7c97b4",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172429_549227",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "heat some apple and put it in garbagecan.",
+      "public_initial_fingerprint": "885a4b321b9ad1015369a70f287010687944b6db13c4ab88d66ce037d16130df",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "put a hot egg in garbagecan.",
+      "public_initial_fingerprint": "2d998d914dd3231ca349c311d4b5106ae120564463422a74f4404e482a741a02",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Egg-None-SideTable-21/trial_T20190907_045036_700265",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "put a hot egg in sidetable.",
+      "public_initial_fingerprint": "b01d2b4e7a3aff9be0a577384430f081495d003d351404d16e1ccb7936a03672",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-20/trial_T20190908_230106_156334",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "heat some mug and put it in cabinet.",
+      "public_initial_fingerprint": "443cd7108cab9a3b6d779d5244a9c1709b14e703499491a3100b3e31bb9194fa",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Plate-None-CounterTop-28/trial_T20190907_180117_721981",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "heat some plate and put it in countertop.",
+      "public_initial_fingerprint": "9c65d65f8f546af9701b095de0f340e0c9dd508af2beea4a623816a198df2c26",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    },
+    {
+      "target_id": "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_instruction": "heat some potato and put it in countertop.",
+      "public_initial_fingerprint": "43fd2a214ff3d7c2180c699b5edf2accc54c015c9f9907cb6dde2cd7f7d3e3f9",
+      "matched_h_family": "h_family_receptacle_search",
+      "status": "registered"
+    }
+  ]
+}

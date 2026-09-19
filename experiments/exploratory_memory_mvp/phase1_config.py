@@ -1,0 +1,157 @@
+"""Phase 1 experiment configuration schema and validation.
+
+Defines the config-driven structure for C1, C2, and C3 Frozen-history runs,
+enforcing condition isolation, identical K*, and explicit repetition metadata.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Any, Literal
+
+_EXPERIMENTS = Path(__file__).resolve().parents[1]
+if str(_EXPERIMENTS) not in sys.path:
+    sys.path.insert(0, str(_EXPERIMENTS))
+
+from exploratory_memory_mvp.c2_generic import (  # noqa: E402
+    validate_c2_exploratory_memory,
+)
+from exploratory_memory_mvp.common import (  # noqa: E402
+    C_PROBE_KEYS,
+    ENTITY_RE,
+    EVALUATOR_ONLY_KEYS,
+    MODEL_INVISIBLE_KEYS,
+    SchemaError,
+    _nonempty_string,
+    assert_no_evaluator_keys,
+)
+from exploratory_memory_mvp.k_star import (  # noqa: E402
+    assert_k_star_valid,
+    compute_k_star_digest,
+    get_phase1_k_star,
+)
+
+Phase1Condition = Literal["C1", "C2", "C3"]
+PHASE1_PROVIDER = "dashscope"
+PHASE1_MODEL = "qwen3.8-flash"
+PHASE1_THINKING = False
+PHASE1_TEMPERATURE = 0.0
+FUTURE_H_KEYS = frozenset({"type", "scope", "hypothesis", "guidance", "probe_policy"})
+
+
+@dataclass
+class Phase1RunConfig:
+    condition: Phase1Condition
+    target_id: str
+    target_seed: int
+    repetition_index: int
+    output_dir: Path
+    k_star: list[dict[str, Any]] = field(default_factory=get_phase1_k_star)
+    exploratory_memory: dict[str, Any] | None = None
+    step_cap: int = 32
+    provider: str = PHASE1_PROVIDER
+    model_name: str = PHASE1_MODEL
+    thinking: bool = PHASE1_THINKING
+    temperature: float = PHASE1_TEMPERATURE
+    target_registry_sha256: str | None = None
+    allow_network: bool = False
+    dry_run: bool = False
+    explicit_diagnostic: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result["output_dir"] = str(self.output_dir)
+        result["k_star_sha256"] = compute_k_star_digest(self.k_star)
+        result["config_sha256"] = compute_phase1_config_digest(result)
+        return result
+
+
+def compute_phase1_config_digest(config_dict: dict[str, Any]) -> str:
+    """Hash a run config without a self-referential ``config_sha256`` field."""
+
+    payload = dict(config_dict)
+    payload.pop("config_sha256", None)
+    serialized = json.dumps(payload, ensure_ascii=False, sort_keys=True, allow_nan=False)
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def validate_phase1_config(config: Phase1RunConfig) -> Phase1RunConfig:
+    """Validate Phase 1 run configuration against condition contracts and isolation rules."""
+    if config.condition not in {"C1", "C2", "C3"}:
+        raise SchemaError(f"Invalid Phase 1 condition: {config.condition}")
+
+    _nonempty_string(config.target_id, "target_id")
+    if type(config.target_seed) is not int:
+        raise SchemaError("target_seed must be an integer")
+    if type(config.repetition_index) is not int or config.repetition_index < 0:
+        raise SchemaError("repetition_index must be a non-negative integer")
+    if type(config.step_cap) is not int or config.step_cap <= 0:
+        raise SchemaError("step_cap must be a positive integer")
+    if config.provider != PHASE1_PROVIDER:
+        raise SchemaError(f"Phase 1 provider must be {PHASE1_PROVIDER}")
+    if config.model_name != PHASE1_MODEL:
+        raise SchemaError(f"Phase 1 actor model must be {PHASE1_MODEL}")
+    if type(config.thinking) is not bool or config.thinking is not PHASE1_THINKING:
+        raise SchemaError("Phase 1 thinking must be false")
+    if type(config.temperature) not in {int, float} or config.temperature != PHASE1_TEMPERATURE:
+        raise SchemaError("Phase 1 temperature must be 0")
+    if config.target_registry_sha256 is not None:
+        if (
+            not isinstance(config.target_registry_sha256, str)
+            or len(config.target_registry_sha256) != 64
+            or any(char not in "0123456789abcdef" for char in config.target_registry_sha256)
+        ):
+            raise SchemaError("target_registry_sha256 must be a lowercase SHA-256 digest")
+
+    assert_k_star_valid(config.k_star)
+
+    if config.condition == "C1":
+        if config.exploratory_memory is not None:
+            raise SchemaError("Condition C1 (Established-Only) must not have an exploratory memory")
+    elif config.condition == "C2":
+        if config.exploratory_memory is None:
+            raise SchemaError("Condition C2 requires a structured generic exploratory memory")
+        validate_c2_exploratory_memory(config.exploratory_memory)
+    elif config.condition == "C3":
+        if config.exploratory_memory is None:
+            raise SchemaError("Condition C3 requires a history-derived exploratory memory")
+        if set(config.exploratory_memory) != FUTURE_H_KEYS:
+            raise SchemaError("Condition C3 must receive future-facing H only")
+        if config.exploratory_memory.get("type") != "exploratory":
+            raise SchemaError("Condition C3 exploratory memory type is malformed")
+        for key in ("scope", "hypothesis", "guidance"):
+            _nonempty_string(config.exploratory_memory.get(key), "C3 " + key)
+        probe = config.exploratory_memory.get("probe_policy")
+        if not isinstance(probe, dict) or set(probe) != C_PROBE_KEYS:
+            raise SchemaError("Condition C3 probe policy is malformed")
+        for key in (
+            "local_function",
+            "realization_pattern",
+            "adaptive_policy",
+            "evidence_goal",
+            "required_downstream_state",
+        ):
+            _nonempty_string(probe.get(key), "C3 probe_policy." + key)
+        for key in ("capability_requirements", "stop_conditions"):
+            value = probe.get(key)
+            if not isinstance(value, list) or not value or any(
+                not isinstance(item, str) or not item.strip() for item in value
+            ):
+                raise SchemaError("C3 probe policy lists must contain non-empty strings")
+        assert_no_evaluator_keys(config.exploratory_memory)
+        future_text = json.dumps(
+            config.exploratory_memory, ensure_ascii=False, sort_keys=True
+        )
+        if ENTITY_RE.search(future_text):
+            raise SchemaError("C3 future-facing H must not contain exact entity IDs")
+
+    serialized = str(config.to_dict()).lower()
+    for forbidden in EVALUATOR_ONLY_KEYS | MODEL_INVISIBLE_KEYS:
+        if f"'{forbidden}'" in serialized or f'"{forbidden}"' in serialized:
+            raise SchemaError(f"Evaluator/oracle key '{forbidden}' leaked into Phase 1 run config")
+
+    return config
