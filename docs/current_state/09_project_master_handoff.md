@@ -881,6 +881,23 @@ the scientific target runner remains fail closed until a separate researcher
 review promotes a manifest. This gate tests only baseline C1 execution
 reliability, not C3 targeting value or exploratory-memory effectiveness.
 
+## 17.10 Gate B1 execution result
+
+The single protocol-consistent 10-task C1 run was executed with the frozen
+configuration and is recorded in [docs/71_phase1_gate_b1_actor_calibration_results.md](../71_phase1_gate_b1_actor_calibration_results.md).
+The first base-Python invocation stopped before model calls because ALFWorld
+text dependencies were unavailable; the preserved infrastructure artifact is
+not an actor result. The subsequent run in the existing pinned
+`memory-automanual` environment made 262 step-level actor calls across the
+same ten tasks, with no task retry.
+
+The candidate result is **FAIL** under the frozen gate: 4/10 successes, 6/10
+step-cap failures, zero invalid action indices, and no success in the
+`pick_cool_then_place_in_recep` family. Manual review found two clear loops and
+four uncertain no-progress traces; the uncertainty cannot change the result
+because the mechanical criteria already fail. The committed actor manifest
+remains `candidate_pending_independent_reliability_gate`.
+
 ---
 
 # 18. 当前证据支持等级
@@ -915,8 +932,10 @@ reliability, not C3 targeting value or exploratory-memory effectiveness.
 
 # 19. 当前正式 review 结论
 
-截至 `56dcb311...`，上一轮 readiness blockers 已经 code-enforced，当前进入
-Gate B1 的 protocol transition。Gate B1 只审查共同 actor 在 Phase 1A
+截至 `ef44ff2...`，上一轮 readiness blockers 已经 code-enforced，Gate B1
+的 protocol transition 与唯一 10-task C1 run 均已完成。结果记录在
+`docs/71_phase1_gate_b1_actor_calibration_results.md`：当前 Qwen3.8-Flash
+candidate 未通过基础执行可靠性 gate。Gate B1 只审查共同 actor 在 Phase 1A
 `Actor + K* = C1` 下的基础执行可靠性，不审查 C2/C3 的科学贡献。
 
 ### Gate B1 hard admission criteria
@@ -934,16 +953,19 @@ diagnostic tasks cannot affect admission and are not run in this cycle.
 
 # 20. 当前下一步
 
-当前只允许使用：
+当前 Gate B1 已停止，等待 researcher review。若 researcher 选择继续，
+下一步仍必须先冻结/替换 actor manifest，再重新执行同一 hard-calibration
+protocol；不能直接进入任何目标实验。
+
+本轮已经使用过的唯一命令为：
 
     run_phase1_calibration
     hard_calibration
     C1
     10 tasks × 1 repetition
 
-执行后必须保留每个 trace，人工审核 semantic-loop，不得自动升级 actor
-manifest。结果为 `PASS`、`FAIL` 或 `RESEARCHER_REVIEW_REQUIRED` 后即停止，
-等待 researcher review。
+结果已经保留每个 trace，人工审核 semantic-loop，且没有自动升级 actor
+manifest。当前结果为 `FAIL`，等待 researcher review。
 
 在 review 前禁止：
 

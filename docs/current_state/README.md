@@ -136,9 +136,11 @@
 - **新参与者提示词**：docs/70_project_onboarding_prompt.md
 - **当前实现契约**：根目录 AGENTS.md
 
-当前 active cycle 是 **Gate B1 — Independent C1 Actor Calibration**。只允许对冻结的
-10 个 hard-calibration task 运行一次 C1；18 个 diagnostic task、B2 live B/C
-generation、B3 context audit 和 20-target Phase 1A matrix 均禁止。Gate B1 只检验共同
-actor 在 `Actor + K* = C1` 下的基础执行可靠性，不支持 C3/C2 或 exploratory-memory
-effectiveness claim。无论结果如何，committed actor manifest 仍保持
-`candidate_pending_independent_reliability_gate`，等待 researcher review。
+当前 active cycle 是 **Gate B1 — Independent C1 Actor Calibration**，且唯一的
+10-task C1 run 已完成，结果为 **FAIL**。结果详情见
+[71_phase1_gate_b1_actor_calibration_results.md](../71_phase1_gate_b1_actor_calibration_results.md)。
+18 个 diagnostic task、B2 live B/C generation、B3 context audit 和 20-target
+Phase 1A matrix 均禁止。Gate B1 只检验共同 actor 在 `Actor + K* = C1` 下的基础
+执行可靠性，不支持 C3/C2 或 exploratory-memory effectiveness claim。committed
+actor manifest 仍保持 `candidate_pending_independent_reliability_gate`，等待
+researcher review；在 review 前不得进入下一 gate。

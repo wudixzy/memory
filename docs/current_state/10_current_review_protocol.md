@@ -2,7 +2,7 @@
 
 > 状态：当前 reviewer contract（2026-09-19，Gate B1 cycle）
 > Baseline commit：56dcb311106c063a305dbb936659e3151fb80387
-> 当前目标：执行并审查唯一的独立 C1 Actor Gate；通过后仍需 researcher review，才允许 B2 / B3。
+> 当前目标：审查已完成的唯一独立 C1 Actor Gate；结果为 FAIL，等待 researcher review，不允许进入 B2 / B3。
 
 ---
 
@@ -431,11 +431,11 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 
 ---
 
-# 11. 对当前 Gate B1 transition 的 review verdict
+# 11. 对当前 Gate B1 的 review verdict
 
 当前：
 
-    TRANSITION_TO_GATE_B1
+    GATE_B1_FAIL_PENDING_RESEARCHER_REVIEW
 
 已解决：
 
@@ -446,16 +446,23 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 - actor manifest；
 - pairing/action-index regressions。
 
-上述五项 blocker 已在 `56dcb311...` 中完成。当前唯一下一步是一次
-10-task hard-calibration C1 run；不要运行 diagnostic 18、B2/B3 或 target matrix。
+上述五项 blocker 已在 `56dcb311...` 中完成，transition commit 为
+`ef44ff24...`。唯一的 10-task hard-calibration C1 run 已完成，结果为
+FAIL：4/10 success、6/10 step-cap、0 invalid action index，且
+`pick_cool_then_place_in_recep` family 为 0 success。完整结果见
+`docs/71_phase1_gate_b1_actor_calibration_results.md`。
+
+当前不要运行 diagnostic 18、B2/B3、target matrix、第二 actor 或任何
+method redesign。committed actor manifest 仍是 pending。
 
 ---
 
-# 12. Gate B1 通过后的顺序
+# 12. Gate B1 之后的顺序
 
-## Gate B1 — Actor Calibration
+## Gate B1 — Actor Calibration（已执行，FAIL）
 
-独立 in-domain C1 calibration。
+独立 in-domain C1 calibration 已执行一次，10 tasks × 1 repetition；
+当前 candidate 未通过冻结 gate。
 
 如果 candidate fails：
 
@@ -463,6 +470,8 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 - researcher 选一个新 candidate；
 - 重建 actor manifest；
 - 同一个 frozen calibration protocol 再测。
+
+在 researcher review 前不允许任何 B2/B3 或 target 实验。
 
 ## Gate B2 — Source-H Freeze
 
