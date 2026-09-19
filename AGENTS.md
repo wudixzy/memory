@@ -4,7 +4,7 @@ This file defines the active implementation contract for branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1 Targeting-Value Readiness**.
+Current cycle: **Phase 1 Pre-Pilot Correction**.
 
 Older pairing/action-index transition instructions are historical and do not override this file.
 
@@ -12,7 +12,7 @@ Older pairing/action-index transition instructions are historical and do not ove
 
 The core B/C/H/A method is frozen unless researcher review finds a concrete conceptual flaw.
 
-The immediate goal is to prepare, but not yet execute at full scale, the first contribution test:
+The immediate goal is to mechanically enforce, but not yet execute at full scale, the first contribution test:
 
     C3 history-derived targeted exploration
     vs.
@@ -62,17 +62,27 @@ Do not add semantic controllers/planners/fallback rules.
 
 This cycle should produce:
 
-1. fair C2 specification;
-2. warm-start K* provenance/specification;
-3. public-only target-pool sampling protocol;
-4. 2–3 benchmark admission memos;
-5. main-actor no-H reliability screening plan;
-6. config-driven C1/C2/C3 runner scaffolding;
-7. dry-run / fake-transport leakage and fairness tests;
-8. token/call/cost projection;
-9. Phase 1 readiness memo.
+1. full pinned-split public-only eligible universe and deterministic partitions;
+2. registry-bound target execution and actual fingerprint checks;
+3. committed source-H provenance manifest and outcome-blind assignment;
+4. frozen actor manifest and symmetric probe budget;
+5. token/context audit tooling and C1-based actor gate protocol;
+6. focused no-model/fake-transport tests and correction memo.
 
-## 5. Current scale
+Do not make paid model/API calls or execute the Phase 1 matrix in this cycle.
+
+## 5. New Phase 1 pre-pilot invariants
+
+- `phase1_registered_targets.json` must contain the complete eligible public universe, not only
+  the final target list;
+- Source, Calibration and Target partitions must be disjoint, deterministic and outcome-blind;
+- scientific target execution must verify registry digest, registration, seed and actual public
+  reset fingerprint before C1/C2/C3;
+- C3 H must be registered in the source-H manifest and match the target's frozen H family;
+- C1/C2/C3 must share one frozen actor manifest and one symmetric mechanical probe budget;
+- source-H provenance, pairing metadata and evaluator-only fields remain model-invisible.
+
+## 6. Current scale
 
 The future approved pilot is expected to be approximately:
 
@@ -87,7 +97,7 @@ But this cycle must **not execute the full paid matrix**.
 Unique target task / source-target sequence is the scientific unit.
 Repetitions are nested repetitions, not independent samples.
 
-## 6. Model policy
+## 7. Model policy
 
 Current planning assumption:
 
@@ -100,7 +110,7 @@ A secondary actor is a later robustness test only after Phase 1 has a stable sig
 
 All compared conditions must use the same actor/config.
 
-## 7. Benchmark policy
+## 8. Benchmark policy
 
 Audit 2–3 candidate benchmarks, <=10 real cases each.
 
@@ -110,7 +120,7 @@ Select at most one lead carrier for Phase 1 scaffolding after admission evidence
 
 Target selection must be pre-outcome and public-only. Never select because hidden evaluator information says H will help.
 
-## 8. Explicit non-goals
+## 9. Explicit non-goals
 
 Do not implement or run:
 
@@ -123,7 +133,7 @@ Do not implement or run:
 - broad multi-model matrix;
 - broad multi-benchmark run.
 
-## 9. Existing infrastructure to preserve
+## 10. Existing infrastructure to preserve
 
 Reuse where appropriate:
 
@@ -140,7 +150,7 @@ Reuse where appropriate:
 
 Do not weaken these controls to simplify Phase 1.
 
-## 10. Stop rule
+## 11. Stop rule
 
 After readiness artifacts, tests, and cost projection are complete:
 

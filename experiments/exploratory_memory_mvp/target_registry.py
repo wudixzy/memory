@@ -1,9 +1,9 @@
-"""Public-only target-pool sampling and registry protocol for Phase 1.
+"""Public-only Phase 1 universe, partition, and target registry validation.
 
-Targets are pre-registered before seeing hidden outcomes or executing runs.
-Selection uses only public structural predicates (task family, public instruction,
-carrier split, seed) and strictly excludes evaluator notes, oracle actions,
-hidden object locations, or outcome-based filtering.
+The committed registry is not a hand-picked target list.  It contains the
+complete public eligible universe produced from the pinned split, a frozen
+source reservation, deterministic calibration/target partitions, and the
+public records needed to verify target execution.
 """
 
 from __future__ import annotations
@@ -30,7 +30,6 @@ from exploratory_memory_mvp.common import (  # noqa: E402
 DEFAULT_REGISTRY_PATH = (
     Path(__file__).resolve().parent / "cases" / "phase1_registered_targets.json"
 )
-
 REGISTRY_REQUIRED_KEYS = frozenset(
     {
         "schema_version",
@@ -38,76 +37,177 @@ REGISTRY_REQUIRED_KEYS = frozenset(
         "carrier",
         "split",
         "created_at",
+        "selection_protocol",
         "candidate_universe",
         "inclusion_criteria",
+        "partitions",
         "exclusion_reasons",
         "human_review",
         "targets",
     }
 )
-
 CANDIDATE_UNIVERSE_KEYS = frozenset(
-    {"source", "candidate_ids", "candidate_count", "candidate_ids_sha256"}
+    {
+        "source",
+        "candidate_ids",
+        "candidate_count",
+        "candidate_ids_sha256",
+        "records",
+        "records_sha256",
+    }
 )
-EXCLUSION_KEYS = frozenset({"target_id", "reason"})
+SELECTION_PROTOCOL_KEYS = frozenset(
+    {
+        "algorithm",
+        "salt",
+        "source_reservation_ids_sha256",
+        "calibration_count",
+        "target_count",
+        "target_scope_families",
+        "h_family_id",
+        "partition_digest",
+    }
+)
+PARTITION_KEYS = frozenset({"source", "calibration", "target", "residual_excluded", "digest"})
+EXCLUSION_KEYS = frozenset({"target_id", "partition", "reason"})
 HUMAN_REVIEW_KEYS = frozenset({"performed", "mode", "note"})
-
-TARGET_REQUIRED_KEYS = frozenset(
+INCLUSION_CRITERIA_KEYS = frozenset(
+    {
+        "public_only",
+        "outcome_blind",
+        "pinned_split",
+        "requested_seed",
+        "required_public_fields",
+        "hidden_state_or_outcome_fields_used",
+    }
+)
+PUBLIC_RECORD_KEYS = frozenset(
     {
         "target_id",
         "task_family",
         "requested_seed",
         "public_instruction",
+        "public_initial_observation",
+        "public_initial_admissible_actions",
         "public_initial_fingerprint",
-        "matched_h_family",
-        "status",
+        "public_affordance_structure",
     }
 )
+TARGET_REQUIRED_KEYS = frozenset(set(PUBLIC_RECORD_KEYS) | {"matched_h_family", "status"})
+
+
+def _canonical(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
 
 
 def compute_registry_digest(registry: dict[str, Any]) -> str:
-    """Compute deterministic SHA-256 digest over canonical serialized target registry."""
-    serialized = json.dumps(registry, ensure_ascii=False, sort_keys=True, allow_nan=False)
-    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+    """Compute the SHA-256 digest of the canonical registry contents."""
+
+    return hashlib.sha256(_canonical(registry).encode("utf-8")).hexdigest()
 
 
 def compute_candidate_universe_digest(candidate_ids: list[str]) -> str:
-    """Hash the ordered public candidate inventory used before inclusion."""
+    """Hash the ordered public candidate inventory used before partitioning."""
 
-    serialized = json.dumps(candidate_ids, ensure_ascii=False, separators=(",", ":"))
-    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+    return hashlib.sha256(_canonical(candidate_ids).encode("utf-8")).hexdigest()
+
+
+def compute_public_records_digest(records: list[dict[str, Any]]) -> str:
+    return hashlib.sha256(_canonical(records).encode("utf-8")).hexdigest()
+
+
+def compute_partition_digest(partitions: dict[str, list[str]]) -> str:
+    payload = {
+        key: partitions[key]
+        for key in ("source", "calibration", "target", "residual_excluded")
+    }
+    return hashlib.sha256(_canonical(payload).encode("utf-8")).hexdigest()
 
 
 def assert_registry_has_no_evaluator_fields(registry: dict[str, Any]) -> None:
-    """Verify that no oracle or evaluator-only information leaked into registry."""
-    serialized = json.dumps(registry, ensure_ascii=False, sort_keys=True).lower()
+    """Reject evaluator/oracle concepts from the public registry."""
+
+    serialized = _canonical(registry).lower()
     for forbidden in EVALUATOR_ONLY_KEYS | MODEL_INVISIBLE_KEYS:
         if f'"{forbidden}"' in serialized:
-            raise SchemaError(f"Evaluator/oracle key '{forbidden}' leaked into target registry")
-
+            raise SchemaError(
+                f"Evaluator/model-invisible key '{forbidden}' leaked into target registry"
+            )
     for forbidden_substr in (
         "oracle",
         "evaluator",
         "hidden_location",
         "true_receptacle",
         "expected_winner",
+        "success_rate",
     ):
         if forbidden_substr in serialized:
             raise SchemaError(
-                f"Evaluator/oracle concept '{forbidden_substr}' found in target registry"
+                f"Evaluator/outcome concept '{forbidden_substr}' found in target registry"
             )
 
 
+def _validate_public_record(record: dict[str, Any], name: str) -> None:
+    if not isinstance(record, dict) or set(record) != PUBLIC_RECORD_KEYS:
+        keys = set(record) if isinstance(record, dict) else type(record)
+        raise SchemaError(f"{name} has invalid public fields: {keys}")
+    for key in ("target_id", "task_family", "public_instruction", "public_initial_observation"):
+        _nonempty_string(record[key], f"{name}.{key}")
+    if type(record["requested_seed"]) is not int:
+        raise SchemaError(f"{name}.requested_seed must be an integer")
+    actions = record["public_initial_admissible_actions"]
+    if not isinstance(actions, list) or not actions or any(
+        not isinstance(action, str) or not action.strip() for action in actions
+    ):
+        raise SchemaError(f"{name}.public_initial_admissible_actions is malformed")
+    fingerprint = record["public_initial_fingerprint"]
+    if (
+        not isinstance(fingerprint, str)
+        or len(fingerprint) != 64
+        or any(char not in "0123456789abcdef" for char in fingerprint)
+    ):
+        raise SchemaError(f"{name}.public_initial_fingerprint must be lowercase SHA-256")
+    affordances = record["public_affordance_structure"]
+    if not isinstance(affordances, dict) or set(affordances) != {
+        "action_families",
+        "visible_or_referenced_entities",
+    }:
+        raise SchemaError(f"{name}.public_affordance_structure is malformed")
+    for key in affordances:
+        if not isinstance(affordances[key], list) or any(
+            not isinstance(item, str) or not item.strip() for item in affordances[key]
+        ):
+            raise SchemaError(f"{name}.public_affordance_structure.{key} is malformed")
+
+
 def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
-    """Validate target registry schema and anti-leakage invariants."""
+    """Validate public universe, partition and registered target invariants."""
+
     if not isinstance(registry, dict) or set(registry) != REGISTRY_REQUIRED_KEYS:
         keys = set(registry) if isinstance(registry, dict) else type(registry)
         raise SchemaError(f"Target registry has invalid top-level keys: {keys}")
+    for key in ("registry_id", "carrier", "split", "created_at"):
+        _nonempty_string(registry[key], key)
 
-    _nonempty_string(registry["registry_id"], "registry_id")
-    _nonempty_string(registry["carrier"], "carrier")
-    _nonempty_string(registry["split"], "split")
-    _nonempty_string(registry["created_at"], "created_at")
+    protocol = registry["selection_protocol"]
+    if not isinstance(protocol, dict) or set(protocol) != SELECTION_PROTOCOL_KEYS:
+        raise SchemaError("selection_protocol has invalid fields")
+    for key in ("algorithm", "salt", "h_family_id"):
+        _nonempty_string(protocol[key], "selection_protocol." + key)
+    for key in ("source_reservation_ids_sha256", "partition_digest"):
+        digest = protocol[key]
+        if not isinstance(digest, str) or len(digest) != 64 or any(
+            char not in "0123456789abcdef" for char in digest
+        ):
+            raise SchemaError("selection_protocol digest is malformed")
+    for key in ("calibration_count", "target_count"):
+        if type(protocol[key]) is not int or protocol[key] <= 0:
+            raise SchemaError(f"selection_protocol.{key} must be positive")
+    scope = protocol["target_scope_families"]
+    if not isinstance(scope, list) or not scope or any(
+        not isinstance(item, str) or not item.strip() for item in scope
+    ):
+        raise SchemaError("selection_protocol.target_scope_families is malformed")
 
     universe = registry["candidate_universe"]
     if not isinstance(universe, dict) or set(universe) != CANDIDATE_UNIVERSE_KEYS:
@@ -120,26 +220,88 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
         raise SchemaError("candidate_universe.candidate_ids must be non-empty strings")
     if len(set(candidate_ids)) != len(candidate_ids):
         raise SchemaError("candidate_universe contains duplicate target IDs")
-    if type(universe["candidate_count"]) is not int:
-        raise SchemaError("candidate_universe.candidate_count must be an integer")
-    if universe["candidate_count"] != len(candidate_ids):
+    if (
+        type(universe["candidate_count"]) is not int
+        or universe["candidate_count"] != len(candidate_ids)
+    ):
         raise SchemaError("candidate_universe.candidate_count does not match candidate_ids")
     if universe["candidate_ids_sha256"] != compute_candidate_universe_digest(candidate_ids):
         raise SchemaError("candidate_universe candidate ID digest does not match")
+    records = universe["records"]
+    if not isinstance(records, list) or len(records) != len(candidate_ids):
+        raise SchemaError("candidate_universe.records must cover the full candidate universe")
+    record_ids = []
+    for record in records:
+        _validate_public_record(record, "candidate_universe.record")
+        record_ids.append(record["target_id"])
+    if record_ids != candidate_ids:
+        raise SchemaError("candidate_universe.records must follow candidate_ids order")
+    if universe["records_sha256"] != compute_public_records_digest(records):
+        raise SchemaError("candidate_universe public-record digest does not match")
 
-    if not isinstance(registry["inclusion_criteria"], dict):
-        raise SchemaError("inclusion_criteria must be a dictionary")
+    inclusion = registry["inclusion_criteria"]
+    if not isinstance(inclusion, dict) or set(inclusion) != INCLUSION_CRITERIA_KEYS:
+        raise SchemaError("inclusion_criteria has invalid fields")
+    if inclusion["public_only"] is not True or inclusion["outcome_blind"] is not True:
+        raise SchemaError("Target registry inclusion must be public-only and outcome-blind")
+    _nonempty_string(inclusion["pinned_split"], "inclusion_criteria.pinned_split")
+    if type(inclusion["requested_seed"]) is not int:
+        raise SchemaError("inclusion_criteria.requested_seed must be an integer")
+    required_public = inclusion["required_public_fields"]
+    if not isinstance(required_public, list) or not required_public or any(
+        not isinstance(item, str) or not item.strip() for item in required_public
+    ):
+        raise SchemaError("inclusion_criteria.required_public_fields is malformed")
+    hidden_fields = inclusion["hidden_state_or_outcome_fields_used"]
+    if hidden_fields != []:
+        raise SchemaError("Target registry inclusion lists hidden or outcome fields")
+
+    partitions = registry["partitions"]
+    if not isinstance(partitions, dict) or set(partitions) != PARTITION_KEYS:
+        raise SchemaError("partitions has invalid fields")
+    universe_set = set(candidate_ids)
+    partition_sets = []
+    for key in ("source", "calibration", "target", "residual_excluded"):
+        values = partitions[key]
+        if not isinstance(values, list) or any(not isinstance(item, str) for item in values):
+            raise SchemaError(f"partitions.{key} must be a list of strings")
+        if len(set(values)) != len(values) or not set(values).issubset(universe_set):
+            raise SchemaError(f"partitions.{key} contains duplicate or unknown IDs")
+        partition_sets.append(set(values))
+    if any(
+        partition_sets[i].intersection(partition_sets[j])
+        for i in range(4)
+        for j in range(i + 1, 4)
+    ):
+        raise SchemaError("Source, calibration, target and residual partitions overlap")
+    if set().union(*partition_sets) != universe_set:
+        raise SchemaError("Partitions do not cover the complete eligible universe")
+    if len(partitions["calibration"]) != protocol["calibration_count"]:
+        raise SchemaError("Calibration partition count does not match protocol")
+    if len(partitions["target"]) != protocol["target_count"]:
+        raise SchemaError("Target partition count does not match protocol")
+    if partitions["digest"] != compute_partition_digest(partitions):
+        raise SchemaError("Partition digest does not match")
+    if protocol["partition_digest"] != partitions["digest"]:
+        raise SchemaError("Selection protocol partition digest does not match")
 
     exclusions = registry["exclusion_reasons"]
     if not isinstance(exclusions, list):
         raise SchemaError("exclusion_reasons must be a list")
+    exclusion_ids = set()
     for exclusion in exclusions:
         if not isinstance(exclusion, dict) or set(exclusion) != EXCLUSION_KEYS:
-            raise SchemaError("exclusion_reasons entries must contain target_id and reason")
+            raise SchemaError("exclusion_reasons entries must contain target_id, partition, reason")
         _nonempty_string(exclusion["target_id"], "exclusion.target_id")
+        _nonempty_string(exclusion["partition"], "exclusion.partition")
         _nonempty_string(exclusion["reason"], "exclusion.reason")
-        if exclusion["target_id"] not in candidate_ids:
+        if exclusion["target_id"] not in universe_set:
             raise SchemaError("exclusion target is absent from candidate_universe")
+        if exclusion["partition"] not in {"source", "calibration", "residual_excluded"}:
+            raise SchemaError("exclusion partition is invalid")
+        exclusion_ids.add(exclusion["target_id"])
+    if exclusion_ids != universe_set - set(partitions["target"]):
+        raise SchemaError("Every non-target partition member needs an exclusion reason")
 
     human_review = registry["human_review"]
     if not isinstance(human_review, dict) or set(human_review) != HUMAN_REVIEW_KEYS:
@@ -150,70 +312,72 @@ def validate_target_registry(registry: dict[str, Any]) -> dict[str, Any]:
         _nonempty_string(human_review[key], "human_review." + key)
 
     targets = registry["targets"]
-    if not isinstance(targets, list) or not targets:
-        raise SchemaError("targets must be a non-empty list of target records")
-
-    seen_ids = set()
+    if not isinstance(targets, list) or len(targets) != len(partitions["target"]):
+        raise SchemaError("targets must exactly represent the target partition")
+    public_record_map = {
+        record["target_id"]: record for record in universe["records"]
+    }
+    target_ids = []
     for target in targets:
         if not isinstance(target, dict) or set(target) != TARGET_REQUIRED_KEYS:
             keys = set(target) if isinstance(target, dict) else type(target)
-            raise SchemaError(f"Target record has invalid keys: {keys}")
-
-        _nonempty_string(target["target_id"], "target.target_id")
-        _nonempty_string(target["task_family"], "target.task_family")
-        _nonempty_string(target["public_instruction"], "target.public_instruction")
-        _nonempty_string(target["public_initial_fingerprint"], "target.public_initial_fingerprint")
-        if (
-            len(target["public_initial_fingerprint"]) != 64
-            or any(char not in "0123456789abcdef" for char in target["public_initial_fingerprint"])
-        ):
-            raise SchemaError("target.public_initial_fingerprint must be lowercase SHA-256")
+            raise SchemaError(f"Target record has invalid fields: {keys}")
+        public = {key: target[key] for key in PUBLIC_RECORD_KEYS}
+        _validate_public_record(public, "target")
         _nonempty_string(target["matched_h_family"], "target.matched_h_family")
-
-        if type(target["requested_seed"]) is not int:
-            raise SchemaError("target.requested_seed must be an integer")
-
         if target["status"] != "registered":
             raise SchemaError("target.status must be 'registered'")
-
-        if target["target_id"] in seen_ids:
-            raise SchemaError(f"Duplicate target_id in registry: {target['target_id']}")
-        seen_ids.add(target["target_id"])
-
-        if target["target_id"] not in candidate_ids:
-            raise SchemaError("Registered target is absent from candidate_universe")
-
-    exclusion_ids = {item["target_id"] for item in exclusions}
-    if seen_ids.intersection(exclusion_ids):
-        raise SchemaError("A target cannot be both included and excluded")
+        target_ids.append(target["target_id"])
+        if target["target_id"] not in partitions["target"]:
+            raise SchemaError("Registered target is absent from target partition")
+        if public != public_record_map[target["target_id"]]:
+            raise SchemaError("Registered target public record differs from the universe record")
+        if target["task_family"] not in protocol["target_scope_families"]:
+            raise SchemaError("Registered target is outside the public target scope")
+        if target["matched_h_family"] != protocol["h_family_id"]:
+            raise SchemaError("Registered target H family differs from the frozen protocol family")
+    if target_ids != partitions["target"]:
+        raise SchemaError("targets must follow the target partition order")
 
     assert_registry_has_no_evaluator_fields(registry)
     return registry
 
 
 def load_target_registry(path: Path = DEFAULT_REGISTRY_PATH) -> dict[str, Any]:
-    """Load and validate the public target registry."""
     return validate_target_registry(read_json(path))
 
 
 def save_target_registry(path: Path, registry: dict[str, Any]) -> None:
-    """Validate and atomically save the target registry."""
-    validated = validate_target_registry(registry)
-    write_json(path, validated)
+    write_json(path, validate_target_registry(registry))
+
+
+def get_registered_target(registry: dict[str, Any], target_id: str) -> dict[str, Any]:
+    """Return one target record, failing closed for unregistered IDs."""
+
+    validate_target_registry(registry)
+    matches = [target for target in registry["targets"] if target["target_id"] == target_id]
+    if len(matches) != 1:
+        raise SchemaError(f"Target is not registered in the frozen target partition: {target_id}")
+    return dict(matches[0])
+
+
+def verify_registered_target(
+    registry: dict[str, Any], *, target_id: str, requested_seed: int
+) -> dict[str, Any]:
+    target = get_registered_target(registry, target_id)
+    if type(requested_seed) is not int or requested_seed != target["requested_seed"]:
+        raise SchemaError("Requested target seed does not match frozen registry")
+    return target
 
 
 def filter_registered_targets(
-    registry: dict[str, Any],
-    *,
-    task_families: list[str] | None = None,
-    limit: int | None = None,
+    registry: dict[str, Any], *, task_families: list[str] | None = None, limit: int | None = None
 ) -> list[dict[str, Any]]:
-    """Filter registered targets by public task family predicates."""
     validate_target_registry(registry)
     targets = registry["targets"]
     if task_families:
         allowed = set(task_families)
-        targets = [t for t in targets if t["task_family"] in allowed]
+        targets = [target for target in targets if target["task_family"] in allowed]
     if limit is not None:
         targets = targets[:limit]
-    return [dict(t) for t in targets]
+    return [dict(target) for target in targets]

@@ -26,6 +26,10 @@ _EXPERIMENTS = Path(__file__).resolve().parents[1] / "experiments"
 if str(_EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(_EXPERIMENTS))
 
+from exploratory_memory_mvp.actor_manifest import (  # noqa: E402
+    compute_actor_manifest_digest,
+    load_actor_manifest,
+)
 from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
     canonical_initial_public_state_fingerprint,
 )
@@ -43,6 +47,11 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     future_exploratory_memory,
     load_cases,
     validate_action_index,
+    write_json,
+)
+from exploratory_memory_mvp.h_manifest import (  # noqa: E402
+    compute_future_h_digest,
+    compute_h_manifest_digest,
 )
 from exploratory_memory_mvp.k_star import (  # noqa: E402
     assert_k_star_valid,
@@ -63,6 +72,9 @@ from exploratory_memory_mvp.phase1_runner import (  # noqa: E402
 from exploratory_memory_mvp.prompts import actor_messages  # noqa: E402
 from exploratory_memory_mvp.target_registry import (  # noqa: E402
     assert_registry_has_no_evaluator_fields,
+    compute_candidate_universe_digest,
+    compute_partition_digest,
+    compute_public_records_digest,
     compute_registry_digest,
     filter_registered_targets,
     load_target_registry,
@@ -207,6 +219,154 @@ class FakePhase1Transport:
                 }
             ],
         }
+
+
+def _fake_actor_manifest(step_cap=32):
+    manifest = json.loads(json.dumps(load_actor_manifest()))
+    manifest["step_cap"] = step_cap
+    manifest["manifest_sha256"] = compute_actor_manifest_digest(manifest)
+    return manifest
+
+
+def _fake_public_record(target_id, *, fingerprint, task_family="pick_and_place_simple"):
+    state = {
+        "observation": (
+            "You are in a kitchen. You see a countertop_1 and a cabinet_1. "
+            "Your task is to: clean some apple and put it in microwave."
+        ),
+        "admissible_actions": ["look", "go to countertop_1", "go to cabinet_1"],
+        "won": False,
+    }
+    return {
+        "target_id": target_id,
+        "task_family": task_family,
+        "requested_seed": 42,
+        "public_instruction": "clean some apple and put it in microwave.",
+        "public_initial_observation": state["observation"],
+        "public_initial_admissible_actions": state["admissible_actions"],
+        "public_initial_fingerprint": fingerprint,
+        "public_affordance_structure": {
+            "action_families": ["go", "look"],
+            "visible_or_referenced_entities": ["cabinet_1", "countertop_1"],
+        },
+    }
+
+
+def _fake_registry_for_runner(fake_episode):
+    target_id = "target_pick_01"
+    calibration_id = "calibration_01"
+    target_record = _fake_public_record(
+        target_id, fingerprint=fake_episode.initial_public_state_fingerprint
+    )
+    calibration_record = _fake_public_record(
+        calibration_id, fingerprint=fake_episode.initial_public_state_fingerprint
+    )
+    records = [target_record, calibration_record]
+    partitions = {
+        "source": [],
+        "calibration": [calibration_id],
+        "target": [target_id],
+        "residual_excluded": [],
+    }
+    partitions["digest"] = compute_partition_digest(partitions)
+    source_digest = compute_candidate_universe_digest([])
+    registry = {
+        "schema_version": "phase1-public-universe-partition-v2",
+        "registry_id": "test-registry",
+        "carrier": "alfworld_text",
+        "split": "test",
+        "created_at": "2026-09-19T00:00:00Z",
+        "selection_protocol": {
+            "algorithm": "test",
+            "salt": "test",
+            "source_reservation_ids_sha256": source_digest,
+            "calibration_count": 1,
+            "target_count": 1,
+            "target_scope_families": ["pick_and_place_simple"],
+            "h_family_id": "h_family_receptacle_search",
+            "partition_digest": partitions["digest"],
+        },
+        "candidate_universe": {
+            "source": "test public fixture",
+            "candidate_ids": [target_id, calibration_id],
+            "candidate_count": 2,
+            "candidate_ids_sha256": compute_candidate_universe_digest(
+                [target_id, calibration_id]
+            ),
+            "records": records,
+            "records_sha256": compute_public_records_digest(records),
+        },
+        "inclusion_criteria": {
+            "public_only": True,
+            "outcome_blind": True,
+            "pinned_split": "fixture",
+            "requested_seed": 42,
+            "required_public_fields": [
+                "task_family",
+                "public_instruction",
+                "public_initial_observation",
+                "public_initial_admissible_actions",
+                "public_affordance_structure",
+            ],
+            "hidden_state_or_outcome_fields_used": [],
+        },
+        "partitions": partitions,
+        "exclusion_reasons": [
+            {
+                "target_id": calibration_id,
+                "partition": "calibration",
+                "reason": "independent calibration fixture",
+            }
+        ],
+        "human_review": {
+            "performed": False,
+            "mode": "mechanical_public_only",
+            "note": "test fixture",
+        },
+        "targets": [
+            {
+                **target_record,
+                "matched_h_family": "h_family_receptacle_search",
+                "status": "registered",
+            }
+        ],
+    }
+    validate_target_registry(registry)
+    return registry
+
+
+def _fake_h_manifest():
+    future_h = get_fair_c2_exploratory_memory()
+    entry = {
+        "h_id": "h_fixture_001",
+        "h_family_id": "h_family_receptacle_search",
+        "source_task_id": "source_fixture/trial_001",
+        "source_task_seed": 42,
+        "source_history_identity": "source_fixture_history",
+        "source_history_sha256": "1" * 64,
+        "k_star_sha256": compute_k_star_digest(get_phase1_k_star()),
+        "b_artifact_sha256": "2" * 64,
+        "c_artifact_sha256": "3" * 64,
+        "future_h_sha256": compute_future_h_digest(future_h),
+        "future_h": future_h,
+        "offline_model_config": {
+            "provider": "dashscope",
+            "model_name": "offline-fixture",
+            "thinking": False,
+            "temperature": 0.0,
+            "prompt_version": "fixture-v1",
+        },
+        "creation_version": "fixture-v1",
+    }
+    manifest = {
+        "schema_version": "phase1-source-h-manifest-v1",
+        "manifest_id": "fixture-h-manifest",
+        "created_at": "2026-09-19T00:00:00Z",
+        "manifest_status": "test_fixture",
+        "entries": [entry],
+    }
+    manifest["manifest_sha256"] = compute_h_manifest_digest(manifest)
+    return manifest
 
 
 class Phase1ReadinessTests(unittest.TestCase):
@@ -380,21 +540,29 @@ class Phase1ReadinessTests(unittest.TestCase):
         registry = load_target_registry()
         validated = validate_target_registry(registry)
         assert_registry_has_no_evaluator_fields(validated)
-        self.assertGreaterEqual(len(validated["targets"]), 20)
+        self.assertEqual(len(validated["targets"]), 20)
         self.assertEqual(
             validated["candidate_universe"]["candidate_count"],
             len(validated["candidate_universe"]["candidate_ids"]),
         )
+        self.assertEqual(
+            len(validated["candidate_universe"]["records"]),
+            validated["candidate_universe"]["candidate_count"],
+        )
         self.assertEqual(compute_registry_digest(validated), compute_registry_digest(registry))
         self.assertFalse(validated["human_review"]["performed"])
-        self.assertEqual(len(validated["exclusion_reasons"]), 5)
+        self.assertEqual(len(validated["exclusion_reasons"]), 34)
         excluded_ids = {item["target_id"] for item in validated["exclusion_reasons"]}
-        self.assertEqual(len(validated["targets"]), 20)
+        self.assertEqual(len(validated["partitions"]["source"]), 5)
+        self.assertEqual(len(validated["partitions"]["calibration"]), 15)
+        self.assertEqual(len(validated["partitions"]["target"]), 20)
+        self.assertEqual(len(validated["partitions"]["residual_excluded"]), 14)
         self.assertTrue(
             excluded_ids.isdisjoint({item["target_id"] for item in validated["targets"]})
         )
         source_ids = {case["task_id"] for case in load_cases() if case["case_type"] == "P"}
-        self.assertEqual(source_ids, excluded_ids)
+        self.assertTrue(source_ids.issubset(excluded_ids))
+        self.assertEqual(source_ids, set(validated["partitions"]["source"]))
         self.assertTrue(source_ids.isdisjoint({item["target_id"] for item in validated["targets"]}))
 
         # Filtering works without evaluator fields
@@ -489,6 +657,7 @@ class Phase1ReadinessTests(unittest.TestCase):
                 output_dir=out_dir,
                 exploratory_memory=get_fair_c2_exploratory_memory(),
                 step_cap=3,
+                actor_manifest=_fake_actor_manifest(3),
             )
             fake_ep = FakeStepwiseTask("test_task", 42)
             from exploratory_memory_mvp.alfworld_carrier import build_pairing_proof
@@ -514,7 +683,7 @@ class Phase1ReadinessTests(unittest.TestCase):
                         )
 
     def test_dry_run_full_pilot_matrix_simulation(self):
-        """Simulate a complete mini-pilot matrix: 2 targets x 3 conditions x 2 reps = 12 eps."""
+        """Simulate a registry-bound mini-pilot matrix without model calls."""
         transports = []
 
         def factory(_case):
@@ -522,21 +691,21 @@ class Phase1ReadinessTests(unittest.TestCase):
             transports.append(t)
             return t
 
-        targets = [
-            ("target_pick_01", 42),
-            ("target_clean_02", 42),
-        ]
+        targets = [("target_pick_01", 42)]
         c2_h = get_fair_c2_exploratory_memory()
-        c3_h = {
-            "type": "exploratory",
-            "scope": "kitchen search",
-            "hypothesis": "surface first search",
-            "guidance": "check an available open surface first",
-            "probe_policy": c2_h["probe_policy"],
-        }
 
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
+            fake_episode = FakeStepwiseTask("target_pick_01", 42)
+            registry = _fake_registry_for_runner(fake_episode)
+            registry_path = root / "registry.json"
+            write_json(registry_path, registry)
+            h_manifest = _fake_h_manifest()
+            c3_h = h_manifest["entries"][0]["future_h"]
+            h_manifest_path = root / "h_manifest.json"
+            write_json(h_manifest_path, h_manifest)
+            registry_sha = compute_registry_digest(registry)
+            h_manifest_sha = compute_h_manifest_digest(h_manifest)
             total_episodes = 0
 
             for target_id, seed in targets:
@@ -554,7 +723,10 @@ class Phase1ReadinessTests(unittest.TestCase):
                             c3_exploratory_memory=c3_h,
                             c2_exploratory_memory=c2_h,
                             transport_factory=factory,
-                            step_cap=4,
+                            target_registry_sha256=registry_sha,
+                            target_registry_path=registry_path,
+                            h_manifest_sha256=h_manifest_sha,
+                            h_manifest_path=h_manifest_path,
                         )
                     self.assertTrue(paired_res["pairing_valid"])
                     self.assertEqual(paired_res["c1"]["condition"], "C1")
@@ -590,8 +762,8 @@ class Phase1ReadinessTests(unittest.TestCase):
 
                     total_episodes += 3
 
-            self.assertEqual(total_episodes, 12)
-            self.assertEqual(len(transports), 12)
+            self.assertEqual(total_episodes, 6)
+            self.assertEqual(len(transports), 6)
 
     def test_budget_projection_is_dry_run_only_and_scales_by_unique_targets(self):
         twenty = project_phase1_budget(20)
@@ -650,6 +822,7 @@ class Phase1ReadinessTests(unittest.TestCase):
                 repetition_index=0,
                 output_dir=out_dir,
                 step_cap=3,
+                actor_manifest=_fake_actor_manifest(3),
             )
             fake_ep = NeverEndingStepwiseTask("never_end_task", 42)
             summary = run_phase1_episode(

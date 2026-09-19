@@ -1,0 +1,13 @@
+{
+  "schema_version": "phase1-actor-manifest-v1",
+  "manifest_id": "phase1_actor_candidate_pending_gate_v1",
+  "provider": "dashscope",
+  "model_name": "qwen3.8-flash",
+  "thinking": false,
+  "temperature": 0.0,
+  "step_cap": 32,
+  "actor_prompt_version": "actor_action_index_probe_runtime_v1",
+  "transport_config_provenance": "direct_dashscope_transport_no_proxy_v1",
+  "selection_status": "candidate_pending_independent_reliability_gate",
+  "manifest_sha256": "00816f2eeb6626dfd68ec20943aef0f755e689fa657587a2f6af628aad8c3a94"
+}

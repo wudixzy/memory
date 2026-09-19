@@ -1,6 +1,6 @@
 # 68. Phase 1 Targeting-Value Readiness Memo
 
-> 状态：readiness scaffolding complete；等待 researcher review，未启动 paid pilot。
+> 状态：readiness scaffolding complete；pre-pilot correction implemented；等待 researcher review，未启动 paid pilot。
 > Branch: `exp/minimal-exploratory-memory-validation`
 > Carrier selected for scaffolding: pinned ALFWorld TextWorld only.
 
@@ -15,7 +15,7 @@
 1. C2 generic policy 的最终文字和 token/context budget 检查；
 2. 手工控制夹具 K* 是否足以作为 Phase 1 的 warm-start；
 3. ALFWorld lead pool 与 source/H family 的不重叠规则；
-4. 主 actor 的 no-H reliability screen 结果。
+4. 主 actor 的 C1 (`Actor + K*`) reliability screen 结果。
 
 ## 2. Fair C2
 
@@ -59,26 +59,36 @@ oracle action/outcome 或 comparative winner claim。
 
 ## 4. Public-only target registry
 
-`experiments/exploratory_memory_mvp/cases/phase1_registered_targets.json` 当前从 25 个
-ALFWorld train candidate IDs 中注册 20 个 target task IDs；另外 5 个已冻结 source task
-以公开、事前的 source-reservation 原因写入 `exclusion_reasons`。每条 target 记录只保存
-public task identity、public instruction、reset 后 actor-visible initial fingerprint、task family 和预先声明的 H-family key。
-registry 还保存：
+`experiments/exploratory_memory_mvp/cases/phase1_registered_targets.json` 当前由 pinned
+ALFWorld train split 的完整 54 个 task/trial 目录经 public-only reset eligibility builder
+生成，不再是手工 25-task candidate universe。registry 保存每一条 eligible public record
+（包含 public observation 和 ordered admissible actions），并通过稳定 hash partition 为：
 
-- candidate universe 及其 candidate-ID digest；
-- inclusion predicate；
-- 5 个 source-reservation `exclusion_reasons`，用于保证 source/target 不重叠；
+```text
+Source 5 / Calibration 15 / Target 20 / residual 14
+```
+
+每条 target 记录只保存 public task identity、public instruction、reset 后 actor-visible
+initial fingerprint、task family 和预先声明的 H-family key。registry 还保存：
+
+- 完整 candidate universe、candidate-ID digest 和 public-record digest；
+- inclusion predicate 与 partition salt/algorithm；
+- Source/Calibration/Residual 的 exclusion reasons，用于保证三组 partition 与 target 不重叠；
 - `human_review.performed = false` 的 provenance 声明；
 - registry digest：
-  `41bb0b42cb4dcdf4249027f36e9208d65ec85ccb5aabae791380aa71d9b3dd6f`。
+  `fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd`。
+- candidate IDs digest：
+  `6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283`。
+- partition digest：
+  `676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6`。
 
 `validate_target_registry()` 拒绝 evaluator/oracle fields、重复 ID、universe 外 target、
 错误 fingerprint 和不一致的 candidate-universe hash。target inclusion 不读取 static
 PDDL placement 或任何 C3/E1 outcome。当前 registry 已把现有 source task IDs 从 target
 列表中显式排除；如果 source/H family 再扩展，必须先更新 exclusion 记录和 registry digest，
-再运行 pilot。当前 20 个 target 的 `h_family_receptacle_search` 是 lead-carrier 的机械
-pool fixture，并不声称已经覆盖最终 pilot 所需的 5–8 个 source/H families；family 分层和
-source-target disjointness 仍须在 pilot freeze 前由研究者审定。它不是 automatic H retrieval。
+再运行 pilot。当前 20 个 target 的 `h_family_receptacle_search` 是 Phase 1A 的单一
+lead-family pool，并不声称已经覆盖 5–8 个 source/H families；本轮只做 receptacle-search
+targeting claim，不是 generality experiment，也不是 automatic H retrieval。
 
 ## 5. Carrier admission
 
@@ -95,9 +105,11 @@ ALFWorld，AppWorld 的状态回滚/actor/cost 风险保留为后续候选。
 
 ## 6. Main actor reliability gate
 
-`docs/67_phase1_actor_reliability_screening_protocol.md` 规定先做约 10–20 个 C0/no-H
-base tasks，记录：success、step-cap、semantic loop/drift、invalid index、steps/tool
-calls、tokens/cost。C1/C2/C3 必须共享通过筛选的同一 actor/config；memory intervention
+`docs/67_phase1_actor_reliability_screening_protocol.md` 规定先做约 15 个 C1
+(`Actor + K*`) calibration tasks，C0/no-H 只作为辅助诊断，记录：success、step-cap、
+semantic loop/drift、invalid index、steps/tool calls、tokens/cost。待 researcher review 的
+gate 是：invalid action index = 0、至少 12/15 C1 成功、至多 2/15 step-cap、至多 2/15
+clear semantic-loop。C1/C2/C3 必须共享通过筛选的同一 actor manifest；memory intervention
 不能补偿不可靠的基础执行器。
 
 本轮**没有**执行这个 paid screen，因此 Qwen3.8-Flash 仍只是当前 MVP 的 planning
@@ -142,10 +154,25 @@ free allowance、retry 和 provider-accounted bill 不纳入，因此这是上�
 网络延迟和失败重试。若改为模型生成 C2，另加最多 8 次 offline C2 calls；这不是当前
 canonical C2a protocol。
 
-## 9. Recommendation and non-claims
+## 9. Phase 1A scope and recommendation
 
-建议先由研究者 review docs/63–68，再决定是否运行 no-H actor screen；只有 actor gate、
-C2 token audit、source/target disjointness 和 target registry freeze 都通过后，才启动
+下一付费实验明确命名为 **Phase 1A — Receptacle-Search Targeting Pilot**。当前 20 个
+target 只代表一个预注册的 semantic unresolved-comparison family：
+`h_family_receptacle_search`。即使以后有多个独立 source-H instance，也不能把本轮写成
+5–8-family generality experiment。允许的窄 claim 是：
+
+> Does history-derived targeting add value over fair structured generic exploration for a
+> pre-registered receptacle-search comparison family?
+
+当前 target runner 还要求 registry digest、实际 reset fingerprint、requested seed、
+source-H manifest digest、H family/H assignment 全部通过后才执行 C1/C2/C3；默认空的
+source-H manifest 会 fail closed，等待下一 gate 填入真实 B/C artifacts。
+
+## 10. Recommendation and non-claims
+
+建议先由研究者 review docs/63–69，再决定是否运行 C1 actor screen；只有 actor gate、
+C2/C3 实际 token/context audit、source/calibration/target disjointness、source-H manifest
+freeze 和 target registry freeze 都通过后，才启动
 20-target pilot，再按 stop rule 决定是否扩到 30 targets。
 
 本轮不支持以下结论：C3 已优于 C2、H 在自然任务分布上普遍有用、Qwen3.8-Flash 已是可靠

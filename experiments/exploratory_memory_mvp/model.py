@@ -100,8 +100,20 @@ class DashScopeChatTransport:
 class DashScopeChatClient:
     """One-call-at-a-time client with the project's visible telemetry ledger."""
 
-    def __init__(self, transport):
+    def __init__(
+        self,
+        transport,
+        *,
+        model: str = MODEL,
+        temperature: float = 0.0,
+        thinking: bool = False,
+        provider: str = "dashscope",
+    ):
         self.transport = transport
+        self.model = model
+        self.temperature = temperature
+        self.thinking = thinking
+        self.provider = provider
         self.events: list[dict] = []
         self.usage = UsageTracker(on_event=self.events.append)
 
@@ -119,12 +131,12 @@ class DashScopeChatClient:
         if any(not isinstance(message.get("content"), str) for message in clean_messages):
             raise ValueError("Messages must have visible text content")
         payload = {
-            "model": MODEL,
+            "model": self.model,
             "messages": clean_messages,
-            "temperature": 0,
+            "temperature": self.temperature,
             "max_tokens": max_tokens,
             "stream": False,
-            "enable_thinking": False,
+            "enable_thinking": self.thinking,
             "preserve_thinking": False,
         }
         # Reserve the model's documented context ceiling conservatively.  The
@@ -151,8 +163,8 @@ class DashScopeChatClient:
             call = parse_usage(
                 response,
                 time.monotonic() - started,
-                provider="dashscope",
-                requested_model=MODEL,
+                provider=self.provider,
+                requested_model=self.model,
                 **metadata,
             )
             try:
@@ -175,8 +187,8 @@ class DashScopeChatClient:
                     None,
                     None,
                     time.monotonic() - started,
-                    provider="dashscope",
-                    requested_model=MODEL,
+                    provider=self.provider,
+                    requested_model=self.model,
                     status="failed_usage_unavailable",
                     accounting_trusted=False,
                     usage_issues=("usage_unavailable",),
@@ -220,7 +232,7 @@ def usage_report(client: DashScopeChatClient) -> dict:
         else:
             item["estimated_cost_cny"] = None
             if item.get("cached_input_tokens"):
-                item["cost_note"] = "cached Qwen3.8 tokens use a console-specific rate"
+                item["cost_note"] = "cached input tokens use a console-specific rate"
             cost_known = False
         if item.get("kind") == "generation":
             # CallUsage retains the shared ledger's USD generation invariant;
@@ -238,7 +250,7 @@ def usage_report(client: DashScopeChatClient) -> dict:
     report["pricing_source"] = PRICING_SOURCE
     report["pricing_basis"] = {
         "region": "Beijing",
-        "model": MODEL,
+        "model": client.model,
         "input_cny_per_million": 0.8,
         "output_cny_per_million": 2.7,
         "cached_input_rate": "not published; use the Model Studio console",

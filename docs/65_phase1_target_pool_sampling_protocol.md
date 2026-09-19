@@ -1,12 +1,25 @@
 # 65. Phase 1 Public-Only Target-Pool Sampling & Registry Protocol
 
-> 状态：Phase 1 目标池采样与注册规范（2026-09-18）
+> 状态：Phase 1 目标池采样与注册规范（2026-09-19，pre-pilot correction）
 > 分支：`exp/minimal-exploratory-memory-validation`
 > 对应任务：Phase 1 Targeting-Value Readiness — Deliverable C
 
 ---
 
 ## 1. 目标选择的硬性科研红线：前置注册与纯公开特征
+
+本轮修正废止了此前只保存 25 个候选 ID 的手工 candidate universe。当前实现先枚举
+pinned ALFWorld `train` split 的全部 task/trial 目录，再对每个 reset 只保存 actor-visible
+public state，最后执行确定性的 partition。完整实现见：
+
+```text
+experiments/exploratory_memory_mvp/phase1_population.py
+experiments/exploratory_memory_mvp/build_phase1_registry.py
+experiments/exploratory_memory_mvp/cases/phase1_source_tasks.json
+experiments/exploratory_memory_mvp/cases/phase1_registered_targets.json
+```
+
+当前 frozen artifact 包含 54 个 eligible public records，而不是只包含最终 20 个 target。
 
 在因果评估（Causal Evaluation）中，最为致命的隐性作弊是**结果驱动的样本挑选（Outcome-Driven Target Selection）**：
 - 研究者事先知道目标的隐藏真实状态（例如通过查看环境内部 PDDL 知道苹果实际上在台面上）；
@@ -82,20 +95,26 @@ flowchart TD
 
 ## 4. 注册表文件规范与 Schema
 
+下面的 JSON 只用于说明字段语义；`records`、`partitions` 和 `targets` 在实际冻结文件中
+是完整列表，不能把这个缩略示例直接当作 registry 输入。可加载的 schema 由
+`target_registry.py` 的 validator 强制执行。
+
 目标注册表保存为标准的 JSON 格式，存放于版本控制路径中：
 
 ```json
 {
-  "schema_version": "0.1",
-  "registry_id": "phase1_alfworld_lead_target_pool_v1",
+  "schema_version": "phase1-public-universe-partition-v2",
+  "registry_id": "phase1a_alfworld_public_universe_v2",
   "carrier": "alfworld_text",
   "split": "train",
   "created_at": "2026-09-19T00:00:00Z",
   "candidate_universe": {
     "source": "pinned ALFWorld train task IDs enumerated before outcomes",
     "candidate_ids": ["..."],
-    "candidate_count": 25,
-    "candidate_ids_sha256": "..."
+    "candidate_count": 54,
+    "candidate_ids_sha256": "6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283",
+    "records": "完整的 54 条 public-only record",
+    "records_sha256": "f0c2157f2a78bccc2a36750b696866c6f87a2fb570a3a6bc89f7bb5cc438ecf3"
   },
   "inclusion_criteria": {
     "public_task_families": [
@@ -145,14 +164,30 @@ flowchart TD
 - `matched_h_family`: 所匹配的探索记忆族标识符；
 - **严禁字段**：`oracle_location`、`true_object_receptacle`、`expected_winner` 等严禁出现。
 
-`candidate_universe`、`exclusion_reasons` 和 `human_review` 是 registry 的 provenance
-字段：candidate universe 可以包含后来被公开、预先声明地排除的 source task；当前 fixture
-把 5 个已冻结 H-source task IDs 记录在 `exclusion_reasons` 中，剩余 20 个进入 target
-列表，不能只保存最终 target 列表。`public_initial_fingerprint` 只由 reset 后 actor 可见的 observation、
-有序 admissible actions 和 `won` 组成；它不是 static PDDL/hash，也不暴露隐藏 placement。
+`candidate_universe.records` 只包含 `task_family`、公开 instruction、初始公开 observation、
+有序 `admissible_actions`、公开 affordance structure 和 public fingerprint。它不包含
+static PDDL、placement、专家轨迹或任何条件结果。`partitions` 通过固定 salt
+`phase1a-public-universe-partition-v1` 以及 public task family 分层 + SHA-256 排序生成：
 
-当前 registry digest 为：
-`41bb0b42cb4dcdf4249027f36e9208d65ec85ccb5aabae791380aa71d9b3dd6f`。
+```text
+Source      5   （固定 source reservation）
+Calibration 15  （独立 no-H actor gate）
+Target      20  （Phase 1A target scope）
+Residual    14  （public hash quota 外的 eligible candidates）
+```
+
+四个集合两两不交并覆盖完整 54 条 universe。当前 digests：
+
+```text
+candidate IDs:  6f12d1a1e26a9a5d5b95567a1b0900d08cce8b39d745939a8332b39b35cdb283
+public records: f0c2157f2a78bccc2a36750b696866c6f87a2fb570a3a6bc89f7bb5cc438ecf3
+partitions:     676eb88ac5c27db248aa71025ff0e7073850d89c3cd02f688180329dd8d3daf6
+registry:       fdd5b37024b71c2369ede7c56f37e8be87dfde4db851ece7a51fb4555da64dcd
+```
+
+`public_initial_fingerprint` 只由 reset 后 actor 可见的 observation、有序 admissible
+actions 和 `won` 组成；它不是 static PDDL/hash，也不暴露隐藏 placement。Runner 在实际
+episode 创建后重新计算该 fingerprint，并把它与 frozen registry 比较，失败即停止。
 
 ---
 

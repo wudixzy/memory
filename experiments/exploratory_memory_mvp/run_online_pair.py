@@ -36,6 +36,10 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     write_jsonl,
 )
 from exploratory_memory_mvp.model import MODEL, DashScopeChatClient  # noqa: E402
+from exploratory_memory_mvp.probe_budget import (  # noqa: E402
+    probe_budget_digest,
+    validate_probe_budget,
+)
 from exploratory_memory_mvp.prompts import actor_messages  # noqa: E402
 
 TERMINAL_PROBE_STATUSES = frozenset({"EVIDENCE_OBTAINED", "ABORTED"})
@@ -87,9 +91,13 @@ def _run_actor_condition(
     episode: StepwiseTask | None = None,
     pairing_proof: dict | None = None,
     pairing_role: str | None = None,
+    actor_manifest: dict | None = None,
+    probe_budget: dict | None = None,
 ) -> dict:
     """Run one condition while keeping the real carrier episode open."""
 
+    if probe_budget is not None:
+        probe_budget = validate_probe_budget(probe_budget)
     condition_dir = output / condition
     condition_dir.mkdir()
     steps_dir = condition_dir / "steps"
@@ -105,6 +113,12 @@ def _run_actor_condition(
         "runtime_probe_status": "NOT_ACTIVE",
         "probe_entry_action": None,
         "target_time_grounding": None,
+        "probe_budget": probe_budget,
+        "probe_budget_sha256": (
+            probe_budget_digest(probe_budget) if probe_budget is not None else None
+        ),
+        "probe_budget_exhausted": False,
+        "probe_budget_violation": None,
         "status": "started",
     }
     client = None
@@ -113,6 +127,7 @@ def _run_actor_condition(
     probe_action_history: list[str] = []
     probe_status_history: list[str] = []
     runtime_memory = exploratory_memory
+    probe_runtime_terminated = False
     execution = None
     try:
         if episode is None:
@@ -182,7 +197,15 @@ def _run_actor_condition(
 
                     transport = factory(case)
                     row["proxy_disabled"] = getattr(transport, "proxy_disabled", None)
-                    client = DashScopeChatClient(transport)
+                    client_kwargs = {}
+                    if actor_manifest is not None:
+                        client_kwargs = {
+                            "model": actor_manifest["model_name"],
+                            "temperature": actor_manifest["temperature"],
+                            "thinking": actor_manifest["thinking"],
+                            "provider": actor_manifest["provider"],
+                        }
+                    client = DashScopeChatClient(transport, **client_kwargs)
                 message = client.complete(
                     messages,
                     phase=f"actor_{condition}_step_{step_number}",
@@ -260,7 +283,47 @@ def _run_actor_condition(
                     probe_action_history.append(action)
                 if runtime_memory is not None and probe_status in TERMINAL_PROBE_STATUSES:
                     runtime_memory = None
+                    probe_runtime_terminated = True
                 row["runtime_probe_status"] = probe_status
+                probe_runtime_state_after = derive_probe_runtime_state(
+                    history, probe_action_history=probe_action_history
+                )
+                budget_check = {
+                    "configured": probe_budget is not None,
+                    "valid": True,
+                    "probe_action_count": probe_runtime_state_after["probe_action_count"],
+                    "distinct_candidate_visit_count": len(
+                        probe_runtime_state_after["visited_receptacles"]
+                    ),
+                    "violations": [],
+                }
+                if runtime_memory is not None and probe_budget is not None and probe_action_history:
+                    violations = []
+                    if (
+                        probe_runtime_state_after["probe_action_count"]
+                        > probe_budget["max_probe_actions"]
+                    ):
+                        violations.append("max_probe_actions_exceeded")
+                    if (
+                        len(probe_runtime_state_after["visited_receptacles"])
+                        > probe_budget["max_distinct_candidate_visits"]
+                    ):
+                        violations.append("max_distinct_candidate_visits_exceeded")
+                    budget_check["valid"] = not violations
+                    budget_check["violations"] = violations
+                    if violations:
+                        row["probe_budget_violation"] = violations
+                        runtime_memory = None
+                        probe_runtime_terminated = True
+                    elif (
+                        probe_runtime_state_after["probe_action_count"]
+                        >= probe_budget["max_probe_actions"]
+                        or len(probe_runtime_state_after["visited_receptacles"])
+                        >= probe_budget["max_distinct_candidate_visits"]
+                    ):
+                        row["probe_budget_exhausted"] = True
+                        runtime_memory = None
+                        probe_runtime_terminated = True
                 record.update(
                     {
                         "persistent_exploratory_status_after": row[
@@ -268,6 +331,8 @@ def _run_actor_condition(
                         ],
                         "runtime_exploratory_memory_retained_next_step": runtime_memory
                         is not None,
+                        "probe_runtime_state_after": probe_runtime_state_after,
+                        "probe_budget_check": budget_check,
                     }
                 )
                 _write_step_record(step_dir, record)
@@ -300,11 +365,13 @@ def _run_actor_condition(
                 "probe_evidence_ready": "EVIDENCE_OBTAINED" in probe_status_history,
                 "probe_stopped_locally": bool(
                     set(probe_status_history).intersection(TERMINAL_PROBE_STATUSES)
-                ),
+                )
+                or row["probe_budget_exhausted"]
+                or row["probe_budget_violation"] is not None,
                 "runtime_guidance_removed": (
                     exploratory_memory is not None
                     and runtime_memory is None
-                    and bool(set(probe_status_history).intersection(TERMINAL_PROBE_STATUSES))
+                    and probe_runtime_terminated
                 ),
                 "probe_follow_review": "",
                 "probe_informative_review": "",

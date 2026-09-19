@@ -1,0 +1,13 @@
+{
+  "schema_version": "phase1-source-reservation-v1",
+  "source_set_id": "phase1a_receptacle_search_sources_v1",
+  "source_task_ids": [
+    "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+    "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+    "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+    "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+    "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116"
+  ],
+  "source_task_ids_sha256": "a6c9d990b60d8563ba83baadd7845e1a8df440c8c371a15aadb62253860bf55d",
+  "selection_note": "Frozen source reservation; not selected from Phase 1 target outcomes."
+}

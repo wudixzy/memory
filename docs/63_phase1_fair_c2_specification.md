@@ -8,6 +8,20 @@
 
 ## 1. 科学问题与公平性核心原则
 
+本轮 pre-pilot correction 另外冻结一个不依赖语义解释的共享 local probe budget：
+
+```json
+{
+  "schema_version": "phase1-symmetric-local-probe-budget-v1",
+  "max_probe_actions": 4,
+  "max_distinct_candidate_visits": 2
+}
+```
+
+该 contract 同时进入 C2/C3 immutable run config；计数只来自真实执行的 action 和
+`probe_runtime_state`，不决定模型下一步选什么，也不提供 rule-based planner。C2/C3
+必须使用同一 `probe_budget_sha256`。
+
 在 Phase 1 中，本研究的核心科学检验是：
 
 $$
@@ -36,6 +50,11 @@ $$
    - $C2$ 的假设是**结构化泛化探索（Structured Generic Exploration）**，即指示智能体在承诺执行既定惯性路径之前，系统化地探测与既有路径不同的局部替代选项，但不包含任何“此前某任务在柜子寻找中受挫”的历史诊断，也不特异性地指定“去台面找”这一由历史推导出的特定替代方案；
    - Phase 1 的 C2a 使用一次冻结的、任务族级的 generic H artifact。它不读取 B/C 输出、source trajectory、source grounding、target registry 的 hidden fields 或任何 target outcome；C1/C2/C3 只在 actor prompt 中改变是否挂载这个 H，以及 C2/C3 的 H 内容；
 6. **严禁包含目标隐藏真值或评估者信息**：$C2$ 不得读取目标环境的真实物品位置、PDDL 隐藏事实、Oracle 演示序列或评估者标签。
+
+Actor backbone、temperature、thinking、step cap 和 actor prompt version 不由 C2/C3
+各自配置决定，而由 committed `phase1_actor_manifest.json` 冻结；C1/C2/C3 之间只允许
+H intervention 不同。当前 manifest 的 Qwen3.8-Flash 仍是待独立 reliability gate 的
+planning candidate，不是已经通过 gate 的科学结论。
 
 ---
 
