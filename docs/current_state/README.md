@@ -1,12 +1,27 @@
 # Exploratory Persistent Memory：当前状态总索引
 
-> 更新时间：2026-09-18  
+> 更新时间：2026-09-19  
 > 分支：exp/minimal-exploratory-memory-validation  
-> 当前基础设施/评测设计基线 commit：36d29c440906eaf0c8060f7c2c00174f9bdc00a8
+> 当前项目接手基线 commit：a738366b5d8e1905a430f2403bf85c1813cbfffd
 
 这组文档不是历史讨论日志，而是对当前项目共识、已经完成的验证、仍未解决的问题和下一阶段实验设计的整理。后续新参与者、新 Agent 或组会讨论应优先从这里进入；顶层 docs/ 中更早的文档主要用于追溯设计演化和实验细节。
 
-## 推荐阅读顺序
+## 新参与者最快接手路径
+
+如果目标是无缝加入当前讨论，不建议先从历史 docs 顺序读起。优先：
+
+1. [09_project_master_handoff.md](./09_project_master_handoff.md)  
+   单一 master handoff：背景、问题、方法、初始化、实验路线、证据等级、当前 Phase 1A 状态。
+
+2. [10_current_review_protocol.md](./10_current_review_protocol.md)  
+   当前 review contract：哪些已经接受、哪些是 blocker、怎样判断是否能进入 Actor Gate。
+
+3. 根目录 AGENTS.md  
+   当前 coding cycle 的实现边界和 stop rule。
+
+然后再按需要深入下面的专题文档。
+
+## 专题文档推荐阅读顺序
 
 1. [01_problem_and_contribution.md](./01_problem_and_contribution.md)  
    先理解为什么要做 exploratory persistent memory、核心问题是什么、我们真正声称的 contribution 是什么。
@@ -112,3 +127,13 @@
       -> Phase 5  Full native cold-start longitudinal system
 
 从 Phase 1 开始使用真实 benchmark task distribution，但仍属于 controlled benchmark-backed evaluation；Phase 3 才开始形成较正式的 method-level benchmark claim；Phase 5 才是完整 cold-start system 的正式 longitudinal benchmark evaluation。详见 [07_experiment_validation_roadmap.md](./07_experiment_validation_roadmap.md)。
+
+
+## 当前最重要入口
+
+- **完整项目交接**：[09_project_master_handoff.md](./09_project_master_handoff.md)
+- **当前 review 方法**：[10_current_review_protocol.md](./10_current_review_protocol.md)
+- **新参与者提示词**：docs/70_project_onboarding_prompt.md
+- **当前实现契约**：根目录 AGENTS.md
+
+当前状态不是“直接启动 paid pilot”。a738366... 之后仍需完成 Final Pre-Actor Patch：in-domain calibration、probe-budget fairness、live H referential integrity、public family applicability、actor gate status enforcement。通过 review 后才进入真实 Actor Gate / Source-H Freeze。

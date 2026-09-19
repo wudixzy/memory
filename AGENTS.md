@@ -4,159 +4,210 @@ This file defines the active implementation contract for branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1 Pre-Pilot Correction**.
+Current cycle: **Phase 1A Final Pre-Actor Patch**.
 
-Older pairing/action-index transition instructions are historical and do not override this file.
+The core method is frozen. The immediate goal is to close the last scientific
+invariants before the first real actor-calibration and source-H model calls.
 
-## 1. Current objective
+## 1. Required read order
 
-The core B/C/H/A method is frozen unless researcher review finds a concrete conceptual flaw.
+Before coding, read:
 
-The immediate goal is to mechanically enforce, but not yet execute at full scale, the first contribution test:
+1. docs/current_state/09_project_master_handoff.md
+2. docs/current_state/10_current_review_protocol.md
+3. docs/current_state/07_experiment_validation_roadmap.md
+4. docs/current_state/08_experiment_scale_and_model_budget.md
+5. docs/69_phase1_pre_pilot_correction_results.md
+6. current experiments/exploratory_memory_mvp/ code and focused tests
+7. this file
 
-    C3 history-derived targeted exploration
-    vs.
-    C2 fair structured generic exploration
+Historical docs 00–69 are evidence/evolution records and do not override the current-state docs.
 
-with C1 established-only as an auxiliary condition.
+## 2. Frozen scientific framing
 
-Read:
+Keep fixed unless new evidence proves a concrete flaw:
 
-    docs/current_state/07_experiment_validation_roadmap.md
-    docs/current_state/08_experiment_scale_and_model_budget.md
-    docs/62_phase1_targeting_pilot_coding_agent_prompt.md
+    Feasibility evidence != comparative evidence
 
-before changing experiment code.
+    K = K_established ∪ K_exploratory
 
-## 2. Scientific initialization boundary
+    B: identify a policy-relevant unresolved incumbent comparison
+    C: synthesize one grounded local adaptive probe
+    H: one-shot future-facing exploratory memory
+    A: reconcile only actually observed evidence
 
-Method-native cold start is:
+Keep heavy-offline / light-online architecture.
+
+Do not move B/C/A into the per-action online critical path.
+
+## 3. Method-native initialization
+
+The method definition is:
 
     G0 = G_tool
     K0_established = empty
     K0_exploratory = empty
     T0 = empty
 
-Phase 1 is deliberately different: it may use a fixed warm-start K* to isolate targeting value.
+Phase 1 uses a fixed warm-start K* only as an experimental control.
+Never describe K* as method-native initialization.
 
-Never describe K* as the method's native initialization.
+## 4. Current Phase 1A claim
 
-## 3. Frozen method structure
+The next contribution experiment is deliberately narrow:
 
-Keep frozen:
+    Phase 1A — Receptacle-Search Targeting Pilot
 
-- B diagnoses a policy-relevant unresolved incumbent comparison;
-- C synthesizes one grounded local adaptive probe;
-- H is future-facing, one-shot exploratory memory;
-- source grounding is creation-time provenance, not a future command;
-- online remains lightweight;
-- actor chooses one zero-based action_index per step;
-- probe_runtime_state contains mechanical facts only;
-- H persistent lifecycle is active -> consumed after first activation;
-- runtime H remains only until EVIDENCE_OBTAINED / ABORTED;
-- A sees actual E1 evidence only.
+It tests:
 
-Do not add semantic controllers/planners/fallback rules.
+    C3 history-derived targeted exploration
+    vs.
+    C2 fair structured generic exploration
 
-## 4. Current required work
+on one pre-registered semantic comparison family.
 
-This cycle should produce:
+It is not a general exploratory-memory benchmark claim.
 
-1. full pinned-split public-only eligible universe and deterministic partitions;
-2. registry-bound target execution and actual fingerprint checks;
-3. committed source-H provenance manifest and outcome-blind assignment;
-4. frozen actor manifest and symmetric probe budget;
-5. token/context audit tooling and C1-based actor gate protocol;
-6. focused no-model/fake-transport tests and correction memo.
+## 5. Already enforced and must not be weakened
 
-Do not make paid model/API calls or execute the Phase 1 matrix in this cycle.
+Preserve:
 
-## 5. New Phase 1 pre-pilot invariants
+- complete public-only eligible universe;
+- deterministic disjoint Source / Calibration / Target partitions;
+- target registry digest;
+- registered seed and actual public-fingerprint verification;
+- replayable actual-execution pairing proof;
+- action-index interface;
+- evaluator/oracle isolation;
+- future-facing C3 H only;
+- model-invisible source provenance;
+- source-H manifest and deterministic assignment;
+- actor manifest parity across C1/C2/C3;
+- K* parity;
+- failure artifact persistence.
 
-- `phase1_registered_targets.json` must contain the complete eligible public universe, not only
-  the final target list;
-- Source, Calibration and Target partitions must be disjoint, deterministic and outcome-blind;
-- scientific target execution must verify registry digest, registration, seed and actual public
-  reset fingerprint before C1/C2/C3;
-- C3 H must be registered in the source-H manifest and match the target's frozen H family;
-- C1/C2/C3 must share one frozen actor manifest and one symmetric mechanical probe budget;
-- source-H provenance, pairing metadata and evaluator-only fields remain model-invisible.
+## 6. Current required work: Final Pre-Actor Patch
 
-## 6. Current scale
+Only address these remaining review blockers.
 
-The future approved pilot is expected to be approximately:
+### A. Calibration domain
 
-    5–8 source/H families
-    20–30 unique target tasks
-    C1 / C2 / C3
-    2 repetitions / condition
-    = 120–180 actor episodes
+The hard actor gate must use in-domain Phase 1A task families.
 
-But this cycle must **not execute the full paid matrix**.
+Out-of-domain tasks may remain diagnostic only.
 
-Unique target task / source-target sequence is the scientific unit.
-Repetitions are nested repetitions, not independent samples.
+Selection must remain deterministic, outcome-blind and disjoint from Source/Target.
 
-## 7. Model policy
+### B. Probe budget fairness
 
-Current planning assumption:
+Do not hard-terminate on distinct receptacle count.
 
-    1 main actor
-    1 offline semantic backbone
+Use a shared mechanical probe-action cap as the hard budget.
 
-Do not add multiple backbones in the readiness cycle.
+Separate episode-level visited receptacles from probe-local visited receptacles.
+Probe-local facts must be derived only from probe actions.
 
-A secondary actor is a later robustness test only after Phase 1 has a stable signal.
+Do not add semantic candidate-completion rules or a next-action controller.
 
-All compared conditions must use the same actor/config.
+### C. Source-H referential integrity
 
-## 8. Benchmark policy
+Real H freeze must verify actual source set, canonical K*, source history artifact,
+B artifact, C artifact, projected future H, hashes and offline model/config.
 
-Audit 2–3 candidate benchmarks, <=10 real cases each.
+Do not accept arbitrary user-supplied SHA strings as scientific provenance.
 
-Do not integrate all of them.
+### D. Public H-family applicability
 
-Select at most one lead carrier for Phase 1 scaffolding after admission evidence.
+Define and enforce a public-only applicability contract for
+h_family_receptacle_search.
 
-Target selection must be pre-outcome and public-only. Never select because hidden evaluator information says H will help.
+Do not use hidden placement, PDDL, oracle route or target outcome.
+
+### E. Actor gate status
+
+Scientific Phase 1A execution must reject an actor manifest unless:
+
+    selection_status = passed_independent_reliability_gate
+
+Calibration mode may use a pending candidate.
+
+The current Qwen3.8-Flash manifest must remain pending in this no-model cycle.
+
+## 7. Provider scope
+
+Current executable model transport is DashScope-compatible.
+
+Do not claim arbitrary-provider support and do not build a generic provider abstraction in this cycle.
+
+## 8. No-model rule
+
+This cycle must make ZERO paid/model API calls.
+
+Do not:
+
+- run actor calibration;
+- generate live B/C Hs;
+- run target C1/C2/C3;
+- inspect hidden target outcomes;
+- modify source/target membership based on results.
 
 ## 9. Explicit non-goals
 
-Do not implement or run:
+Do not implement:
 
 - production Stage1;
-- native cold-start full memory formation;
 - automatic H retrieval;
-- C2b as a required pilot condition;
+- C2b;
 - longitudinal runner;
-- publication-scale statistics;
-- broad multi-model matrix;
-- broad multi-benchmark run.
+- graph planner;
+- VOI controller;
+- rule-based fallback;
+- multi-model matrix;
+- second benchmark integration.
 
-## 10. Existing infrastructure to preserve
+Do not redesign B/C/H/A.
 
-Reuse where appropriate:
+## 10. Required outputs
 
-- ALFWorld TextWorld carrier;
-- action-index interface;
-- current admissibility validation;
-- replayable episode specification;
-- actual execution pairing proof;
-- probe_runtime_state;
-- evaluator leakage checks;
-- H lifecycle;
-- E1-only A boundary;
-- telemetry/artifact persistence.
+Produce:
 
-Do not weaken these controls to simplify Phase 1.
+1. final no-model patch;
+2. updated frozen partitions/registries if calibration changes;
+3. probe-budget/runtime bookkeeping correction;
+4. live-H freeze referential validator;
+5. H-family public applicability contract;
+6. actor gate status enforcement;
+7. focused regression tests;
+8. concise result memo;
+9. executable templates for the next Actor Gate / H Freeze, but do not run them.
 
-## 11. Stop rule
+## 11. Review criteria
 
-After readiness artifacts, tests, and cost projection are complete:
+The authoritative review checklist is:
+
+    docs/current_state/10_current_review_protocol.md
+
+If a change cannot pass that review without looking at target outcomes, it is not acceptable.
+
+## 12. Verification
+
+Before commit:
+
+    git status
+    git diff
+    git diff --check
+
+Run focused tests, existing Phase 1/MVP regressions, Ruff and compile checks.
+
+Do not claim full-suite success if unrelated missing AppWorld fixtures still fail.
+
+## 13. Stop rule
+
+After the Final Pre-Actor Patch is implemented and verified:
 
     STOP
     commit
     push
     return for researcher review
 
-Do not launch the full paid Phase 1 matrix in the same cycle.
+Do not start Gate B1/B2 in the same cycle.

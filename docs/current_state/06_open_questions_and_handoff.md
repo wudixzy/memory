@@ -1,5 +1,10 @@
 # 06. 当前未决问题、接手指南与下一阶段决策
 
+> **2026-09-19 更新**：本文保留未决问题清单，但新参与者应优先阅读
+> [09_project_master_handoff.md](./09_project_master_handoff.md) 和
+> [10_current_review_protocol.md](./10_current_review_protocol.md)。
+> 当前 active cycle 已推进到 Phase 1A Final Pre-Actor Patch；本文部分早期 readiness 表述仅作演化记录。
+
 ## 1. 当前阶段判断
 
 项目已经从：
@@ -306,9 +311,9 @@ Branch：
 
     exp/minimal-exploratory-memory-validation
 
-当前 evaluation-transition baseline commit：
+当前 Phase 1A pre-pilot baseline commit：
 
-    36d29c440906eaf0c8060f7c2c00174f9bdc00a8
+    a738366b5d8e1905a430f2403bf85c1813cbfffd
 
 当前最重要历史文档：
 
