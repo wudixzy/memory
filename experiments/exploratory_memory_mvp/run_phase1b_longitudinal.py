@@ -68,6 +68,7 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     apply_a_updates,
     apply_comparison_evidence_assessment,
     build_a_input_for_task,
+    build_b_to_c_projection,
     build_evidence_package,
     build_longitudinal_b_input,
     build_longitudinal_c_input,
@@ -105,9 +106,9 @@ OFFLINE_MODEL_CONFIG = {
     "model_name": "qwen3.8-flash",
     "thinking": False,
     "temperature": 0.0,
-    "b_prompt_version": "phase1b-reuses-frozen-corrected-b-v1",
-    "c_prompt_version": "phase1b-reuses-frozen-local-c-v1",
-    "a_prompt_version": "phase1b-reuses-frozen-e1-only-a-v1",
+    "b_prompt_version": "phase1b-contract-only-handoff-v2",
+    "c_prompt_version": "phase1b-contract-only-handoff-v2",
+    "a_prompt_version": "phase1b-evidence-owned-output-v2",
     "retrieval_prompt_version": RETRIEVAL_SCHEMA,
     "reconciliation_prompt_version": RECONCILIATION_SCHEMA,
 }
@@ -755,33 +756,44 @@ def _run_task(
 
         c_parsed = None
         c_status: dict[str, Any] = {"status": "skipped_b_not_open"}
+        b_handoff = None
         if b_parsed is not None and b_parsed["decision"] == "OPEN":
             try:
-                c_input = build_longitudinal_c_input(
-                    b_input,
-                    b_parsed,
-                    initial_state,
-                    public_candidate_ids(initial_state),
-                )
-                write_json(task_dir / "c" / "c_input.json", c_input)
-                write_json(
-                    task_dir / "b_c_handoff" / "projection.json",
-                    c_input["b_handoff"],
-                )
-                c_parsed, c_status = _run_offline_branch(
-                    stage="c",
-                    messages=c_messages(c_input),
-                    output_dir=task_dir / "c",
-                    allow_network=allow_network,
-                    env_file=env_file,
-                    transport_factory=transport_factory,
-                    max_tokens=1600,
-                )
+                # Persist only the narrow handoff before constructing C input.
+                # The complete B result remains available in b/b_parsed.json.
+                b_handoff = build_b_to_c_projection(b_parsed)
+                write_json(task_dir / "b_c_handoff" / "projection.json", b_handoff)
             except Exception as error:
                 c_status = {"status": "b_to_c_handoff_invalid", "error": safe_error(error)}
                 write_json(task_dir / "b_c_handoff" / "validation_error.json", c_status["error"])
                 write_json(task_dir / "c" / "status.json", c_status)
                 _write_not_started(task_dir / "c")
+            if b_handoff is not None:
+                try:
+                    c_input = build_longitudinal_c_input(
+                        b_input,
+                        b_parsed,
+                        initial_state,
+                        public_candidate_ids(initial_state),
+                    )
+                    write_json(task_dir / "c" / "c_input.json", c_input)
+                    c_parsed, c_status = _run_offline_branch(
+                        stage="c",
+                        messages=c_messages(c_input),
+                        output_dir=task_dir / "c",
+                        allow_network=allow_network,
+                        env_file=env_file,
+                        transport_factory=transport_factory,
+                        max_tokens=1600,
+                    )
+                except Exception as error:
+                    c_status = {"status": "b_to_c_handoff_invalid", "error": safe_error(error)}
+                    write_json(
+                        task_dir / "b_c_handoff" / "validation_error.json",
+                        c_status["error"],
+                    )
+                    write_json(task_dir / "c" / "status.json", c_status)
+                    _write_not_started(task_dir / "c")
             if c_parsed is not None:
                 try:
                     c_parsed = validate_c_result(c_parsed)
@@ -801,7 +813,7 @@ def _run_task(
 
         reconciliation_parsed = None
         reconciliation_status: dict[str, Any] = {"status": "skipped_b_not_open"}
-        if b_parsed is not None and b_parsed["decision"] == "OPEN":
+        if b_parsed is not None and b_parsed["decision"] == "OPEN" and b_handoff is not None:
             reconciliation_input = build_reconciliation_input(
                 memory_before=memory_before,
                 evidence_package=evidence,
@@ -819,16 +831,50 @@ def _run_task(
             response_format = build_reconciliation_response_format(
                 reconciliation_input["existing_comparison_ids"]
             )
+            reconciliation_messages_value = reconciliation_messages(reconciliation_input)
+            write_json(
+                task_dir / "h_reconciliation" / "context_telemetry.json",
+                {
+                    "status": "assembled",
+                    "input_json_chars": len(
+                        json.dumps(reconciliation_input, ensure_ascii=False, sort_keys=True)
+                    ),
+                    "prompt_chars": sum(
+                        len(message.get("content", "")) for message in reconciliation_messages_value
+                    ),
+                    "input_tokens": None,
+                    "cached_input_tokens": None,
+                },
+            )
             reconciliation_parsed, reconciliation_status = _call_model(
                 directory=task_dir / "h_reconciliation",
                 phase="phase1b_h_reconciliation",
-                messages=reconciliation_messages(reconciliation_input),
+                messages=reconciliation_messages_value,
                 model_config=OFFLINE_MODEL_CONFIG,
                 allow_network=allow_network,
                 env_file=env_file,
                 transport_factory=transport_factory,
                 response_format=response_format,
                 max_tokens=None,
+            )
+            stage_usage = _stage_usage(task_dir / "h_reconciliation")
+            calls = stage_usage.get("calls", []) if isinstance(stage_usage, dict) else []
+            write_json(
+                task_dir / "h_reconciliation" / "context_telemetry.json",
+                {
+                    "status": "completed" if reconciliation_parsed is not None else "failed",
+                    "input_json_chars": len(
+                        json.dumps(reconciliation_input, ensure_ascii=False, sort_keys=True)
+                    ),
+                    "prompt_chars": sum(
+                        len(message.get("content", "")) for message in reconciliation_messages_value
+                    ),
+                    "input_tokens": sum(int(call.get("input_tokens", 0) or 0) for call in calls),
+                    "cached_input_tokens": sum(
+                        int(call.get("cached_input_tokens", 0) or 0) for call in calls
+                    ),
+                    "model_calls": len(calls),
+                },
             )
             if reconciliation_parsed is not None:
                 try:
@@ -848,6 +894,10 @@ def _run_task(
                         reconciliation_status["error"],
                     )
                     reconciliation_parsed = None
+        elif b_parsed is not None and b_parsed["decision"] == "OPEN":
+            reconciliation_status = {"status": "skipped_b_to_c_handoff_invalid"}
+            write_json(task_dir / "h_reconciliation" / "status.json", reconciliation_status)
+            _write_not_started(task_dir / "h_reconciliation")
         else:
             write_json(task_dir / "h_reconciliation" / "status.json", reconciliation_status)
             _write_not_started(task_dir / "h_reconciliation")
@@ -862,6 +912,9 @@ def _run_task(
                     a_parsed,
                     task_id=task["task_id"],
                     artifact_ref=str(task_dir / "a"),
+                    evidence_id=evidence["evidence_id"],
+                    consumed_h_id=h_id,
+                    comparison_id=(h_entry["comparison_id"] if h_entry is not None else None),
                 )
                 if h_id is not None:
                     h_for_assessment = next(
@@ -961,6 +1014,7 @@ def run_longitudinal_stream(
     output: Path,
     *,
     round_name: str,
+    task_count: int | None = None,
     stream_path: Path = DEFAULT_STREAM_PATH,
     allow_network: bool = False,
     env_file: Path = DEFAULT_ENV_FILE,
@@ -968,9 +1022,17 @@ def run_longitudinal_stream(
     episode_factory: Callable = StepwiseTask,
     prepare_only: bool = False,
 ) -> dict[str, Any]:
-    if round_name not in {"0", "1", "round0", "round1", "acceptance"}:
-        raise ValueError("round_name must identify Round-0, Round-1, or acceptance")
+    if round_name not in {"0", "1", "round0", "round1", "acceptance", "closure"}:
+        raise ValueError("round_name must identify Round-0, Round-1, acceptance, or closure")
+    if round_name == "closure" and task_count != 6:
+        raise ValueError("Phase 1B closure requires the fixed six-task prefix")
     stream = load_phase1b_stream(stream_path)
+    if task_count is None:
+        run_tasks = stream["tasks"]
+    else:
+        if type(task_count) is not int or task_count < 1 or task_count > len(stream["tasks"]):
+            raise ValueError("task_count must be a valid prefix length of the frozen stream")
+        run_tasks = stream["tasks"][:task_count]
     make_run_directory(output)
     run_config = {
         "schema_version": "phase1b-longitudinal-run-config-v1",
@@ -981,8 +1043,10 @@ def run_longitudinal_stream(
         "stream_path": str(stream_path),
         "stream_id": stream["stream_id"],
         "seed": stream["seed"],
-        "task_count": len(stream["tasks"]),
-        "tasks": stream["tasks"],
+        "source_stream_task_count": len(stream["tasks"]),
+        "task_count": len(run_tasks),
+        "tasks": run_tasks,
+        "prefix_length": len(run_tasks) if len(run_tasks) != len(stream["tasks"]) else None,
         "initialization": {
             "k_established": "canonical_phase1_k_star",
             "active_h": "empty",
@@ -999,13 +1063,23 @@ def run_longitudinal_stream(
     }
     write_json(output / "run_config.json", run_config)
     write_json(output / "stream.json", stream)
+    write_json(
+        output / "run_tasks.json",
+        {
+            "stream_id": stream["stream_id"],
+            "seed": stream["seed"],
+            "source_task_count": len(stream["tasks"]),
+            "task_count": len(run_tasks),
+            "tasks": run_tasks,
+        },
+    )
     if prepare_only:
         state = initial_memory_state()
         write_json(output / "memory_snapshots" / "M_000.json", state)
         plan = {
             "status": "prepared_only",
             "model_calls": 0,
-            "task_count": len(stream["tasks"]),
+            "task_count": len(run_tasks),
             "stream_id": stream["stream_id"],
             "round": round_name,
             "initial_memory_sha256": memory_state_digest(state),
@@ -1018,7 +1092,7 @@ def run_longitudinal_stream(
     rows = []
     ledger_timeline = []
     h_timeline = []
-    for index, task in enumerate(stream["tasks"], start=1):
+    for index, task in enumerate(run_tasks, start=1):
         row, memory = _run_task(
             index=index,
             task=task,
@@ -1051,8 +1125,10 @@ def run_longitudinal_stream(
         "schema_version": "phase1b-longitudinal-run-summary-v1",
         "round": round_name,
         "development_only": True,
-        "scientific_n": len(stream["tasks"]),
-        "episode_count": len(stream["tasks"]),
+        "scientific_n": len(run_tasks),
+        "episode_count": len(run_tasks),
+        "source_stream_task_count": len(stream["tasks"]),
+        "prefix_length": len(run_tasks) if len(run_tasks) != len(stream["tasks"]) else None,
         "results": rows,
         "completed_tasks": sum(row.get("status") == "completed" for row in rows),
         "target_acquired_tasks": sum(row.get("target_acquired") is True for row in rows),
@@ -1069,8 +1145,9 @@ def run_longitudinal_stream(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--round", required=True, choices=("0", "1", "round0", "round1", "acceptance")
+        "--round", required=True, choices=("0", "1", "round0", "round1", "acceptance", "closure")
     )
+    parser.add_argument("--task-count", type=int, default=None)
     parser.add_argument("--stream", type=Path, default=DEFAULT_STREAM_PATH)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
@@ -1080,6 +1157,7 @@ def main() -> None:
     run_longitudinal_stream(
         args.output,
         round_name=args.round,
+        task_count=args.task_count,
         stream_path=args.stream,
         allow_network=args.allow_network,
         env_file=args.env_file,

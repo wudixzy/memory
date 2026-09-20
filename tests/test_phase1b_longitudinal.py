@@ -284,6 +284,30 @@ class Phase1BContractTests(unittest.TestCase):
             config = json.loads((output / "run_config.json").read_text())
             self.assertEqual(config["round"], "acceptance")
 
+    def test_closure_prepare_only_is_fixed_six_task_prefix(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "closure"
+            result = run_longitudinal_stream(
+                output,
+                round_name="closure",
+                task_count=6,
+                prepare_only=True,
+            )
+            self.assertEqual(result["model_calls"], 0)
+            self.assertEqual(result["task_count"], 6)
+            config = json.loads((output / "run_config.json").read_text())
+            self.assertEqual(config["source_stream_task_count"], 12)
+            self.assertEqual(config["task_count"], 6)
+            self.assertEqual(len(config["tasks"]), 6)
+            self.assertEqual(config["prefix_length"], 6)
+            with self.assertRaises(ValueError):
+                run_longitudinal_stream(
+                    Path(temp_dir) / "bad-closure",
+                    round_name="closure",
+                    task_count=5,
+                    prepare_only=True,
+                )
+
     def test_retrieval_schema_is_active_pool_bound_and_fail_closed(self):
         response_format = build_retrieval_response_format(["h-1", "h-2"])
         self.assertEqual(
@@ -330,10 +354,14 @@ class Phase1BContractTests(unittest.TestCase):
         with self.assertRaises(SchemaError):
             validate_controlled_endpoint({**endpoint, "downstream_execution": "full_task"})
 
-    def test_reconciliation_input_exposes_exact_current_evidence_refs(self):
+    def test_reconciliation_input_is_compact_and_has_current_metadata_only(self):
         memory = initial_memory_state()
         memory["evidence_store"].append({"evidence_id": "evidence-old"})
-        evidence = {"evidence_id": "evidence-current"}
+        evidence = {
+            "evidence_id": "evidence-current",
+            "task": {"task_id": "fixture-task", "seed": 42},
+            "raw_trajectory": {"steps": ["must not be copied"]},
+        }
         result = build_reconciliation_input(
             memory_before=memory,
             evidence_package=evidence,
@@ -352,9 +380,13 @@ class Phase1BContractTests(unittest.TestCase):
             c_result=None,
             existing_comparison_ids=[],
         )
-        self.assertNotIn("current_evidence_id", result)
-        self.assertNotIn("available_evidence_refs", result)
-        self.assertEqual(result["actual_evidence"]["evidence_id"], "evidence-current")
+        self.assertEqual(result["current_episode"]["current_evidence_id"], "evidence-current")
+        self.assertEqual(result["current_episode"]["task_id"], "fixture-task")
+        self.assertNotIn("pre_update_memory", result)
+        self.assertNotIn("actual_evidence", result)
+        self.assertNotIn("evidence_store", result)
+        self.assertNotIn("raw_trajectory", json.dumps(result))
+        self.assertIn("existing_comparison_summaries", result)
 
     def test_reconciliation_schema_has_no_model_evidence_references_or_status(self):
         response_format = build_reconciliation_response_format([])
@@ -380,7 +412,7 @@ class Phase1BContractTests(unittest.TestCase):
             result,
         )
 
-    def test_b_to_c_projection_rejects_source_answer_and_drops_b_audit_fields(self):
+    def test_b_to_c_projection_drops_entity_b_audit_text_but_rejects_entity_contract(self):
         b_result = {
             "decision": "OPEN",
             "incumbent_segment": "the local search at countertop_3",
@@ -397,12 +429,19 @@ class Phase1BContractTests(unittest.TestCase):
             },
             "warrant": "open",
         }
-        with self.assertRaises(SchemaError):
-            build_b_to_c_projection(b_result)
-        b_result["incumbent_segment"] = "the local receptacle search"
         projection = build_b_to_c_projection(b_result)
+        self.assertEqual(set(projection), {"decision", "functional_contract"})
+        self.assertNotIn("incumbent_segment", projection)
         self.assertNotIn("evidence_status", projection)
         self.assertNotIn("warrant", projection)
+
+        b_result["incumbent_segment"] = "the local receptacle search"
+        b_result["functional_contract"]["local_function"] = "locate the object at countertop_3"
+        with self.assertRaises(SchemaError):
+            build_b_to_c_projection(b_result)
+        b_result["functional_contract"]["local_function"] = "locate the requested object"
+        projection = build_b_to_c_projection(b_result)
+        self.assertEqual(projection["decision"], "OPEN")
 
     def test_phase1b_a_schema_and_target_operations_are_real(self):
         memory = initial_memory_state()
@@ -417,7 +456,6 @@ class Phase1BContractTests(unittest.TestCase):
             "scope": "narrow public search scope",
             "guidance": "retain the established public search order",
             "evidence_basis": "actual public evidence",
-            "provenance": ["fixture/a"],
         }
         result = {
             "decision": "UPDATE",
@@ -432,9 +470,23 @@ class Phase1BContractTests(unittest.TestCase):
             has_consumed_h=False,
             has_actual_probe_evidence=False,
         )
-        apply_a_updates(memory, result, task_id="fixture-task", artifact_ref="fixture/a")
+        response_properties = response_format["json_schema"]["schema"]["properties"]
+        self.assertNotIn("provenance", response_properties["updates"]["items"]["properties"])
+        apply_a_updates(
+            memory,
+            result,
+            task_id="fixture-task",
+            artifact_ref="fixture/a",
+            evidence_id="evidence-fixture",
+            consumed_h_id="h-fixture",
+            comparison_id="comparison-fixture",
+        )
         self.assertEqual(memory["established_memories"][0]["guidance"], update["guidance"])
         self.assertTrue(memory["established_memories"][0]["versions"])
+        binding = memory["established_memories"][0]["prior_comparison_evidence"]["binding"]
+        self.assertEqual(binding["evidence_id"], "evidence-fixture")
+        self.assertEqual(binding["consumed_h_id"], "h-fixture")
+        self.assertNotIn("provenance", update)
 
     def test_temporal_evidence_binds_later_exposure_and_acquisition_events(self):
         task = load_phase1b_stream()["tasks"][0]

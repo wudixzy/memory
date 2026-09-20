@@ -29,6 +29,10 @@ longitudinal exploratory-memory system.
 A and B/C were evaluated from the same pre-update memory. Your job is only to
 reconcile comparison/H identity and lifecycle for the already proposed
 semantic outputs and actual public evidence.
+The supplied input is a compact identity context: existing comparison
+summaries, linked H summaries, and the current episode's sanitized B/C/A
+summaries. The durable evidence archive and historical raw trajectories are
+stored outside this prompt and are not available here.
 Do not invent a probe, action, alternative, or evidence. If a C candidate is
 kept, it must remain exactly the candidate proposed by C; the runner will
 store its future-facing projection. If evidence is insufficient, use
@@ -73,7 +77,8 @@ Answer only:
 
 The input is E1-only: pre-update established memory, one consumed H when it
 was activated, the actual public trajectory/probe/evidence, outcome/cost, and
-provenance. It contains no counterfactual, evaluator label, oracle answer, or
+runner-supplied provenance context. It contains no counterfactual, evaluator
+label, oracle answer, or
 researcher conclusion. The temporal_facts object is authoritative for entry
 visibility and event order: do not call a target initially visible unless
 entry_target_visible=true, and treat later exposure as later evidence.
@@ -87,9 +92,9 @@ produced observations for later judgment; it does not prove the hypothesis.
 Set comparison_assessment to REMAINS_OPEN, PARTIALLY_RESOLVED, or RESOLVED.
 Without an actual activated/probed H, never choose RESOLVED. One local episode
 normally cannot prove global superiority. Preserve negative and inconclusive
-evidence. The runner binds the consumed H's mechanically known comparison id
-and current evidence id; do not output evidence IDs or evidence-reference
-lists.
+evidence. The runner binds the consumed H's mechanically known comparison id,
+current evidence id, task id, artifact path, and memory lineage. Do not output
+evidence IDs, artifact paths, provenance, or evidence-reference lists.
 
 For established memory updates, use ADD with no target ids, REFINE or
 SPECIALIZE with exactly one existing target memory id, and MERGE with at least
@@ -105,8 +110,7 @@ Return exactly one JSON object with fields:
     "target_memory_ids":[],
     "scope":"...",
     "guidance":"...",
-    "evidence_basis":"...",
-    "provenance":["..."]
+    "evidence_basis":"..."
   }],
   "still_unresolved":["..."]
 }

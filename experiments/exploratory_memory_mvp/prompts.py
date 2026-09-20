@@ -132,9 +132,9 @@ memory, and the real ALFWorld capability evidence. The local packet is
 deliberately not the completed source trajectory. Do not ask for or reconstruct
 later source observations.
 
-The B-to-C handoff contains only decision=OPEN, an abstract incumbent segment,
-and an abstract Functional Contract. It deliberately omits B's evidence
-status, warrant, later source observations, source entity IDs, and any concrete
+The B-to-C handoff contains only decision=OPEN and an abstract Functional
+Contract. It deliberately omits B's incumbent segment, evidence status,
+warrant, later source observations, source entity IDs, and any concrete
 alternative. Do not reconstruct those omitted details.
 
 The capability evidence has two different meanings:
