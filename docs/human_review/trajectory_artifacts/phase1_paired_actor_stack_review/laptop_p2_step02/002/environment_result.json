@@ -1,0 +1,26 @@
+{
+  "action": "take laptop_1 from bed_1",
+  "admissible_actions": [
+    "examine bed_1",
+    "examine laptop_1",
+    "go to desk_1",
+    "go to drawer_1",
+    "go to drawer_2",
+    "go to drawer_3",
+    "go to drawer_4",
+    "go to drawer_5",
+    "go to garbagecan_1",
+    "go to laundryhamper_1",
+    "go to shelf_1",
+    "go to sidetable_1",
+    "inventory",
+    "look",
+    "put laptop_1 in/on bed_1"
+  ],
+  "done": false,
+  "executed": true,
+  "observation": "You take laptop_1 from bed_1.",
+  "reward": 0.0,
+  "step": 2,
+  "won": false
+}

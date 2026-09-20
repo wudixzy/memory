@@ -1,0 +1,171 @@
+{
+  "current_state": {
+    "admissible_actions": [
+      "close fridge_1",
+      "cool egg_2 with fridge_1",
+      "examine egg_2",
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "put egg_2 in/on fridge_1"
+    ],
+    "done": false,
+    "observation": "You are facing fridge_1 (is open). Next to it, you see nothing.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "cool some mug and put it in shelf.",
+    "seed": 42,
+    "task_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020"
+  },
+  "interaction_history": [
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_32. cabinet_1 is closed."
+    },
+    {
+      "action": "open cabinet_1",
+      "observation": "You open cabinet_1. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_36. cabinet_2 is closed."
+    },
+    {
+      "action": "open cabinet_2",
+      "observation": "You open cabinet_2. In cabinet_2, you see winebottle_1."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "go to countertop_2",
+      "observation": "You arrive at loc_1. On countertop_2, you see egg_2, houseplant_1, mug_1, peppershaker_1, potato_3, and saltshaker_2."
+    },
+    {
+      "action": "take egg_2 from countertop_2",
+      "observation": "You take egg_2 from countertop_2."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing countertop_2. Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are carrying: egg_2."
+    },
+    {
+      "action": "put egg_2 in/on countertop_2",
+      "observation": "You put egg_2 in/on countertop_2."
+    },
+    {
+      "action": "take egg_2 from countertop_2",
+      "observation": "You take egg_2 from countertop_2."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing countertop_2. Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are carrying: egg_2."
+    },
+    {
+      "action": "go to stoveburner_3",
+      "observation": "You arrive at loc_40. On stoveburner_3, you see pot_2."
+    },
+    {
+      "action": "go to toaster_1",
+      "observation": "You arrive at loc_12. On toaster_1, you see nothing."
+    },
+    {
+      "action": "go to fridge_1",
+      "observation": "You arrive at loc_16. fridge_1 is closed."
+    },
+    {
+      "action": "open fridge_1",
+      "observation": "You open fridge_1. In fridge_1, you see apple_1, plate_1, potato_2, and tomato_1."
+    },
+    {
+      "action": "cool egg_2 with fridge_1",
+      "observation": "You cool egg_2 using fridge_1."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing fridge_1 (is open). Next to it, you see nothing."
+    }
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the requested object is acquired, stop generic search and follow the task-required downstream routine.",
+      "memory_id": "development-search-listed-order-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "memory_id": "development-clean-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "memory_id": "development-heat-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "memory_id": "development-cool-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "cabinet_1",
+      "cabinet_2",
+      "countertop_2",
+      "stoveburner_3",
+      "toaster_1",
+      "fridge_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "current_state": {
+    "admissible_actions": [
+      "examine cellphone_1",
+      "examine desk_1",
+      "go to bed_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to garbagecan_1",
+      "go to laundryhamper_1",
+      "go to shelf_1",
+      "go to sidetable_1",
+      "inventory",
+      "look",
+      "put cellphone_1 in/on desk_1",
+      "use desklamp_1"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1.",
+    "won": false
+  },
+  "current_task": {
+    "instruction": "put some laptop on desk.",
+    "seed": 42,
+    "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389"
+  },
+  "executed_action_history": [
+    "go to bed_1",
+    "take cellphone_1 from bed_1",
+    "go to desk_1"
+  ],
+  "pre_update_established_memories": [
+    {
+      "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the requested object is acquired, stop generic search and follow the task-required downstream routine.",
+      "memory_id": "development-search-listed-order-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct cleaning operation (clean <object> with <sinkbasin>) when a suitable sinkbasin is available, then continue the task-required downstream placement.",
+      "memory_id": "development-clean-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cleaning an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct heating operation (heat <object> with <microwave>) when a suitable microwave is available, then continue the task-required downstream placement.",
+      "memory_id": "development-heat-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring heating an acquired object before final placement."
+    },
+    {
+      "guidance": "After acquiring the target object, use the carrier's direct cooling operation (cool <object> with <fridge>) when a suitable fridge is available, then continue the task-required downstream placement.",
+      "memory_id": "development-cool-then-place-routine-v2b",
+      "prior_comparison_evidence": null,
+      "scope": "ALFWorld tasks requiring cooling an acquired object before final placement."
+    }
+  ],
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "bed_1",
+      "desk_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  }
+}

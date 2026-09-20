@@ -1,0 +1,27 @@
+{
+  "action": "examine cabinet_2",
+  "admissible_actions": [
+    "close cabinet_2",
+    "examine cabinet_2",
+    "examine towel_1",
+    "go to cabinet_1",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to countertop_1",
+    "go to garbagecan_1",
+    "go to handtowelholder_1",
+    "go to sinkbasin_1",
+    "go to sinkbasin_2",
+    "go to toilet_1",
+    "go to toiletpaperhanger_1",
+    "go to towelholder_1",
+    "inventory",
+    "look"
+  ],
+  "done": false,
+  "executed": true,
+  "observation": "In cabinet_2, you see cloth_1, and soapbottle_2.",
+  "reward": 0.0,
+  "step": 13,
+  "won": false
+}

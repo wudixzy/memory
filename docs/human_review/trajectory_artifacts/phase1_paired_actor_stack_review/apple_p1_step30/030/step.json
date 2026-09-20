@@ -1,0 +1,486 @@
+{
+  "action_index": 23,
+  "action_observation_history": [
+    {
+      "action": "go to coffeemachine_1",
+      "observation": "You arrive at loc_18. On coffeemachine_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_19. cabinet_1 is closed."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_20. cabinet_2 is closed."
+    },
+    {
+      "action": "open cabinet_2",
+      "observation": "You open cabinet_2. In cabinet_2, you see nothing."
+    },
+    {
+      "action": "go to cabinet_3",
+      "observation": "You arrive at loc_17. cabinet_3 is closed."
+    },
+    {
+      "action": "open cabinet_3",
+      "observation": "You open cabinet_3. In cabinet_3, you see bowl_1."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is closed), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "open cabinet_6",
+      "observation": "You open cabinet_6. In cabinet_6, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is open), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is open), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_19. cabinet_1 is closed."
+    },
+    {
+      "action": "open cabinet_1",
+      "observation": "You open cabinet_1. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_10",
+      "observation": "You arrive at loc_3. cabinet_10 is closed."
+    },
+    {
+      "action": "open cabinet_10",
+      "observation": "You open cabinet_10. In cabinet_10, you see nothing."
+    },
+    {
+      "action": "go to fridge_1",
+      "observation": "You arrive at loc_5. fridge_1 is closed."
+    },
+    {
+      "action": "open fridge_1",
+      "observation": "You open fridge_1. In fridge_1, you see apple_3, lettuce_1, mug_1, pan_2, potato_2, and tomato_1."
+    },
+    {
+      "action": "take apple_3 from fridge_1",
+      "observation": "You take apple_3 from fridge_1."
+    }
+  ],
+  "action_validation": {
+    "action_index": 23,
+    "admissible_actions": [
+      "close fridge_1",
+      "cool apple_3 with fridge_1",
+      "examine apple_3",
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_12",
+      "go to cabinet_13",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to diningtable_1",
+      "go to drawer_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "put apple_3 in/on fridge_1"
+    ],
+    "issue": null,
+    "resolved_action": "go to shelf_1",
+    "valid": true
+  },
+  "actor_result": {
+    "action_index": 23,
+    "probe_status": "NOT_ACTIVE"
+  },
+  "current_admissible_actions": [
+    "close fridge_1",
+    "cool apple_3 with fridge_1",
+    "examine apple_3",
+    "examine fridge_1",
+    "go to cabinet_1",
+    "go to cabinet_10",
+    "go to cabinet_11",
+    "go to cabinet_12",
+    "go to cabinet_13",
+    "go to cabinet_2",
+    "go to cabinet_3",
+    "go to cabinet_4",
+    "go to cabinet_5",
+    "go to cabinet_6",
+    "go to cabinet_7",
+    "go to cabinet_8",
+    "go to cabinet_9",
+    "go to coffeemachine_1",
+    "go to countertop_1",
+    "go to diningtable_1",
+    "go to drawer_1",
+    "go to garbagecan_1",
+    "go to microwave_1",
+    "go to shelf_1",
+    "go to shelf_2",
+    "go to shelf_3",
+    "go to sinkbasin_1",
+    "go to stoveburner_1",
+    "go to stoveburner_2",
+    "go to stoveburner_3",
+    "go to stoveburner_4",
+    "go to toaster_1",
+    "inventory",
+    "look",
+    "put apple_3 in/on fridge_1"
+  ],
+  "current_state": {
+    "admissible_actions": [
+      "close fridge_1",
+      "cool apple_3 with fridge_1",
+      "examine apple_3",
+      "examine fridge_1",
+      "go to cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_12",
+      "go to cabinet_13",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to diningtable_1",
+      "go to drawer_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "put apple_3 in/on fridge_1"
+    ],
+    "done": false,
+    "observation": "You take apple_3 from fridge_1.",
+    "won": false
+  },
+  "environment_result": {
+    "action": "go to shelf_1",
+    "admissible_actions": [
+      "examine apple_3",
+      "examine shelf_1",
+      "go to cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_12",
+      "go to cabinet_13",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to diningtable_1",
+      "go to drawer_1",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "executed": true,
+    "observation": "You arrive at loc_13. On shelf_1, you see dishsponge_1, and winebottle_1.",
+    "reward": 0.0,
+    "step": 30,
+    "won": false
+  },
+  "executed": true,
+  "executed_action_history": [
+    "go to coffeemachine_1",
+    "go to cabinet_1",
+    "inventory",
+    "look",
+    "inventory",
+    "inventory",
+    "look",
+    "look",
+    "inventory",
+    "go to cabinet_2",
+    "open cabinet_2",
+    "go to cabinet_3",
+    "open cabinet_3",
+    "look",
+    "open cabinet_6",
+    "look",
+    "inventory",
+    "inventory",
+    "inventory",
+    "inventory",
+    "look",
+    "inventory",
+    "go to cabinet_1",
+    "open cabinet_1",
+    "go to cabinet_10",
+    "open cabinet_10",
+    "go to fridge_1",
+    "open fridge_1",
+    "take apple_3 from fridge_1"
+  ],
+  "exploratory_memory_visible": false,
+  "interaction_history": [
+    {
+      "action": "go to coffeemachine_1",
+      "observation": "You arrive at loc_18. On coffeemachine_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_19. cabinet_1 is closed."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_1 (is closed). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "go to cabinet_2",
+      "observation": "You arrive at loc_20. cabinet_2 is closed."
+    },
+    {
+      "action": "open cabinet_2",
+      "observation": "You open cabinet_2. In cabinet_2, you see nothing."
+    },
+    {
+      "action": "go to cabinet_3",
+      "observation": "You arrive at loc_17. cabinet_3 is closed."
+    },
+    {
+      "action": "open cabinet_3",
+      "observation": "You open cabinet_3. In cabinet_3, you see bowl_1."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is closed), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "open cabinet_6",
+      "observation": "You open cabinet_6. In cabinet_6, you see nothing."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is open), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "look",
+      "observation": "You are facing cabinet_6 (is open), and cabinet_3 (is open). Next to it, you see nothing."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are not carrying anything."
+    },
+    {
+      "action": "go to cabinet_1",
+      "observation": "You arrive at loc_19. cabinet_1 is closed."
+    },
+    {
+      "action": "open cabinet_1",
+      "observation": "You open cabinet_1. In cabinet_1, you see nothing."
+    },
+    {
+      "action": "go to cabinet_10",
+      "observation": "You arrive at loc_3. cabinet_10 is closed."
+    },
+    {
+      "action": "open cabinet_10",
+      "observation": "You open cabinet_10. In cabinet_10, you see nothing."
+    },
+    {
+      "action": "go to fridge_1",
+      "observation": "You arrive at loc_5. fridge_1 is closed."
+    },
+    {
+      "action": "open fridge_1",
+      "observation": "You open fridge_1. In fridge_1, you see apple_3, lettuce_1, mug_1, pan_2, potato_2, and tomato_1."
+    },
+    {
+      "action": "take apple_3 from fridge_1",
+      "observation": "You take apple_3 from fridge_1."
+    }
+  ],
+  "persistent_exploratory_status": "not_present",
+  "persistent_exploratory_status_after": "not_present",
+  "probe_budget_check": {
+    "configured": false,
+    "distinct_candidate_visit_count": 0,
+    "distinct_candidate_visit_limit_reached": false,
+    "max_distinct_candidate_visits": null,
+    "max_probe_actions": null,
+    "probe_action_count": 0,
+    "valid": true,
+    "violations": []
+  },
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "coffeemachine_1",
+      "cabinet_1",
+      "cabinet_2",
+      "cabinet_3",
+      "cabinet_10",
+      "fridge_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_runtime_state_after": {
+    "episode_visited_receptacles": [
+      "coffeemachine_1",
+      "cabinet_1",
+      "cabinet_2",
+      "cabinet_3",
+      "cabinet_10",
+      "fridge_1",
+      "shelf_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_status": "NOT_ACTIVE",
+  "resolved_action": "go to shelf_1",
+  "runtime_exploratory_memory_retained_next_step": false,
+  "runtime_probe_status_before_call": "NOT_ACTIVE",
+  "selected_action": "go to shelf_1",
+  "step": 30
+}

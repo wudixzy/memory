@@ -1,0 +1,234 @@
+{
+  "action_index": 14,
+  "action_observation_history": [
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see cellphone_1, laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "take cellphone_1 from bed_1",
+      "observation": "You take cellphone_1 from bed_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    },
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are carrying: cellphone_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    },
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "put cellphone_1 in/on bed_1",
+      "observation": "You put cellphone_1 in/on bed_1."
+    },
+    {
+      "action": "take laptop_1 from bed_1",
+      "observation": "You take laptop_1 from bed_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    }
+  ],
+  "action_validation": {
+    "action_index": 14,
+    "admissible_actions": [
+      "examine desk_1",
+      "examine laptop_1",
+      "go to bed_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to garbagecan_1",
+      "go to laundryhamper_1",
+      "go to shelf_1",
+      "go to sidetable_1",
+      "inventory",
+      "look",
+      "put laptop_1 in/on desk_1",
+      "use desklamp_1"
+    ],
+    "issue": null,
+    "resolved_action": "put laptop_1 in/on desk_1",
+    "valid": true
+  },
+  "actor_result": {
+    "action_index": 14,
+    "probe_status": "NOT_ACTIVE"
+  },
+  "current_admissible_actions": [
+    "examine desk_1",
+    "examine laptop_1",
+    "go to bed_1",
+    "go to drawer_1",
+    "go to drawer_2",
+    "go to drawer_3",
+    "go to drawer_4",
+    "go to drawer_5",
+    "go to garbagecan_1",
+    "go to laundryhamper_1",
+    "go to shelf_1",
+    "go to sidetable_1",
+    "inventory",
+    "look",
+    "put laptop_1 in/on desk_1",
+    "use desklamp_1"
+  ],
+  "current_state": {
+    "admissible_actions": [
+      "examine desk_1",
+      "examine laptop_1",
+      "go to bed_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to garbagecan_1",
+      "go to laundryhamper_1",
+      "go to shelf_1",
+      "go to sidetable_1",
+      "inventory",
+      "look",
+      "put laptop_1 in/on desk_1",
+      "use desklamp_1"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1.",
+    "won": false
+  },
+  "environment_result": {
+    "action": "put laptop_1 in/on desk_1",
+    "admissible_actions": [
+      "examine desk_1",
+      "go to bed_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to garbagecan_1",
+      "go to laundryhamper_1",
+      "go to shelf_1",
+      "go to sidetable_1",
+      "inventory",
+      "look",
+      "take cellphone_3 from desk_1",
+      "take keychain_1 from desk_1",
+      "take laptop_1 from desk_1",
+      "use desklamp_1"
+    ],
+    "done": true,
+    "executed": true,
+    "observation": "You put laptop_1 in/on desk_1.",
+    "reward": 1.0,
+    "step": 11,
+    "won": true
+  },
+  "executed": true,
+  "executed_action_history": [
+    "go to bed_1",
+    "take cellphone_1 from bed_1",
+    "go to desk_1",
+    "go to bed_1",
+    "inventory",
+    "go to desk_1",
+    "go to bed_1",
+    "put cellphone_1 in/on bed_1",
+    "take laptop_1 from bed_1",
+    "go to desk_1"
+  ],
+  "exploratory_memory_visible": false,
+  "interaction_history": [
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see cellphone_1, laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "take cellphone_1 from bed_1",
+      "observation": "You take cellphone_1 from bed_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    },
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "inventory",
+      "observation": "You are carrying: cellphone_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    },
+    {
+      "action": "go to bed_1",
+      "observation": "You arrive at loc_10. On bed_1, you see laptop_2, laptop_1, pillow_1, and teddybear_1."
+    },
+    {
+      "action": "put cellphone_1 in/on bed_1",
+      "observation": "You put cellphone_1 in/on bed_1."
+    },
+    {
+      "action": "take laptop_1 from bed_1",
+      "observation": "You take laptop_1 from bed_1."
+    },
+    {
+      "action": "go to desk_1",
+      "observation": "You arrive at loc_1. On desk_1, you see cellphone_3, desklamp_1, and keychain_1."
+    }
+  ],
+  "persistent_exploratory_status": "not_present",
+  "persistent_exploratory_status_after": "not_present",
+  "probe_budget_check": {
+    "configured": false,
+    "distinct_candidate_visit_count": 0,
+    "distinct_candidate_visit_limit_reached": false,
+    "max_distinct_candidate_visits": null,
+    "max_probe_actions": null,
+    "probe_action_count": 0,
+    "valid": true,
+    "violations": []
+  },
+  "probe_runtime_state": {
+    "episode_visited_receptacles": [
+      "bed_1",
+      "desk_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_runtime_state_after": {
+    "episode_visited_receptacles": [
+      "bed_1",
+      "desk_1"
+    ],
+    "probe_action_count": 0,
+    "probe_visited_receptacles": [],
+    "visited_receptacles": []
+  },
+  "probe_status": "NOT_ACTIVE",
+  "resolved_action": "put laptop_1 in/on desk_1",
+  "runtime_exploratory_memory_retained_next_step": false,
+  "runtime_probe_status_before_call": "NOT_ACTIVE",
+  "selected_action": "put laptop_1 in/on desk_1",
+  "step": 11
+}
