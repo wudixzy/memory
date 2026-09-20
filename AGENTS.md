@@ -1,75 +1,57 @@
 # AGENTS.md
 
-This file defines the active implementation contract for branch:
+This file defines the active contract for:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1A Paired Actor-Stack Diagnostic (P0/P1/P2)**.
+Current cycle: **Manual Paired-Trajectory Review — NO MODEL CALLS**.
 
-Baseline review commit:
+Baseline:
 
-    4e9a0b4845c46253d9da2042309aa02e0c00b8bc
+    5f7baf13af59f8d1e0180e7dff38ce8ec8b77c9d
 
-Read before coding:
+Read:
 
-1. docs/74_phase1_actor_stack_d1_d2_results.md
-2. docs/75_phase1_paired_actor_stack_diagnostic_plan.md
-3. docs/human_review/trajectory_artifacts/phase1_actor_stack_core/README.md
-4. current paired-runner / actor-stack code and tests
+1. docs/76_phase1_paired_actor_stack_p0_p1_p2_results.md
+2. docs/77_manual_paired_trajectory_review_plan.md
+3. the full local paired runtime artifacts
 
-The method is frozen. This cycle only isolates actor-stack confounds.
+Primary runtime root:
+
+    artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1
 
 ## Authorized work
 
-Implement exactly:
+Manually compare the replay-paired P0/P1/P2 trajectories for the five frozen development tasks.
 
-- P0 = canonical K* v1 + action-only history;
-- P1 = minimal carrier-correct K* v2b + action-only history;
-- P2 = same K* v2b + one model-visible raw `interaction_history`.
+Focus on first meaningful divergences and observable causal evidence:
 
-K* v2b must preserve the original ordered-search incumbent and only fix downstream carrier semantics.
+    actor input -> K*/history difference -> model output -> action -> environment result
 
-For each task, P0/P1/P2 must execute from the same frozen replay specification and save verified pairwise pairing proofs.
+Produce:
 
-Run only the frozen five development tasks:
+- docs/77_phase1_paired_actor_stack_manual_trajectory_review.md
+- a small tracked reviewer-evidence packet containing only the original step artifacts needed to
+  support key divergence claims.
 
-- Laptop → Desk
-- SoapBar → Cabinet
-- Apple → Fridge
-- Mug → Shelf
-- Mug → CoffeeMachine
+Read all five tasks; prioritize Laptop, Apple, SoapBar, Shelf Mug, CoffeeMachine Mug.
 
-Total = 15 development episodes.
+## Review questions
 
-## Model-facing P2 history
+Decide from trajectories:
 
-P2 may expose:
+- whether K* v2b is helpful, harmful, or unclear;
+- whether unified interaction history provides concrete value;
+- which errors remain strong model-side reliability evidence;
+- exactly one recommended next direction.
 
-    interaction_history = [{action, observation}, ...]
-
-Do not also expose duplicate full action-only history to the model.
-
-Do not add semantic phase/state, summaries, action filtering, planning rules, or next-action recommendations.
-
-## Trajectory retention
-
-Keep complete non-overwriting trajectories for all 15 episodes, including replay/pairing evidence, step inputs/outputs, actions, observations, usage and errors.
-
-Result memo must record exact artifact paths.
+Do not decide from aggregate success alone.
 
 ## Forbidden
 
-Do not:
+ZERO model/API calls.
 
-- execute the reserved 12-task Gate B1-R;
-- change actor model or prompt;
-- run B2/B3 or Phase 1A targets;
-- promote K* v2b or actor status;
-- add semantic controllers;
-- modify Source/Target membership.
+Do not rerun experiments, execute Gate B1-R, change model/prompt/K*, run B2/B3/targets, add semantic
+controllers, or promote actor/K* status.
 
-## Verification and stop
-
-Before model calls: focused tests, relevant regressions, Ruff, compile checks, `git diff --check`, then commit/push the no-model transition.
-
-After 15 paired episodes: preserve trajectories, write result memo, commit/push, STOP for researcher review.
+Preserve the complete runtime root. Commit/push the manual review and evidence packet, then STOP.
