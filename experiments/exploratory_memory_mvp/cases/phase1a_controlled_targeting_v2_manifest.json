@@ -1,0 +1,13 @@
+{
+  "schema_version": "phase1a-controlled-targeting-v2-manifest",
+  "protocol_id": "phase1a-controlled-targeting-v2",
+  "provider": "dashscope",
+  "model_name": "qwen3.8-max",
+  "thinking": false,
+  "temperature": 0,
+  "selector_prompt_version": "phase1a-controlled-candidate-selector-v1",
+  "action_interface": "zero_based_candidate_index",
+  "max_candidate_probes": 2,
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "manifest_sha256": "70bf47b1b0f3990384e7c87cc6a2cc1b09b4f136527fd0d9467eb520d1759a85"
+}

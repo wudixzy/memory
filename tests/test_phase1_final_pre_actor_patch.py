@@ -297,9 +297,18 @@ class Phase1FinalPreActorPatchTests(unittest.TestCase):
             },
         )
         write_json(source_history, {"task_id": source_task_id, "seed": 42, "steps": []})
+        source_history_sha256 = compute_file_sha256(source_history)
+        source_binding = {
+            "source_task_id": source_task_id,
+            "source_task_seed": 42,
+            "source_history_identity": f"sha256:{source_history_sha256}",
+            "source_history_sha256": source_history_sha256,
+        }
         write_json(
             b_artifact,
             {
+                "artifact_schema_version": "phase1a-source-offline-artifact-v1",
+                "source_binding": source_binding,
                 "offline_model_config": offline_config,
                 "result": {
                     "decision": "OPEN",
@@ -344,7 +353,12 @@ class Phase1FinalPreActorPatchTests(unittest.TestCase):
         }
         write_json(
             c_artifact,
-            {"offline_model_config": offline_config, "result": c_result},
+            {
+                "artifact_schema_version": "phase1a-source-offline-artifact-v1",
+                "source_binding": source_binding,
+                "offline_model_config": offline_config,
+                "result": c_result,
+            },
         )
         entry = freeze_source_h_entry(
             h_id="h_freeze_fixture",

@@ -72,6 +72,14 @@ H_ENTRY_KEYS = frozenset(
 OFFLINE_CONFIG_KEYS = frozenset(
     {"provider", "model_name", "thinking", "temperature", "prompt_version"}
 )
+SOURCE_BINDING_KEYS = frozenset(
+    {
+        "source_task_id",
+        "source_task_seed",
+        "source_history_identity",
+        "source_history_sha256",
+    }
+)
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 FUTURE_H_KEYS = frozenset({"type", "scope", "hypothesis", "guidance", "probe_policy"})
 
@@ -302,10 +310,27 @@ def _validate_recorded_offline_config(value: Any, label: str) -> dict[str, Any] 
     return value
 
 
-def _load_c_result_artifact(path: Path) -> tuple[dict[str, Any], dict[str, Any] | None]:
+def _validate_source_binding(value: Any, label: str) -> dict[str, Any]:
+    """Validate the source identity carried by a B/C freeze artifact."""
+
+    if not isinstance(value, dict) or set(value) != SOURCE_BINDING_KEYS:
+        raise SchemaError(f"{label} source_binding is missing or malformed")
+    _nonempty_string(value["source_task_id"], f"{label}.source_binding.source_task_id")
+    if type(value["source_task_seed"]) is not int:
+        raise SchemaError(f"{label}.source_binding.source_task_seed must be an integer")
+    _assert_sha(value["source_history_sha256"], f"{label}.source_binding.source_history_sha256")
+    if value["source_history_identity"] != f"sha256:{value['source_history_sha256']}":
+        raise SchemaError(f"{label}.source_binding.source_history_identity is inconsistent")
+    return value
+
+
+def _load_c_result_artifact(
+    path: Path,
+) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any]]:
     from exploratory_memory_mvp.common import validate_c_result  # noqa: PLC0415
 
     result = _read_json_artifact(path, "C")
+    source_binding = _validate_source_binding(result.get("source_binding"), "C")
     recorded_config = _validate_recorded_offline_config(
         result.get("offline_model_config"), "C"
     )
@@ -316,13 +341,16 @@ def _load_c_result_artifact(path: Path) -> tuple[dict[str, Any], dict[str, Any] 
     elif isinstance(result.get("result"), dict):
         result = result["result"]
     validate_c_result(result)
-    return result, recorded_config
+    return result, recorded_config, source_binding
 
 
-def _load_b_result_artifact(path: Path) -> tuple[dict[str, Any], dict[str, Any] | None]:
+def _load_b_result_artifact(
+    path: Path,
+) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any]]:
     from exploratory_memory_mvp.common import validate_b_result  # noqa: PLC0415
 
     result = _read_json_artifact(path, "B")
+    source_binding = _validate_source_binding(result.get("source_binding"), "B")
     recorded_config = _validate_recorded_offline_config(
         result.get("offline_model_config"), "B"
     )
@@ -331,7 +359,7 @@ def _load_b_result_artifact(path: Path) -> tuple[dict[str, Any], dict[str, Any] 
     elif isinstance(result.get("result"), dict):
         result = result["result"]
     validate_b_result(result)
-    return result, recorded_config
+    return result, recorded_config, source_binding
 
 
 def freeze_source_h_entry(
@@ -377,10 +405,18 @@ def freeze_source_h_entry(
     identity = _source_artifact_identity(source_history)
     if identity != (source_task_id, source_record["requested_seed"]):
         raise SchemaError("Source history artifact task/seed does not match frozen source")
-    b_result, b_recorded_config = _load_b_result_artifact(b_artifact_path)
+    b_result, b_recorded_config, b_binding = _load_b_result_artifact(b_artifact_path)
     if b_result["decision"] != "OPEN":
         raise SchemaError("Cannot freeze a source H from a B=NONE artifact")
-    c_result, c_recorded_config = _load_c_result_artifact(c_artifact_path)
+    c_result, c_recorded_config, c_binding = _load_c_result_artifact(c_artifact_path)
+    expected_binding = {
+        "source_task_id": source_task_id,
+        "source_task_seed": source_record["requested_seed"],
+        "source_history_identity": f"sha256:{source_history_sha256}",
+        "source_history_sha256": source_history_sha256,
+    }
+    if b_binding != expected_binding or c_binding != expected_binding:
+        raise SchemaError("B/C source binding does not match the actual frozen source history")
     if b_recorded_config is None or c_recorded_config is None:
         raise SchemaError(
             "B and C freeze artifacts must embed offline_model_config; a separate claim is "
@@ -452,8 +488,16 @@ def validate_frozen_h_entry_artifacts(
         source_record["requested_seed"],
     ):
         raise SchemaError("Source history task/seed identity does not match frozen H")
-    c_result, c_recorded_config = _load_c_result_artifact(c_artifact_path)
-    b_result, b_recorded_config = _load_b_result_artifact(b_artifact_path)
+    c_result, c_recorded_config, c_binding = _load_c_result_artifact(c_artifact_path)
+    b_result, b_recorded_config, b_binding = _load_b_result_artifact(b_artifact_path)
+    expected_binding = {
+        "source_task_id": entry["source_task_id"],
+        "source_task_seed": entry["source_task_seed"],
+        "source_history_identity": f"sha256:{entry['source_history_sha256']}",
+        "source_history_sha256": entry["source_history_sha256"],
+    }
+    if b_binding != expected_binding or c_binding != expected_binding:
+        raise SchemaError("Frozen B/C source binding does not match the source-H entry")
     if b_result["decision"] != "OPEN":
         raise SchemaError("Frozen source H must retain a B=OPEN artifact")
     if b_recorded_config is None or c_recorded_config is None:
