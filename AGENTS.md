@@ -4,54 +4,71 @@ This file defines the active contract for:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Manual Paired-Trajectory Review — NO MODEL CALLS**.
+Current cycle: **P3 Missing-Cell Interface Diagnostic**.
 
 Baseline:
 
-    5f7baf13af59f8d1e0180e7dff38ce8ec8b77c9d
+    84ce06ca5a54df0a30589db683938f6c4c8baddc
 
 Read:
 
-1. docs/76_phase1_paired_actor_stack_p0_p1_p2_results.md
-2. docs/77_manual_paired_trajectory_review_plan.md
-3. the full local paired runtime artifacts
-
-Primary runtime root:
-
-    artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1
+1. docs/77_phase1_paired_actor_stack_manual_trajectory_review.md
+2. docs/78_p3_missing_cell_interface_diagnostic_plan.md
+3. docs/76_phase1_paired_actor_stack_p0_p1_p2_results.md
 
 ## Authorized work
 
-Manually compare the replay-paired P0/P1/P2 trajectories for the five frozen development tasks.
+Run exactly one missing development cell:
 
-Focus on first meaningful divergences and observable causal evidence:
+    P3 = canonical K* v1 + unified interaction_history
 
-    actor input -> K*/history difference -> model output -> action -> environment result
+on exactly:
 
-Produce:
+- Laptop -> Desk
+- Apple -> Fridge
 
-- docs/77_phase1_paired_actor_stack_manual_trajectory_review.md
-- a small tracked reviewer-evidence packet containing only the original step artifacts needed to
-  support key divergence claims.
+Total = 2 actor episodes.
 
-Read all five tasks; prioritize Laptop, Apple, SoapBar, Shelf Mug, CoffeeMachine Mug.
+P3 is development evidence only, not admission evidence.
 
-## Review questions
+## Replay requirement
 
-Decide from trajectories:
+Reuse the exact stored replay specifications from:
 
-- whether K* v2b is helpful, harmful, or unclear;
-- whether unified interaction history provides concrete value;
-- which errors remain strong model-side reliability evidence;
-- exactly one recommended next direction.
+    artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1
 
-Do not decide from aggregate success alone.
+Prove P3 uses the same stored realization and public initial fingerprint as the prior paired run.
+Fail closed before model calls if this cannot be established.
+
+Do not rerun P0/P1/P2 actors.
+
+## P3 interface
+
+Use unchanged:
+
+- canonical K* v1;
+- Qwen3.8-Flash;
+- actor prompt/config;
+- step cap/action-index.
+
+Model-visible history is only:
+
+    interaction_history = [{action, observation}, ...]
+
+Do not also expose duplicate full executed_action_history/action_observation_history to the model.
+Do not add semantic state, summaries, action filtering, planning, or controller logic.
+
+## Workflow
+
+Before model calls: implement P3 path, freeze two-task manifest, add replay validation/tests, run
+focused tests/Ruff/compile/diff-check, commit/push transition.
+
+Then run exactly 2 P3 episodes, preserve full trajectories, write a concise result memo with exact
+artifact paths, commit/push, and STOP.
 
 ## Forbidden
 
-ZERO model/API calls.
+Do not execute Gate B1-R, test another model, change prompt/K*, run B2/B3/targets, create P4/P5,
+or promote actor/K* status.
 
-Do not rerun experiments, execute Gate B1-R, change model/prompt/K*, run B2/B3/targets, add semantic
-controllers, or promote actor/K* status.
-
-Preserve the complete runtime root. Commit/push the manual review and evidence packet, then STOP.
+P3 is the final actor-interface development diagnostic.
