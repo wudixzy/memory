@@ -1,0 +1,45 @@
+{
+  "actual_execution_episodes": {
+    "e0": {
+      "game_file_sha256": "c97efbf83bb119ee260f90bd460b8b89c642ff13640fd826f0f91e5e444fead4",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885/game.tw-pddl",
+      "initial_public_state_fingerprint": "33d4d086db9816ed8f705be3b2016fa1e63b284c0c81dcb7812e6ff6ea7aab4a",
+      "initial_state_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+      "pddl_problem_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+      "requested_seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885"
+    },
+    "e1": {
+      "game_file_sha256": "c97efbf83bb119ee260f90bd460b8b89c642ff13640fd826f0f91e5e444fead4",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885/game.tw-pddl",
+      "initial_public_state_fingerprint": "33d4d086db9816ed8f705be3b2016fa1e63b284c0c81dcb7812e6ff6ea7aab4a",
+      "initial_state_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+      "pddl_problem_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+      "requested_seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885"
+    }
+  },
+  "condition_roles": {
+    "C2": "e0",
+    "C3": "e1"
+  },
+  "e0_initial_fingerprint": "33d4d086db9816ed8f705be3b2016fa1e63b284c0c81dcb7812e6ff6ea7aab4a",
+  "e1_initial_fingerprint": "33d4d086db9816ed8f705be3b2016fa1e63b284c0c81dcb7812e6ff6ea7aab4a",
+  "game_file_sha256": "c97efbf83bb119ee260f90bd460b8b89c642ff13640fd826f0f91e5e444fead4",
+  "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885/game.tw-pddl",
+  "initial_state_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+  "pairing_mode": "replayable_episode_spec",
+  "pairing_valid": true,
+  "pddl_problem_sha256": "13d4dee4bfb3fa44869127df6fd578b8b56762f01c7575c39e1c753d16a505d0",
+  "public_initial_match": true,
+  "requested_seed": 42,
+  "schema_version": "0.1",
+  "task_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885",
+  "underlying_state_match_evidence": {
+    "cached_pddl_matches_initial_state": true,
+    "carrier_state_construction": "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs GameProgression from that static problem without object-placement RNG.",
+    "same_game_file_sha256": true,
+    "same_initial_state_sha256": true,
+    "same_pddl_problem_sha256": true
+  }
+}

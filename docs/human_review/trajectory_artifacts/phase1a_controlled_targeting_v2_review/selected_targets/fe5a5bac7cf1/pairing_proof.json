@@ -1,0 +1,45 @@
+{
+  "actual_execution_episodes": {
+    "e0": {
+      "game_file_sha256": "1f4385b2fbef5dc5c668e450e4ce5abed4bcd400afeb61074710ef33e5281468",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006/game.tw-pddl",
+      "initial_public_state_fingerprint": "03bed48d4d29da4d6029e26ec0571d9c9a07251c452730083b2b1099c04d6ef0",
+      "initial_state_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+      "pddl_problem_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+      "requested_seed": 42,
+      "task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006"
+    },
+    "e1": {
+      "game_file_sha256": "1f4385b2fbef5dc5c668e450e4ce5abed4bcd400afeb61074710ef33e5281468",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006/game.tw-pddl",
+      "initial_public_state_fingerprint": "03bed48d4d29da4d6029e26ec0571d9c9a07251c452730083b2b1099c04d6ef0",
+      "initial_state_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+      "pddl_problem_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+      "requested_seed": 42,
+      "task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006"
+    }
+  },
+  "condition_roles": {
+    "C2": "e0",
+    "C3": "e1"
+  },
+  "e0_initial_fingerprint": "03bed48d4d29da4d6029e26ec0571d9c9a07251c452730083b2b1099c04d6ef0",
+  "e1_initial_fingerprint": "03bed48d4d29da4d6029e26ec0571d9c9a07251c452730083b2b1099c04d6ef0",
+  "game_file_sha256": "1f4385b2fbef5dc5c668e450e4ce5abed4bcd400afeb61074710ef33e5281468",
+  "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006/game.tw-pddl",
+  "initial_state_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+  "pairing_mode": "replayable_episode_spec",
+  "pairing_valid": true,
+  "pddl_problem_sha256": "e97187f88958dfcea848e0f04f03289ac06da9d09066ffe1b5d6475eeb7cf64e",
+  "public_initial_match": true,
+  "requested_seed": 42,
+  "schema_version": "0.1",
+  "task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006",
+  "underlying_state_match_evidence": {
+    "cached_pddl_matches_initial_state": true,
+    "carrier_state_construction": "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs GameProgression from that static problem without object-placement RNG.",
+    "same_game_file_sha256": true,
+    "same_initial_state_sha256": true,
+    "same_pddl_problem_sha256": true
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+  "b_artifact_sha256": "2d66faa010675939979aaea3e8fddbbb90e14ac463a028cf5e9e566533742851",
+  "c_artifact_sha256": "8ab8df3214dbc0d5b35187eacf0f4d88e5d6a6c7e834c9897b8dd3a0ba186be4",
+  "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+  "future_h": {
+    "guidance": "Navigate to an available open surface first. If the target is not found, proceed to other open surfaces before inspecting closed storage units.",
+    "hypothesis": "Prioritizing high-probability open surfaces (countertops, sinks) before enclosed storage (cabinets, drawers) reduces search steps compared to exhaustive sequential inspection of all receptacles.",
+    "probe_policy": {
+      "adaptive_policy": "Select a navigation action toward a countertop or sinkbasin from the admissible list. Upon arrival, check for the target object. If absent, select another open surface. Only after exhausting open surfaces should the agent navigate to cabinets or drawers.",
+      "capability_requirements": [
+        "Navigation to visible receptacles",
+        "Object detection upon arrival"
+      ],
+      "evidence_goal": "Step count required to locate the target object compared to baseline exhaustive search.",
+      "local_function": "Receptacle search ordering heuristic",
+      "realization_pattern": "Heuristic prioritization of likely locations over exhaustive enumeration",
+      "required_downstream_state": "Agent holding the target object",
+      "stop_conditions": [
+        "Target object located on an open surface",
+        "All open surfaces inspected without finding target",
+        "Maximum probe steps reached"
+      ]
+    },
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple receptacle types are present.",
+    "type": "exploratory"
+  },
+  "future_h_sha256": "e8f21135f8f788b05f5d8acfe194b2096853933e5e948217eb233a73e213dfa3",
+  "h_family_id": "h_family_receptacle_search",
+  "h_id": "phase1a-source-h-03",
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "offline_model_config": {
+    "model_name": "qwen3.8-flash",
+    "prompt_version": "phase1a-b-optimized-c-local-v1",
+    "provider": "dashscope",
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "source_history_identity": "sha256:807d2c99113d8e29aafdf332f9ccfbc06ad6919aba5ad09656504421ebebe27c",
+  "source_history_sha256": "807d2c99113d8e29aafdf332f9ccfbc06ad6919aba5ad09656504421ebebe27c",
+  "source_task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+  "source_task_seed": 42
+}

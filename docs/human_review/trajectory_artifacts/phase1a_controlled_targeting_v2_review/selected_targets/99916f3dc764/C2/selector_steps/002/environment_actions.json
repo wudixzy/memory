@@ -1,0 +1,52 @@
+{
+  "actions": [
+    "go to countertop_2"
+  ],
+  "current_state_after_probe": {
+    "admissible_actions": [
+      "examine countertop_2",
+      "go to cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to diningtable_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "take dishsponge_1 from countertop_2",
+      "take egg_1 from countertop_2",
+      "take potato_1 from countertop_2",
+      "take potato_2 from countertop_2",
+      "take soapbottle_1 from countertop_2",
+      "take spatula_1 from countertop_2",
+      "take spatula_2 from countertop_2",
+      "take tomato_1 from countertop_2"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_20. On countertop_2, you see dishsponge_1, egg_1, potato_2, potato_1, soapbottle_1, spatula_2, spatula_1, and tomato_1.",
+    "won": false
+  },
+  "observations": [
+    "You arrive at loc_20. On countertop_2, you see dishsponge_1, egg_1, potato_2, potato_1, soapbottle_1, spatula_2, spatula_1, and tomato_1."
+  ]
+}

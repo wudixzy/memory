@@ -36,6 +36,12 @@ targets:
 artifacts/exploratory_memory_mvp/phase1a-controlled-targeting-v2-targets-20260920-4f01e89
 ```
 
+> Documentation correction (forensic audit, 2026-09-20): the per-target H labels
+> in the original table below were transcribed incorrectly in several rows. The
+> corrected labels below are copied from the frozen runtime
+> `target_h_assignments.json`. No runtime artifact, outcome, assignment digest,
+> or source-H manifest was changed.
+
 The first target launch attempt failed before `make_run_directory` because a shell
 variable was not passed into the nested shell, leaving `--output` as `.`. It made no
 model call and no episode artifact. The same frozen command was then launched with
@@ -110,22 +116,22 @@ probes; when both arms fail or tie on probes it is `TIE`.
 | `clean/Apple -> Fridge-27` | h-02 | — | — | TIE |
 | `cool/Pot -> Shelf-1` | h-00 | A/1 | A/1 | TIE |
 | `heat/Egg -> GarbageCan-2` | h-03 | A/2 | — | C2 |
-| `cool/Lettuce -> DiningTable-21` | h-00 | — | — | TIE |
-| `heat/Egg -> SideTable-21` | h-01 | A/1 | A/2 | C2 |
+| `cool/Lettuce -> DiningTable-21` | h-02 | — | — | TIE |
+| `heat/Egg -> SideTable-21` | h-02 | A/1 | A/2 | C2 |
 | `clean/Ladle -> DiningTable-27` | h-03 | A/2 | A/2 | TIE |
-| `cool/Bread -> CounterTop-7` | h-03 | — | — | TIE |
-| `simple/Book -> Sofa-229` | h-01 | A/1 | A/1 | TIE |
-| `heat/Mug -> Cabinet-20` | h-02 | — | — | TIE |
+| `cool/Bread -> CounterTop-7` | h-01 | — | — | TIE |
+| `simple/Book -> Sofa-229` | h-02 | A/1 | A/1 | TIE |
+| `heat/Mug -> Cabinet-20` | h-01 | — | — | TIE |
 | `clean/DishSponge -> Toilet-427` | h-03 | A/1 | — | C2 |
 | `clean/DishSponge -> Cabinet-414` | h-01 | — | — | TIE |
-| `clean/Apple -> Microwave-14` | h-02 | — | — | TIE |
+| `clean/Apple -> Microwave-14` | h-03 | — | — | TIE |
 | `heat/Apple -> GarbageCan-12` | h-03 | — | A/1 | C3 |
 | `heat/Potato -> GarbageCan-14` | h-03 | — | A/2 | C3 |
-| `cool/Bread -> CounterTop-15` | h-03 | — | — | TIE |
+| `cool/Bread -> CounterTop-15` | h-00 | — | — | TIE |
 | `cool/WineBottle -> Cabinet-17` | h-03 | — | — | TIE |
 | `cool/Mug -> CoffeeMachine-30` | h-01 | — | A/1 | C3 |
 | `cool/Cup -> Microwave-30` | h-01 | — | — | TIE |
-| `heat/Plate -> CounterTop-28` | h-01 | — | — | TIE |
+| `heat/Plate -> CounterTop-28` | h-00 | — | — | TIE |
 
 Mechanical aggregate:
 

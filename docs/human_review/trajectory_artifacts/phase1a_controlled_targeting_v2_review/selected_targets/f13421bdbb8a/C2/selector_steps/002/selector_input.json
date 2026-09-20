@@ -1,0 +1,72 @@
+{
+  "current_observation": "You arrive at loc_4. On cabinet_1, you see nothing.",
+  "established_search_guidance": {
+    "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+    "memory_id": "established-search-listed-order-general",
+    "prior_comparison_evidence": null,
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+  },
+  "exploratory_memory": {
+    "guidance": "Before following the established sequence, probe available unvisited receptacles in the immediate area. Check whether the target object is present. If found, acquire it and proceed. If the local probe does not reveal the object, abort the probe and resume the established routine.",
+    "hypothesis": "Probing accessible unvisited candidate receptacles before committing to a default sequence can locate the required object in fewer actions.",
+    "probe_policy": {
+      "adaptive_policy": "1. Identify visible unvisited receptacles that are admissible alternatives to the next default candidate. 2. Navigate to and inspect one candidate. 3. If the target is observed, acquire it and declare evidence obtained. 4. If the local probe is exhausted, abort and resume the established routine.",
+      "capability_requirements": [
+        "Navigation to visible receptacles",
+        "Receptacle inspection (opening or surface viewing)",
+        "Fallback to established sequence upon negative result"
+      ],
+      "evidence_goal": "Determine whether an alternate nearby candidate yields the required object faster than the default sequence without violating task constraints.",
+      "local_function": "Probing alternative candidate receptacles prior to committing to the default search sequence.",
+      "realization_pattern": "Alternate Candidate Probing: systematically test alternative unvisited visible receptacles before executing the default path.",
+      "required_downstream_state": "Agent carrying the target object, ready to continue downstream processing and destination placement.",
+      "stop_conditions": [
+        "Target object is found and acquired.",
+        "All alternate local candidates have been inspected without finding the object.",
+        "Local exploration step cap reached."
+      ]
+    },
+    "scope": "ALFWorld tasks in family 'pick_clean_then_place_in_recep' where the target object is not visible in the initial observation and multiple candidate receptacles exist.",
+    "type": "exploratory"
+  },
+  "inspected_candidate_ledger": [
+    {
+      "candidate_id": "cabinet_1",
+      "environment_actions": [
+        "go to cabinet_1"
+      ],
+      "observations": [
+        "You arrive at loc_4. On cabinet_1, you see nothing."
+      ]
+    }
+  ],
+  "remaining_candidates": [
+    "cabinet_10",
+    "cabinet_11",
+    "cabinet_12",
+    "cabinet_2",
+    "cabinet_3",
+    "cabinet_4",
+    "cabinet_5",
+    "cabinet_6",
+    "cabinet_8",
+    "cabinet_9",
+    "coffeemachine_1",
+    "countertop_1",
+    "countertop_2",
+    "diningtable_1",
+    "drawer_1",
+    "drawer_2",
+    "drawer_3",
+    "fridge_1",
+    "garbagecan_1",
+    "microwave_1",
+    "sinkbasin_1",
+    "stoveburner_1",
+    "stoveburner_2",
+    "stoveburner_3",
+    "stoveburner_4",
+    "toaster_1"
+  ],
+  "target_object_type": "apple"
+}

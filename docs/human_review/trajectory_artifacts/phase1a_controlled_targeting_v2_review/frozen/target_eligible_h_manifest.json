@@ -1,0 +1,180 @@
+{
+  "created_at": "2026-09-19T00:00:00Z",
+  "entries": [
+    {
+      "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+      "b_artifact_sha256": "f53937d1d100b9b669788f106db54efb7179681053004b1c5e61d27eb95be932",
+      "c_artifact_sha256": "e8dd9717ee5743330ccec71dad1cc02c8add913ee0863038dd96bfdcc91378db",
+      "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+      "future_h": {
+        "guidance": "At the start location, identify available open surfaces versus closed storage units. Navigate to and inspect one open surface first. If the target is found, take it. If not, proceed to the next highest-priority open surface or fall back to the incumbent drawer-search order if no open surfaces remain.",
+        "hypothesis": "Prioritizing inspection of open surfaces (e.g., beds, desks, dressers) before closed containers (drawers) reduces total action cost when the target is located on an open surface, compared to a strict sequential search of all listed receptacles.",
+        "probe_policy": {
+          "adaptive_policy": "1. Observe the room layout. 2. Identify 'open' receptacles (beds, desks, dressers, shelves) vs 'closed' (drawers, cabinets). 3. Navigate to the nearest or most prominent open receptacle. 4. Inspect for the target. 5. If found, acquire. 6. If not found, repeat for other open receptacles. 7. If none found, revert to standard exhaustive search of closed containers.",
+          "capability_requirements": [
+            "Navigation to any visible receptacle",
+            "Inspection of current location contents"
+          ],
+          "evidence_goal": "Compare the number of navigation and inspection actions required to locate the target against the baseline 'listed order' strategy. Success is defined by finding the target with fewer steps than the incumbent average.",
+          "local_function": "Selecting the first receptacle to inspect for the target object.",
+          "realization_pattern": "Heuristic prioritization of open/visible surfaces over closed containers based on object type likelihood or general visibility.",
+          "required_downstream_state": "Agent holds the target object.",
+          "stop_conditions": [
+            "Target object is acquired",
+            "All open surfaces have been inspected without success (trigger fallback)",
+            "Maximum exploration steps exceeded"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple receptacle types (open surfaces vs. closed containers) are present.",
+        "type": "exploratory"
+      },
+      "future_h_sha256": "0a758b564a711c923ed0126e942edb9ac93c3640a24ef306c0503c31a07585a9",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-00",
+      "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+      "offline_model_config": {
+        "model_name": "qwen3.8-flash",
+        "prompt_version": "phase1a-b-optimized-c-local-v1",
+        "provider": "dashscope",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "source_history_identity": "sha256:6380870ac36d69f38d7d780e4dbe44369e6a425aba6a0ec42ada52be118e18a3",
+      "source_history_sha256": "6380870ac36d69f38d7d780e4dbe44369e6a425aba6a0ec42ada52be118e18a3",
+      "source_task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368",
+      "source_task_seed": 42
+    },
+    {
+      "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+      "b_artifact_sha256": "87e4afb4b8ac2f1110a8002757a6090e4379f33dcc48f0430a2ce4040763d25a",
+      "c_artifact_sha256": "9ab1c9a40c12e3591df9039b7617b9f1f867605501868c262c95ec9d14861ced",
+      "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+      "future_h": {
+        "guidance": "Navigate to an available open surface first. If the target is not found, proceed to inspect a closed storage receptacle. Compare the step count to find the target against the incumbent's sequential cabinet-first strategy.",
+        "hypothesis": "Prioritizing open surfaces (like desks) or high-probability locations before sequential blind opening of closed cabinets reduces total action cost compared to rigid list-order search.",
+        "probe_policy": {
+          "adaptive_policy": "1. Navigate to a desk or similar open surface. 2. Inspect for the target object. 3. If found, take it. 4. If not found, navigate to a closed cabinet, open it, and inspect. 5. Repeat for other closed cabinets if necessary.",
+          "capability_requirements": [
+            "Navigation to visible entities",
+            "Inspection of current location contents"
+          ],
+          "evidence_goal": "Determine if finding the target on the first open surface or after fewer opens than the incumbent sequence yields lower cumulative action cost.",
+          "local_function": "Receptacle selection heuristic for initial search location.",
+          "realization_pattern": "Check open/low-friction surfaces before closed/high-friction containers.",
+          "required_downstream_state": "Target object in inventory.",
+          "stop_conditions": [
+            "Target object acquired",
+            "All candidate receptacles inspected without finding target"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple closed receptacles are present.",
+        "type": "exploratory"
+      },
+      "future_h_sha256": "19b05aebd16cd881c915f08c1382ba2fc2c66019da6a360a32c31d92aba2a8fc",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+      "offline_model_config": {
+        "model_name": "qwen3.8-flash",
+        "prompt_version": "phase1a-b-optimized-c-local-v1",
+        "provider": "dashscope",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "source_history_identity": "sha256:244123f8b6bb8d5b436b7aee3b5d6dea2564b56dff07f4e402969c3c019215b4",
+      "source_history_sha256": "244123f8b6bb8d5b436b7aee3b5d6dea2564b56dff07f4e402969c3c019215b4",
+      "source_task_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+      "source_task_seed": 42
+    },
+    {
+      "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+      "b_artifact_sha256": "c112c3786c545f2964a92594c368b572aa57f06ac08241cd6c0d5d23cd3cc314",
+      "c_artifact_sha256": "4de2fa61a7bf03ef8fd394037519f5260ef7e984cfd5482b4b6a3e248a4d0109",
+      "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+      "future_h": {
+        "guidance": "Identify all visible receptacles. Partition them into 'open-access' (e.g., tables, shelves, dressers if top is accessible) and 'closed-storage' (e.g., drawers, cabinets). Search all open-access locations first. If the target is found, acquire it. If not, proceed to search closed-storage locations one by one, opening each to inspect.",
+        "hypothesis": "Prioritizing search of open surfaces (tables, counters) before closed storage (drawers, cabinets) reduces navigation and interaction steps compared to blind linear search, assuming the target is more likely to be on an accessible surface or that opening costs are non-trivial.",
+        "probe_policy": {
+          "adaptive_policy": "1. List all visible receptacles from the current observation. 2. Classify each as 'Open Surface' (no 'open' action required to see contents) or 'Closed Storage' (requires 'open' action). 3. Navigate to the first unvisited 'Open Surface'. Inspect for target. 4. Repeat for all 'Open Surfaces'. 5. If target not found, navigate to the first unvisited 'Closed Storage'. Open it. Inspect. Close it if necessary per task rules (though usually left open for inspection). 6. Repeat for remaining 'Closed Storage'. 7. Upon finding target, take it.",
+          "capability_requirements": [
+            "Ability to distinguish between openable/closed containers and static/open surfaces based on entity type or state.",
+            "Navigation to arbitrary visible receptacles.",
+            "Opening closed receptacles upon arrival."
+          ],
+          "evidence_goal": "Compare total step count (navigation + open actions) against the baseline exhaustive linear search. Success is defined by locating the target with fewer steps than the average baseline, or identifying cases where the heuristic fails (target in last checked drawer vs first checked table).",
+          "local_function": "Receptacle selection order for object acquisition.",
+          "realization_pattern": "Heuristic partitioning: Open-surface-first search followed by Closed-storage-second search.",
+          "required_downstream_state": "Agent holding the target object at its source location.",
+          "stop_conditions": [
+            "Target object acquired.",
+            "All candidate receptacles inspected without finding target (fallback to broader search or failure)."
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the entry observation.",
+        "type": "exploratory"
+      },
+      "future_h_sha256": "a990ee7ec9555cf359158475b26acb463fa75a28355783556c0673df47c320b3",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+      "offline_model_config": {
+        "model_name": "qwen3.8-flash",
+        "prompt_version": "phase1a-b-optimized-c-local-v1",
+        "provider": "dashscope",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "source_history_identity": "sha256:cd91b4f5b4589657966f819877f6cd54da32b3433858fff0c11a58f822032540",
+      "source_history_sha256": "cd91b4f5b4589657966f819877f6cd54da32b3433858fff0c11a58f822032540",
+      "source_task_id": "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+      "source_task_seed": 42
+    },
+    {
+      "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+      "b_artifact_sha256": "2d66faa010675939979aaea3e8fddbbb90e14ac463a028cf5e9e566533742851",
+      "c_artifact_sha256": "8ab8df3214dbc0d5b35187eacf0f4d88e5d6a6c7e834c9897b8dd3a0ba186be4",
+      "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+      "future_h": {
+        "guidance": "Navigate to an available open surface first. If the target is not found, proceed to other open surfaces before inspecting closed storage units.",
+        "hypothesis": "Prioritizing high-probability open surfaces (countertops, sinks) before enclosed storage (cabinets, drawers) reduces search steps compared to exhaustive sequential inspection of all receptacles.",
+        "probe_policy": {
+          "adaptive_policy": "Select a navigation action toward a countertop or sinkbasin from the admissible list. Upon arrival, check for the target object. If absent, select another open surface. Only after exhausting open surfaces should the agent navigate to cabinets or drawers.",
+          "capability_requirements": [
+            "Navigation to visible receptacles",
+            "Object detection upon arrival"
+          ],
+          "evidence_goal": "Step count required to locate the target object compared to baseline exhaustive search.",
+          "local_function": "Receptacle search ordering heuristic",
+          "realization_pattern": "Heuristic prioritization of likely locations over exhaustive enumeration",
+          "required_downstream_state": "Agent holding the target object",
+          "stop_conditions": [
+            "Target object located on an open surface",
+            "All open surfaces inspected without finding target",
+            "Maximum probe steps reached"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple receptacle types are present.",
+        "type": "exploratory"
+      },
+      "future_h_sha256": "e8f21135f8f788b05f5d8acfe194b2096853933e5e948217eb233a73e213dfa3",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+      "offline_model_config": {
+        "model_name": "qwen3.8-flash",
+        "prompt_version": "phase1a-b-optimized-c-local-v1",
+        "provider": "dashscope",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "source_history_identity": "sha256:807d2c99113d8e29aafdf332f9ccfbc06ad6919aba5ad09656504421ebebe27c",
+      "source_history_sha256": "807d2c99113d8e29aafdf332f9ccfbc06ad6919aba5ad09656504421ebebe27c",
+      "source_task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978",
+      "source_task_seed": 42
+    }
+  ],
+  "manifest_id": "phase1_source_h_pending_live_freeze_v2-target-eligible",
+  "manifest_sha256": "69742e9e733fcbe509954c5431dd2e4c5a78e06f30577ee3504ac12f9a7a97e4",
+  "manifest_status": "target_eligible_subset_after_public_scope_review",
+  "schema_version": "phase1-source-h-manifest-v2"
+}

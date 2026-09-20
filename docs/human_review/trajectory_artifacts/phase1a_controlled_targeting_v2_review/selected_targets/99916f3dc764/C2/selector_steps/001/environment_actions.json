@@ -1,0 +1,44 @@
+{
+  "actions": [
+    "go to cabinet_1"
+  ],
+  "current_state_after_probe": {
+    "admissible_actions": [
+      "examine cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to diningtable_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_24. On cabinet_1, you see nothing.",
+    "won": false
+  },
+  "observations": [
+    "You arrive at loc_24. On cabinet_1, you see nothing."
+  ]
+}

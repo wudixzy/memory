@@ -1,0 +1,61 @@
+{
+  "actions": [
+    "go to countertop_1"
+  ],
+  "current_state_after_probe": {
+    "admissible_actions": [
+      "examine countertop_1",
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_2",
+      "go to drawer_1",
+      "go to drawer_10",
+      "go to drawer_11",
+      "go to drawer_12",
+      "go to drawer_13",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to drawer_9",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to stoveburner_5",
+      "go to stoveburner_6",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "take bread_3 from countertop_1",
+      "take kettle_1 from countertop_1",
+      "take ladle_1 from countertop_1",
+      "take ladle_2 from countertop_1",
+      "take mug_1 from countertop_1",
+      "take pan_1 from countertop_1",
+      "take saltshaker_1 from countertop_1",
+      "take spoon_1 from countertop_1"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_4. On countertop_1, you see bread_3, kettle_1, ladle_2, ladle_1, mug_1, pan_1, saltshaker_1, spoon_1, window_3, and window_1.",
+    "won": false
+  },
+  "observations": [
+    "You arrive at loc_4. On countertop_1, you see bread_3, kettle_1, ladle_2, ladle_1, mug_1, pan_1, saltshaker_1, spoon_1, window_3, and window_1."
+  ]
+}

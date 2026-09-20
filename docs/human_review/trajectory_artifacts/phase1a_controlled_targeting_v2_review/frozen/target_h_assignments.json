@@ -1,0 +1,268 @@
+{
+  "assignment_digest": "c2717b28bab8a9c816ff99411e3af210bdf7b1f47f874d32896c60e256daf43f",
+  "assignments": [
+    {
+      "assignment_digest": "7977939f17094efa197ca7e285f59b79887294fbfd137e5ce03a95e2756f041e",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "target_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006"
+    },
+    {
+      "assignment_digest": "e2233be02c3d0f7269445e1b044bd3cf0450c7f4f692ae44bf28ef4870f8fb02",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "target_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885"
+    },
+    {
+      "assignment_digest": "42787630c8dcb6c520631d2ac637ef5f2ed692acad7936d4a213e9ebe07a57a0",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-00",
+      "target_id": "pick_cool_then_place_in_recep-Pot-None-Shelf-1/trial_T20190906_234856_560153"
+    },
+    {
+      "assignment_digest": "0991c9b5d684dabd0cceb4572d120de51d0b8d652ad5ccec7cc8cecbc067c6db",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012"
+    },
+    {
+      "assignment_digest": "111ecccb5d2752541e0a44ffefdac06f7d94c61826293e6f7dc91ec26439674e",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "target_id": "pick_cool_then_place_in_recep-Lettuce-None-DiningTable-21/trial_T20190909_045111_863875"
+    },
+    {
+      "assignment_digest": "dfe24b0a42432c6a1de0e78a57ba7e56495e633ee6ff14897f0fe396ac65f1e2",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "target_id": "pick_heat_then_place_in_recep-Egg-None-SideTable-21/trial_T20190907_045036_700265"
+    },
+    {
+      "assignment_digest": "0d8b479b7f5acdbf147e670ec333432b2e69b62dd33250d6060aad688d3057ff",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190909_100824_609831"
+    },
+    {
+      "assignment_digest": "4816081ee5fec5e548da0915ebff53fc00501e3f0e78cda2ab05a36d4ed41949",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "target_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-7/trial_T20190909_021904_818116"
+    },
+    {
+      "assignment_digest": "f5f2ae111e936e74098152975c28d3298da464f7734b02b5b1df68ff6bc565fa",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-02",
+      "target_id": "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605"
+    },
+    {
+      "assignment_digest": "5e592f3326f007e8f909717d7454842cec7b179fedffedd096ab044177376841",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "target_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-20/trial_T20190908_230106_156334"
+    },
+    {
+      "assignment_digest": "0d2ee4ceb9dc620f6b5cc2b116e7a0ad0fec2b98fd9cddb9117eea7662518edf",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Toilet-427/trial_T20190908_234203_467365"
+    },
+    {
+      "assignment_digest": "befa11ff1f2ac1304153590be98c6f545c7c10f2a80b55e6a8d4868fdab8c551",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "target_id": "pick_clean_then_place_in_recep-DishSponge-None-Cabinet-414/trial_T20190909_061502_436342"
+    },
+    {
+      "assignment_digest": "173c5b51aece927f852f6f618dceb6f5cb7811bea1d8762d9e85a3177331321f",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379"
+    },
+    {
+      "assignment_digest": "4abe154b4678de23c978d0068de8251735f052907d5d8a8f8d345ad97b23b617",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172429_549227"
+    },
+    {
+      "assignment_digest": "c4aae5ffb7f9b1a5c6b5ce90b016cc8e4c20e2fb1577b6cf5cd98525b4778dd7",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-14/trial_T20190909_114325_950642"
+    },
+    {
+      "assignment_digest": "ac8500a95431271d199c0a61e421f56c778bde9dd56406e8e4711396150b5194",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-00",
+      "target_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-15/trial_T20190909_085448_256298"
+    },
+    {
+      "assignment_digest": "977f1ab368e134459972b174280d83237a2176fd43f6ab8b6739a98b921c24db",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-03",
+      "target_id": "pick_cool_then_place_in_recep-WineBottle-None-Cabinet-17/trial_T20190907_064240_113879"
+    },
+    {
+      "assignment_digest": "78e7a6164739184b312c1655c6a332d7ee06fff96de4ed96928b0b634b1e8265",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "target_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827"
+    },
+    {
+      "assignment_digest": "950e049ac45ded5d0a412fe8ff3e75da11bd43f1db7f53c35043ab6066c249a9",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-01",
+      "target_id": "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369"
+    },
+    {
+      "assignment_digest": "d5ab4000ae6e84667464280be4e44a9a90af83b8d5d7f189d9391dcf885fe1dc",
+      "assignment_input_h_ids": [
+        "phase1a-source-h-00",
+        "phase1a-source-h-01",
+        "phase1a-source-h-02",
+        "phase1a-source-h-03"
+      ],
+      "assignment_salt": "phase1a-receptacle-search-h-assignment-v1",
+      "h_family_id": "h_family_receptacle_search",
+      "h_id": "phase1a-source-h-00",
+      "target_id": "pick_heat_then_place_in_recep-Plate-None-CounterTop-28/trial_T20190907_180117_721981"
+    }
+  ],
+  "outcome_blind": true,
+  "registry_sha256": "0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d",
+  "source_h_manifest_sha256": "69742e9e733fcbe509954c5431dd2e4c5a78e06f30577ee3504ac12f9a7a97e4"
+}

@@ -1,0 +1,62 @@
+{
+  "current_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_11, cabinet_10, cabinet_9, cabinet_8, cabinet_7, cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_2, countertop_1, diningtable_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool bread in countertop.",
+  "established_search_guidance": {
+    "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+    "memory_id": "established-search-listed-order-general",
+    "prior_comparison_evidence": null,
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+  },
+  "exploratory_memory": {
+    "guidance": "At the start location, identify available open surfaces versus closed storage units. Navigate to and inspect one open surface first. If the target is found, take it. If not, proceed to the next highest-priority open surface or fall back to the incumbent drawer-search order if no open surfaces remain.",
+    "hypothesis": "Prioritizing inspection of open surfaces (e.g., beds, desks, dressers) before closed containers (drawers) reduces total action cost when the target is located on an open surface, compared to a strict sequential search of all listed receptacles.",
+    "probe_policy": {
+      "adaptive_policy": "1. Observe the room layout. 2. Identify 'open' receptacles (beds, desks, dressers, shelves) vs 'closed' (drawers, cabinets). 3. Navigate to the nearest or most prominent open receptacle. 4. Inspect for the target. 5. If found, acquire. 6. If not found, repeat for other open receptacles. 7. If none found, revert to standard exhaustive search of closed containers.",
+      "capability_requirements": [
+        "Navigation to any visible receptacle",
+        "Inspection of current location contents"
+      ],
+      "evidence_goal": "Compare the number of navigation and inspection actions required to locate the target against the baseline 'listed order' strategy. Success is defined by finding the target with fewer steps than the incumbent average.",
+      "local_function": "Selecting the first receptacle to inspect for the target object.",
+      "realization_pattern": "Heuristic prioritization of open/visible surfaces over closed containers based on object type likelihood or general visibility.",
+      "required_downstream_state": "Agent holds the target object.",
+      "stop_conditions": [
+        "Target object is acquired",
+        "All open surfaces have been inspected without success (trigger fallback)",
+        "Maximum exploration steps exceeded"
+      ]
+    },
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple receptacle types (open surfaces vs. closed containers) are present.",
+    "type": "exploratory"
+  },
+  "inspected_candidate_ledger": [],
+  "remaining_candidates": [
+    "cabinet_1",
+    "cabinet_10",
+    "cabinet_11",
+    "cabinet_2",
+    "cabinet_3",
+    "cabinet_4",
+    "cabinet_5",
+    "cabinet_6",
+    "cabinet_7",
+    "cabinet_8",
+    "cabinet_9",
+    "coffeemachine_1",
+    "countertop_1",
+    "countertop_2",
+    "diningtable_1",
+    "drawer_1",
+    "drawer_2",
+    "drawer_3",
+    "fridge_1",
+    "garbagecan_1",
+    "microwave_1",
+    "sinkbasin_1",
+    "stoveburner_1",
+    "stoveburner_2",
+    "stoveburner_3",
+    "stoveburner_4",
+    "toaster_1"
+  ],
+  "target_object_type": "bread"
+}

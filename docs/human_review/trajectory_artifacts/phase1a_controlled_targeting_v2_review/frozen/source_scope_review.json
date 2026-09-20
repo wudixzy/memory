@@ -1,0 +1,39 @@
+{
+  "schema_version": "phase1a-h-scope-review-v1",
+  "review_id": "phase1a-controlled-targeting-v2-source-scope-review-20260920",
+  "source_h_manifest_sha256": "3298cddbba85d80e55d1d42c22dcf10e1563af734f821303fcd0628a9e9b3849",
+  "target_registry_sha256": "0e43d9846ad96249ef1b421b02585a0fff1190e76eb6156b64e64da6c805588d",
+  "entries": [
+    {
+      "h_id": "phase1a-source-h-00",
+      "status": "eligible",
+      "public_applicability_basis": "The future-facing scope requires a non-visible target and multiple receptacle types. The frozen target registry exposes both open-access and closed-storage public go-to affordances for this target set.",
+      "decision_note": "Eligible under the frozen public Phase 1A receptacle-search contract; no target outcome or hidden placement was used."
+    },
+    {
+      "h_id": "phase1a-source-h-01",
+      "status": "eligible",
+      "public_applicability_basis": "The future-facing scope requires a non-visible target and multiple closed receptacles. The frozen target registry exposes closed-storage public go-to affordances for every target in the assignment pool.",
+      "decision_note": "Eligible under a public affordance check; assignment remains outcome-blind."
+    },
+    {
+      "h_id": "phase1a-source-h-02",
+      "status": "eligible",
+      "public_applicability_basis": "The future-facing scope requires a non-visible target and multiple public candidate receptacles, which are the frozen family-level applicability requirements.",
+      "decision_note": "Eligible under the frozen public Phase 1A receptacle-search contract."
+    },
+    {
+      "h_id": "phase1a-source-h-03",
+      "status": "eligible",
+      "public_applicability_basis": "The future-facing scope is stated at the task/receptacle level and does not require a target object-type restriction; its open-surface-first guidance can be represented with public candidate affordances.",
+      "decision_note": "Eligible under the frozen public contract; the hygiene-product wording occurs in the hypothesis rationale, not the future-facing scope restriction."
+    },
+    {
+      "h_id": "phase1a-source-h-04",
+      "status": "rejected",
+      "public_applicability_basis": "The future-facing scope explicitly restricts the target to a liquid or hygiene product, which is narrower than the frozen family-level contract.",
+      "decision_note": "Rejected from target assignment because no narrower public-only target contract was frozen before target outcomes. The source B/C result remains preserved as negative applicability evidence."
+    }
+  ],
+  "review_sha256": "57426c10c6a52d5a5a88014e19fb2b8a941543a88036c9737f38b4ee2cd5f8b7"
+}

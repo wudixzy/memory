@@ -1,0 +1,45 @@
+{
+  "actual_execution_episodes": {
+    "e0": {
+      "game_file_sha256": "de17849db11146686319f658aa95dadae148d52f54dd86c01d522b17484e5d10",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827/game.tw-pddl",
+      "initial_public_state_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc",
+      "initial_state_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+      "pddl_problem_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+      "requested_seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827"
+    },
+    "e1": {
+      "game_file_sha256": "de17849db11146686319f658aa95dadae148d52f54dd86c01d522b17484e5d10",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827/game.tw-pddl",
+      "initial_public_state_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc",
+      "initial_state_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+      "pddl_problem_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+      "requested_seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827"
+    }
+  },
+  "condition_roles": {
+    "C2": "e0",
+    "C3": "e1"
+  },
+  "e0_initial_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc",
+  "e1_initial_fingerprint": "ac8ccfa8e5729e409b371df9b61cff37edba659b5f95a84d03187e61df7c35dc",
+  "game_file_sha256": "de17849db11146686319f658aa95dadae148d52f54dd86c01d522b17484e5d10",
+  "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827/game.tw-pddl",
+  "initial_state_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+  "pairing_mode": "replayable_episode_spec",
+  "pairing_valid": true,
+  "pddl_problem_sha256": "bfba91a6b52ff116a682d223a0fee9891ff44e1fe05d9c38c18169c11495f751",
+  "public_initial_match": true,
+  "requested_seed": 42,
+  "schema_version": "0.1",
+  "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827",
+  "underlying_state_match_evidence": {
+    "cached_pddl_matches_initial_state": true,
+    "carrier_state_construction": "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs GameProgression from that static problem without object-placement RNG.",
+    "same_game_file_sha256": true,
+    "same_initial_state_sha256": true,
+    "same_pddl_problem_sha256": true
+  }
+}

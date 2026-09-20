@@ -1,0 +1,45 @@
+{
+  "actual_execution_episodes": {
+    "e0": {
+      "game_file_sha256": "09fcdda18df00a123c143ef378854605c6106034c4efe0fc9f6962b7eeca3099",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012/game.tw-pddl",
+      "initial_public_state_fingerprint": "2d998d914dd3231ca349c311d4b5106ae120564463422a74f4404e482a741a02",
+      "initial_state_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+      "pddl_problem_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+      "requested_seed": 42,
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012"
+    },
+    "e1": {
+      "game_file_sha256": "09fcdda18df00a123c143ef378854605c6106034c4efe0fc9f6962b7eeca3099",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012/game.tw-pddl",
+      "initial_public_state_fingerprint": "2d998d914dd3231ca349c311d4b5106ae120564463422a74f4404e482a741a02",
+      "initial_state_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+      "pddl_problem_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+      "requested_seed": 42,
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012"
+    }
+  },
+  "condition_roles": {
+    "C2": "e0",
+    "C3": "e1"
+  },
+  "e0_initial_fingerprint": "2d998d914dd3231ca349c311d4b5106ae120564463422a74f4404e482a741a02",
+  "e1_initial_fingerprint": "2d998d914dd3231ca349c311d4b5106ae120564463422a74f4404e482a741a02",
+  "game_file_sha256": "09fcdda18df00a123c143ef378854605c6106034c4efe0fc9f6962b7eeca3099",
+  "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012/game.tw-pddl",
+  "initial_state_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+  "pairing_mode": "replayable_episode_spec",
+  "pairing_valid": true,
+  "pddl_problem_sha256": "a39b64359bd4b7ef5b25cbe91d717acca1f4c25a04723d30937589d6a486c107",
+  "public_initial_match": true,
+  "requested_seed": 42,
+  "schema_version": "0.1",
+  "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012",
+  "underlying_state_match_evidence": {
+    "cached_pddl_matches_initial_state": true,
+    "carrier_state_construction": "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs GameProgression from that static problem without object-placement RNG.",
+    "same_game_file_sha256": true,
+    "same_initial_state_sha256": true,
+    "same_pddl_problem_sha256": true
+  }
+}

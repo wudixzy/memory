@@ -1,0 +1,61 @@
+{
+  "actions": [
+    "go to countertop_1",
+    "take apple_1 from countertop_1"
+  ],
+  "candidate_id": "countertop_1",
+  "candidate_probe_count": 1,
+  "final_state": {
+    "admissible_actions": [
+      "examine apple_1",
+      "examine countertop_1",
+      "go to cabinet_1",
+      "go to cabinet_10",
+      "go to cabinet_11",
+      "go to cabinet_12",
+      "go to cabinet_13",
+      "go to cabinet_14",
+      "go to cabinet_15",
+      "go to cabinet_16",
+      "go to cabinet_17",
+      "go to cabinet_18",
+      "go to cabinet_19",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to cabinet_7",
+      "go to cabinet_8",
+      "go to cabinet_9",
+      "go to coffeemachine_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look",
+      "put apple_1 in/on countertop_1"
+    ],
+    "done": false,
+    "observation": "You take apple_1 from countertop_1.",
+    "won": false
+  },
+  "observations": [
+    "You arrive at loc_17. On countertop_1, you see apple_1, fork_1, potato_1, and soapbottle_2.",
+    "You take apple_1 from countertop_1."
+  ],
+  "target_acquired": true,
+  "target_visible": true
+}

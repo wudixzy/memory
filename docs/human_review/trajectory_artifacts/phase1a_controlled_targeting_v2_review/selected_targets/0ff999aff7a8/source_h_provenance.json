@@ -1,0 +1,42 @@
+{
+  "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+  "b_artifact_sha256": "87e4afb4b8ac2f1110a8002757a6090e4379f33dcc48f0430a2ce4040763d25a",
+  "c_artifact_sha256": "9ab1c9a40c12e3591df9039b7617b9f1f867605501868c262c95ec9d14861ced",
+  "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+  "future_h": {
+    "guidance": "Navigate to an available open surface first. If the target is not found, proceed to inspect a closed storage receptacle. Compare the step count to find the target against the incumbent's sequential cabinet-first strategy.",
+    "hypothesis": "Prioritizing open surfaces (like desks) or high-probability locations before sequential blind opening of closed cabinets reduces total action cost compared to rigid list-order search.",
+    "probe_policy": {
+      "adaptive_policy": "1. Navigate to a desk or similar open surface. 2. Inspect for the target object. 3. If found, take it. 4. If not found, navigate to a closed cabinet, open it, and inspect. 5. Repeat for other closed cabinets if necessary.",
+      "capability_requirements": [
+        "Navigation to visible entities",
+        "Inspection of current location contents"
+      ],
+      "evidence_goal": "Determine if finding the target on the first open surface or after fewer opens than the incumbent sequence yields lower cumulative action cost.",
+      "local_function": "Receptacle selection heuristic for initial search location.",
+      "realization_pattern": "Check open/low-friction surfaces before closed/high-friction containers.",
+      "required_downstream_state": "Target object in inventory.",
+      "stop_conditions": [
+        "Target object acquired",
+        "All candidate receptacles inspected without finding target"
+      ]
+    },
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple closed receptacles are present.",
+    "type": "exploratory"
+  },
+  "future_h_sha256": "19b05aebd16cd881c915f08c1382ba2fc2c66019da6a360a32c31d92aba2a8fc",
+  "h_family_id": "h_family_receptacle_search",
+  "h_id": "phase1a-source-h-01",
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "offline_model_config": {
+    "model_name": "qwen3.8-flash",
+    "prompt_version": "phase1a-b-optimized-c-local-v1",
+    "provider": "dashscope",
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "source_history_identity": "sha256:244123f8b6bb8d5b436b7aee3b5d6dea2564b56dff07f4e402969c3c019215b4",
+  "source_history_sha256": "244123f8b6bb8d5b436b7aee3b5d6dea2564b56dff07f4e402969c3c019215b4",
+  "source_task_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151",
+  "source_task_seed": 42
+}

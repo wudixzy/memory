@@ -1,0 +1,43 @@
+{
+  "applicability_contract_id": "phase1a-receptacle-search-public-contract-v1",
+  "b_artifact_sha256": "c112c3786c545f2964a92594c368b572aa57f06ac08241cd6c0d5d23cd3cc314",
+  "c_artifact_sha256": "4de2fa61a7bf03ef8fd394037519f5260ef7e984cfd5482b4b6a3e248a4d0109",
+  "creation_version": "phase1a-controlled-targeting-v2-source-freeze-v1",
+  "future_h": {
+    "guidance": "Identify all visible receptacles. Partition them into 'open-access' (e.g., tables, shelves, dressers if top is accessible) and 'closed-storage' (e.g., drawers, cabinets). Search all open-access locations first. If the target is found, acquire it. If not, proceed to search closed-storage locations one by one, opening each to inspect.",
+    "hypothesis": "Prioritizing search of open surfaces (tables, counters) before closed storage (drawers, cabinets) reduces navigation and interaction steps compared to blind linear search, assuming the target is more likely to be on an accessible surface or that opening costs are non-trivial.",
+    "probe_policy": {
+      "adaptive_policy": "1. List all visible receptacles from the current observation. 2. Classify each as 'Open Surface' (no 'open' action required to see contents) or 'Closed Storage' (requires 'open' action). 3. Navigate to the first unvisited 'Open Surface'. Inspect for target. 4. Repeat for all 'Open Surfaces'. 5. If target not found, navigate to the first unvisited 'Closed Storage'. Open it. Inspect. Close it if necessary per task rules (though usually left open for inspection). 6. Repeat for remaining 'Closed Storage'. 7. Upon finding target, take it.",
+      "capability_requirements": [
+        "Ability to distinguish between openable/closed containers and static/open surfaces based on entity type or state.",
+        "Navigation to arbitrary visible receptacles.",
+        "Opening closed receptacles upon arrival."
+      ],
+      "evidence_goal": "Compare total step count (navigation + open actions) against the baseline exhaustive linear search. Success is defined by locating the target with fewer steps than the average baseline, or identifying cases where the heuristic fails (target in last checked drawer vs first checked table).",
+      "local_function": "Receptacle selection order for object acquisition.",
+      "realization_pattern": "Heuristic partitioning: Open-surface-first search followed by Closed-storage-second search.",
+      "required_downstream_state": "Agent holding the target object at its source location.",
+      "stop_conditions": [
+        "Target object acquired.",
+        "All candidate receptacles inspected without finding target (fallback to broader search or failure)."
+      ]
+    },
+    "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the entry observation.",
+    "type": "exploratory"
+  },
+  "future_h_sha256": "a990ee7ec9555cf359158475b26acb463fa75a28355783556c0673df47c320b3",
+  "h_family_id": "h_family_receptacle_search",
+  "h_id": "phase1a-source-h-02",
+  "k_star_sha256": "331728a3e001c8a3bc7e992d7605ee428501c34d0d5d8fed75a19abd98314447",
+  "offline_model_config": {
+    "model_name": "qwen3.8-flash",
+    "prompt_version": "phase1a-b-optimized-c-local-v1",
+    "provider": "dashscope",
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "source_history_identity": "sha256:cd91b4f5b4589657966f819877f6cd54da32b3433858fff0c11a58f822032540",
+  "source_history_sha256": "cd91b4f5b4589657966f819877f6cd54da32b3433858fff0c11a58f822032540",
+  "source_task_id": "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038",
+  "source_task_seed": 42
+}

@@ -1,0 +1,45 @@
+{
+  "actual_execution_episodes": {
+    "e0": {
+      "game_file_sha256": "f15d6fcacd72d066ceb7abe2f5b4092490f9b006e0282f346bd4cd365eab8631",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369/game.tw-pddl",
+      "initial_public_state_fingerprint": "4f4907d1cde8e58c85f0c132e7bae174b2fad88506115e5a968d95c9cc41ad31",
+      "initial_state_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+      "pddl_problem_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+      "requested_seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369"
+    },
+    "e1": {
+      "game_file_sha256": "f15d6fcacd72d066ceb7abe2f5b4092490f9b006e0282f346bd4cd365eab8631",
+      "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369/game.tw-pddl",
+      "initial_public_state_fingerprint": "4f4907d1cde8e58c85f0c132e7bae174b2fad88506115e5a968d95c9cc41ad31",
+      "initial_state_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+      "pddl_problem_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+      "requested_seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369"
+    }
+  },
+  "condition_roles": {
+    "C2": "e0",
+    "C3": "e1"
+  },
+  "e0_initial_fingerprint": "4f4907d1cde8e58c85f0c132e7bae174b2fad88506115e5a968d95c9cc41ad31",
+  "e1_initial_fingerprint": "4f4907d1cde8e58c85f0c132e7bae174b2fad88506115e5a968d95c9cc41ad31",
+  "game_file_sha256": "f15d6fcacd72d066ceb7abe2f5b4092490f9b006e0282f346bd4cd365eab8631",
+  "game_identity": "third_party/automanual/alfworld/downloaded/json_2.1.1/train/pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369/game.tw-pddl",
+  "initial_state_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+  "pairing_mode": "replayable_episode_spec",
+  "pairing_valid": true,
+  "pddl_problem_sha256": "6ef3c55020d25dfd97109335cf9f809e424c92ffde81c693ccdf7902615a0774",
+  "public_initial_match": true,
+  "requested_seed": 42,
+  "schema_version": "0.1",
+  "task_id": "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369",
+  "underlying_state_match_evidence": {
+    "cached_pddl_matches_initial_state": true,
+    "carrier_state_construction": "PddlEnv loads the cached game.tw-pddl pddl_problem; reset constructs GameProgression from that static problem without object-placement RNG.",
+    "same_game_file_sha256": true,
+    "same_initial_state_sha256": true,
+    "same_pddl_problem_sha256": true
+  }
+}

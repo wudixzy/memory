@@ -1,0 +1,35 @@
+{
+  "actions": [
+    "go to bathtubbasin_1"
+  ],
+  "current_state_after_probe": {
+    "admissible_actions": [
+      "examine bathtubbasin_1",
+      "go to countertop_1",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to drawer_4",
+      "go to drawer_5",
+      "go to drawer_6",
+      "go to drawer_7",
+      "go to drawer_8",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to sinkbasin_1",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "go to towelholder_2",
+      "inventory",
+      "look",
+      "take cloth_1 from bathtubbasin_1"
+    ],
+    "done": false,
+    "observation": "You arrive at loc_20. On bathtubbasin_1, you see cloth_1.",
+    "won": false
+  },
+  "observations": [
+    "You arrive at loc_20. On bathtubbasin_1, you see cloth_1."
+  ]
+}
