@@ -32,11 +32,27 @@ from exploratory_memory_mvp.controlled_targeting import (  # noqa: E402
     validate_candidate_result,
     validate_dynamic_candidate_response_format,
 )
+from exploratory_memory_mvp.h_manifest import (  # noqa: E402
+    compute_future_h_digest,
+    compute_h_manifest_digest,
+)
 from exploratory_memory_mvp.k_star import get_phase1_k_star  # noqa: E402
+from exploratory_memory_mvp.phase1_applicability import (  # noqa: E402
+    PHASE1A_APPLICABILITY_CONTRACT_ID,
+)
+from exploratory_memory_mvp.phase1a_h_scope import (  # noqa: E402
+    compute_scope_review_digest,
+    derive_target_h_manifest,
+    validate_scope_review,
+)
 from exploratory_memory_mvp.run_phase1a_controlled_targeting_v2 import (  # noqa: E402
     CONTROLLED_PROTOCOL_VERSION,
     load_selector_manifest,
     run_prepare_only,
+)
+from exploratory_memory_mvp.target_registry import (  # noqa: E402
+    compute_registry_digest,
+    load_target_registry,
 )
 
 
@@ -118,6 +134,93 @@ class _CandidateEpisode:
 
 
 class ControlledTargetingTests(unittest.TestCase):
+    def _scope_fixture(self):
+        future_h = {
+            "type": "exploratory",
+            "scope": "public fixture scope",
+            "hypothesis": "public fixture hypothesis",
+            "guidance": "public fixture guidance",
+            "probe_policy": {
+                "local_function": "search",
+                "realization_pattern": "public alternative",
+                "capability_requirements": ["navigation"],
+                "adaptive_policy": "use current public observation",
+                "evidence_goal": "compare",
+                "stop_conditions": ["found", "abort"],
+                "required_downstream_state": "holding target",
+            },
+        }
+        source_entry = {
+            "h_id": "fixture-h-00",
+            "h_family_id": "h_family_receptacle_search",
+            "applicability_contract_id": PHASE1A_APPLICABILITY_CONTRACT_ID,
+            "source_task_id": "fixture-source",
+            "source_task_seed": 42,
+            "source_history_identity": "sha256:" + "0" * 64,
+            "source_history_sha256": "0" * 64,
+            "k_star_sha256": "1" * 64,
+            "b_artifact_sha256": "2" * 64,
+            "c_artifact_sha256": "3" * 64,
+            "future_h_sha256": compute_future_h_digest(future_h),
+            "future_h": future_h,
+            "offline_model_config": {
+                "provider": "dashscope",
+                "model_name": "qwen3.8-flash",
+                "thinking": False,
+                "temperature": 0.0,
+                "prompt_version": "fixture",
+            },
+            "creation_version": "fixture",
+        }
+        source_manifest = {
+            "schema_version": "fixture",
+            "manifest_id": "fixture-source",
+            "created_at": "fixture",
+            "manifest_status": "fixture",
+            "entries": [source_entry],
+            "manifest_sha256": "",
+        }
+        source_manifest["manifest_sha256"] = compute_h_manifest_digest(source_manifest)
+        registry = load_target_registry()
+        return source_manifest, registry
+
+    def _scope_review_fixture(self, source_manifest, registry, status="eligible"):
+        review = {
+            "schema_version": "fixture",
+            "review_id": "fixture-review",
+            "source_h_manifest_sha256": compute_h_manifest_digest(source_manifest),
+            "target_registry_sha256": compute_registry_digest(registry),
+            "entries": [
+                {
+                    "h_id": "fixture-h-00",
+                    "status": status,
+                    "public_applicability_basis": "public fixture basis",
+                    "decision_note": "public fixture note",
+                }
+            ],
+            "review_sha256": "",
+        }
+        review["review_sha256"] = compute_scope_review_digest(review)
+        return review
+
+    def test_h_scope_review_is_bound_and_derives_only_eligible_entries(self):
+        source_manifest, registry = self._scope_fixture()
+        review = self._scope_review_fixture(source_manifest, registry)
+        validate_scope_review(review, source_manifest, registry)
+        derived = derive_target_h_manifest(source_manifest, review, registry)
+        self.assertEqual([entry["h_id"] for entry in derived["entries"]], ["fixture-h-00"])
+        bad = copy.deepcopy(review)
+        bad["target_registry_sha256"] = "f" * 64
+        bad["review_sha256"] = compute_scope_review_digest(bad)
+        with self.assertRaises(SchemaError):
+            validate_scope_review(bad, source_manifest, registry)
+
+    def test_rejected_scope_leaves_no_target_manifest(self):
+        source_manifest, registry = self._scope_fixture()
+        review = self._scope_review_fixture(source_manifest, registry, status="rejected")
+        with self.assertRaises(SchemaError):
+            derive_target_h_manifest(source_manifest, review, registry)
+
     def test_public_instruction_parser_skips_transformation_adjective(self):
         self.assertEqual(
             parse_public_target_object_type("put a hot egg in garbagecan"), "egg"

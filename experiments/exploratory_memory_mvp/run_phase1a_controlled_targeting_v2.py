@@ -107,6 +107,10 @@ from exploratory_memory_mvp.model import (  # noqa: E402
 from exploratory_memory_mvp.phase1_applicability import (  # noqa: E402
     validate_public_applicability,
 )
+from exploratory_memory_mvp.phase1a_h_scope import (  # noqa: E402
+    derive_target_h_manifest,
+    validate_scope_review,
+)
 from exploratory_memory_mvp.prompts import (  # noqa: E402
     b_messages,
 )
@@ -131,6 +135,9 @@ DEFAULT_SOURCE_RUNTIME = Path(
 )
 DEFAULT_TARGET_RUNTIME = Path(
     "artifacts/exploratory_memory_mvp/phase1a-controlled-targeting-v2-targets"
+)
+DEFAULT_H_SCOPE_REVIEW_PATH = (
+    Path(__file__).resolve().parent / "cases" / "phase1a_h_scope_review.json"
 )
 OFFLINE_MODEL_CONFIG = {
     "provider": "dashscope",
@@ -1140,6 +1147,7 @@ def run_target_stage(
     allow_network: bool,
     env_file: Path,
     registry_path: Path = DEFAULT_REGISTRY_PATH,
+    h_scope_review_path: Path = DEFAULT_H_SCOPE_REVIEW_PATH,
     transport_factory: Callable | None = None,
 ) -> dict[str, Any]:
     """Run exactly one paired C2/C3 controlled episode per frozen target."""
@@ -1151,16 +1159,22 @@ def run_target_stage(
     registry_sha256 = compute_registry_digest(registry)
     source_manifest_path = source_root / "source_h_manifest.json"
     source_manifest = load_h_manifest(source_manifest_path)
-    h_manifest_sha256 = compute_h_manifest_digest(source_manifest)
-    if not source_manifest["entries"]:
-        raise SchemaError("Target stage requires at least one frozen live source H")
+    scope_review = read_json(h_scope_review_path)
+    validate_scope_review(scope_review, source_manifest, registry)
+    target_h_manifest = derive_target_h_manifest(source_manifest, scope_review, registry)
+    target_h_manifest_path = output / "target_eligible_h_manifest.json"
+    write_json(target_h_manifest_path, target_h_manifest)
+    source_h_manifest_sha256 = compute_h_manifest_digest(source_manifest)
+    h_manifest_sha256 = compute_h_manifest_digest(target_h_manifest)
+    if not target_h_manifest["entries"]:
+        raise SchemaError("Target stage requires at least one target-eligible source H")
     records = {record["target_id"]: record for record in registry["targets"]}
     assignments = []
     for target_id in registry["partitions"]["target"]:
         record = records[target_id]
         validate_public_applicability(record)
         assignment = assign_target_to_h(
-            target_id, record["matched_h_family"], source_manifest["entries"]
+            target_id, record["matched_h_family"], target_h_manifest["entries"]
         )
         assignments.append(assignment)
     assignment_digest = compute_assignment_manifest_digest(assignments)
@@ -1171,6 +1185,8 @@ def run_target_stage(
             "stage": "paired_c2_c3_targets",
             "registry_sha256": registry_sha256,
             "source_h_manifest_sha256": h_manifest_sha256,
+            "source_h_parent_manifest_sha256": source_h_manifest_sha256,
+            "h_scope_review_sha256": scope_review["review_sha256"],
             "selector_manifest_sha256": selector_manifest["manifest_sha256"],
             "target_count": len(assignments),
             "conditions": ["C2", "C3"],
@@ -1191,7 +1207,7 @@ def run_target_stage(
             "source_h_manifest_sha256": h_manifest_sha256,
         },
     )
-    entry_by_id = {entry["h_id"]: entry for entry in source_manifest["entries"]}
+    entry_by_id = {entry["h_id"]: entry for entry in target_h_manifest["entries"]}
     results = []
     for assignment in assignments:
         result = _run_one_paired_target(
@@ -1215,6 +1231,8 @@ def run_target_stage(
         "scientific_n": len(assignments),
         "registry_sha256": registry_sha256,
         "source_h_manifest_sha256": h_manifest_sha256,
+        "source_h_parent_manifest_sha256": source_h_manifest_sha256,
+        "h_scope_review_sha256": scope_review["review_sha256"],
         "assignment_digest": assignment_digest,
         "results": results,
         "paired_win_tie_loss": {
@@ -1268,6 +1286,12 @@ def main() -> None:
     mode.add_argument("--target-only", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-root", type=Path, default=DEFAULT_SOURCE_RUNTIME)
+    parser.add_argument(
+        "--h-scope-review",
+        type=Path,
+        default=DEFAULT_H_SCOPE_REVIEW_PATH,
+        help="Outcome-blind public H applicability review used by --target-only",
+    )
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     args = parser.parse_args()
@@ -1279,6 +1303,7 @@ def main() -> None:
         run_target_stage(
             args.output,
             source_root=args.source_root,
+            h_scope_review_path=args.h_scope_review,
             allow_network=args.allow_network,
             env_file=args.env_file,
         )
