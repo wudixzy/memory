@@ -4,116 +4,156 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1A Controlled Targeting Fast Track (v2)**.
+Current cycle: Phase 1B-Dev — Longitudinal System Calibration.
 
 Baseline:
 
-    bd4541698f37639e9a29a3e79543cda56609c047
+    68e2d26a3f2e1aab63ce87441a2049f31f1a6109
 
 Read first:
 
-1. docs/83_phase1a_controlled_targeting_fast_track_plan.md
-2. docs/82_phase1_s1c_structured_output_results.md
-3. docs/63_phase1_fair_c2_specification.md
-4. docs/69_phase1_pre_pilot_correction_results.md
+1. docs/86_phase1b_dev_longitudinal_system_calibration_plan.md
+2. docs/85_phase1a_controlled_targeting_forensic_analysis.md
+3. docs/current_state/09_project_master_handoff.md
+4. docs/current_state/03_component_contracts.md
 
-## Scientific goal
+## Goal
 
-Stop actor micro-optimization and obtain the first direct evidence for:
+Calibrate the minimum longitudinal closed loop:
 
-    C3 history-derived targeting
-    vs
-    C2 fair structured generic exploration
+history -> B/C/H -> retrieval -> one-shot probe -> actual evidence -> A ->
+H/comparison reconciliation -> next memory state.
 
-on the frozen 20-target receptacle-search distribution.
+This is development, not a treatment-effect experiment.
 
-The retired autonomous actor and docs/67–82 remain historical evidence. Do not
-weaken the old runner's pending-actor gate; implement a separate versioned
-`phase1a-controlled-targeting-v2` path.
+The coding-agent is both implementer and semantic reviewer. Metrics alone cannot justify tuning.
 
-## Controlled actor contract
+## Hard limit
 
-Only the search selector makes an online policy decision.
+Exactly:
 
-Selector input is public and symmetric across C2/C3:
+implementation
+-> Round-0 on the frozen 12-task stream
+-> deep semantic review
+-> ONE batch tuning
+-> Round-1 on the same stream from reset
+-> deep semantic review
+-> freeze or method rethink
 
-- target object type parsed from the public task instruction;
-- current public observation;
-- remaining candidate receptacles;
-- inspected-candidate public ledger;
-- canonical established search guidance;
-- C2 generic H or C3 targeted H.
+No Round-2.
 
-Selector output:
+## Frozen stream and state
 
-    {"candidate_index": legal_index}
+Use exactly the 12 tasks/order listed in docs/86, seed 42. They are development-only.
 
-Use one frozen selector config:
+Both rounds start from:
 
-    qwen3.8-max
-    temperature=0
-    thinking=false
-    strict dynamic JSON schema
+K_established = canonical K*
+active_H = empty
+consumed_H = empty
+comparison_ledger = empty
+evidence_store = empty
 
-The shared executor deterministically navigates to the selected candidate, opens it
-when the exact public action is legal, inspects the public result, and takes only an
-exact matching target object when its exact take action is admissible.
+No native cold start and no production Stage1.
 
-No semantic fallback, wrong-object take, hidden state, oracle, clamp, retry-to-repair,
-or condition-specific execution logic.
+## Execution
 
-Controlled probe budget:
+At task start semantic retrieval returns NONE or one active H.
 
-    max_candidate_probes = 2
+If H is activated:
+run at most 2 targeted candidate probes;
+consume H;
+if target is not acquired, continue deterministic canonical search over remaining candidates.
 
-Primary endpoint is target acquisition, not full downstream task completion.
+Probe failure is not task failure.
 
-## This cycle
+Stop at exact target acquisition. Do not run downstream clean/heat/cool/place.
 
-1. Implement/freeze the controlled parser, ledger, selector interface, executor,
-   paired runner and focused no-model tests.
-2. Commit/push the immutable no-model transition.
-3. Generate deterministic canonical-K* source trajectories for the existing Source 5.
-4. Fix mandatory B/C source referential binding; run B/C once per source with one
-   frozen offline config.
-5. Preserve B=NONE/C=NONE; never swap source tasks for favorable H.
-6. If zero live H entries survive, STOP.
-7. Otherwise freeze source-H manifest and run exactly the frozen 20 targets:
-      C2 x1 + C3 x1
-   with paired replay specs.
-8. Commit/push the result and STOP for researcher review.
+## Evolution
 
-## Primary metrics
+A and B/C branch from the same pre-update M_t.
 
-Per unique target:
+A sees only actual evidence and no counterfactual arm.
 
-- target acquired within two candidate probes;
-- candidate probes to acquisition;
-- paired C3-vs-C2 win/tie/loss.
+B decides OPEN/NONE and may not propose the alternative.
 
-Environment steps, selector calls, tokens and cost are secondary.
+C runs only after OPEN and keeps the existing local-public/future-facing boundary.
 
-Scientific n = 20 targets, not 40 episodes.
+After both branches, reconcile H/comparison identity/lifecycle and materialize M_{t+1}.
 
-## Allowed checks before paid calls
+Never blindly append C output.
 
-Only focused parser/executor/ledger tests, pairing/leakage tests, fake-selector
-condition-isolation tests, structured candidate-enum tests, and one no-model/synthetic
-mechanical smoke.
+## Model policy
 
-No paid pilot and no new actor gate.
+No model sweep.
 
-## Forbidden
+Selector:
+qwen3.8-max, thinking=false, temperature=0, strict schema.
 
-Do not:
+B/C/A/retrieval/H-reconciliation:
+qwen3.8-flash, thinking=false, temperature=0.
 
-- run B1-R;
-- rerun/tune S1/S1C or any autonomous actor;
-- test a second selector model;
-- change K* or history representation;
-- resample Source/Target;
-- add C1/repetitions before first C2/C3 review;
-- run Stage1/A/native cold start/Phase 2+;
-- use hidden placement/PDDL/expert/evaluator information.
+The batch tuning may change semantic contracts/prompts, not model identity.
 
-The next milestone is the first real paired C3-vs-C2 targeting-value result.
+## Round-0 semantic review
+
+For every task read:
+
+memory before/after;
+retrieval;
+activated H;
+probe;
+continuation search;
+A;
+B/C;
+H reconciliation.
+
+Explicitly judge retrieval, applicability, probe fidelity, evidence meaning, A, B, C, reconciliation, and M_t->M_{t+1}. Cite artifact paths.
+
+Then produce a cross-task root-cause analysis.
+
+## One batch tuning
+
+A change requires either:
+
+- the same semantic root cause across multiple tasks, or
+- a direct method-contract/provenance/leakage violation.
+
+Allowed:
+B/C contracts/prompts;
+retrieval relevance/abstention;
+evidence packaging;
+A contract/prompt;
+H/comparison reconciliation;
+comparison ledger/provenance.
+
+Forbidden:
+task/object-specific fixes;
+candidate-ranking hacks;
+hidden/oracle data;
+K* tuning;
+executor changes;
+model/history sweeps;
+task replacement/reordering.
+
+Commit/push the Round-0 result, semantic review, and tuning proposal before applying the patch.
+
+## Round-1
+
+Commit/push the batch transition before calls. Reset memory and rerun the exact stream.
+
+Review again and compare every Round-0 root cause: fixed / partial / unchanged / regressed / new.
+
+No second tuning run.
+
+Final decision must be exactly:
+
+READY
+READY_WITH_KNOWN_LIMITATION
+NOT_READY_METHOD_RETHINK
+
+## Boundary
+
+Do not add baselines, repetitions, fresh tasks, Stage1, Graph/embedding retrieval, or scientific superiority claims.
+
+The only goal is to freeze a semantically healthy implementation for the next fresh 40–60 task longitudinal scale experiment.
