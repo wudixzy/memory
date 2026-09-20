@@ -792,6 +792,14 @@ def validate_c_result(result: dict) -> dict:
         or any(not isinstance(item, str) or not item.strip() for item in provenance)
     ):
         raise SchemaError("C provenance must be non-empty strings")
+    future_facing = {
+        "scope": result["scope"],
+        "hypothesis": result["hypothesis"],
+        "guidance": result["guidance"],
+        "probe_spec": result["probe_spec"],
+    }
+    if ENTITY_RE.search(json.dumps(future_facing, ensure_ascii=False, sort_keys=True)):
+        raise SchemaError("C future-facing fields contain a source entity id")
     return result
 
 

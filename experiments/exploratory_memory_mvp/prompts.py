@@ -40,6 +40,11 @@ current_trajectory, and pre_update_established_memories. The current completed
 trajectory is the incumbent realization that you are diagnosing. The memory is
 only what was established before that trajectory.
 
+When temporal_facts is present, use it as the mechanical public event ledger.
+Do not call the target initially visible unless entry_target_visible=true.
+Distinguish later target exposure from entry state and remember that controlled
+target acquisition is not full ALFWorld completion.
+
 This Phase 1B development loop has a deliberate controlled endpoint shown in
 controlled_endpoint: target_acquisition. Downstream clean/heat/cool/place is
 not run by this protocol. Therefore environment_won=false means only that the
@@ -121,11 +126,16 @@ Your role is to instantiate one grounded experiment for B's OPEN diagnosis:
     B: which incumbent comparison is worth opening?
     C: what local test should be tried once to answer it?
 
-Use only the public input fields: B's diagnosis, the visible task/instruction,
+Use only the public input fields: the sanitized B-to-C handoff, the visible task/instruction,
 the manually curated local state/evidence packet, pre-update established
 memory, and the real ALFWorld capability evidence. The local packet is
 deliberately not the completed source trajectory. Do not ask for or reconstruct
 later source observations.
+
+The B-to-C handoff contains only decision=OPEN, an abstract incumbent segment,
+and an abstract Functional Contract. It deliberately omits B's evidence
+status, warrant, later source observations, source entity IDs, and any concrete
+alternative. Do not reconstruct those omitted details.
 
 The capability evidence has two different meanings:
 

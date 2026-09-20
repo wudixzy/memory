@@ -18,11 +18,16 @@ from exploratory_memory_mvp.alfworld_carrier import (  # noqa: E402
 )
 from exploratory_memory_mvp.common import (  # noqa: E402
     SchemaError,
+    validate_c_result,
 )
 from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     DEFAULT_STREAM_PATH,
+    apply_a_updates,
     build_a_input_for_task,
+    build_b_to_c_projection,
+    build_evidence_package,
     build_longitudinal_b_input,
+    build_phase1b_a_response_format,
     build_reconciliation_input,
     build_reconciliation_response_format,
     build_retrieval_response_format,
@@ -31,6 +36,7 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     memory_state_digest,
     validate_controlled_endpoint,
     validate_memory_state,
+    validate_phase1b_a_result,
     validate_reconciliation_result,
     validate_retrieval_result,
 )
@@ -131,8 +137,9 @@ class _FakeEpisode:
 class _FakeTransport:
     proxy_disabled = True
 
-    def __init__(self):
+    def __init__(self, *, invalid_c: bool = False):
         self.payloads: list[dict] = []
+        self.invalid_c = invalid_c
 
     @staticmethod
     def _input(payload: dict) -> dict:
@@ -150,16 +157,21 @@ class _FakeTransport:
                 content = {"decision": "ACTIVATE", "h_id": active[0]["h_id"]}
             elif name == "alfworld_candidate_receptacle_selector":
                 content = {"candidate_index": 0}
+            elif name == "phase1b_a_epistemic_reconciliation":
+                content = {
+                    "decision": "NO_CHANGE",
+                    "evidence_role": "INCONCLUSIVE"
+                    if data.get("consumed_exploratory_memory", {}).get("status") != "NONE"
+                    else "IRRELEVANT",
+                    "comparison_assessment": "REMAINS_OPEN",
+                    "updates": [],
+                    "still_unresolved": ["The local comparison remains open."],
+                }
             else:
-                evidence_id = data["actual_evidence"]["evidence_id"]
                 content = {
                     "operation": "ADD",
                     "target_comparison_id": "NEW",
-                    "comparison_status": "OPEN",
                     "keep_candidate_h": True,
-                    "supporting_evidence_refs": [],
-                    "contradicting_evidence_refs": [],
-                    "inconclusive_evidence_refs": [evidence_id],
                     "rationale": "Fixture reconciliation preserves uncertainty.",
                 }
         else:
@@ -171,7 +183,11 @@ class _FakeTransport:
                 content = {
                     "decision": "CREATE",
                     "type": "exploratory",
-                    "scope": "matching public receptacle-search context",
+                    "scope": (
+                        "countertop_9 matching public receptacle-search context"
+                        if self.invalid_c
+                        else "matching public receptacle-search context"
+                    ),
                     "hypothesis": "An alternate local search realization may reduce search cost.",
                     "guidance": "Test one currently available local alternative once.",
                     "probe_spec": {
@@ -255,6 +271,19 @@ class Phase1BContractTests(unittest.TestCase):
         self.assertEqual(memory_state_digest(memory), memory_state_digest(initial_memory_state()))
         validate_memory_state(memory)
 
+    def test_acceptance_label_is_distinct_and_prepare_only_is_no_model(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "acceptance"
+            result = run_longitudinal_stream(
+                output,
+                round_name="acceptance",
+                prepare_only=True,
+            )
+            self.assertEqual(result["round"], "acceptance")
+            self.assertEqual(result["model_calls"], 0)
+            config = json.loads((output / "run_config.json").read_text())
+            self.assertEqual(config["round"], "acceptance")
+
     def test_retrieval_schema_is_active_pool_bound_and_fail_closed(self):
         response_format = build_retrieval_response_format(["h-1", "h-2"])
         self.assertEqual(
@@ -323,34 +352,168 @@ class Phase1BContractTests(unittest.TestCase):
             c_result=None,
             existing_comparison_ids=[],
         )
-        self.assertEqual(result["current_evidence_id"], "evidence-current")
-        self.assertEqual(
-            result["available_evidence_refs"], ["evidence-old", "evidence-current"]
-        )
+        self.assertNotIn("current_evidence_id", result)
+        self.assertNotIn("available_evidence_refs", result)
+        self.assertEqual(result["actual_evidence"]["evidence_id"], "evidence-current")
 
-    def test_reconciliation_rejects_unknown_evidence_and_preserves_no_new_h(self):
+    def test_reconciliation_schema_has_no_model_evidence_references_or_status(self):
         response_format = build_reconciliation_response_format([])
         target_enum = response_format["json_schema"]["schema"]["properties"][
             "target_comparison_id"
         ]["enum"]
         self.assertIn("NEW", target_enum)
+        properties = response_format["json_schema"]["schema"]["properties"]
+        self.assertNotIn("comparison_status", properties)
+        self.assertNotIn("supporting_evidence_refs", properties)
         result = {
             "operation": "NO_NEW_H",
             "target_comparison_id": "NONE",
-            "comparison_status": "OPEN",
             "keep_candidate_h": False,
-            "supporting_evidence_refs": [],
-            "contradicting_evidence_refs": [],
-            "inconclusive_evidence_refs": ["evidence-1"],
             "rationale": "There is not enough evidence.",
         }
-        with self.assertRaises(SchemaError):
+        self.assertEqual(
             validate_reconciliation_result(
                 result,
                 existing_comparison_ids=[],
-                evidence_ids=[],
                 has_candidate_h=False,
+            ),
+            result,
+        )
+
+    def test_b_to_c_projection_rejects_source_answer_and_drops_b_audit_fields(self):
+        b_result = {
+            "decision": "OPEN",
+            "incumbent_segment": "the local search at countertop_3",
+            "evidence_status": {
+                "feasibility_support": "works",
+                "comparative_support": "open",
+                "policy_relevance": "relevant",
+            },
+            "functional_contract": {
+                "available_state": "public candidates exist",
+                "local_function": "locate the requested object",
+                "required_downstream_state": "object acquired",
+                "constraints": ["preserve downstream task state"],
+            },
+            "warrant": "open",
+        }
+        with self.assertRaises(SchemaError):
+            build_b_to_c_projection(b_result)
+        b_result["incumbent_segment"] = "the local receptacle search"
+        projection = build_b_to_c_projection(b_result)
+        self.assertNotIn("evidence_status", projection)
+        self.assertNotIn("warrant", projection)
+
+    def test_phase1b_a_schema_and_target_operations_are_real(self):
+        memory = initial_memory_state()
+        ids = [item["memory_id"] for item in memory["established_memories"]]
+        response_format = build_phase1b_a_response_format(ids)
+        properties = response_format["json_schema"]["schema"]["properties"]
+        self.assertIn("comparison_assessment", properties)
+        self.assertIn("target_memory_ids", properties["updates"]["items"]["properties"])
+        update = {
+            "operation": "REFINE",
+            "target_memory_ids": [ids[0]],
+            "scope": "narrow public search scope",
+            "guidance": "retain the established public search order",
+            "evidence_basis": "actual public evidence",
+            "provenance": ["fixture/a"],
+        }
+        result = {
+            "decision": "UPDATE",
+            "evidence_role": "IRRELEVANT",
+            "comparison_assessment": "REMAINS_OPEN",
+            "updates": [update],
+            "still_unresolved": ["comparison remains open"],
+        }
+        validate_phase1b_a_result(
+            result,
+            existing_memory_ids=ids,
+            has_consumed_h=False,
+            has_actual_probe_evidence=False,
+        )
+        apply_a_updates(memory, result, task_id="fixture-task", artifact_ref="fixture/a")
+        self.assertEqual(memory["established_memories"][0]["guidance"], update["guidance"])
+        self.assertTrue(memory["established_memories"][0]["versions"])
+
+    def test_temporal_evidence_binds_later_exposure_and_acquisition_events(self):
+        task = load_phase1b_stream()["tasks"][0]
+        episode = _FakeEpisode(task["task_id"], 42)
+        initial = episode.state
+        for action in [
+            "go to cabinet_1",
+            "go to countertop_1",
+            "take apple_1 from countertop_1",
+        ]:
+            episode.step(action)
+        execution = episode.execution()
+        evidence = build_evidence_package(
+            task={**task, "instruction": "pick up some apple"},
+            memory_before=initial_memory_state(),
+            retrieval={"decision": "NONE", "h_id": "NONE"},
+            activated_h_id=None,
+            probe={"target_acquired": False, "environment_actions": [], "trace": []},
+            continuation={
+                "target_acquired": True,
+                "candidate_sequence": ["cabinet_1", "countertop_1"],
+                "environment_actions": execution["executed_actions"],
+                "trace": [],
+            },
+            execution=execution,
+            initial_state=initial,
+            target_type="apple",
+            artifact_root="fixture",
+        )
+        temporal = evidence["temporal_facts"]
+        self.assertFalse(temporal["entry_target_visible"])
+        self.assertIsNotNone(temporal["first_target_exposure_event"])
+        self.assertIsNotNone(temporal["target_acquired_event"])
+        self.assertEqual(temporal["acquisition_phase"], "continuation")
+
+    def test_future_entity_leak_is_rejected_but_fact_commit_is_preserved(self):
+        good = {
+            "decision": "CREATE",
+            "type": "exploratory",
+            "scope": "receptacle search",
+            "hypothesis": "test an alternate local realization",
+            "guidance": "run one local probe",
+            "probe_spec": {
+                "local_function": "locate the requested object",
+                "realization_pattern": "inspect one available candidate",
+                "capability_requirements": ["public navigation"],
+                "adaptive_policy": "react to the next observation",
+                "evidence_goal": "compare local search evidence",
+                "stop_conditions": ["evidence ready"],
+                "required_downstream_state": "object acquired",
+            },
+            "source_grounding": {
+                "entry_action": "go to countertop_1",
+                "why_grounded": "it is admissible at entry",
+                "public_capability_evidence": ["entry action"],
+            },
+            "provenance": ["fixture"],
+            "reason": "local",
+        }
+        leaked = copy.deepcopy(good)
+        leaked["probe_spec"]["adaptive_policy"] = "go to countertop_9 first"
+        with self.assertRaises(SchemaError):
+            validate_c_result(leaked)
+        transport = _FakeTransport(invalid_c=True)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "invalid-c"
+            run_longitudinal_stream(
+                output,
+                round_name="0",
+                transport_factory=lambda _payload: transport,
+                episode_factory=_FakeEpisode,
             )
+            first = output / "tasks" / "01-fe5a5bac7cf1"
+            summary = json.loads((first / "task_summary.json").read_text())
+            self.assertEqual(summary["status"], "completed")
+            self.assertEqual(summary["c_status"]["status"], "invalid")
+            self.assertTrue((first / "memory_after_fact_commit.json").is_file())
+            after = json.loads((first / "memory_after.json").read_text())
+            self.assertTrue(after["evidence_store"])
 
     def test_fake_transport_runs_closed_loop_and_saves_artifacts(self):
         transport = _FakeTransport()

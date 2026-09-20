@@ -63,12 +63,15 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     DEFAULT_STREAM_PATH,
     RECONCILIATION_SCHEMA,
     RETRIEVAL_SCHEMA,
+    active_established_memory_ids,
     active_h_entries,
     apply_a_updates,
+    apply_comparison_evidence_assessment,
     build_a_input_for_task,
     build_evidence_package,
     build_longitudinal_b_input,
     build_longitudinal_c_input,
+    build_phase1b_a_response_format,
     build_reconciliation_input,
     build_reconciliation_response_format,
     build_retrieval_input,
@@ -79,11 +82,13 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     memory_state_digest,
     reconcile_h_and_comparison,
     validate_memory_state,
+    validate_phase1b_a_result,
     validate_reconciliation_result,
     validate_retrieval_result,
 )
 from exploratory_memory_mvp.prompts import b_messages, c_messages  # noqa: E402
 from exploratory_memory_mvp.prompts_phase1b import (  # noqa: E402
+    phase1b_a_messages,
     reconciliation_messages,
     retrieval_messages,
 )
@@ -334,6 +339,20 @@ def _execute_continuation_search(
         "candidate_sequence": candidate_sequence,
         "target_acquired": target_acquired,
         "trace": trace,
+        "environment_actions": [
+            action
+            for item in trace
+            for action in (
+                [
+                    action_item.get("action")
+                    for action_item in item.get("actions", [])
+                    if isinstance(action_item, dict)
+                ]
+                if item.get("kind") == "canonical_candidate_inspection"
+                else [item.get("result", {}).get("action")]
+            )
+            if isinstance(action, str)
+        ],
         "environment_action_count": sum(
             len(item.get("actions", []))
             if item.get("kind") == "canonical_candidate_inspection"
@@ -520,7 +539,8 @@ def _run_offline_branch(
     allow_network: bool,
     env_file: Path,
     transport_factory: Callable | None,
-    max_tokens: int,
+    max_tokens: int | None,
+    response_format: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     parsed, status = _call_model(
         directory=output_dir,
@@ -531,6 +551,7 @@ def _run_offline_branch(
         env_file=env_file,
         transport_factory=transport_factory,
         max_tokens=max_tokens,
+        response_format=response_format,
     )
     return parsed, status
 
@@ -627,37 +648,78 @@ def _run_task(
             probe=probe,
             continuation=continuation,
             execution=execution,
+            initial_state=initial_state,
+            target_type=target_type,
             artifact_root=str(task_dir),
         )
         write_json(task_dir / "evidence_package.json", evidence)
 
-        consumed_h = h_entry["future_h"] if h_entry is not None else {"status": "NONE"}
-        a_input = build_a_input_for_task(
-            memory_before=memory_before,
-            consumed_h=consumed_h,
-            task=task_with_instruction,
-            execution=execution,
-            probe=probe,
-            evidence_package=evidence,
-            artifact_root=str(task_dir),
+        # Fact commit boundary: once public execution has completed, evidence
+        # and the activated H lifecycle are durable even if any later offline
+        # semantic stage is malformed or unavailable.
+        fact_memory = copy.deepcopy(memory_before)
+        if h_id is not None:
+            mark_h_consumed(
+                fact_memory,
+                h_id,
+                task_id=task["task_id"],
+                evidence_id=evidence["evidence_id"],
+            )
+        fact_memory["evidence_store"].append(evidence)
+        validate_memory_state(fact_memory)
+        write_json(task_dir / "memory_after_fact_commit.json", fact_memory)
+        write_json(
+            task_dir / "fact_commit.json",
+            {
+                "status": "committed",
+                "evidence_id": evidence["evidence_id"],
+                "activated_h_id": h_id,
+                "memory_after_fact_commit_sha256": memory_state_digest(fact_memory),
+            },
         )
-        write_json(task_dir / "a" / "a_input.json", a_input)
-        from exploratory_memory_mvp.prompts import a_messages
 
-        a_parsed, a_status = _run_offline_branch(
-            stage="a",
-            messages=a_messages(a_input),
-            output_dir=task_dir / "a",
-            allow_network=allow_network,
-            env_file=env_file,
-            transport_factory=transport_factory,
-            max_tokens=1400,
-        )
+        consumed_h = h_entry["future_h"] if h_entry is not None else {"status": "NONE"}
+        a_parsed = None
+        a_status: dict[str, Any] = {"status": "not_started"}
+        try:
+            a_input = build_a_input_for_task(
+                memory_before=memory_before,
+                consumed_h=consumed_h,
+                task=task_with_instruction,
+                execution=execution,
+                probe=probe,
+                evidence_package=evidence,
+                artifact_root=str(task_dir),
+            )
+            write_json(task_dir / "a" / "a_input.json", a_input)
+            a_response_format = build_phase1b_a_response_format(
+                active_established_memory_ids(memory_before)
+            )
+            a_parsed, a_status = _run_offline_branch(
+                stage="a",
+                messages=phase1b_a_messages(a_input),
+                output_dir=task_dir / "a",
+                allow_network=allow_network,
+                env_file=env_file,
+                transport_factory=transport_factory,
+                max_tokens=None,
+                response_format=a_response_format,
+            )
+        except Exception as error:
+            a_status = {"status": "input_invalid", "error": safe_error(error)}
+            write_json(task_dir / "a" / "validation_error.json", a_status["error"])
         if a_parsed is not None:
             try:
-                from exploratory_memory_mvp.common import validate_a_result
-
-                a_parsed = validate_a_result(a_parsed)
+                a_parsed = validate_phase1b_a_result(
+                    a_parsed,
+                    existing_memory_ids=[
+                        *active_established_memory_ids(memory_before),
+                    ],
+                    has_consumed_h=h_id is not None,
+                    has_actual_probe_evidence=(
+                        h_id is not None and probe["runtime_status"] == "EVIDENCE_OBTAINED"
+                    ),
+                )
                 write_json(task_dir / "a" / "a_parsed.json", a_parsed)
             except Exception as error:
                 a_status = {"status": "invalid", "error": safe_error(error)}
@@ -670,6 +732,7 @@ def _run_task(
             execution,
             memory_before,
             controlled_endpoint=evidence["controlled_endpoint"],
+            temporal_facts=evidence["temporal_facts"],
         )
         write_json(task_dir / "b" / "b_input.json", b_input)
         b_parsed, b_status = _run_offline_branch(
@@ -693,22 +756,32 @@ def _run_task(
         c_parsed = None
         c_status: dict[str, Any] = {"status": "skipped_b_not_open"}
         if b_parsed is not None and b_parsed["decision"] == "OPEN":
-            c_input = build_longitudinal_c_input(
-                b_input,
-                b_parsed,
-                initial_state,
-                public_candidate_ids(initial_state),
-            )
-            write_json(task_dir / "c" / "c_input.json", c_input)
-            c_parsed, c_status = _run_offline_branch(
-                stage="c",
-                messages=c_messages(c_input),
-                output_dir=task_dir / "c",
-                allow_network=allow_network,
-                env_file=env_file,
-                transport_factory=transport_factory,
-                max_tokens=1600,
-            )
+            try:
+                c_input = build_longitudinal_c_input(
+                    b_input,
+                    b_parsed,
+                    initial_state,
+                    public_candidate_ids(initial_state),
+                )
+                write_json(task_dir / "c" / "c_input.json", c_input)
+                write_json(
+                    task_dir / "b_c_handoff" / "projection.json",
+                    c_input["b_handoff"],
+                )
+                c_parsed, c_status = _run_offline_branch(
+                    stage="c",
+                    messages=c_messages(c_input),
+                    output_dir=task_dir / "c",
+                    allow_network=allow_network,
+                    env_file=env_file,
+                    transport_factory=transport_factory,
+                    max_tokens=1600,
+                )
+            except Exception as error:
+                c_status = {"status": "b_to_c_handoff_invalid", "error": safe_error(error)}
+                write_json(task_dir / "b_c_handoff" / "validation_error.json", c_status["error"])
+                write_json(task_dir / "c" / "status.json", c_status)
+                _write_not_started(task_dir / "c")
             if c_parsed is not None:
                 try:
                     c_parsed = validate_c_result(c_parsed)
@@ -759,12 +832,9 @@ def _run_task(
             )
             if reconciliation_parsed is not None:
                 try:
-                    evidence_ids = [item["evidence_id"] for item in memory_before["evidence_store"]]
-                    evidence_ids.append(evidence["evidence_id"])
                     reconciliation_parsed = validate_reconciliation_result(
                         reconciliation_parsed,
                         existing_comparison_ids=reconciliation_input["existing_comparison_ids"],
-                        evidence_ids=evidence_ids,
                         has_candidate_h=c_parsed is not None and c_parsed["decision"] == "CREATE",
                     )
                     write_json(
@@ -782,36 +852,65 @@ def _run_task(
             write_json(task_dir / "h_reconciliation" / "status.json", reconciliation_status)
             _write_not_started(task_dir / "h_reconciliation")
 
-        next_memory = copy.deepcopy(memory_before)
-        if h_id is not None:
-            mark_h_consumed(
-                next_memory,
-                h_id,
-                task_id=task["task_id"],
-                evidence_id=evidence["evidence_id"],
-            )
-        next_memory["evidence_store"].append(evidence)
-        a_update_ids = apply_a_updates(
-            next_memory,
-            a_parsed,
-            task_id=task["task_id"],
-            artifact_ref=str(task_dir / "a"),
-        )
+        next_memory = copy.deepcopy(fact_memory)
+        a_update_ids: list[str] = []
+        a_assessment = None
+        if a_parsed is not None:
+            try:
+                a_update_ids = apply_a_updates(
+                    next_memory,
+                    a_parsed,
+                    task_id=task["task_id"],
+                    artifact_ref=str(task_dir / "a"),
+                )
+                if h_id is not None:
+                    h_for_assessment = next(
+                        item
+                        for item in next_memory["exploratory_memories"]
+                        if item["h_id"] == h_id
+                    )
+                    a_assessment = apply_comparison_evidence_assessment(
+                        next_memory,
+                        comparison_id=h_for_assessment["comparison_id"],
+                        evidence_id=evidence["evidence_id"],
+                        evidence_role=a_parsed["evidence_role"],
+                        comparison_assessment=a_parsed["comparison_assessment"],
+                        task_id=task["task_id"],
+                        has_actual_probe_evidence=(
+                            probe["runtime_status"] == "EVIDENCE_OBTAINED"
+                        ),
+                    )
+            except Exception as error:
+                a_status = {"status": "materialization_invalid", "error": safe_error(error)}
+                write_json(task_dir / "a" / "materialization_error.json", a_status["error"])
+                a_update_ids = []
+                a_assessment = None
         reconciliation_effect = None
         if (
             b_parsed is not None
             and b_parsed["decision"] == "OPEN"
             and reconciliation_parsed is not None
         ):
-            reconciliation_effect = reconcile_h_and_comparison(
-                next_memory,
-                b_result=b_parsed,
-                c_result=c_parsed,
-                reconciliation=reconciliation_parsed,
-                task_id=task["task_id"],
-                evidence_id=evidence["evidence_id"],
-                artifact_ref=str(task_dir / "c"),
-            )
+            try:
+                reconciliation_effect = reconcile_h_and_comparison(
+                    next_memory,
+                    b_result=b_parsed,
+                    c_result=c_parsed,
+                    reconciliation=reconciliation_parsed,
+                    task_id=task["task_id"],
+                    evidence_id=evidence["evidence_id"],
+                    artifact_ref=str(task_dir / "c"),
+                )
+            except Exception as error:
+                reconciliation_status = {
+                    "status": "materialization_invalid",
+                    "error": safe_error(error),
+                }
+                write_json(
+                    task_dir / "h_reconciliation" / "materialization_error.json",
+                    reconciliation_status["error"],
+                )
+                reconciliation_effect = None
         validate_memory_state(next_memory)
         write_json(task_dir / "memory_after.json", next_memory)
         row.update(
@@ -832,6 +931,7 @@ def _run_task(
                 "c_status": c_status,
                 "h_reconciliation_status": reconciliation_status,
                 "a_update_ids": a_update_ids,
+                "a_assessment": a_assessment,
                 "reconciliation_effect": reconciliation_effect,
                 "memory_before_sha256": memory_state_digest(memory_before),
                 "memory_after_sha256": memory_state_digest(next_memory),
@@ -844,11 +944,14 @@ def _run_task(
         row.update({"status": "failed", "error": safe_error(error)})
         write_json(task_dir / "failure.json", row["error"])
         write_json(task_dir / "task_summary.json", row)
-        # Preserve the pre-update state rather than silently materializing a
-        # partial task after a mechanical failure.
-        write_json(task_dir / "memory_after.json", memory_before)
+        # Before the factual commit, a carrier failure must not create a
+        # partial memory state.  After it, preserve facts/H consumption even
+        # when a later semantic stage fails.
+        committed = locals().get("fact_memory")
+        fallback_memory = committed if isinstance(committed, dict) else memory_before
+        write_json(task_dir / "memory_after.json", fallback_memory)
         write_json(task_dir / "usage.json", _aggregate_usage(task_dir))
-        return row, memory_before
+        return row, fallback_memory
     finally:
         if episode is not None:
             episode.close()
@@ -865,8 +968,8 @@ def run_longitudinal_stream(
     episode_factory: Callable = StepwiseTask,
     prepare_only: bool = False,
 ) -> dict[str, Any]:
-    if round_name not in {"0", "1", "round0", "round1"}:
-        raise ValueError("round_name must identify Round-0 or Round-1")
+    if round_name not in {"0", "1", "round0", "round1", "acceptance"}:
+        raise ValueError("round_name must identify Round-0, Round-1, or acceptance")
     stream = load_phase1b_stream(stream_path)
     make_run_directory(output)
     run_config = {
@@ -965,7 +1068,9 @@ def run_longitudinal_stream(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--round", required=True, choices=("0", "1", "round0", "round1"))
+    parser.add_argument(
+        "--round", required=True, choices=("0", "1", "round0", "round1", "acceptance")
+    )
     parser.add_argument("--stream", type=Path, default=DEFAULT_STREAM_PATH)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)

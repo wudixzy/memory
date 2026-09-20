@@ -1,6 +1,6 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-20 active cycle:** Phase 1A controlled-targeting micro-pilot and forensic review are complete (docs/84–85). The active cycle is now **Phase 1B-Dev — Longitudinal System Calibration**. Read docs/86 and current AGENTS.md first. This cycle permits exactly Round-0, one evidence-backed semantic batch tuning, and Round-1; then freeze or method rethink.
+> **2026-09-20 active cycle:** Phase 1B longitudinal calibration is complete and frozen as `NOT_READY_METHOD_RETHINK` in docs/91. The active cycle is now **Phase 1B Interface Hardening**. Read docs/92–95 and current AGENTS.md first. This cycle permits one no-model hardening checkpoint and one acceptance stream only; it is not Round-2.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 

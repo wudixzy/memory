@@ -8,6 +8,12 @@
 
 ## 1. Review 的目的
 
+> **Current cycle override:** the previous actor-stack review below is
+> historical.  The active review is `Phase 1B Interface Hardening` (docs/92–95):
+> inspect the B→C firewall, C future boundary, A epistemic assessment,
+> deterministic evidence binding, consolidation identity-only behavior, and
+> fact-commit persistence.  Do not reopen actor tuning or run fresh evaluation.
+
 这一轮 review 不是：
 
 - 重新设计 B/C/H/A；

@@ -10,16 +10,18 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 from .common import (
     C_PROBE_KEYS,
+    ENTITY_RE,
     SchemaError,
     _nonempty_string,
     assert_no_evaluator_keys,
     build_a_input,
-    c_context,
+    extract_task_instruction,
     validate_b_result,
     validate_c_result,
     validate_local_c_context,
@@ -27,10 +29,11 @@ from .common import (
 from .k_star import get_phase1_k_star
 
 DEFAULT_STREAM_PATH = Path(__file__).resolve().parent / "cases" / "phase1b_dev_stream.json"
-MEMORY_STATE_SCHEMA = "phase1b-longitudinal-memory-state-v1"
+MEMORY_STATE_SCHEMA = "phase1b-longitudinal-memory-state-v2"
 EVIDENCE_SCHEMA = "phase1b-public-evidence-package-v1"
 RETRIEVAL_SCHEMA = "phase1b-h-retrieval-v1"
-RECONCILIATION_SCHEMA = "phase1b-h-comparison-reconciliation-v1"
+RECONCILIATION_SCHEMA = "phase1b-h-comparison-reconciliation-v2"
+A_SCHEMA = "phase1b-a-epistemic-reconciliation-v2"
 CONTROLLED_ENDPOINT_NAME = "target_acquisition"
 
 H_STATUSES = frozenset({"active", "consumed", "superseded"})
@@ -46,6 +49,11 @@ RECONCILIATION_OPERATIONS = frozenset(
     }
 )
 RETRIEVAL_DECISIONS = frozenset({"NONE", "ACTIVATE"})
+EVIDENCE_ROLES = frozenset({"SUPPORTING", "CONTRADICTING", "INCONCLUSIVE", "IRRELEVANT"})
+COMPARISON_ASSESSMENTS = frozenset({"REMAINS_OPEN", "PARTIALLY_RESOLVED", "RESOLVED"})
+_TARGET_TAKE_RE = re.compile(
+    r"^take ([a-z][a-z0-9_]*)_\d+ from [a-z][a-z0-9_]*_\d+$", re.IGNORECASE
+)
 
 
 def _digest(value: Any) -> str:
@@ -140,14 +148,34 @@ def _validate_public_future_h(future_h: dict[str, Any]) -> dict[str, Any]:
             raise SchemaError("Future-facing H probe lists are malformed")
     assert_no_evaluator_keys(future_h)
     serialized = json.dumps(future_h, ensure_ascii=False, sort_keys=True)
-    if any(entity in serialized for entity in ("_1", "_2", "_3")):
-        # Entity leakage is checked more precisely by the runner using the
-        # shared entity regex; this cheap guard catches common malformed cases.
-        from .common import ENTITY_RE
-
-        if ENTITY_RE.search(serialized):
-            raise SchemaError("Future-facing H contains a source entity id")
+    if ENTITY_RE.search(serialized):
+        raise SchemaError("Future-facing H contains a source entity id")
     return future_h
+
+
+def build_b_to_c_projection(b_result: dict[str, Any]) -> dict[str, Any]:
+    """Project B's diagnosis to the smallest C-facing handoff.
+
+    B remains the full-trajectory auditor.  C receives only the abstract
+    replacement boundary, never B's evidence narrative or source-specific
+    diagnosis.  Entity/action identifiers are rejected mechanically because a
+    concrete source answer is not a valid Functional Contract handoff.
+    """
+
+    validated = validate_b_result(b_result)
+    if validated["decision"] == "NONE":
+        return {"decision": "NONE"}
+    contract = validated["functional_contract"]
+    projection = {
+        "decision": "OPEN",
+        "incumbent_segment": validated["incumbent_segment"],
+        "functional_contract": copy.deepcopy(contract),
+    }
+    serialized = json.dumps(projection, ensure_ascii=False, sort_keys=True)
+    if ENTITY_RE.search(serialized):
+        raise SchemaError("B-to-C handoff contains a source entity id")
+    assert_no_evaluator_keys(projection)
+    return projection
 
 
 def initial_memory_state() -> dict[str, Any]:
@@ -302,6 +330,15 @@ def active_h_entries(memory: dict[str, Any]) -> list[dict[str, Any]]:
     return [entry for entry in memory["exploratory_memories"] if entry["status"] == "active"]
 
 
+def active_established_memory_ids(memory: dict[str, Any]) -> list[str]:
+    validate_memory_state(memory)
+    return [
+        entry["memory_id"]
+        for entry in memory["established_memories"]
+        if entry.get("lifecycle_status", "active") == "active"
+    ]
+
+
 def build_retrieval_input(
     task: dict[str, Any], initial_state: dict[str, Any], memory: dict
 ) -> dict:
@@ -405,6 +442,7 @@ def build_longitudinal_b_input(
     execution: dict,
     memory: dict,
     controlled_endpoint: dict[str, Any] | None = None,
+    temporal_facts: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if controlled_endpoint is None:
         controlled_endpoint = {
@@ -427,6 +465,8 @@ def build_longitudinal_b_input(
         "controlled_endpoint": copy.deepcopy(controlled_endpoint),
         "pre_update_established_memories": copy.deepcopy(memory["established_memories"]),
     }
+    if temporal_facts is not None:
+        result["temporal_facts"] = copy.deepcopy(temporal_facts)
     assert_no_evaluator_keys(result)
     for forbidden in (
         "case_type",
@@ -448,6 +488,10 @@ def build_longitudinal_c_input(
     public_candidates: list[str],
 ) -> dict[str, Any]:
     """Build C's local packet from entry facts, never from the completed trace."""
+
+    b_handoff = build_b_to_c_projection(b_result)
+    if b_handoff["decision"] != "OPEN":
+        raise SchemaError("C input requires an OPEN B-to-C handoff")
 
     local_context = {
         "entry_state": {
@@ -484,10 +528,37 @@ def build_longitudinal_c_input(
             "observed_entity_ids": list(public_candidates),
         },
     }
-    result = c_context(b_input, validate_b_result(b_result), capabilities, local_context)
+    # Do not pass the full B result through c_context: evidence_status,
+    # warrant, and source-specific diagnostic text are B audit material, not a
+    # C synthesis input.
+    result = {
+        "b_handoff": b_handoff,
+        "current_task": {
+            **b_input["current_task"],
+            "instruction": extract_task_instruction(
+                b_input["current_initial_state"]["observation"]
+            ),
+        },
+        "local_state_and_evidence": copy.deepcopy(local_context),
+        "pre_update_established_memories": copy.deepcopy(
+            b_input["pre_update_established_memories"]
+        ),
+        "real_capabilities": copy.deepcopy(
+            capabilities
+        ),
+    }
+    # Reuse the established entry-capability normalization without exposing
+    # the completed trajectory or full historical exact-action union.
+    from .common import restrict_capabilities_to_entry
+
+    result["real_capabilities"] = restrict_capabilities_to_entry(
+        capabilities, local_context["entry_state"]
+    )
     assert_no_evaluator_keys(result)
     if "current_trajectory" in json.dumps(result, ensure_ascii=False):
         raise SchemaError("Completed current trajectory entered longitudinal C input")
+    if "evidence_status" in result["b_handoff"] or "warrant" in result["b_handoff"]:
+        raise SchemaError("B audit-only fields entered C input")
     return result
 
 
@@ -500,6 +571,8 @@ def build_evidence_package(
     probe: dict[str, Any],
     continuation: dict[str, Any],
     execution: dict[str, Any],
+    initial_state: dict[str, Any],
+    target_type: str,
     artifact_root: str,
 ) -> dict[str, Any]:
     controlled_endpoint = {
@@ -511,6 +584,64 @@ def build_evidence_package(
         "environment_won": execution.get("final", {}).get("won"),
     }
     validate_controlled_endpoint(controlled_endpoint)
+    probe_actions = list(probe.get("environment_actions", []))
+    continuation_actions = list(continuation.get("environment_actions", []))
+    events: list[dict[str, Any]] = []
+    execution_steps = list(execution.get("steps", []))
+    expected_actions = probe_actions + continuation_actions
+    if len(expected_actions) != len(execution_steps):
+        raise SchemaError("Evidence event phases do not cover the public execution trace")
+    for index, step in enumerate(execution_steps, start=1):
+        phase = "probe" if index <= len(probe_actions) else "continuation"
+        event_id = "event-" + _digest(
+            {
+                "task_id": task["task_id"],
+                "phase": phase,
+                "index": index,
+                "action": step.get("action"),
+                "observation": step.get("observation"),
+            }
+        )[:16]
+        events.append(
+            {
+                "event_id": event_id,
+                "ordinal": index,
+                "phase": phase,
+                "action": step.get("action"),
+                "observation": step.get("observation"),
+                "admissible_actions": list(step.get("admissible_actions", [])),
+                "won": step.get("won"),
+                "done": step.get("done"),
+            }
+        )
+    from .controlled_targeting import exact_target_take_action
+
+    entry_target_visible = exact_target_take_action(initial_state, target_type) is not None
+    first_target_exposure_event = None
+    target_acquired_event = None
+    acquisition_phase = "entry" if entry_target_visible else None
+    for event in events:
+        target_action = exact_target_take_action(
+            {"admissible_actions": event["admissible_actions"]}, target_type
+        )
+        if first_target_exposure_event is None and target_action is not None:
+            first_target_exposure_event = event["event_id"]
+        action = event["action"]
+        action_match = _TARGET_TAKE_RE.fullmatch(action) if isinstance(action, str) else None
+        if action_match and action_match.group(1).lower() == target_type.lower():
+            target_acquired_event = event["event_id"]
+            acquisition_phase = event["phase"]
+    temporal_facts = {
+        "entry_target_visible": entry_target_visible,
+        "probe_events": [event for event in events if event["phase"] == "probe"],
+        "continuation_events": [
+            event for event in events if event["phase"] == "continuation"
+        ],
+        "first_target_exposure_event": first_target_exposure_event,
+        "target_acquired_event": target_acquired_event,
+        "acquisition_phase": acquisition_phase,
+        "environment_action_count": len(execution.get("executed_actions", [])),
+    }
     package = {
         "schema_version": EVIDENCE_SCHEMA,
         "evidence_id": "evidence-" + _digest(
@@ -531,6 +662,7 @@ def build_evidence_package(
             "final_public_state": copy.deepcopy(execution.get("final", {})),
         },
         "controlled_endpoint": controlled_endpoint,
+        "temporal_facts": temporal_facts,
         "candidate_inspections": len(probe.get("candidate_sequence", []))
         + len(continuation.get("candidate_sequence", [])),
         "environment_action_count": len(execution.get("executed_actions", [])),
@@ -550,18 +682,12 @@ def build_reconciliation_input(
     c_result: dict[str, Any] | None,
     existing_comparison_ids: list[str],
 ) -> dict[str, Any]:
-    available_evidence_refs = [
-        item["evidence_id"] for item in memory_before["evidence_store"]
-    ]
-    available_evidence_refs.append(evidence_package["evidence_id"])
     result = {
         "pre_update_memory": copy.deepcopy(memory_before),
         "actual_evidence": copy.deepcopy(evidence_package),
         "a_result": copy.deepcopy(a_result) if a_result is not None else {"status": "unavailable"},
         "b_diagnosis": copy.deepcopy(b_result),
         "c_candidate": copy.deepcopy(c_result) if c_result is not None else None,
-        "current_evidence_id": evidence_package["evidence_id"],
-        "available_evidence_refs": available_evidence_refs,
         "existing_comparison_ids": list(existing_comparison_ids),
     }
     assert_no_evaluator_keys(result)
@@ -585,30 +711,13 @@ def build_reconciliation_response_format(existing_comparison_ids: list[str]) -> 
                         "enum": sorted(RECONCILIATION_OPERATIONS),
                     },
                     "target_comparison_id": {"type": "string", "enum": ids},
-                    "comparison_status": {
-                        "type": "string",
-                        "enum": sorted(COMPARISON_STATUSES),
-                    },
                     "keep_candidate_h": {"type": "boolean"},
-                    "supporting_evidence_refs": {"type": "array", "items": {"type": "string"}},
-                    "contradicting_evidence_refs": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                    },
-                    "inconclusive_evidence_refs": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                    },
                     "rationale": {"type": "string"},
                 },
                 "required": [
                     "operation",
                     "target_comparison_id",
-                    "comparison_status",
                     "keep_candidate_h",
-                    "supporting_evidence_refs",
-                    "contradicting_evidence_refs",
-                    "inconclusive_evidence_refs",
                     "rationale",
                 ],
                 "additionalProperties": False,
@@ -621,17 +730,12 @@ def validate_reconciliation_result(
     result: dict[str, Any],
     *,
     existing_comparison_ids: list[str],
-    evidence_ids: list[str],
     has_candidate_h: bool,
 ) -> dict[str, Any]:
     required = {
         "operation",
         "target_comparison_id",
-        "comparison_status",
         "keep_candidate_h",
-        "supporting_evidence_refs",
-        "contradicting_evidence_refs",
-        "inconclusive_evidence_refs",
         "rationale",
     }
     if not isinstance(result, dict) or set(result) != required:
@@ -641,8 +745,6 @@ def validate_reconciliation_result(
     target = result["target_comparison_id"]
     if target not in [*existing_comparison_ids, "NEW", "NONE"]:
         raise SchemaError("Reconciliation selected an unknown comparison")
-    if result["comparison_status"] not in COMPARISON_STATUSES:
-        raise SchemaError("Reconciliation comparison status is invalid")
     if type(result["keep_candidate_h"]) is not bool:
         raise SchemaError("Reconciliation keep_candidate_h must be boolean")
     if result["keep_candidate_h"] and not has_candidate_h:
@@ -654,23 +756,25 @@ def validate_reconciliation_result(
         "NONE",
     }:
         raise SchemaError("Existing-comparison reconciliation needs an existing id")
-    for key in (
-        "supporting_evidence_refs",
-        "contradicting_evidence_refs",
-        "inconclusive_evidence_refs",
-    ):
-        values = result[key]
-        if not isinstance(values, list) or any(
-            not isinstance(item, str) or item not in evidence_ids for item in values
-        ):
-            raise SchemaError("Reconciliation evidence references are invalid")
+    if result["operation"] == "DISCARD_DUPLICATE" and target in {"NEW", "NONE"}:
+        raise SchemaError("DISCARD_DUPLICATE must identify an existing comparison")
+    if result["operation"] == "NO_NEW_H" and target != "NONE":
+        raise SchemaError("NO_NEW_H must target NONE")
+    if result["operation"] in {"DISCARD_DUPLICATE", "NO_NEW_H"} and result[
+        "keep_candidate_h"
+    ]:
+        raise SchemaError("Duplicate/no-new reconciliation cannot keep a candidate H")
     _nonempty_string(result["rationale"], "reconciliation.rationale")
     assert_no_evaluator_keys(result)
     return result
 
 
 def apply_a_updates(
-    memory: dict[str, Any], a_result: dict[str, Any] | None, *, task_id: str, artifact_ref: str
+    memory: dict[str, Any],
+    a_result: dict[str, Any] | None,
+    *,
+    task_id: str,
+    artifact_ref: str,
 ) -> list[str]:
     """Materialize exactly the evidence-bound updates A returned.
 
@@ -680,32 +784,132 @@ def apply_a_updates(
 
     if a_result is None or a_result.get("decision") != "UPDATE":
         return []
+    active_entries = {
+        entry["memory_id"]: entry
+        for entry in memory["established_memories"]
+        if entry.get("lifecycle_status", "active") == "active"
+    }
     updates = a_result.get("updates", [])
     created: list[str] = []
     for update_index, update in enumerate(updates):
-        memory_id = "established-" + _digest(
-            {
-                "task_id": task_id,
-                "update_index": update_index,
-                "update": update,
-                "artifact_ref": artifact_ref,
+        operation = update["operation"]
+        targets = list(update["target_memory_ids"])
+        if operation == "ADD":
+            if targets:
+                raise SchemaError("A ADD must not target an existing memory")
+            memory_id = "established-" + _digest(
+                {
+                    "task_id": task_id,
+                    "update_index": update_index,
+                    "update": update,
+                    "artifact_ref": artifact_ref,
+                }
+            )[:16]
+            entry = {
+                "memory_id": memory_id,
+                "scope": update["scope"],
+                "guidance": update["guidance"],
+                "prior_comparison_evidence": {
+                    "operation": operation,
+                    "evidence_basis": update["evidence_basis"],
+                    "provenance": list(update["provenance"]),
+                },
+                "lineage": [artifact_ref],
+                "created_at_task": task_id,
+                "lifecycle_status": "active",
             }
-        )[:16]
-        entry = {
-            "memory_id": memory_id,
-            "scope": update["scope"],
-            "guidance": update["guidance"],
-            "prior_comparison_evidence": {
-                "operation": update["operation"],
-                "evidence_basis": update["evidence_basis"],
-                "provenance": list(update["provenance"]),
-            },
-            "lineage": [artifact_ref],
-            "created_at_task": task_id,
-        }
-        assert_no_evaluator_keys(entry)
-        memory["established_memories"].append(entry)
-        created.append(memory_id)
+            assert_no_evaluator_keys(entry)
+            memory["established_memories"].append(entry)
+            created.append(memory_id)
+            continue
+
+        if operation in {"REFINE", "SPECIALIZE"}:
+            if len(targets) != 1 or targets[0] not in active_entries:
+                raise SchemaError(f"A {operation} requires one active target memory")
+            parent = active_entries[targets[0]]
+            snapshot = {
+                "scope": parent["scope"],
+                "guidance": parent["guidance"],
+                "lineage": list(parent.get("lineage", [])),
+                "created_at_task": parent.get("created_at_task"),
+            }
+            if operation == "REFINE":
+                parent.setdefault("versions", []).append(snapshot)
+                parent["scope"] = update["scope"]
+                parent["guidance"] = update["guidance"]
+                parent["lineage"] = [*parent.get("lineage", []), artifact_ref]
+                parent["prior_comparison_evidence"] = {
+                    "operation": operation,
+                    "evidence_basis": update["evidence_basis"],
+                    "provenance": list(update["provenance"]),
+                }
+                created.append(parent["memory_id"])
+                continue
+            child_id = "established-" + _digest(
+                {
+                    "task_id": task_id,
+                    "update_index": update_index,
+                    "operation": operation,
+                    "parent": targets[0],
+                    "scope": update["scope"],
+                    "guidance": update["guidance"],
+                }
+            )[:16]
+            child = {
+                "memory_id": child_id,
+                "scope": update["scope"],
+                "guidance": update["guidance"],
+                "prior_comparison_evidence": {
+                    "operation": operation,
+                    "evidence_basis": update["evidence_basis"],
+                    "provenance": list(update["provenance"]),
+                },
+                "lineage": [targets[0], artifact_ref],
+                "parent_memory_id": targets[0],
+                "created_at_task": task_id,
+                "lifecycle_status": "active",
+            }
+            assert_no_evaluator_keys(child)
+            memory["established_memories"].append(child)
+            created.append(child_id)
+            continue
+
+        if operation == "MERGE":
+            if len(targets) < 2 or len(set(targets)) != len(targets):
+                raise SchemaError("A MERGE requires at least two distinct target memories")
+            if any(target not in active_entries for target in targets):
+                raise SchemaError("A MERGE targets an unknown or inactive memory")
+            merged_id = "established-" + _digest(
+                {
+                    "task_id": task_id,
+                    "update_index": update_index,
+                    "operation": operation,
+                    "targets": targets,
+                    "scope": update["scope"],
+                    "guidance": update["guidance"],
+                }
+            )[:16]
+            for target in targets:
+                active_entries[target]["lifecycle_status"] = "superseded"
+            merged = {
+                "memory_id": merged_id,
+                "scope": update["scope"],
+                "guidance": update["guidance"],
+                "prior_comparison_evidence": {
+                    "operation": operation,
+                    "evidence_basis": update["evidence_basis"],
+                    "provenance": list(update["provenance"]),
+                },
+                "lineage": [*targets, artifact_ref],
+                "merged_from": list(targets),
+                "created_at_task": task_id,
+                "lifecycle_status": "active",
+            }
+            assert_no_evaluator_keys(merged)
+            memory["established_memories"].append(merged)
+            created.append(merged_id)
+            continue
+        raise SchemaError("Unsupported A update operation")
     return created
 
 
@@ -731,13 +935,27 @@ def reconcile_h_and_comparison(
     evidence_id: str,
     artifact_ref: str,
 ) -> dict[str, Any]:
-    """Apply a validated reconciliation decision without inventing a probe."""
+    """Apply identity/lifecycle reconciliation without changing epistemic status.
+
+    New comparisons are always OPEN.  Existing comparison status and evidence
+    roles are owned by A's actual-evidence assessment and are never copied from
+    the reconciliation model output.
+    """
 
     validate_b_result(b_result)
     if c_result is not None:
         validate_c_result(c_result)
     existing = {item["comparison_id"]: item for item in memory["comparison_ledger"]}
     target = reconciliation["target_comparison_id"]
+    if reconciliation["operation"] == "NO_NEW_H":
+        return {
+            "operation": reconciliation["operation"],
+            "comparison_id": None,
+            "comparison_status": None,
+            "h_id": None,
+            "candidate_retained": False,
+            "artifact_ref": artifact_ref,
+        }
     if target in {"NEW", "NONE"}:
         if reconciliation["operation"] != "ADD" and target == "NEW":
             raise SchemaError("Non-ADD reconciliation cannot target NEW")
@@ -755,7 +973,6 @@ def reconcile_h_and_comparison(
 
     if target in existing:
         comparison = existing[target]
-        comparison["status"] = reconciliation["comparison_status"]
         comparison["last_updated_task"] = task_id
     else:
         contract = b_result.get("functional_contract") or {}
@@ -767,7 +984,7 @@ def reconcile_h_and_comparison(
                 else contract.get("local_function", "local incumbent function")
             ),
             "incumbent_local_function": contract.get("local_function", "local incumbent function"),
-            "status": reconciliation["comparison_status"],
+            "status": "OPEN",
             "supporting_evidence_refs": [],
             "contradicting_evidence_refs": [],
             "inconclusive_evidence_refs": [],
@@ -777,15 +994,6 @@ def reconcile_h_and_comparison(
         }
         memory["comparison_ledger"].append(comparison)
         existing[target] = comparison
-
-    for key in (
-        "supporting_evidence_refs",
-        "contradicting_evidence_refs",
-        "inconclusive_evidence_refs",
-    ):
-        for ref in reconciliation[key]:
-            if ref not in comparison[key]:
-                comparison[key].append(ref)
 
     added_h_id = None
     if reconciliation["keep_candidate_h"]:
@@ -837,6 +1045,56 @@ def reconcile_h_and_comparison(
     }
 
 
+def apply_comparison_evidence_assessment(
+    memory: dict[str, Any],
+    *,
+    comparison_id: str,
+    evidence_id: str,
+    evidence_role: str,
+    comparison_assessment: str,
+    task_id: str,
+    has_actual_probe_evidence: bool,
+) -> dict[str, Any]:
+    """Mechanically bind A's semantic assessment to the current evidence.
+
+    A chooses the semantic role/status.  The runner supplies the only valid
+    evidence id and the activated H's mechanically bound comparison id.
+    """
+
+    if evidence_role not in EVIDENCE_ROLES:
+        raise SchemaError("Unknown A evidence role")
+    if comparison_assessment not in COMPARISON_ASSESSMENTS:
+        raise SchemaError("Unknown A comparison assessment")
+    comparison = next(
+        (item for item in memory["comparison_ledger"] if item["comparison_id"] == comparison_id),
+        None,
+    )
+    if comparison is None:
+        raise SchemaError("A assessment references an unknown comparison")
+    if not has_actual_probe_evidence and comparison_assessment == "RESOLVED":
+        raise SchemaError("A cannot resolve a comparison without actual H probe evidence")
+    if evidence_role == "SUPPORTING":
+        bucket = "supporting_evidence_refs"
+    elif evidence_role == "CONTRADICTING":
+        bucket = "contradicting_evidence_refs"
+    elif evidence_role == "INCONCLUSIVE":
+        bucket = "inconclusive_evidence_refs"
+    else:
+        bucket = None
+    if bucket is not None and evidence_id not in comparison[bucket]:
+        comparison[bucket].append(evidence_id)
+    if comparison_assessment != "REMAINS_OPEN":
+        comparison["status"] = comparison_assessment
+    comparison["last_updated_task"] = task_id
+    return {
+        "comparison_id": comparison_id,
+        "evidence_id": evidence_id,
+        "evidence_role": evidence_role,
+        "comparison_assessment": comparison_assessment,
+        "bound_bucket": bucket,
+    }
+
+
 def build_a_input_for_task(
     *,
     memory_before: dict[str, Any],
@@ -871,6 +1129,7 @@ def build_a_input_for_task(
             "activated_h_id": probe.get("h_id"),
             "runtime_status": probe.get("runtime_status"),
             "trace": probe.get("trace", []),
+            "temporal_facts": copy.deepcopy(evidence_package.get("temporal_facts", {})),
             "evidence_package_id": evidence_package["evidence_id"],
         },
         environment_outcome={
@@ -885,3 +1144,156 @@ def build_a_input_for_task(
         },
         provenance=[artifact_root, evidence_package["evidence_id"]],
     )
+
+
+def build_phase1b_a_response_format(existing_memory_ids: list[str]) -> dict[str, Any]:
+    """Return the strict Phase 1B A schema with current memory-id enums."""
+
+    if any(not isinstance(item, str) or not item.strip() for item in existing_memory_ids):
+        raise SchemaError("Existing established memory ids are malformed")
+    target_ids = [*existing_memory_ids, "NONE"]
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "phase1b_a_epistemic_reconciliation",
+            "strict": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "decision": {"type": "string", "enum": ["NO_CHANGE", "UPDATE"]},
+                    "evidence_role": {
+                        "type": "string",
+                        "enum": sorted(EVIDENCE_ROLES),
+                    },
+                    "comparison_assessment": {
+                        "type": "string",
+                        "enum": sorted(COMPARISON_ASSESSMENTS),
+                    },
+                    "updates": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "operation": {
+                                    "type": "string",
+                                    "enum": ["ADD", "REFINE", "SPECIALIZE", "MERGE"],
+                                },
+                                "target_memory_ids": {
+                                    "type": "array",
+                                    "items": {"type": "string", "enum": target_ids},
+                                },
+                                "scope": {"type": "string"},
+                                "guidance": {"type": "string"},
+                                "evidence_basis": {"type": "string"},
+                                "provenance": {"type": "array", "items": {"type": "string"}},
+                            },
+                            "required": [
+                                "operation",
+                                "target_memory_ids",
+                                "scope",
+                                "guidance",
+                                "evidence_basis",
+                                "provenance",
+                            ],
+                            "additionalProperties": False,
+                        },
+                    },
+                    "still_unresolved": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": [
+                    "decision",
+                    "evidence_role",
+                    "comparison_assessment",
+                    "updates",
+                    "still_unresolved",
+                ],
+                "additionalProperties": False,
+            },
+        },
+    }
+
+
+def validate_phase1b_a_result(
+    result: dict[str, Any],
+    *,
+    existing_memory_ids: list[str],
+    has_consumed_h: bool,
+    has_actual_probe_evidence: bool,
+) -> dict[str, Any]:
+    """Validate A's Phase 1B epistemic and established-memory output."""
+
+    if not isinstance(result, dict) or set(result) != {
+        "decision",
+        "evidence_role",
+        "comparison_assessment",
+        "updates",
+        "still_unresolved",
+    }:
+        raise SchemaError("Phase 1B A result has unexpected fields")
+    if result["decision"] not in {"NO_CHANGE", "UPDATE"}:
+        raise SchemaError("Phase 1B A decision is invalid")
+    if result["evidence_role"] not in EVIDENCE_ROLES:
+        raise SchemaError("Phase 1B A evidence role is invalid")
+    if result["comparison_assessment"] not in COMPARISON_ASSESSMENTS:
+        raise SchemaError("Phase 1B A comparison assessment is invalid")
+    if not has_consumed_h and result["evidence_role"] != "IRRELEVANT":
+        raise SchemaError("A without an activated H must mark evidence IRRELEVANT")
+    if result["comparison_assessment"] != "REMAINS_OPEN" and not has_consumed_h:
+        raise SchemaError("A cannot assess an unactivated comparison as resolved")
+    if not has_actual_probe_evidence and result["comparison_assessment"] == "RESOLVED":
+        raise SchemaError("A cannot resolve without actual consumed-H probe evidence")
+    if result["comparison_assessment"] == "RESOLVED" and result["evidence_role"] not in {
+        "SUPPORTING",
+        "CONTRADICTING",
+    }:
+        raise SchemaError("A RESOLVED assessment needs discriminative evidence")
+    updates = result["updates"]
+    if not isinstance(updates, list):
+        raise SchemaError("Phase 1B A updates must be a list")
+    if result["decision"] == "NO_CHANGE" and updates:
+        raise SchemaError("Phase 1B A NO_CHANGE must not contain updates")
+    if result["decision"] == "UPDATE" and not updates:
+        raise SchemaError("Phase 1B A UPDATE requires updates")
+    existing = set(existing_memory_ids)
+    for update in updates:
+        required = {
+            "operation",
+            "target_memory_ids",
+            "scope",
+            "guidance",
+            "evidence_basis",
+            "provenance",
+        }
+        if not isinstance(update, dict) or set(update) != required:
+            raise SchemaError("Phase 1B A update is malformed")
+        operation = update["operation"]
+        targets = update["target_memory_ids"]
+        if operation not in {"ADD", "REFINE", "SPECIALIZE", "MERGE"}:
+            raise SchemaError("Phase 1B A update operation is invalid")
+        if not isinstance(targets, list) or any(
+            not isinstance(item, str) or item == "NONE" or item not in existing for item in targets
+        ):
+            raise SchemaError("Phase 1B A target memory ids are invalid")
+        if operation == "ADD" and targets:
+            raise SchemaError("Phase 1B A ADD must target no existing memory")
+        if operation in {"REFINE", "SPECIALIZE"} and len(targets) != 1:
+            raise SchemaError("Phase 1B A REFINE/SPECIALIZE needs one target")
+        if operation == "MERGE" and len(targets) < 2:
+            raise SchemaError("Phase 1B A MERGE needs at least two targets")
+        for key in ("scope", "guidance", "evidence_basis"):
+            _nonempty_string(update[key], "Phase 1B A update." + key)
+        if not isinstance(update["provenance"], list) or any(
+            not isinstance(item, str) or not item.strip() for item in update["provenance"]
+        ):
+            raise SchemaError("Phase 1B A update provenance is malformed")
+        if any(
+            item == "EVIDENCE_OBTAINED" or item.startswith("evidence-")
+            for item in update["provenance"]
+        ):
+            raise SchemaError("Phase 1B A cannot emit evidence ids as provenance refs")
+    if not isinstance(result["still_unresolved"], list) or any(
+        not isinstance(item, str) or not item.strip() for item in result["still_unresolved"]
+    ):
+        raise SchemaError("Phase 1B A still_unresolved is malformed")
+    assert_no_evaluator_keys(result)
+    return result

@@ -4,49 +4,69 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: Phase 1B-Dev — Longitudinal System Calibration.
+Current cycle: Phase 1B Interface Hardening.
 
 Baseline:
 
-    68e2d26a3f2e1aab63ce87441a2049f31f1a6109
+    c0342c43480c066546676f7bb136fa905b89aafa
 
 Read first:
 
-1. docs/86_phase1b_dev_longitudinal_system_calibration_plan.md
-2. docs/85_phase1a_controlled_targeting_forensic_analysis.md
-3. docs/current_state/09_project_master_handoff.md
-4. docs/current_state/03_component_contracts.md
+1. docs/current_state/02_method_architecture.md
+2. docs/current_state/03_component_contracts.md
+3. docs/91_phase1b_dev_round1_semantic_review_and_freeze_decision.md
+4. docs/86_phase1b_dev_longitudinal_system_calibration_plan.md
+
+The current task is a single interface-hardening acceptance cycle.  The old
+12-task Round-0/Round-1 stream is development evidence only; it is not a new
+gate and must not be tuned again.
 
 ## Goal
 
-Calibrate the minimum longitudinal closed loop:
+Harden and audit the minimum longitudinal closed loop:
 
 history -> B/C/H -> retrieval -> one-shot probe -> actual evidence -> A ->
 H/comparison reconciliation -> next memory state.
 
-This is development, not a treatment-effect experiment.
+This is a correctness cycle, not a treatment-effect experiment.  Do not start
+fresh tasks, baselines, repetitions, or a scale evaluation.
+
+The hardening acceptance must preserve these boundaries:
+
+- B sees the full current completed trajectory, but C receives only a
+  sanitized abstract B-to-C Functional Contract projection;
+- C future-facing fields never contain source entity IDs or later source
+  answers; source grounding remains creation-time provenance only;
+- A is the only semantic authority for actual-evidence role and comparison
+  epistemic assessment; consolidation only handles comparison/H identity and
+  lifecycle;
+- evidence IDs are deterministic runner bindings, never model-generated
+  reconciliation references;
+- factual execution/evidence/H-consumption commits survive invalid offline
+  semantic stages;
+- Established Memory ADD/REFINE/SPECIALIZE/MERGE operations have real
+  materialization semantics and target only current established-memory IDs.
 
 The coding-agent is both implementer and semantic reviewer. Metrics alone cannot justify tuning.
 
 ## Hard limit
 
-Exactly:
+The prior Round-0/one-tuning-batch/Round-1 calibration sequence is complete
+and frozen in docs/87–91. The active sequence is exactly:
 
 implementation
--> Round-0 on the frozen 12-task stream
--> deep semantic review
--> ONE batch tuning
--> Round-1 on the same stream from reset
+-> no-model hardening checkpoint
+-> one Interface-Hardening Acceptance on the frozen 12-task stream
 -> deep semantic review
 -> freeze or method rethink
 
-No Round-2.
+There is no Round-2, second hardening pass, or performance-tuning loop.
 
 ## Frozen stream and state
 
 Use exactly the 12 tasks/order listed in docs/86, seed 42. They are development-only.
 
-Both rounds start from:
+The acceptance run starts from:
 
 K_established = canonical K*
 active_H = empty
@@ -93,9 +113,10 @@ qwen3.8-max, thinking=false, temperature=0, strict schema.
 B/C/A/retrieval/H-reconciliation:
 qwen3.8-flash, thinking=false, temperature=0.
 
-The batch tuning may change semantic contracts/prompts, not model identity.
+The historical batch tuning did not change model identity. This cycle does
+not authorize model or performance tuning.
 
-## Round-0 semantic review
+## Historical Round-0/Round-1 semantic review
 
 For every task read:
 
@@ -110,9 +131,10 @@ H reconciliation.
 
 Explicitly judge retrieval, applicability, probe fidelity, evidence meaning, A, B, C, reconciliation, and M_t->M_{t+1}. Cite artifact paths.
 
-Then produce a cross-task root-cause analysis.
+Those artifacts are historical inputs to this hardening cycle. Do not rerun
+that sequence or treat its tasks as an independent gate.
 
-## One batch tuning
+## Historical one-batch tuning
 
 A change requires either:
 
@@ -138,9 +160,10 @@ task replacement/reordering.
 
 Commit/push the Round-0 result, semantic review, and tuning proposal before applying the patch.
 
-## Round-1
+## Historical Round-1
 
-Commit/push the batch transition before calls. Reset memory and rerun the exact stream.
+The batch transition was committed before the historical Round-1 calls. The
+current acceptance is not a replacement Round-1.
 
 Review again and compare every Round-0 root cause: fixed / partial / unchanged / regressed / new.
 
