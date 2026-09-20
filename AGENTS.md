@@ -4,70 +4,68 @@ This file defines the active contract for:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Stronger Actor Development Diagnostic (S1)**.
-
-Baseline:
-
-    dde1ec52233a8a3ff0a6cec566890d2becc78c69
+Current cycle: **S1C — strict dynamic structured-output development diagnostic**.
 
 Read:
 
-1. docs/79_phase1_p3_missing_cell_results.md
-2. docs/75_phase1_paired_actor_stack_diagnostic_plan.md
-3. docs/76_phase1_paired_actor_stack_p0_p1_p2_results.md
+1. docs/81_phase1_s1_manual_paired_trajectory_review.md
+2. docs/80_phase1_stronger_actor_development_results.md
 
 ## Authorized work
 
-Run exactly one stronger-actor development diagnostic:
+Run exactly one final actor-formulation development diagnostic:
 
-    S1 = qwen3.8-max + canonical K* v1 + actions-only history
+    S1C = qwen3.8-max + canonical K* v1 + actions-only history
+           + strict per-step dynamic JSON schema
 
-on exactly the five frozen P0 development tasks.  Total = 5 actor episodes.
-The stronger model is frozen in the independent development manifest before
-any task call; no model sweep is allowed.
+Use exactly the five frozen P0 development tasks and exactly one episode per
+task. S1C is development evidence only, not actor-admission evidence.
 
-S1 is development evidence only, not admission evidence.
+The only scientific intervention relative to S1 is the provider-level output
+constraint. Keep unchanged:
 
-## Replay and parity requirement
+- canonical K* v1;
+- actions-only model-visible history;
+- the current actor prompt;
+- qwen3.8-max, temperature 0, thinking disabled, and step cap 32;
+- zero-based action-index semantics;
+- the saved replay specifications and actual pairing proof.
 
-Reuse the exact stored replay specifications and P0 artifacts from:
+## Strict output contract
+
+At every actor step, build a fresh strict JSON schema from the exact ordered
+current `admissible_actions` list:
+
+- `action_index` is an integer with enum `[0, ..., N-1]`;
+- `probe_status` is one of `NOT_ACTIVE`, `ACTIVE`, `EVIDENCE_OBTAINED`, or
+  `ABORTED`;
+- both fields are required;
+- additional properties are forbidden;
+- the provider `strict` flag is true;
+- structured-output requests omit `max_tokens`.
+
+Invalid schema construction, response parsing, or response validation fails
+closed. Do not clamp, rewrite, reinterpret, retry, or choose a fallback
+action. The exact ordered action list, returned index, resolved action, and
+validation result must remain in the step artifacts.
+
+## Replay and artifact requirements
+
+Reuse the saved P0 replay references from:
 
     artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1
 
-Prove every S1 episode uses the same stored realization and public initial
-fingerprint as its P0 reference.  Verify K*, prompt, actions-only history,
-temperature/thinking, step cap, action-index interface, task and replay
-identity; only the actor model may differ.  Run all five no-model preflights
-before creating a real model client and fail closed if any check fails.
-
-Do not rerun P0/P1/P2 actors.
-
-## S1 interface
-
-Use unchanged:
-
-- canonical K* v1;
-- current actor prompt/config and runtime;
-- step cap/action-index.
-
-S1 uses `qwen3.8-max` and the same actions-only history as P0.  Do not use
-K* v2b or `interaction_history`.  Do not add semantic state,
-summaries, action filtering, planning, or controller logic.
-
-## Workflow
-
-Before model calls: freeze the independent S1 manifest, implement the replay
-and parity checks, add focused tests, run Ruff/compile/diff-check, and
-commit/push the transition.
-
-Then run exactly 5 S1 episodes, preserve full trajectories, write a concise
-result memo with exact artifact paths, commit/push, and STOP.
+Complete all five no-model replay/fingerprint/parity checks before creating a
+real model client. Preserve full S1C trajectories, including each dynamic
+structured-output request/schema, raw and parsed response, usage, validation,
+environment result, and failure artifact. Never rerun P0 or S1.
 
 ## Forbidden
 
-Do not execute Gate B1-R, test another model, change prompt/K*/history,
-run B2/B3/targets, create P4/P5, or promote actor/K* status.  The old P0
-development tasks remain development evidence and the current actor manifest
-remains pending the independent gate.
+Do not execute Gate B1-R, test another model, modify the prompt/K*/history,
+run B2/B3 or Phase 1A targets, promote an actor, add a semantic controller or
+fallback planner, or use S1C to claim a scientific Phase 1A result.
 
-S1 is a single development candidate diagnostic, not Gate B1 admission.
+Apply focused no-model tests, Ruff, compile checks, and `git diff --check`.
+Commit and push the no-model transition before any model/API call. After the
+five S1C episodes and the result memo, stop for researcher review.

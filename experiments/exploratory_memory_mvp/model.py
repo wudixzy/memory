@@ -122,11 +122,21 @@ class DashScopeChatClient:
         messages: list[dict],
         *,
         phase: str,
-        max_tokens: int = 2048,
+        max_tokens: int | None = 2048,
+        response_format: dict | None = None,
+        output_token_reservation: int = 2048,
         synthetic: bool = False,
     ) -> dict:
-        if type(max_tokens) is not int or not 1 <= max_tokens <= 131072:
+        if max_tokens is not None and (
+            type(max_tokens) is not int or not 1 <= max_tokens <= 131072
+        ):
             raise ValueError("Invalid output cap")
+        if type(output_token_reservation) is not int or not 1 <= output_token_reservation <= 131072:
+            raise ValueError("Invalid output token reservation")
+        if response_format is not None and max_tokens is not None:
+            raise ValueError("Structured-output requests must omit max_tokens")
+        if response_format is not None and not isinstance(response_format, dict):
+            raise ValueError("response_format must be an object")
         clean_messages = [visible_message(message) for message in messages]
         if any(not isinstance(message.get("content"), str) for message in clean_messages):
             raise ValueError("Messages must have visible text content")
@@ -134,14 +144,20 @@ class DashScopeChatClient:
             "model": self.model,
             "messages": clean_messages,
             "temperature": self.temperature,
-            "max_tokens": max_tokens,
             "stream": False,
             "enable_thinking": self.thinking,
             "preserve_thinking": False,
         }
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
+        if response_format is not None:
+            payload["response_format"] = response_format
         # Reserve the model's documented context ceiling conservatively.  The
         # actual provider-reported count remains the only result used below.
-        self.usage.before_call(1_000_000, max_tokens)
+        self.usage.before_call(
+            1_000_000,
+            max_tokens if max_tokens is not None else output_token_reservation,
+        )
         metadata = {
             "call_id": self.usage.new_call_id(),
             "phase": phase,

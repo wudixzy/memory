@@ -21,6 +21,7 @@ from exploratory_memory_mvp.common import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_ENV_FILE,
     HISTORY_MODES,
+    SchemaError,
     actor_context,
     derive_probe_runtime_state,
     future_exploratory_memory,
@@ -42,6 +43,9 @@ from exploratory_memory_mvp.probe_budget import (  # noqa: E402
     validate_probe_budget,
 )
 from exploratory_memory_mvp.prompts import actor_messages  # noqa: E402
+from exploratory_memory_mvp.structured_actor_output import (  # noqa: E402
+    validate_dynamic_actor_response_format,
+)
 
 TERMINAL_PROBE_STATUSES = frozenset({"EVIDENCE_OBTAINED", "ABORTED"})
 
@@ -95,6 +99,7 @@ def _run_actor_condition(
     actor_manifest: dict | None = None,
     probe_budget: dict | None = None,
     history_mode: str = "actions_only",
+    response_format_factory: Callable[[list[str]], dict] | None = None,
 ) -> dict:
     """Run one condition while keeping the real carrier episode open."""
 
@@ -125,6 +130,7 @@ def _run_actor_condition(
         "probe_budget_violation": None,
         "status": "started",
         "history_mode": history_mode,
+        "strict_dynamic_output": response_format_factory is not None,
     }
     client = None
     owns_episode = episode is None
@@ -203,6 +209,39 @@ def _run_actor_condition(
             try:
                 if prompt_has_evaluator_fields(messages, case):
                     raise ValueError("Evaluator-only data entered actor prompt")
+                response_format = None
+                if response_format_factory is not None:
+                    try:
+                        response_format = response_format_factory(
+                            list(current_state["admissible_actions"])
+                        )
+                        validate_dynamic_actor_response_format(
+                            response_format, current_state["admissible_actions"]
+                        )
+                    except SchemaError as error:
+                        record.update(
+                            {
+                                "executed": False,
+                                "structured_output_failure": safe_error(error),
+                            }
+                        )
+                        _write_step_record(step_dir, record)
+                        write_json(
+                            step_dir / "error.json",
+                            {
+                                "type": "StructuredOutputRequestFailure",
+                                "error": safe_error(error),
+                            },
+                        )
+                        row.update(
+                            {
+                                "status": "failed_structured_output_request",
+                                "failure_step": step_number,
+                            }
+                        )
+                        break
+                    write_json(step_dir / "structured_output_request.json", response_format)
+                    record["structured_output_request"] = response_format
                 if client is None:
                     factory = transport_factory
                     if factory is None:
@@ -224,21 +263,57 @@ def _run_actor_condition(
                             "provider": actor_manifest["provider"],
                         }
                     client = DashScopeChatClient(transport, **client_kwargs)
-                message = client.complete(
-                    messages,
-                    phase=f"actor_{condition}_step_{step_number}",
-                    max_tokens=500,
-                )
+                if response_format is None:
+                    message = client.complete(
+                        messages,
+                        phase=f"actor_{condition}_step_{step_number}",
+                        max_tokens=500,
+                    )
+                else:
+                    message = client.complete(
+                        messages,
+                        phase=f"actor_{condition}_step_{step_number}",
+                        max_tokens=None,
+                        response_format=response_format,
+                    )
                 _write_step_usage(step_dir, client)
                 write_json(step_dir / "actor_raw_response.json", message)
                 if step_number == 1:
                     write_json(condition_dir / "actor_raw_response.json", message)
-                parsed = parse_json_object(message.get("content"), stage="actor")
-                write_json(step_dir / "actor_parsed.json", parsed)
-                if step_number == 1:
-                    write_json(condition_dir / "actor_parsed.json", parsed)
-                record["actor_result"] = parsed
-                record["action_index"] = parsed.get("action_index")
+                try:
+                    parsed = parse_json_object(message.get("content"), stage="actor")
+                    write_json(step_dir / "actor_parsed.json", parsed)
+                    if step_number == 1:
+                        write_json(condition_dir / "actor_parsed.json", parsed)
+                    record["actor_result"] = parsed
+                    record["action_index"] = parsed.get("action_index")
+                    result = None
+                    if response_format_factory is not None:
+                        result = validate_actor_result(parsed)
+                except SchemaError as error:
+                    if response_format_factory is None:
+                        raise
+                    record.update(
+                        {
+                            "executed": False,
+                            "structured_output_failure": safe_error(error),
+                        }
+                    )
+                    _write_step_record(step_dir, record)
+                    write_json(
+                        step_dir / "error.json",
+                        {
+                            "type": "InvalidStructuredOutput",
+                            "error": safe_error(error),
+                        },
+                    )
+                    row.update(
+                        {
+                            "status": "failed_invalid_structured_output",
+                            "failure_step": step_number,
+                        }
+                    )
+                    break
                 action_check = validate_action_index(
                     parsed.get("action_index"), current_state["admissible_actions"]
                 )
@@ -260,7 +335,8 @@ def _run_actor_condition(
                         {"status": "failed_invalid_action_index", "failure_step": step_number}
                     )
                     break
-                result = validate_actor_result(parsed)
+                if result is None:
+                    result = validate_actor_result(parsed)
                 action = action_check["resolved_action"]
                 write_json(step_dir / "actor_parsed.json", result)
                 if step_number == 1:
