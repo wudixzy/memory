@@ -1,0 +1,35 @@
+{
+  "schema_version": "phase1-p3-missing-cell-task-manifest-v1",
+  "manifest_id": "phase1a-p3-missing-cell-development-v1",
+  "status": "frozen_development_only",
+  "development_only": true,
+  "selection_basis": "The two tasks are the pre-registered complement cells from the existing P0/P1/P2 development run; no new realization is selected.",
+  "source_runtime_root": "artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1",
+  "tasks": [
+    {
+      "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "a0027e8b0249344bf81475d15fad3936066547d5da2a07e3560da5f35ea4f840",
+      "prior_task_relative_path": "tasks/000_db485ebd50e7",
+      "replay_spec_relative_path": "tasks/000_db485ebd50e7/replay_spec.json",
+      "prior_pairing_proof_relative_path": "tasks/000_db485ebd50e7/pairing_proofs.json",
+      "prior_pairing_proof_key": "p0_p1",
+      "prior_p0_artifact_relative_path": "tasks/000_db485ebd50e7/P0",
+      "replay_spec_sha256": "fbdc8d9541ac5dbb3aa11507026e9b7d2f51decebfb51ce17f90b925f573ec7d"
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42,
+      "public_initial_fingerprint": "1b981390b4bf797a10629184e82b3c18d396c786684331d6cdbf824c3e7c97b4",
+      "prior_task_relative_path": "tasks/002_9fa5d3902fe0",
+      "replay_spec_relative_path": "tasks/002_9fa5d3902fe0/replay_spec.json",
+      "prior_pairing_proof_relative_path": "tasks/002_9fa5d3902fe0/pairing_proofs.json",
+      "prior_pairing_proof_key": "p0_p1",
+      "prior_p0_artifact_relative_path": "tasks/002_9fa5d3902fe0/P0",
+      "replay_spec_sha256": "376d0b2f9f3a48f755ca64b3111927df64984c0b5c995a4e36387b4836ed80f2"
+    }
+  ],
+  "manifest_sha256": "0ceeda9c38abbc66ae75c7ad9502b46d2bfb9ccd3d078287c4afb07787c29cc0"
+}
