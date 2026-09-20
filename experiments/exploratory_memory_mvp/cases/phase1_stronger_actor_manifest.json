@@ -1,0 +1,21 @@
+{
+  "schema_version": "phase1-stronger-actor-development-manifest-v1",
+  "manifest_id": "phase1a_stronger_actor_development_qwen38max_v1",
+  "status": "development_candidate",
+  "selection_basis": "Single public DashScope Max-tier candidate selected before any S1 task call; qwen3.8-max is the same-family Max counterpart to the qwen3.8-flash reference and is not selected from task outcomes.",
+  "selection_reference": "https://help.aliyun.com/en/model-studio/qwen3-8-max",
+  "actor_manifest": {
+    "schema_version": "phase1-actor-manifest-v1",
+    "manifest_id": "phase1_actor_stronger_development_qwen38max_v1",
+    "provider": "dashscope",
+    "model_name": "qwen3.8-max",
+    "thinking": false,
+    "temperature": 0.0,
+    "step_cap": 32,
+    "actor_prompt_version": "actor_action_index_probe_runtime_v1",
+    "transport_config_provenance": "direct_dashscope_transport_no_proxy_v1",
+    "selection_status": "candidate_pending_independent_reliability_gate",
+    "manifest_sha256": "c381b6d0ad70c2f1d40ca8345a6300d44aed8aae26ab88d90a133be6960547f2"
+  },
+  "manifest_sha256": "4d0204f62d5c42c6174066067561beceec18ac3514ff088e1bf5e8fc92a186d5"
+}
