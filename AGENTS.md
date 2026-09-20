@@ -1,71 +1,119 @@
 # AGENTS.md
 
-This file defines the active contract for:
+Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **S1C — strict dynamic structured-output development diagnostic**.
+Current cycle: **Phase 1A Controlled Targeting Fast Track (v2)**.
 
-Read:
+Baseline:
 
-1. docs/81_phase1_s1_manual_paired_trajectory_review.md
-2. docs/80_phase1_stronger_actor_development_results.md
+    bd4541698f37639e9a29a3e79543cda56609c047
 
-## Authorized work
+Read first:
 
-Run exactly one final actor-formulation development diagnostic:
+1. docs/83_phase1a_controlled_targeting_fast_track_plan.md
+2. docs/82_phase1_s1c_structured_output_results.md
+3. docs/63_phase1_fair_c2_specification.md
+4. docs/69_phase1_pre_pilot_correction_results.md
 
-    S1C = qwen3.8-max + canonical K* v1 + actions-only history
-           + strict per-step dynamic JSON schema
+## Scientific goal
 
-Use exactly the five frozen P0 development tasks and exactly one episode per
-task. S1C is development evidence only, not actor-admission evidence.
+Stop actor micro-optimization and obtain the first direct evidence for:
 
-The only scientific intervention relative to S1 is the provider-level output
-constraint. Keep unchanged:
+    C3 history-derived targeting
+    vs
+    C2 fair structured generic exploration
 
-- canonical K* v1;
-- actions-only model-visible history;
-- the current actor prompt;
-- qwen3.8-max, temperature 0, thinking disabled, and step cap 32;
-- zero-based action-index semantics;
-- the saved replay specifications and actual pairing proof.
+on the frozen 20-target receptacle-search distribution.
 
-## Strict output contract
+The retired autonomous actor and docs/67–82 remain historical evidence. Do not
+weaken the old runner's pending-actor gate; implement a separate versioned
+`phase1a-controlled-targeting-v2` path.
 
-At every actor step, build a fresh strict JSON schema from the exact ordered
-current `admissible_actions` list:
+## Controlled actor contract
 
-- `action_index` is an integer with enum `[0, ..., N-1]`;
-- `probe_status` is one of `NOT_ACTIVE`, `ACTIVE`, `EVIDENCE_OBTAINED`, or
-  `ABORTED`;
-- both fields are required;
-- additional properties are forbidden;
-- the provider `strict` flag is true;
-- structured-output requests omit `max_tokens`.
+Only the search selector makes an online policy decision.
 
-Invalid schema construction, response parsing, or response validation fails
-closed. Do not clamp, rewrite, reinterpret, retry, or choose a fallback
-action. The exact ordered action list, returned index, resolved action, and
-validation result must remain in the step artifacts.
+Selector input is public and symmetric across C2/C3:
 
-## Replay and artifact requirements
+- target object type parsed from the public task instruction;
+- current public observation;
+- remaining candidate receptacles;
+- inspected-candidate public ledger;
+- canonical established search guidance;
+- C2 generic H or C3 targeted H.
 
-Reuse the saved P0 replay references from:
+Selector output:
 
-    artifacts/exploratory_memory_mvp/paired-actor-stack-p0-p1-p2-20260920-359e08e-rerun1
+    {"candidate_index": legal_index}
 
-Complete all five no-model replay/fingerprint/parity checks before creating a
-real model client. Preserve full S1C trajectories, including each dynamic
-structured-output request/schema, raw and parsed response, usage, validation,
-environment result, and failure artifact. Never rerun P0 or S1.
+Use one frozen selector config:
+
+    qwen3.8-max
+    temperature=0
+    thinking=false
+    strict dynamic JSON schema
+
+The shared executor deterministically navigates to the selected candidate, opens it
+when the exact public action is legal, inspects the public result, and takes only an
+exact matching target object when its exact take action is admissible.
+
+No semantic fallback, wrong-object take, hidden state, oracle, clamp, retry-to-repair,
+or condition-specific execution logic.
+
+Controlled probe budget:
+
+    max_candidate_probes = 2
+
+Primary endpoint is target acquisition, not full downstream task completion.
+
+## This cycle
+
+1. Implement/freeze the controlled parser, ledger, selector interface, executor,
+   paired runner and focused no-model tests.
+2. Commit/push the immutable no-model transition.
+3. Generate deterministic canonical-K* source trajectories for the existing Source 5.
+4. Fix mandatory B/C source referential binding; run B/C once per source with one
+   frozen offline config.
+5. Preserve B=NONE/C=NONE; never swap source tasks for favorable H.
+6. If zero live H entries survive, STOP.
+7. Otherwise freeze source-H manifest and run exactly the frozen 20 targets:
+      C2 x1 + C3 x1
+   with paired replay specs.
+8. Commit/push the result and STOP for researcher review.
+
+## Primary metrics
+
+Per unique target:
+
+- target acquired within two candidate probes;
+- candidate probes to acquisition;
+- paired C3-vs-C2 win/tie/loss.
+
+Environment steps, selector calls, tokens and cost are secondary.
+
+Scientific n = 20 targets, not 40 episodes.
+
+## Allowed checks before paid calls
+
+Only focused parser/executor/ledger tests, pairing/leakage tests, fake-selector
+condition-isolation tests, structured candidate-enum tests, and one no-model/synthetic
+mechanical smoke.
+
+No paid pilot and no new actor gate.
 
 ## Forbidden
 
-Do not execute Gate B1-R, test another model, modify the prompt/K*/history,
-run B2/B3 or Phase 1A targets, promote an actor, add a semantic controller or
-fallback planner, or use S1C to claim a scientific Phase 1A result.
+Do not:
 
-Apply focused no-model tests, Ruff, compile checks, and `git diff --check`.
-Commit and push the no-model transition before any model/API call. After the
-five S1C episodes and the result memo, stop for researcher review.
+- run B1-R;
+- rerun/tune S1/S1C or any autonomous actor;
+- test a second selector model;
+- change K* or history representation;
+- resample Source/Target;
+- add C1/repetitions before first C2/C3 review;
+- run Stage1/A/native cold start/Phase 2+;
+- use hidden placement/PDDL/expert/evaluator information.
+
+The next milestone is the first real paired C3-vs-C2 targeting-value result.

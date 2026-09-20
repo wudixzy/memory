@@ -1,5 +1,7 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
+> **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
+
 > 状态：当前项目单一接手入口（2026-09-20，Actor-Stack Development Diagnostic）
 > Branch：exp/minimal-exploratory-memory-validation
 > Baseline commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
