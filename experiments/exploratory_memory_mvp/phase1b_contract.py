@@ -1,0 +1,824 @@
+"""Contracts and mechanical state operations for the Phase 1B dev loop.
+
+The module is intentionally conservative.  It validates provenance, public
+boundaries, schemas, and lifecycle transitions; semantic decisions remain in
+the role-specific model calls and in the later human review.
+"""
+
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+from .common import (
+    C_PROBE_KEYS,
+    SchemaError,
+    _nonempty_string,
+    assert_no_evaluator_keys,
+    build_a_input,
+    c_context,
+    validate_b_result,
+    validate_c_result,
+    validate_local_c_context,
+)
+from .k_star import get_phase1_k_star
+
+DEFAULT_STREAM_PATH = Path(__file__).resolve().parent / "cases" / "phase1b_dev_stream.json"
+MEMORY_STATE_SCHEMA = "phase1b-longitudinal-memory-state-v1"
+EVIDENCE_SCHEMA = "phase1b-public-evidence-package-v1"
+RETRIEVAL_SCHEMA = "phase1b-h-retrieval-v1"
+RECONCILIATION_SCHEMA = "phase1b-h-comparison-reconciliation-v1"
+
+H_STATUSES = frozenset({"active", "consumed", "superseded"})
+COMPARISON_STATUSES = frozenset({"OPEN", "PARTIALLY_RESOLVED", "RESOLVED"})
+RECONCILIATION_OPERATIONS = frozenset(
+    {
+        "ADD",
+        "REFINE_EXISTING",
+        "MERGE",
+        "DISCARD_DUPLICATE",
+        "REOPEN_REFINED",
+        "NO_NEW_H",
+    }
+)
+RETRIEVAL_DECISIONS = frozenset({"NONE", "ACTIVATE"})
+
+
+def _digest(value: Any) -> str:
+    serialized = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def memory_state_digest(memory: dict[str, Any]) -> str:
+    return _digest(memory)
+
+
+def load_phase1b_stream(path: Path = DEFAULT_STREAM_PATH) -> dict[str, Any]:
+    """Load and validate the committed 12-task development stream."""
+
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        raise SchemaError("Phase 1B stream file is unavailable or invalid") from None
+    if not isinstance(document, dict) or set(document) != {
+        "schema_version",
+        "stream_id",
+        "seed",
+        "development_only",
+        "selection_rule",
+        "tasks",
+    }:
+        raise SchemaError("Phase 1B stream has invalid top-level fields")
+    if document["schema_version"] != "phase1b-longitudinal-development-stream-v1":
+        raise SchemaError("Phase 1B stream schema version is not frozen")
+    if type(document["seed"]) is not int or document["seed"] != 42:
+        raise SchemaError("Phase 1B stream seed must be frozen at 42")
+    if document["development_only"] is not True:
+        raise SchemaError("Phase 1B stream must be development-only")
+    tasks = document["tasks"]
+    if not isinstance(tasks, list) or len(tasks) != 12:
+        raise SchemaError("Phase 1B stream must contain exactly 12 tasks")
+    seen = set()
+    family_counts: dict[str, int] = {}
+    for task in tasks:
+        if not isinstance(task, dict) or set(task) != {"task_id", "task_family", "requested_seed"}:
+            raise SchemaError("Phase 1B stream task has invalid fields")
+        _nonempty_string(task["task_id"], "Phase 1B task_id")
+        _nonempty_string(task["task_family"], "Phase 1B task_family")
+        if type(task["requested_seed"]) is not int or task["requested_seed"] != document["seed"]:
+            raise SchemaError("Phase 1B task seed differs from frozen stream seed")
+        if task["task_id"] in seen:
+            raise SchemaError("Phase 1B stream contains a duplicate task")
+        seen.add(task["task_id"])
+        if not task["task_id"].startswith(task["task_family"] + "-"):
+            raise SchemaError("Phase 1B task family does not match task id")
+        family_counts[task["task_family"]] = family_counts.get(task["task_family"], 0) + 1
+    if family_counts != {
+        "pick_and_place_simple": 2,
+        "pick_clean_then_place_in_recep": 3,
+        "pick_cool_then_place_in_recep": 3,
+        "pick_heat_then_place_in_recep": 4,
+    }:
+        raise SchemaError("Phase 1B stream family counts differ from the frozen plan")
+    return copy.deepcopy(document)
+
+
+def _validate_public_future_h(future_h: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(future_h, dict) or set(future_h) != {
+        "type",
+        "scope",
+        "hypothesis",
+        "guidance",
+        "probe_policy",
+    }:
+        raise SchemaError("Future-facing H has invalid fields")
+    if future_h["type"] != "exploratory":
+        raise SchemaError("Future-facing H type must be exploratory")
+    for key in ("scope", "hypothesis", "guidance"):
+        _nonempty_string(future_h[key], "future_h." + key)
+    probe = future_h["probe_policy"]
+    if not isinstance(probe, dict) or set(probe) != C_PROBE_KEYS:
+        raise SchemaError("Future-facing H probe policy is malformed")
+    for key in (
+        "local_function",
+        "realization_pattern",
+        "adaptive_policy",
+        "evidence_goal",
+        "required_downstream_state",
+    ):
+        _nonempty_string(probe[key], "future_h.probe_policy." + key)
+    for key in ("capability_requirements", "stop_conditions"):
+        if (
+            not isinstance(probe[key], list)
+            or not probe[key]
+            or any(not isinstance(item, str) or not item.strip() for item in probe[key])
+        ):
+            raise SchemaError("Future-facing H probe lists are malformed")
+    assert_no_evaluator_keys(future_h)
+    serialized = json.dumps(future_h, ensure_ascii=False, sort_keys=True)
+    if any(entity in serialized for entity in ("_1", "_2", "_3")):
+        # Entity leakage is checked more precisely by the runner using the
+        # shared entity regex; this cheap guard catches common malformed cases.
+        from .common import ENTITY_RE
+
+        if ENTITY_RE.search(serialized):
+            raise SchemaError("Future-facing H contains a source entity id")
+    return future_h
+
+
+def initial_memory_state() -> dict[str, Any]:
+    """Return the exact warm-start state required at the start of each round."""
+
+    state = {
+        "schema_version": MEMORY_STATE_SCHEMA,
+        "established_memories": get_phase1_k_star(),
+        "exploratory_memories": [],
+        "comparison_ledger": [],
+        "evidence_store": [],
+    }
+    validate_memory_state(state)
+    return state
+
+
+def validate_memory_state(memory: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(memory, dict) or set(memory) != {
+        "schema_version",
+        "established_memories",
+        "exploratory_memories",
+        "comparison_ledger",
+        "evidence_store",
+    }:
+        raise SchemaError("Longitudinal memory state has invalid fields")
+    if memory["schema_version"] != MEMORY_STATE_SCHEMA:
+        raise SchemaError("Longitudinal memory state schema is not frozen")
+    established = memory["established_memories"]
+    if not isinstance(established, list):
+        raise SchemaError("Established memory must be a list")
+    established_ids = set()
+    for entry in established:
+        if not isinstance(entry, dict):
+            raise SchemaError("Established memory entry must be an object")
+        for key in ("memory_id", "scope", "guidance"):
+            _nonempty_string(entry.get(key), "established." + key)
+        if entry["memory_id"] in established_ids:
+            raise SchemaError("Duplicate established memory id")
+        established_ids.add(entry["memory_id"])
+        assert_no_evaluator_keys(entry)
+
+    h_entries = memory["exploratory_memories"]
+    if not isinstance(h_entries, list):
+        raise SchemaError("Exploratory memory store must be a list")
+    h_ids = set()
+    for entry in h_entries:
+        required = {
+            "h_id",
+            "comparison_id",
+            "status",
+            "future_h",
+            "provenance",
+            "created_at_task",
+            "consumed_at_task",
+            "evidence_refs",
+            "lineage",
+        }
+        if not isinstance(entry, dict) or set(entry) != required:
+            raise SchemaError("Exploratory memory entry has invalid fields")
+        for key in ("h_id", "comparison_id", "created_at_task"):
+            _nonempty_string(entry[key], "exploratory." + key)
+        if entry["h_id"] in h_ids:
+            raise SchemaError("Duplicate exploratory memory id")
+        h_ids.add(entry["h_id"])
+        if entry["status"] not in H_STATUSES:
+            raise SchemaError("Unknown exploratory memory status")
+        if entry["consumed_at_task"] is not None:
+            _nonempty_string(entry["consumed_at_task"], "exploratory.consumed_at_task")
+        _validate_public_future_h(entry["future_h"])
+        for key in ("provenance", "evidence_refs", "lineage"):
+            if (
+                not isinstance(entry[key], list)
+                or any(not isinstance(item, str) or not item.strip() for item in entry[key])
+            ):
+                raise SchemaError("Exploratory memory provenance fields are malformed")
+        assert_no_evaluator_keys(entry)
+
+    comparisons = memory["comparison_ledger"]
+    if not isinstance(comparisons, list):
+        raise SchemaError("Comparison ledger must be a list")
+    comparison_ids = set()
+    for comparison in comparisons:
+        required = {
+            "comparison_id",
+            "scope",
+            "incumbent_local_function",
+            "status",
+            "supporting_evidence_refs",
+            "contradicting_evidence_refs",
+            "inconclusive_evidence_refs",
+            "linked_h_ids",
+            "created_at_task",
+            "last_updated_task",
+        }
+        if not isinstance(comparison, dict) or set(comparison) != required:
+            raise SchemaError("Comparison ledger entry has invalid fields")
+        for key in (
+            "comparison_id",
+            "scope",
+            "incumbent_local_function",
+            "created_at_task",
+            "last_updated_task",
+        ):
+            _nonempty_string(comparison[key], "comparison." + key)
+        if comparison["comparison_id"] in comparison_ids:
+            raise SchemaError("Duplicate comparison id")
+        comparison_ids.add(comparison["comparison_id"])
+        if comparison["status"] not in COMPARISON_STATUSES:
+            raise SchemaError("Unknown comparison status")
+        for key in (
+            "supporting_evidence_refs",
+            "contradicting_evidence_refs",
+            "inconclusive_evidence_refs",
+            "linked_h_ids",
+        ):
+            if (
+                not isinstance(comparison[key], list)
+                or any(not isinstance(item, str) or not item.strip() for item in comparison[key])
+            ):
+                raise SchemaError("Comparison ledger reference list is malformed")
+        if any(h_id not in h_ids for h_id in comparison["linked_h_ids"]):
+            raise SchemaError("Comparison ledger links an unknown H")
+        assert_no_evaluator_keys(comparison)
+
+    evidence_store = memory["evidence_store"]
+    if not isinstance(evidence_store, list):
+        raise SchemaError("Evidence store must be a list")
+    evidence_ids = set()
+    for evidence in evidence_store:
+        if not isinstance(evidence, dict) or not isinstance(evidence.get("evidence_id"), str):
+            raise SchemaError("Evidence entry is malformed")
+        if evidence["evidence_id"] in evidence_ids:
+            raise SchemaError("Duplicate evidence id")
+        evidence_ids.add(evidence["evidence_id"])
+        assert_no_evaluator_keys(evidence)
+    for entry in h_entries:
+        if any(ref not in evidence_ids for ref in entry["evidence_refs"]):
+            raise SchemaError("H references evidence not in the evidence store")
+    for comparison in comparisons:
+        refs = (
+            comparison["supporting_evidence_refs"]
+            + comparison["contradicting_evidence_refs"]
+            + comparison["inconclusive_evidence_refs"]
+        )
+        if any(ref not in evidence_ids for ref in refs):
+            raise SchemaError("Comparison references evidence not in the evidence store")
+    return memory
+
+
+def active_h_entries(memory: dict[str, Any]) -> list[dict[str, Any]]:
+    validate_memory_state(memory)
+    return [entry for entry in memory["exploratory_memories"] if entry["status"] == "active"]
+
+
+def build_retrieval_input(
+    task: dict[str, Any], initial_state: dict[str, Any], memory: dict
+) -> dict:
+    """Build the retrieval-only public packet; established memory is excluded."""
+
+    active = []
+    for entry in active_h_entries(memory):
+        probe = entry["future_h"]["probe_policy"]
+        active.append(
+            {
+                "h_id": entry["h_id"],
+                "scope": entry["future_h"]["scope"],
+                "hypothesis": entry["future_h"]["hypothesis"],
+                "probe_summary": {
+                    "local_function": probe["local_function"],
+                    "realization_pattern": probe["realization_pattern"],
+                    "evidence_goal": probe["evidence_goal"],
+                    "stop_conditions": list(probe["stop_conditions"]),
+                },
+            }
+        )
+    result = {
+        "current_task": {
+            "task_id": task["task_id"],
+            "seed": task["requested_seed"],
+            "instruction": task.get("instruction", ""),
+        },
+        "current_initial_public_state": {
+            "observation": initial_state["observation"],
+            "admissible_actions": list(initial_state["admissible_actions"]),
+            "won": initial_state.get("won"),
+        },
+        "active_exploratory_memories": active,
+    }
+    assert_no_evaluator_keys(result)
+    return result
+
+
+def build_retrieval_response_format(active_ids: list[str]) -> dict[str, Any]:
+    if not isinstance(active_ids, list) or any(not isinstance(item, str) for item in active_ids):
+        raise SchemaError("Retrieval active ids are malformed")
+    if len(set(active_ids)) != len(active_ids):
+        raise SchemaError("Retrieval active ids are not unique")
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "phase1b_h_retrieval",
+            "strict": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "decision": {"type": "string", "enum": ["NONE", "ACTIVATE"]},
+                    "h_id": {"type": "string", "enum": [*active_ids, "NONE"]},
+                },
+                "required": ["decision", "h_id"],
+                "additionalProperties": False,
+            },
+        },
+    }
+
+
+def validate_retrieval_result(result: dict[str, Any], active_ids: list[str]) -> dict[str, Any]:
+    if not isinstance(result, dict) or set(result) != {"decision", "h_id"}:
+        raise SchemaError("Retrieval result has invalid fields")
+    if result["decision"] not in RETRIEVAL_DECISIONS:
+        raise SchemaError("Retrieval decision is invalid")
+    h_id = result["h_id"]
+    if type(h_id) is not str:
+        raise SchemaError("Retrieval h_id must be a string")
+    if result["decision"] == "NONE" and h_id != "NONE":
+        raise SchemaError("Retrieval NONE must carry h_id=NONE")
+    if result["decision"] == "ACTIVATE" and h_id not in active_ids:
+        raise SchemaError("Retrieval selected an inactive or unknown H")
+    return result
+
+
+def build_longitudinal_b_input(
+    task: dict[str, Any], initial_state: dict[str, Any], execution: dict, memory: dict
+) -> dict[str, Any]:
+    result = {
+        "current_task": {"task_id": task["task_id"], "seed": task["requested_seed"]},
+        "current_initial_state": {
+            "observation": initial_state["observation"],
+            "admissible_actions": list(initial_state["admissible_actions"]),
+            "won": initial_state.get("won"),
+        },
+        "current_trajectory": copy.deepcopy(execution),
+        "pre_update_established_memories": copy.deepcopy(memory["established_memories"]),
+    }
+    assert_no_evaluator_keys(result)
+    for forbidden in (
+        "case_type",
+        "expected_b",
+        "oracle",
+        "evaluator",
+        "pairing_proof",
+        "pddl_problem",
+    ):
+        if forbidden in json.dumps(result, ensure_ascii=False, sort_keys=True).lower():
+            raise SchemaError("Evaluator or pairing information entered longitudinal B input")
+    return result
+
+
+def build_longitudinal_c_input(
+    b_input: dict[str, Any],
+    b_result: dict[str, Any],
+    initial_state: dict[str, Any],
+    public_candidates: list[str],
+) -> dict[str, Any]:
+    """Build C's local packet from entry facts, never from the completed trace."""
+
+    local_context = {
+        "entry_state": {
+            "observation": initial_state["observation"],
+            "admissible_actions": list(initial_state["admissible_actions"]),
+            "won": initial_state.get("won"),
+        },
+        "public_evidence": [
+            (
+                "The public entry observation exposes these candidate receptacles through "
+                "exact admissible go-to actions: "
+            )
+            + ", ".join(public_candidates),
+            "The requested object is not exposed by an exact public take action at entry.",
+            (
+                "The local public packet contains only entry facts; later source observations "
+                "are not provided to C."
+            ),
+        ],
+    }
+    validate_local_c_context(local_context, b_input["current_initial_state"])
+    capabilities = {
+        "carrier": "ALFWorld TextWorld",
+        "source": "pinned public ALFWorld action schema",
+        "entry_state_capabilities": {
+            "observation": initial_state["observation"],
+            "currently_admissible_actions": list(initial_state["admissible_actions"]),
+            "currently_visible_or_referenced_entities": list(public_candidates),
+        },
+        "historical_capability_vocabulary": {
+            "action_schema": [],
+            "action_names": ["look", "inventory", "go to", "open", "take"],
+            "observed_exact_actions": list(initial_state["admissible_actions"]),
+            "observed_entity_ids": list(public_candidates),
+        },
+    }
+    result = c_context(b_input, validate_b_result(b_result), capabilities, local_context)
+    assert_no_evaluator_keys(result)
+    if "current_trajectory" in json.dumps(result, ensure_ascii=False):
+        raise SchemaError("Completed current trajectory entered longitudinal C input")
+    return result
+
+
+def build_evidence_package(
+    *,
+    task: dict[str, Any],
+    memory_before: dict[str, Any],
+    retrieval: dict[str, Any],
+    activated_h_id: str | None,
+    probe: dict[str, Any],
+    continuation: dict[str, Any],
+    execution: dict[str, Any],
+    artifact_root: str,
+) -> dict[str, Any]:
+    package = {
+        "schema_version": EVIDENCE_SCHEMA,
+        "evidence_id": "evidence-" + _digest(
+            {"task_id": task["task_id"], "execution": execution, "probe": probe}
+        )[:16],
+        "task": {
+            "task_id": task["task_id"],
+            "seed": task["requested_seed"],
+            "instruction": task.get("instruction", ""),
+        },
+        "memory_before_sha256": memory_state_digest(memory_before),
+        "retrieval": copy.deepcopy(retrieval),
+        "activated_h_id": activated_h_id,
+        "probe_trace": copy.deepcopy(probe),
+        "continuation_trace": copy.deepcopy(continuation),
+        "acquisition": {
+            "target_acquired": bool(
+                probe.get("target_acquired") or continuation.get("target_acquired")
+            ),
+            "final_public_state": copy.deepcopy(execution.get("final", {})),
+        },
+        "candidate_inspections": len(probe.get("candidate_sequence", []))
+        + len(continuation.get("candidate_sequence", [])),
+        "environment_action_count": len(execution.get("executed_actions", [])),
+        "artifact_root": artifact_root,
+        "provenance": [artifact_root, "execution.json"],
+    }
+    assert_no_evaluator_keys(package)
+    return package
+
+
+def build_reconciliation_input(
+    *,
+    memory_before: dict[str, Any],
+    evidence_package: dict[str, Any],
+    a_result: dict[str, Any] | None,
+    b_result: dict[str, Any],
+    c_result: dict[str, Any] | None,
+    existing_comparison_ids: list[str],
+) -> dict[str, Any]:
+    result = {
+        "pre_update_memory": copy.deepcopy(memory_before),
+        "actual_evidence": copy.deepcopy(evidence_package),
+        "a_result": copy.deepcopy(a_result) if a_result is not None else {"status": "unavailable"},
+        "b_diagnosis": copy.deepcopy(b_result),
+        "c_candidate": copy.deepcopy(c_result) if c_result is not None else None,
+        "existing_comparison_ids": list(existing_comparison_ids),
+    }
+    assert_no_evaluator_keys(result)
+    return result
+
+
+def build_reconciliation_response_format(existing_comparison_ids: list[str]) -> dict[str, Any]:
+    if any(not isinstance(item, str) or not item for item in existing_comparison_ids):
+        raise SchemaError("Existing comparison ids are malformed")
+    ids = [*existing_comparison_ids, "NEW", "NONE"]
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "phase1b_h_comparison_reconciliation",
+            "strict": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "operation": {
+                        "type": "string",
+                        "enum": sorted(RECONCILIATION_OPERATIONS),
+                    },
+                    "target_comparison_id": {"type": "string", "enum": ids},
+                    "comparison_status": {
+                        "type": "string",
+                        "enum": sorted(COMPARISON_STATUSES),
+                    },
+                    "keep_candidate_h": {"type": "boolean"},
+                    "supporting_evidence_refs": {"type": "array", "items": {"type": "string"}},
+                    "contradicting_evidence_refs": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                    "inconclusive_evidence_refs": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                    "rationale": {"type": "string"},
+                },
+                "required": [
+                    "operation",
+                    "target_comparison_id",
+                    "comparison_status",
+                    "keep_candidate_h",
+                    "supporting_evidence_refs",
+                    "contradicting_evidence_refs",
+                    "inconclusive_evidence_refs",
+                    "rationale",
+                ],
+                "additionalProperties": False,
+            },
+        },
+    }
+
+
+def validate_reconciliation_result(
+    result: dict[str, Any],
+    *,
+    existing_comparison_ids: list[str],
+    evidence_ids: list[str],
+    has_candidate_h: bool,
+) -> dict[str, Any]:
+    required = {
+        "operation",
+        "target_comparison_id",
+        "comparison_status",
+        "keep_candidate_h",
+        "supporting_evidence_refs",
+        "contradicting_evidence_refs",
+        "inconclusive_evidence_refs",
+        "rationale",
+    }
+    if not isinstance(result, dict) or set(result) != required:
+        raise SchemaError("Reconciliation result has invalid fields")
+    if result["operation"] not in RECONCILIATION_OPERATIONS:
+        raise SchemaError("Reconciliation operation is invalid")
+    target = result["target_comparison_id"]
+    if target not in [*existing_comparison_ids, "NEW", "NONE"]:
+        raise SchemaError("Reconciliation selected an unknown comparison")
+    if result["comparison_status"] not in COMPARISON_STATUSES:
+        raise SchemaError("Reconciliation comparison status is invalid")
+    if type(result["keep_candidate_h"]) is not bool:
+        raise SchemaError("Reconciliation keep_candidate_h must be boolean")
+    if result["keep_candidate_h"] and not has_candidate_h:
+        raise SchemaError("Reconciliation cannot keep an absent C candidate")
+    if result["operation"] == "ADD" and target not in {"NEW", "NONE"}:
+        raise SchemaError("ADD must target a new comparison")
+    if result["operation"] in {"REFINE_EXISTING", "MERGE", "REOPEN_REFINED"} and target in {
+        "NEW",
+        "NONE",
+    }:
+        raise SchemaError("Existing-comparison reconciliation needs an existing id")
+    for key in (
+        "supporting_evidence_refs",
+        "contradicting_evidence_refs",
+        "inconclusive_evidence_refs",
+    ):
+        values = result[key]
+        if not isinstance(values, list) or any(
+            not isinstance(item, str) or item not in evidence_ids for item in values
+        ):
+            raise SchemaError("Reconciliation evidence references are invalid")
+    _nonempty_string(result["rationale"], "reconciliation.rationale")
+    assert_no_evaluator_keys(result)
+    return result
+
+
+def apply_a_updates(
+    memory: dict[str, Any], a_result: dict[str, Any] | None, *, task_id: str, artifact_ref: str
+) -> list[str]:
+    """Materialize exactly the evidence-bound updates A returned.
+
+    This is mechanical application of A's declared operation.  It does not
+    infer an operation, merge wording, or decide semantic equivalence.
+    """
+
+    if a_result is None or a_result.get("decision") != "UPDATE":
+        return []
+    updates = a_result.get("updates", [])
+    created: list[str] = []
+    for update_index, update in enumerate(updates):
+        memory_id = "established-" + _digest(
+            {
+                "task_id": task_id,
+                "update_index": update_index,
+                "update": update,
+                "artifact_ref": artifact_ref,
+            }
+        )[:16]
+        entry = {
+            "memory_id": memory_id,
+            "scope": update["scope"],
+            "guidance": update["guidance"],
+            "prior_comparison_evidence": {
+                "operation": update["operation"],
+                "evidence_basis": update["evidence_basis"],
+                "provenance": list(update["provenance"]),
+            },
+            "lineage": [artifact_ref],
+            "created_at_task": task_id,
+        }
+        assert_no_evaluator_keys(entry)
+        memory["established_memories"].append(entry)
+        created.append(memory_id)
+    return created
+
+
+def mark_h_consumed(memory: dict[str, Any], h_id: str, *, task_id: str, evidence_id: str) -> None:
+    for entry in memory["exploratory_memories"]:
+        if entry["h_id"] == h_id:
+            if entry["status"] != "active":
+                raise SchemaError("Only an active H can be consumed")
+            entry["status"] = "consumed"
+            entry["consumed_at_task"] = task_id
+            entry["evidence_refs"].append(evidence_id)
+            return
+    raise SchemaError("Attempted to consume an unknown H")
+
+
+def reconcile_h_and_comparison(
+    memory: dict[str, Any],
+    *,
+    b_result: dict[str, Any],
+    c_result: dict[str, Any] | None,
+    reconciliation: dict[str, Any],
+    task_id: str,
+    evidence_id: str,
+    artifact_ref: str,
+) -> dict[str, Any]:
+    """Apply a validated reconciliation decision without inventing a probe."""
+
+    validate_b_result(b_result)
+    if c_result is not None:
+        validate_c_result(c_result)
+    existing = {item["comparison_id"]: item for item in memory["comparison_ledger"]}
+    target = reconciliation["target_comparison_id"]
+    if target in {"NEW", "NONE"}:
+        if reconciliation["operation"] != "ADD" and target == "NEW":
+            raise SchemaError("Non-ADD reconciliation cannot target NEW")
+        comparison_id = "comparison-" + _digest(
+            {"b": b_result, "c": c_result, "task_id": task_id}
+        )[:16]
+        if comparison_id in existing:
+            # A deterministic collision is a duplicate identity, not a second
+            # comparison.  Treat it as the existing comparison slot.
+            target = comparison_id
+        else:
+            target = comparison_id
+    elif target not in existing:
+        raise SchemaError("Reconciliation target comparison is not in the ledger")
+
+    if target in existing:
+        comparison = existing[target]
+        comparison["status"] = reconciliation["comparison_status"]
+        comparison["last_updated_task"] = task_id
+    else:
+        contract = b_result.get("functional_contract") or {}
+        comparison = {
+            "comparison_id": target,
+            "scope": (
+                c_result["scope"]
+                if c_result and c_result["decision"] == "CREATE"
+                else contract.get("local_function", "local incumbent function")
+            ),
+            "incumbent_local_function": contract.get("local_function", "local incumbent function"),
+            "status": reconciliation["comparison_status"],
+            "supporting_evidence_refs": [],
+            "contradicting_evidence_refs": [],
+            "inconclusive_evidence_refs": [],
+            "linked_h_ids": [],
+            "created_at_task": task_id,
+            "last_updated_task": task_id,
+        }
+        memory["comparison_ledger"].append(comparison)
+        existing[target] = comparison
+
+    for key in (
+        "supporting_evidence_refs",
+        "contradicting_evidence_refs",
+        "inconclusive_evidence_refs",
+    ):
+        for ref in reconciliation[key]:
+            if ref not in comparison[key]:
+                comparison[key].append(ref)
+
+    added_h_id = None
+    if reconciliation["keep_candidate_h"]:
+        if c_result is None or c_result["decision"] != "CREATE":
+            raise SchemaError("Reconciliation kept an H without a CREATE result")
+        future_h = {
+            "type": "exploratory",
+            "scope": c_result["scope"],
+            "hypothesis": c_result["hypothesis"],
+            "guidance": c_result["guidance"],
+            "probe_policy": c_result["probe_spec"],
+        }
+        _validate_public_future_h(future_h)
+        added_h_id = "h-" + _digest(
+            {"future_h": future_h, "comparison_id": target, "task_id": task_id}
+        )[:16]
+        if any(item["h_id"] == added_h_id for item in memory["exploratory_memories"]):
+            raise SchemaError("Reconciliation attempted to add an existing H id")
+        h_entry = {
+            "h_id": added_h_id,
+            "comparison_id": target,
+            "status": "active",
+            "future_h": future_h,
+            "provenance": [artifact_ref, *c_result.get("provenance", [])],
+            "created_at_task": task_id,
+            "consumed_at_task": None,
+            "evidence_refs": [evidence_id],
+            "lineage": [artifact_ref],
+        }
+        memory["exploratory_memories"].append(h_entry)
+        if added_h_id not in comparison["linked_h_ids"]:
+            comparison["linked_h_ids"].append(added_h_id)
+        if reconciliation["operation"] in {"REFINE_EXISTING", "MERGE", "REOPEN_REFINED"}:
+            for old_h in memory["exploratory_memories"]:
+                if (
+                    old_h["h_id"] != added_h_id
+                    and old_h["comparison_id"] == target
+                    and old_h["status"] == "active"
+                ):
+                    old_h["status"] = "superseded"
+
+    return {
+        "operation": reconciliation["operation"],
+        "comparison_id": target,
+        "comparison_status": comparison["status"],
+        "h_id": added_h_id,
+        "candidate_retained": reconciliation["keep_candidate_h"],
+        "artifact_ref": artifact_ref,
+    }
+
+
+def build_a_input_for_task(
+    *,
+    memory_before: dict[str, Any],
+    consumed_h: dict[str, Any],
+    task: dict[str, Any],
+    execution: dict[str, Any],
+    probe: dict[str, Any],
+    evidence_package: dict[str, Any],
+    artifact_root: str,
+) -> dict[str, Any]:
+    return build_a_input(
+        pre_update_established_memories=memory_before["established_memories"],
+        consumed_exploratory_memory=consumed_h,
+        target_task={
+            "task_id": task["task_id"],
+            "seed": task["requested_seed"],
+            "instruction": task.get("instruction", ""),
+        },
+        target_trajectory=execution,
+        probe_evidence={
+            "activated_h_id": probe.get("h_id"),
+            "runtime_status": probe.get("runtime_status"),
+            "trace": probe.get("trace", []),
+            "evidence_package_id": evidence_package["evidence_id"],
+        },
+        environment_outcome={
+            "e1": {
+                "won": execution.get("final", {}).get("won"),
+                "done": execution.get("final", {}).get("done"),
+                "reward": execution.get("final", {}).get("reward"),
+                "steps": len(execution.get("steps", [])),
+                "environment_action_count": len(execution.get("executed_actions", [])),
+            }
+        },
+        provenance=[artifact_root, evidence_package["evidence_id"]],
+    )

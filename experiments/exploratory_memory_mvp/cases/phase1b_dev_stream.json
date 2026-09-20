@@ -1,0 +1,69 @@
+{
+  "schema_version": "phase1b-longitudinal-development-stream-v1",
+  "stream_id": "phase1b-dev-12-task-stream-seed-42",
+  "seed": 42,
+  "development_only": true,
+  "selection_rule": "first 2 simple, first 3 clean, first 3 cool, first 4 heat in frozen Phase 1A registry order",
+  "tasks": [
+    {
+      "task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_cool_then_place_in_recep-Pot-None-Shelf-1/trial_T20190906_234856_560153",
+      "task_family": "pick_cool_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-DiningTable-21/trial_T20190909_045111_863875",
+      "task_family": "pick_cool_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-SideTable-21/trial_T20190907_045036_700265",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190909_100824_609831",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-7/trial_T20190909_021904_818116",
+      "task_family": "pick_cool_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605",
+      "task_family": "pick_and_place_simple",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-20/trial_T20190908_230106_156334",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_clean_then_place_in_recep-DishSponge-None-Toilet-427/trial_T20190908_234203_467365",
+      "task_family": "pick_clean_then_place_in_recep",
+      "requested_seed": 42
+    },
+    {
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172429_549227",
+      "task_family": "pick_heat_then_place_in_recep",
+      "requested_seed": 42
+    }
+  ]
+}
