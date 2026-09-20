@@ -4,179 +4,125 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: Phase 1B Interface Hardening.
+Current cycle: Phase 1B Pre-Scale Closure.
 
 Baseline:
 
-    c0342c43480c066546676f7bb136fa905b89aafa
+    4051e0eda7372448a9ac191701172ea5984c1257
 
 Read first:
 
-1. docs/current_state/02_method_architecture.md
-2. docs/current_state/03_component_contracts.md
-3. docs/91_phase1b_dev_round1_semantic_review_and_freeze_decision.md
-4. docs/86_phase1b_dev_longitudinal_system_calibration_plan.md
-
-The current task is a single interface-hardening acceptance cycle.  The old
-12-task Round-0/Round-1 stream is development evidence only; it is not a new
-gate and must not be tuned again.
+1. docs/96_phase1b_prescale_closure_plan.md
+2. docs/95_phase1b_interface_hardening_semantic_review.md
+3. docs/current_state/02_method_architecture.md
+4. docs/current_state/03_component_contracts.md
 
 ## Goal
 
-Harden and audit the minimum longitudinal closed loop:
+Close the last local interface blockers, prove one complete live longitudinal memory loop, then
+freeze immediately for the fresh 40–60-task scale experiment.
 
-history -> B/C/H -> retrieval -> one-shot probe -> actual evidence -> A ->
-H/comparison reconciliation -> next memory state.
+This is not another tuning/calibration round.
 
-This is a correctness cycle, not a treatment-effect experiment.  Do not start
-fresh tasks, baselines, repetitions, or a scale evaluation.
+## Preserve method roles
 
-The hardening acceptance must preserve these boundaries:
+A = actual-evidence Established Memory reconciliation and epistemic interpretation.
+B = unresolved incumbent-comparison diagnosis.
+C = grounded future-probe synthesis.
+H = one-shot exploratory memory.
+Consolidation = identity/dedup/merge/lineage/lifecycle only.
+Code = IDs/provenance/transactions/schema/artifacts.
 
-- B sees the full current completed trajectory, but C receives only a
-  sanitized abstract B-to-C Functional Contract projection;
-- C future-facing fields never contain source entity IDs or later source
-  answers; source grounding remains creation-time provenance only;
-- A is the only semantic authority for actual-evidence role and comparison
-  epistemic assessment; consolidation only handles comparison/H identity and
-  lifecycle;
-- evidence IDs are deterministic runner bindings, never model-generated
-  reconciliation references;
-- factual execution/evidence/H-consumption commits survive invalid offline
-  semantic stages;
-- Established Memory ADD/REFINE/SPECIALIZE/MERGE operations have real
-  materialization semantics and target only current established-memory IDs.
+Do not add a new semantic authority.
 
-The coding-agent is both implementer and semantic reviewer. Metrics alone cannot justify tuning.
+## Exactly three authorized changes
 
-## Hard limit
+1. Remove provenance from A model output. Runner binds evidence/task/artifact/H lineage
+   mechanically.
+2. B-to-C projection contains only the abstract Functional Contract. Full incumbent_segment and
+   B audit narration remain B-only. Entity-bearing Functional Contract still fails closed.
+3. Compact identity-reconciliation context so persisted raw evidence/history is not copied
+   wholesale into each model prompt.
 
-The prior Round-0/one-tuning-batch/Round-1 calibration sequence is complete
-and frozen in docs/87–91. The active sequence is exactly:
+Do not change retrieval, H lifecycle, models, K*, executor, probe budget, task ordering,
+comparison ontology, Stage1 or Graph retrieval.
 
-implementation
--> no-model hardening checkpoint
--> one Interface-Hardening Acceptance on the frozen 12-task stream
--> deep semantic review
--> freeze or method rethink
+## No-model checkpoint
 
-There is no Round-2, second hardening pass, or performance-tuning loop.
+Before calls, regression-test:
 
-## Frozen stream and state
+- A has no model-generated provenance field;
+- runner provenance binding and A materialization;
+- B entity-bearing audit prose no longer blocks an entity-free Functional Contract;
+- entity-bearing Functional Contract still fails closed;
+- C future entity leakage rejection;
+- fact commit and H consumption survive later semantic failure;
+- evidence refs remain runner-owned;
+- consolidation cannot set epistemic comparison status;
+- temporal facts;
+- real Established Memory ADD/REFINE/SPECIALIZE/MERGE semantics;
+- reconciliation input omits full raw evidence_store/history.
 
-Use exactly the 12 tasks/order listed in docs/86, seed 42. They are development-only.
+Run focused/regression tests, Ruff, compileall and git diff --check.
 
-The acceptance run starts from:
+Commit/push transition before model calls.
 
-K_established = canonical K*
-active_H = empty
-consumed_H = empty
-comparison_ledger = empty
-evidence_store = empty
+## Single closure check
 
-No native cold start and no production Stage1.
+Run exactly the first six tasks from the frozen Phase 1B dev stream, original order, seed 42:
 
-## Execution
+1. SprayBottle -> Toilet-426
+2. clean Apple -> Fridge-27
+3. cool Pot -> Shelf-1
+4. heat Egg -> GarbageCan-2
+5. cool Lettuce -> DiningTable-21
+6. heat Egg -> SideTable-21
 
-At task start semantic retrieval returns NONE or one active H.
+Start from canonical K*, empty H/comparison/evidence state.
 
-If H is activated:
-run at most 2 targeted candidate probes;
-consume H;
-if target is not acquired, continue deterministic canonical search over remaining candidates.
+Same frozen model configs.
 
-Probe failure is not task failure.
+No retry, no mid-run patch, no second closure run.
 
-Stop at exact target acquisition. Do not run downstream clean/heat/cool/place.
+## Review
 
-## Evolution
+Read all six complete chains.
 
-A and B/C branch from the same pre-update M_t.
+The run passes only if:
 
-A sees only actual evidence and no counterfactual arm.
+- C source-answer leakage remains zero;
+- A provenance/interface failures are zero on consumed-H cases;
+- at least one real chain completes:
+  B/C creates H -> later retrieval -> probe evidence -> accepted A assessment -> memory state
+  materialized;
+- actual facts and consumed-H state survive downstream semantic failures;
+- evidence refs remain deterministic;
+- no unsupported RESOLVED;
+- temporal facts remain correct;
+- reconciliation prompt no longer grows with full raw historical evidence archive;
+- no obvious state corruption from Established Memory materialization.
 
-B decides OPEN/NONE and may not propose the alternative.
+Do not require improved search cost or task performance.
 
-C runs only after OPEN and keeps the existing local-public/future-facing boundary.
+## Final decision
 
-After both branches, reconcile H/comparison identity/lifecycle and materialize M_{t+1}.
+Exactly:
 
-Never blindly append C output.
-
-## Model policy
-
-No model sweep.
-
-Selector:
-qwen3.8-max, thinking=false, temperature=0, strict schema.
-
-B/C/A/retrieval/H-reconciliation:
-qwen3.8-flash, thinking=false, temperature=0.
-
-The historical batch tuning did not change model identity. This cycle does
-not authorize model or performance tuning.
-
-## Historical Round-0/Round-1 semantic review
-
-For every task read:
-
-memory before/after;
-retrieval;
-activated H;
-probe;
-continuation search;
-A;
-B/C;
-H reconciliation.
-
-Explicitly judge retrieval, applicability, probe fidelity, evidence meaning, A, B, C, reconciliation, and M_t->M_{t+1}. Cite artifact paths.
-
-Those artifacts are historical inputs to this hardening cycle. Do not rerun
-that sequence or treat its tasks as an independent gate.
-
-## Historical one-batch tuning
-
-A change requires either:
-
-- the same semantic root cause across multiple tasks, or
-- a direct method-contract/provenance/leakage violation.
-
-Allowed:
-B/C contracts/prompts;
-retrieval relevance/abstention;
-evidence packaging;
-A contract/prompt;
-H/comparison reconciliation;
-comparison ledger/provenance.
-
-Forbidden:
-task/object-specific fixes;
-candidate-ranking hacks;
-hidden/oracle data;
-K* tuning;
-executor changes;
-model/history sweeps;
-task replacement/reordering.
-
-Commit/push the Round-0 result, semantic review, and tuning proposal before applying the patch.
-
-## Historical Round-1
-
-The batch transition was committed before the historical Round-1 calls. The
-current acceptance is not a replacement Round-1.
-
-Review again and compare every Round-0 root cause: fixed / partial / unchanged / regressed / new.
-
-No second tuning run.
-
-Final decision must be exactly:
-
-READY
-READY_WITH_KNOWN_LIMITATION
+READY_FOR_SCALE
+or
 NOT_READY_METHOD_RETHINK
 
-## Boundary
+If READY_FOR_SCALE, freeze and proceed directly to the fresh 40–60-task scale experiment.
+Do not insert another development gate.
 
-Do not add baselines, repetitions, fresh tasks, Stage1, Graph/embedding retrieval, or scientific superiority claims.
+If NOT_READY_METHOD_RETHINK, stop model calls.
 
-The only goal is to freeze a semantically healthy implementation for the next fresh 40–60 task longitudinal scale experiment.
+## Outputs
+
+Write:
+
+- docs/97_phase1b_prescale_closure_transition.md
+- docs/98_phase1b_prescale_closure_results.md
+- docs/99_phase1b_prescale_closure_semantic_review_and_decision.md
+
+No superiority claim from this development run.

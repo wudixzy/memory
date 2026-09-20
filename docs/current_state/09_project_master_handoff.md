@@ -1,6 +1,6 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-20 active cycle:** Phase 1B longitudinal calibration is complete and frozen as `NOT_READY_METHOD_RETHINK` in docs/91. The active cycle is now **Phase 1B Interface Hardening**. Read docs/92–95 and current AGENTS.md first. This cycle permits one no-model hardening checkpoint and one acceptance stream only; it is not Round-2.
+> **2026-09-21 active cycle:** Phase 1B Interface Hardening completed at docs/94–95. Major structural correctness risks are resolved; the remaining active stage is **Phase 1B Pre-Scale Closure**. Read `docs/96_phase1b_prescale_closure_plan.md` and current `AGENTS.md`. This stage permits exactly three local interface corrections and one fixed 6-task closure check; if it passes, freeze and proceed directly to the fresh longitudinal scale experiment.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 
