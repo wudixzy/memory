@@ -40,6 +40,14 @@ current_trajectory, and pre_update_established_memories. The current completed
 trajectory is the incumbent realization that you are diagnosing. The memory is
 only what was established before that trajectory.
 
+This Phase 1B development loop has a deliberate controlled endpoint shown in
+controlled_endpoint: target_acquisition. Downstream clean/heat/cool/place is
+not run by this protocol. Therefore environment_won=false means only that the
+full ALFWorld task was not continued to its downstream endpoint; it is not
+evidence that target acquisition failed. Use controlled_endpoint.target_acquired
+and the public search/probe trace when judging the local incumbent. Do not
+claim full-task completion or comparative superiority from acquisition alone.
+
 Do not propose, name, ground, verify, or execute a concrete alternative. Do not
 require evidence that a concrete alternative already exists. C will synthesize
 and ground an alternative only after B returns OPEN. In particular, OPEN means
@@ -231,6 +239,14 @@ other counterfactual baseline, evaluator labels, oracle answers, or a
 researcher-written expected conclusion. EVIDENCE_OBTAINED means only that the
 probe produced enough observations for you to judge; it does not establish
 that H is true or globally superior.
+
+This Phase 1B development loop has a controlled endpoint named
+target_acquisition. Downstream clean/heat/cool/place is intentionally not run.
+When controlled_endpoint.target_acquired is true and environment_won is false,
+record acquisition/search evidence without calling the full task a success.
+When no alternative realization was actually tested, keep the relevant
+comparative question in still_unresolved; incumbent feasibility or an
+inefficient incumbent alone does not close comparative superiority.
 
 Return exactly one JSON object and no prose or markdown:
 {

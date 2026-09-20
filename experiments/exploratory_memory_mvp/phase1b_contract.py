@@ -31,6 +31,7 @@ MEMORY_STATE_SCHEMA = "phase1b-longitudinal-memory-state-v1"
 EVIDENCE_SCHEMA = "phase1b-public-evidence-package-v1"
 RETRIEVAL_SCHEMA = "phase1b-h-retrieval-v1"
 RECONCILIATION_SCHEMA = "phase1b-h-comparison-reconciliation-v1"
+CONTROLLED_ENDPOINT_NAME = "target_acquisition"
 
 H_STATUSES = frozenset({"active", "consumed", "superseded"})
 COMPARISON_STATUSES = frozenset({"OPEN", "PARTIALLY_RESOLVED", "RESOLVED"})
@@ -377,9 +378,44 @@ def validate_retrieval_result(result: dict[str, Any], active_ids: list[str]) -> 
     return result
 
 
+def validate_controlled_endpoint(endpoint: dict[str, Any]) -> dict[str, Any]:
+    """Validate the public endpoint contract used by the development loop."""
+
+    if not isinstance(endpoint, dict) or set(endpoint) != {
+        "name",
+        "target_acquired",
+        "downstream_execution",
+        "environment_won",
+    }:
+        raise SchemaError("Controlled endpoint has invalid fields")
+    if endpoint["name"] != CONTROLLED_ENDPOINT_NAME:
+        raise SchemaError("Phase 1B endpoint must be target_acquisition")
+    if type(endpoint["target_acquired"]) is not bool:
+        raise SchemaError("Controlled endpoint target_acquired must be boolean")
+    if endpoint["downstream_execution"] != "not_run_by_phase1b_dev_protocol":
+        raise SchemaError("Phase 1B downstream endpoint contract is not frozen")
+    if endpoint["environment_won"] is not None and type(endpoint["environment_won"]) is not bool:
+        raise SchemaError("Controlled endpoint environment_won must be boolean or null")
+    return endpoint
+
+
 def build_longitudinal_b_input(
-    task: dict[str, Any], initial_state: dict[str, Any], execution: dict, memory: dict
+    task: dict[str, Any],
+    initial_state: dict[str, Any],
+    execution: dict,
+    memory: dict,
+    controlled_endpoint: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    if controlled_endpoint is None:
+        controlled_endpoint = {
+            "name": CONTROLLED_ENDPOINT_NAME,
+            "target_acquired": bool(
+                execution.get("target_acquired") or execution.get("final", {}).get("won")
+            ),
+            "downstream_execution": "not_run_by_phase1b_dev_protocol",
+            "environment_won": execution.get("final", {}).get("won"),
+        }
+    validate_controlled_endpoint(controlled_endpoint)
     result = {
         "current_task": {"task_id": task["task_id"], "seed": task["requested_seed"]},
         "current_initial_state": {
@@ -388,6 +424,7 @@ def build_longitudinal_b_input(
             "won": initial_state.get("won"),
         },
         "current_trajectory": copy.deepcopy(execution),
+        "controlled_endpoint": copy.deepcopy(controlled_endpoint),
         "pre_update_established_memories": copy.deepcopy(memory["established_memories"]),
     }
     assert_no_evaluator_keys(result)
@@ -465,6 +502,15 @@ def build_evidence_package(
     execution: dict[str, Any],
     artifact_root: str,
 ) -> dict[str, Any]:
+    controlled_endpoint = {
+        "name": CONTROLLED_ENDPOINT_NAME,
+        "target_acquired": bool(
+            probe.get("target_acquired") or continuation.get("target_acquired")
+        ),
+        "downstream_execution": "not_run_by_phase1b_dev_protocol",
+        "environment_won": execution.get("final", {}).get("won"),
+    }
+    validate_controlled_endpoint(controlled_endpoint)
     package = {
         "schema_version": EVIDENCE_SCHEMA,
         "evidence_id": "evidence-" + _digest(
@@ -481,11 +527,10 @@ def build_evidence_package(
         "probe_trace": copy.deepcopy(probe),
         "continuation_trace": copy.deepcopy(continuation),
         "acquisition": {
-            "target_acquired": bool(
-                probe.get("target_acquired") or continuation.get("target_acquired")
-            ),
+            "target_acquired": controlled_endpoint["target_acquired"],
             "final_public_state": copy.deepcopy(execution.get("final", {})),
         },
+        "controlled_endpoint": controlled_endpoint,
         "candidate_inspections": len(probe.get("candidate_sequence", []))
         + len(continuation.get("candidate_sequence", [])),
         "environment_action_count": len(execution.get("executed_actions", [])),
@@ -505,12 +550,18 @@ def build_reconciliation_input(
     c_result: dict[str, Any] | None,
     existing_comparison_ids: list[str],
 ) -> dict[str, Any]:
+    available_evidence_refs = [
+        item["evidence_id"] for item in memory_before["evidence_store"]
+    ]
+    available_evidence_refs.append(evidence_package["evidence_id"])
     result = {
         "pre_update_memory": copy.deepcopy(memory_before),
         "actual_evidence": copy.deepcopy(evidence_package),
         "a_result": copy.deepcopy(a_result) if a_result is not None else {"status": "unavailable"},
         "b_diagnosis": copy.deepcopy(b_result),
         "c_candidate": copy.deepcopy(c_result) if c_result is not None else None,
+        "current_evidence_id": evidence_package["evidence_id"],
+        "available_evidence_refs": available_evidence_refs,
         "existing_comparison_ids": list(existing_comparison_ids),
     }
     assert_no_evaluator_keys(result)
@@ -796,6 +847,17 @@ def build_a_input_for_task(
     evidence_package: dict[str, Any],
     artifact_root: str,
 ) -> dict[str, Any]:
+    controlled_endpoint = evidence_package.get("controlled_endpoint")
+    if controlled_endpoint is None:
+        controlled_endpoint = {
+            "name": CONTROLLED_ENDPOINT_NAME,
+            "target_acquired": bool(
+                probe.get("target_acquired") or execution.get("final", {}).get("won")
+            ),
+            "downstream_execution": "not_run_by_phase1b_dev_protocol",
+            "environment_won": execution.get("final", {}).get("won"),
+        }
+    validate_controlled_endpoint(controlled_endpoint)
     return build_a_input(
         pre_update_established_memories=memory_before["established_memories"],
         consumed_exploratory_memory=consumed_h,
@@ -818,6 +880,7 @@ def build_a_input_for_task(
                 "reward": execution.get("final", {}).get("reward"),
                 "steps": len(execution.get("steps", [])),
                 "environment_action_count": len(execution.get("executed_actions", [])),
+                "controlled_endpoint": copy.deepcopy(controlled_endpoint),
             }
         },
         provenance=[artifact_root, evidence_package["evidence_id"]],

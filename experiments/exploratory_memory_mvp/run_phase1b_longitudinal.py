@@ -665,7 +665,11 @@ def _run_task(
                 a_parsed = None
 
         b_input = build_longitudinal_b_input(
-            task_with_instruction, initial_state, execution, memory_before
+            task_with_instruction,
+            initial_state,
+            execution,
+            memory_before,
+            controlled_endpoint=evidence["controlled_endpoint"],
         )
         write_json(task_dir / "b" / "b_input.json", b_input)
         b_parsed, b_status = _run_offline_branch(

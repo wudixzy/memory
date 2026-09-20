@@ -23,11 +23,13 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     DEFAULT_STREAM_PATH,
     build_a_input_for_task,
     build_longitudinal_b_input,
+    build_reconciliation_input,
     build_reconciliation_response_format,
     build_retrieval_response_format,
     initial_memory_state,
     load_phase1b_stream,
     memory_state_digest,
+    validate_controlled_endpoint,
     validate_memory_state,
     validate_reconciliation_result,
     validate_retrieval_result,
@@ -270,6 +272,11 @@ class Phase1BContractTests(unittest.TestCase):
         execution = _FakeEpisode(task["task_id"], 42).execution()
         b_input = build_longitudinal_b_input(task, initial, execution, memory)
         self.assertEqual(b_input["pre_update_established_memories"], memory["established_memories"])
+        self.assertEqual(b_input["controlled_endpoint"]["name"], "target_acquisition")
+        self.assertEqual(
+            b_input["controlled_endpoint"]["downstream_execution"],
+            "not_run_by_phase1b_dev_protocol",
+        )
         self.assertNotIn("active_h", json.dumps(b_input))
         a_input = build_a_input_for_task(
             memory_before=memory,
@@ -282,6 +289,44 @@ class Phase1BContractTests(unittest.TestCase):
         )
         self.assertNotIn("e0", json.dumps(a_input).lower())
         self.assertNotIn("counterfactual", json.dumps(a_input).lower())
+
+    def test_controlled_endpoint_is_explicit_and_fail_closed(self):
+        endpoint = {
+            "name": "target_acquisition",
+            "target_acquired": True,
+            "downstream_execution": "not_run_by_phase1b_dev_protocol",
+            "environment_won": False,
+        }
+        self.assertEqual(validate_controlled_endpoint(endpoint), endpoint)
+        with self.assertRaises(SchemaError):
+            validate_controlled_endpoint({**endpoint, "downstream_execution": "full_task"})
+
+    def test_reconciliation_input_exposes_exact_current_evidence_refs(self):
+        memory = initial_memory_state()
+        memory["evidence_store"].append({"evidence_id": "evidence-old"})
+        evidence = {"evidence_id": "evidence-current"}
+        result = build_reconciliation_input(
+            memory_before=memory,
+            evidence_package=evidence,
+            a_result=None,
+            b_result={
+                "decision": "NONE",
+                "incumbent_segment": None,
+                "evidence_status": {
+                    "feasibility_support": "feasible",
+                    "comparative_support": "none",
+                    "policy_relevance": "none",
+                },
+                "functional_contract": None,
+                "warrant": "No open comparison.",
+            },
+            c_result=None,
+            existing_comparison_ids=[],
+        )
+        self.assertEqual(result["current_evidence_id"], "evidence-current")
+        self.assertEqual(
+            result["available_evidence_refs"], ["evidence-old", "evidence-current"]
+        )
 
     def test_reconciliation_rejects_unknown_evidence_and_preserves_no_new_h(self):
         response_format = build_reconciliation_response_format([])

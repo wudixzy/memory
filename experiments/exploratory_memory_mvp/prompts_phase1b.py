@@ -43,6 +43,18 @@ Do not reopen a RESOLVED comparison without new actual evidence. Do not merge
 merely because wording is similar. Evidence references must be copied from
 the actual evidence package or existing ledger references.
 
+The input explicitly supplies current_evidence_id and
+available_evidence_refs. Every item in supporting_evidence_refs,
+contradicting_evidence_refs, and inconclusive_evidence_refs must be copied
+exactly from available_evidence_refs. EVIDENCE_OBTAINED is a runtime probe
+status, never an evidence reference. Consider current_evidence_id explicitly,
+but choose its evidential role from the public facts rather than automatically
+calling it supporting.
+
+Use target_comparison_id=NEW or NONE with ADD. Use an existing comparison ID
+with REFINE_EXISTING, MERGE, or REOPEN_REFINED. Never combine ADD with an
+existing comparison ID.
+
 Return exactly one JSON object with the supplied schema. The comparison_status
 means the current epistemic status, not that EVIDENCE_OBTAINED proves the
 hypothesis. Keep candidate H false when C returned NONE or when no grounded
