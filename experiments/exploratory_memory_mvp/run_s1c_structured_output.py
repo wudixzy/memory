@@ -41,7 +41,6 @@ from .run_stronger_actor_diagnostic import (
     DEFAULT_P0_RUNTIME_ROOT,
     _load_p0_reference,
     assert_actor_stack_parity,
-    development_selection_verdict,
 )
 from .run_stronger_actor_diagnostic import (
     _task_artifact_dir as stronger_task_artifact_dir,
@@ -264,6 +263,35 @@ def _aggregate_usage(rows: list[dict[str, Any]]) -> dict[str, Any]:
     return result
 
 
+def s1c_development_selection_verdict(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Apply the frozen S1C development heuristic without gate promotion."""
+
+    successes = sum(row.get("won") is True for row in rows)
+    invalid = sum(row.get("invalid_action_steps", 0) for row in rows)
+    key_rows = [
+        row
+        for row in rows
+        if any(marker in row["task_id"] for marker in ("Apple", "Shelf", "CoffeeMachine"))
+    ]
+    key_wins = sum(row.get("won") is True for row in key_rows)
+    if successes >= 4 and invalid == 0 and key_wins >= 2:
+        verdict = "STRONG_IMPROVEMENT"
+    elif successes == 3:
+        verdict = "RESEARCHER_REVIEW_REQUIRED"
+    else:
+        verdict = "STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION"
+    return {
+        "heuristic_only": True,
+        "verdict": verdict,
+        "successes": successes,
+        "episodes": len(rows),
+        "invalid_action_steps": invalid,
+        "key_diagnostic_task_markers": ["Apple", "Shelf", "CoffeeMachine"],
+        "key_diagnostic_wins": key_wins,
+        "does_not_update_actor_manifest": True,
+    }
+
+
 def run_s1c_structured_output_diagnostic(
     *,
     output: Path,
@@ -483,7 +511,7 @@ def run_s1c_structured_output_diagnostic(
         and all(row["pairing_valid"] for row in rows),
         "task_summaries": rows,
         "usage": _aggregate_usage(rows),
-        "development_selection": development_selection_verdict(rows),
+        "development_selection": s1c_development_selection_verdict(rows),
         "development_not_admission": True,
         "actor_manifest_remains_pending": True,
         "trajectory_manifest_path": str(output / "trajectory_manifest.json"),

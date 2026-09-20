@@ -30,6 +30,7 @@ from exploratory_memory_mvp.run_paired_actor_stack import (  # noqa: E402
 )
 from exploratory_memory_mvp.run_s1c_structured_output import (  # noqa: E402
     run_s1c_structured_output_diagnostic,
+    s1c_development_selection_verdict,
 )
 from exploratory_memory_mvp.stronger_actor_manifest import (  # noqa: E402
     load_stronger_actor_manifest,
@@ -155,6 +156,19 @@ def _base_input(episode: _Episode) -> dict:
 
 
 class S1CStructuredOutputTests(unittest.TestCase):
+    def test_s1c_development_rule_uses_frozen_stop_label(self):
+        rows = [
+            {
+                "task_id": task_id,
+                "won": task_id == "Laptop",
+                "invalid_action_steps": 0,
+            }
+            for task_id in ("Laptop", "SoapBar", "Apple", "Shelf", "CoffeeMachine")
+        ]
+        verdict = s1c_development_selection_verdict(rows)
+        self.assertEqual(verdict["successes"], 1)
+        self.assertEqual(verdict["verdict"], "STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION")
+
     def _write_p0_reference_runtime(self, root: Path) -> tuple[Path, Path]:
         source_manifest = load_paired_task_manifest()
         actor_manifest = load_actor_manifest()
