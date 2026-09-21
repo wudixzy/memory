@@ -145,9 +145,9 @@ H 的关键性质：
 \begin{aligned}
 G_0 &= G_{\text{tool}} \\
 K_0^{established} &= \varnothing \\
-K_0^{exploratory} &= \\varnothing \\
-\\mathcal E_0^{history} &= \\varnothing \\
-\\mathcal T_0 &= \\varnothing
+K_0^{exploratory} &= \varnothing \\
+\mathcal E_0^{history} &= \varnothing \\
+\mathcal T_0 &= \varnothing
 \end{aligned}}
 \]
 
@@ -439,7 +439,7 @@ Consumed 也不等于 hypothesis 被证实或证伪，只表示这条 one-shot i
 
 ### Exploration History / Archive
 
-被实际激活的 H 同时进入离线 `\\mathcal E^{history}`。Archive 不进入在线 recall，只在未来 B=OPEN 后向 C 暴露少量相关、已测试 exploratory hypotheses，帮助避免重复实验。是否等价、是否值得 materially different retest 仍由 C 语义判断；B 当前不读取 archive。详见 `docs/38_exploratory_memory_lifecycle.md`。
+被实际激活的 H 同时进入离线 `\mathcal E^{history}`。Archive 不进入在线 recall，只在未来 B=OPEN 后向 C 暴露少量相关、已测试 exploratory hypotheses，帮助避免重复实验。是否等价、是否值得 materially different retest 仍由 C 语义判断；B 当前不读取 archive。详见 `docs/38_exploratory_memory_lifecycle.md`。
 
 ---
 
@@ -965,25 +965,25 @@ diagnostic tasks cannot affect admission and are not run in this cycle.
 
 Phase 1B 已通过 code-only finalization，正式冻结为：
 
-\`\`\`text
+```text
 READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
-\`\`\`
+```
 
 完整记录见：
 
-- \`docs/100_phase1b_finalization_plan_and_changes.md\`
-- \`docs/101_phase1b_final_freeze_memo.md\`
+- `docs/100_phase1b_finalization_plan_and_changes.md`
+- `docs/101_phase1b_final_freeze_memo.md`
 
 当前 active cycle 已切换到：
 
-\`\`\`text
+```text
 Phase 1C — Flash Scale-Aware Hypothesis Pilot
-\`\`\`
+```
 
 正式计划与无缝接手入口：
 
-- \`docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md\`
-- \`docs/106_phase1c_experiment_design_handoff.md\`
+- `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`
+- `docs/106_phase1c_experiment_design_handoff.md`
 
 本轮只验证 scale-aware hypothesis，不是 paper-level 主实验：
 

@@ -1,9 +1,9 @@
 # 106. Phase 1C Experiment Design Handoff
 
 Date: 2026-09-21  
-Branch: \`exp/minimal-exploratory-memory-validation\`  
-Current protocol commit at handoff creation: \`7ab583653b9666d41a40dca131afc2f32389b656\`  
-Frozen Phase 1B implementation baseline: \`c8daa67ba9d9d6257d65e446b437d362e60abc61\`
+Branch: `exp/minimal-exploratory-memory-validation`  
+Current protocol commit at handoff creation: `7ab583653b9666d41a40dca131afc2f32389b656`  
+Frozen Phase 1B implementation baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 
 ## 1. Purpose of this handoff
 
@@ -20,7 +20,7 @@ deserves larger experiments.}
 }
 \]
 
-The active experiment specification is \`docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md\`.
+The active experiment specification is `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`.
 
 ## 2. Scientific story that is already stable
 
@@ -101,7 +101,7 @@ B does not read archive in the MVP.
 
 No hard semantic similarity rule is used. C decides whether a related old exploration is equivalent, materially different, or worth retesting.
 
-See \`docs/38_exploratory_memory_lifecycle.md\`.
+See `docs/38_exploratory_memory_lifecycle.md`.
 
 ## 4. What previous experiments have actually established
 
@@ -167,9 +167,9 @@ The system was hardened so that:
 
 Final Phase 1B decision:
 
-\`READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS\`
+`READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`
 
-See \`docs/101_phase1b_final_freeze_memo.md\`.
+See `docs/101_phase1b_final_freeze_memo.md`.
 
 ## 5. Known limitations intentionally carried forward
 
@@ -206,11 +206,11 @@ The pilot is allowed to show H1/H2 without a strong H3 effect yet; that can stil
 
 Flash first:
 
-\`\`\`text
+```text
 qwen3.8-flash
 thinking=false
 temperature=0
-\`\`\`
+```
 
 Use Flash for all model-facing roles.
 
@@ -220,18 +220,18 @@ Max is not part of the first pilot.
 
 One fresh 32-task stream:
 
-\`\`\`text
+```text
 8 simple
 8 clean
 8 cool
 8 heat
-\`\`\`
+```
 
 Order is deterministic family interleave:
 
-\`\`\`text
+```text
 simple -> clean -> cool -> heat -> repeat
-\`\`\`
+```
 
 The stream is continuous and dependent; checkpoints do not reset memory.
 
@@ -239,49 +239,49 @@ The stream is continuous and dependent; checkpoints do not reset memory.
 
 Reuse the Phase 1A C2 generic exploration primitive on every eligible task.
 
-\`\`\`text
+```text
 G Established Memory
 -> generic C2 probe <=2
 -> deterministic continuation
 -> actual evidence
 -> A
 -> next G Established Memory
-\`\`\`
+```
 
 G has no B/C/H/comparison/archive state.
 
 ### Arm T — Targeted Exploratory Memory
 
-\`\`\`text
+```text
 T Established Memory
 + active H
 + comparison ledger
 + Exploration History
-\`\`\`
+```
 
 At task start:
 
-\`\`\`text
+```text
 relevant active H -> targeted probe <=2 -> consume/archive -> continuation
 no relevant H     -> continuation directly
-\`\`\`
+```
 
 After evidence:
 
-\`\`\`text
+```text
 A -> Established Memory update
-\`\`\`
+```
 
 After episode:
 
-\`\`\`text
+```text
 trajectory + K_pre
 -> B
 -> if OPEN:
      retrieve top-3 relevant archive records
      -> C
      -> CREATE / NONE
-\`\`\`
+```
 
 T does not fallback to generic C2 when no H exists.
 
@@ -360,7 +360,7 @@ If the required fresh pool is unavailable, stop before calls rather than contami
 
 ## 12. What a new agent is allowed to discuss/change before execution
 
-A new researcher may still discuss implementation-neutral details needed to instantiate \`docs/102\`, especially:
+A new researcher may still discuss implementation-neutral details needed to instantiate `docs/102`, especially:
 
 - exact public-only fresh eligibility implementation;
 - deterministic fresh sampling salt;
@@ -400,7 +400,7 @@ Do not use the old development tasks to tune Phase 1C.
 
 ### Before model calls
 
-1. create a separate \`phase1c-scale-pilot-v1\` implementation path;
+1. create a separate `phase1c-scale-pilot-v1` implementation path;
 2. implement Exploration History state and fact commit;
 3. implement top-3 archive retrieval;
 4. pass only selected compact archive summaries to C;
@@ -410,7 +410,7 @@ Do not use the old development tasks to tune Phase 1C.
 8. prove G cannot see T history;
 9. prove archive is written only after actual H activation;
 10. run no-model focused/regression checks;
-11. commit/push immutable transition and \`docs/103...\`.
+11. commit/push immutable transition and `docs/103...`.
 
 ### Paid run
 
@@ -420,7 +420,7 @@ No result-driven edits, retries, task replacement or Max calls.
 
 ### Review
 
-Write \`docs/104...\` and \`docs/105...\`.
+Write `docs/104...` and `docs/105...`.
 
 Separate:
 

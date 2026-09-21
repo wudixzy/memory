@@ -1,8 +1,8 @@
 # 102. Phase 1C — Flash Scale-Aware Hypothesis Pilot
 
 Date: 2026-09-21  
-Branch: \`exp/minimal-exploratory-memory-validation\`  
-Frozen Phase 1B implementation baseline: \`c8daa67ba9d9d6257d65e446b437d362e60abc61\`
+Branch: `exp/minimal-exploratory-memory-validation`  
+Frozen Phase 1B implementation baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 
 ## 1. Purpose
 
@@ -14,7 +14,7 @@ Phase 0/1A/1B established that the minimum exploratory-memory mechanism can be i
 - actual probe evidence can enter A and materialize Established Memory;
 - leakage/provenance/temporal/fact-commit boundaries are hardened;
 - the complete minimum longitudinal loop has executed;
-- Phase 1B is frozen as \`READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS\`.
+- Phase 1B is frozen as `READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`.
 
 What is still unknown is the core scale hypothesis:
 
@@ -47,11 +47,11 @@ H3 is the main outcome. H1/H2 explain why it does or does not occur.
 
 The first pilot uses only:
 
-\`\`\`text
+```text
 qwen3.8-flash
 thinking = false
 temperature = 0
-\`\`\`
+```
 
 Use Flash for every model-facing role in this pilot:
 
@@ -81,18 +81,18 @@ Use one fresh continuous stream:
 
 Target composition:
 
-\`\`\`text
+```text
 8 pick_and_place_simple
 8 pick_clean_then_place_in_recep
 8 pick_cool_then_place_in_recep
 8 pick_heat_then_place_in_recep
-\`\`\`
+```
 
 Interleave families deterministically:
 
-\`\`\`text
+```text
 simple -> clean -> cool -> heat -> repeat
-\`\`\`
+```
 
 This is one dependent longitudinal stream, not \(n=32\) independent trials.
 
@@ -144,18 +144,18 @@ K_0^{established}=K^*
 
 Generic:
 
-\`\`\`text
+```text
 K_established = K*
-\`\`\`
+```
 
 Targeted:
 
-\`\`\`text
+```text
 K_established = K*
 active_H = empty
 exploration_history = empty
 comparison_ledger = empty
-\`\`\`
+```
 
 The two arms never share evolved memory.
 
@@ -167,7 +167,7 @@ G deliberately reuses the already tested Phase 1A C2 generic-exploration primiti
 
 For every task:
 
-\`\`\`text
+```text
 current public task/state
 + current G Established Memory
 -> C2 generic structured probe
@@ -176,7 +176,7 @@ current public task/state
 -> actual evidence
 -> A
 -> K_established_G(t+1)
-\`\`\`
+```
 
 Important:
 
@@ -210,29 +210,29 @@ Retrieve at most one active H using the current public task/state.
 
 If an H is activated:
 
-\`\`\`text
+```text
 targeted H probe
 -> at most 2 candidate probes
 -> H consumed
 -> archive tested H
 -> canonical continuation if target not acquired
-\`\`\`
+```
 
 If no H is activated:
 
-\`\`\`text
+```text
 canonical continuation directly
-\`\`\`
+```
 
 Do not fallback to Generic C2 in T when no H is active/relevant.
 
 ### 8.2 Fact commit and archive
 
-Once an H is actually activated, mechanically append one compact \`ExplorationHistoryRecord\`.
+Once an H is actually activated, mechanically append one compact `ExplorationHistoryRecord`.
 
 Minimum record:
 
-\`\`\`text
+```text
 exploration_id
 source_h_id
 source_comparison_id
@@ -243,7 +243,7 @@ source_task_id / creation provenance
 activation_task_id
 evidence_id
 related_post_test_memory_ids
-\`\`\`
+```
 
 The archive records that the experiment was attempted. It must not mechanically label true/false, confirmed/falsified, or confidence.
 
@@ -259,15 +259,15 @@ A continues to own:
 - comparison epistemic assessment for consumed-H evidence;
 - Established Memory ADD/REFINE/SPECIALIZE/MERGE.
 
-After accepted A materialization, mechanically link relevant new/updated Established Memory IDs back to the archived exploration record as \`related_post_test_memory_ids\`.
+After accepted A materialization, mechanically link relevant new/updated Established Memory IDs back to the archived exploration record as `related_post_test_memory_ids`.
 
 ### 8.4 B/C after the episode
 
 B keeps the frozen responsibility boundary:
 
-\`\`\`text
+```text
 completed current trajectory + K_pre -> OPEN / NONE + Functional Contract
-\`\`\`
+```
 
 B does not receive exploration history in this pilot.
 
@@ -291,10 +291,10 @@ Keep this intentionally lightweight.
 
 Only call it when:
 
-\`\`\`text
+```text
 B = OPEN
 and archive is non-empty
-\`\`\`
+```
 
 Input:
 
@@ -303,7 +303,7 @@ Input:
 
 Output:
 
-- at most 3 existing \`exploration_id\` values;
+- at most 3 existing `exploration_id` values;
 - or NONE.
 
 Use qwen3.8-flash with a strict ID-only schema.
@@ -418,9 +418,9 @@ This is secondary. Do not optimize the pilot based on token cost after seeing ou
 
 Create a new versioned path such as:
 
-\`\`\`text
+```text
 phase1c-scale-pilot-v1
-\`\`\`
+```
 
 Do not change the frozen Phase 1B scientific behavior in place.
 
@@ -484,13 +484,13 @@ This pilot does not include:
 
 Before calls:
 
-- \`docs/103_phase1c_flash_scale_pilot_transition.md\`
+- `docs/103_phase1c_flash_scale_pilot_transition.md`
 - committed fresh registry/exclusion manifest.
 
 After run:
 
-- \`docs/104_phase1c_flash_scale_pilot_results.md\`
-- \`docs/105_phase1c_flash_scale_pilot_semantic_review.md\`
+- `docs/104_phase1c_flash_scale_pilot_results.md`
+- `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
 
 The final review must state separately:
 
