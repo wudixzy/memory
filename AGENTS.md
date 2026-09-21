@@ -12,12 +12,13 @@ Frozen Phase 1B baseline:
 
 Read first:
 
-1. docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md
-2. docs/38_exploratory_memory_lifecycle.md
-3. docs/37_method_structural_initialization.md
-4. docs/101_phase1b_final_freeze_memo.md
-5. docs/current_state/02_method_architecture.md
-6. docs/current_state/03_component_contracts.md
+1. docs/106_phase1c_experiment_design_handoff.md
+2. docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md
+3. docs/38_exploratory_memory_lifecycle.md
+4. docs/37_method_structural_initialization.md
+5. docs/101_phase1b_final_freeze_memo.md
+6. docs/current_state/02_method_architecture.md
+7. docs/current_state/03_component_contracts.md
 
 ## Scientific goal
 

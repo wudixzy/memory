@@ -6,7 +6,7 @@ Frozen Phase 1B implementation baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc
 
 ## 1. Purpose
 
-Phase 0/1A/1B established that the mechanism can be implemented and audited:
+Phase 0/1A/1B established that the minimum exploratory-memory mechanism can be implemented and audited:
 
 - B/C can create a future-facing exploratory H;
 - H can change future behavior and is one-shot consumed;
@@ -14,38 +14,32 @@ Phase 0/1A/1B established that the mechanism can be implemented and audited:
 - actual probe evidence can enter A and materialize Established Memory;
 - leakage/provenance/temporal/fact-commit boundaries are hardened;
 - the complete minimum longitudinal loop has executed;
-- the system is frozen as `READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`.
+- Phase 1B is frozen as `READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`.
 
 What is still unknown is the core scale hypothesis:
 
-[
-oxed{
-	ext{As history accumulates, does history-derived exploratory memory begin to
+\[
+\boxed{
+\text{As history accumulates, does history-derived exploratory memory begin to
 produce cumulative value beyond persistent generic exploration?}
 }
-]
+\]
 
-This is still a hypothesis pilot, not the final paper experiment. Optimize for
-a direct answer, not reviewer-proof protocol complexity.
+This is still a hypothesis pilot, not the final paper experiment. Optimize for a direct answer, not reviewer-proof protocol complexity.
 
 ## 2. Three hypotheses observed in this pilot
 
 ### H1 — History changes future exploration
 
-As task history grows, Targeted should create/retrieve/execute probes that differ
-from persistent generic exploration.
+As task history grows, Targeted should create/retrieve/execute probes that differ from persistent generic exploration.
 
 ### H2 — Exploration history reduces redundant exploration
 
-Once an exploratory H has actually been activated, it enters the offline
-exploration-history archive. Future C calls can see a few relevant prior tested
-hypotheses and should sometimes avoid proposing an equivalent experiment or create a
-materially different one.
+Once an exploratory H has actually been activated, it enters the offline exploration-history archive. Future C calls can see a few relevant prior tested hypotheses and should sometimes avoid proposing an equivalent experiment or create a materially different one.
 
 ### H3 — The above mechanisms begin to improve cumulative behavior
 
-The main behavioral question is whether Targeted's cumulative search cost begins
-to improve relative to Generic as history grows.
+The main behavioral question is whether Targeted's cumulative search cost begins to improve relative to Generic as history grows.
 
 H3 is the main outcome. H1/H2 explain why it does or does not occur.
 
@@ -73,9 +67,7 @@ Use strict structured output where the existing implementation supports it.
 
 Do not run qwen3.8-max in this cycle.
 
-After the complete Flash pilot and semantic review, the researcher may authorize a
-Max replication with the frozen same protocol if the Flash run shows either a
-mechanism signal or a behavioral scale signal.
+After the complete Flash pilot and semantic review, the researcher may authorize a Max replication with the frozen same protocol if the Flash run shows either a mechanism signal or a behavioral scale signal.
 
 Do not build mixed Flash/Max configurations in this pilot.
 
@@ -83,9 +75,9 @@ Do not build mixed Flash/Max configurations in this pilot.
 
 Use one fresh continuous stream:
 
-[
-oxed{32 tasks}
-]
+\[
+\boxed{32\ \text{tasks}}
+\]
 
 Target composition:
 
@@ -102,13 +94,13 @@ Interleave families deterministically:
 simple -> clean -> cool -> heat -> repeat
 ```
 
-This is one dependent longitudinal stream, not n=32 independent trials.
+This is one dependent longitudinal stream, not \(n=32\) independent trials.
 
 The pilot has exactly two arms:
 
-[
-32 	imes 2 = 64 episodes
-]
+\[
+32 \times 2 = 64\ \text{episodes}
+\]
 
 No repetitions and no third arm.
 
@@ -121,18 +113,15 @@ Eligibility must use only public pre-outcome information.
 Minimum intended conditions:
 
 - task belongs to one of the four admitted families;
-- task ID has not been used in previous Source/Calibration/Target/Phase1B development
-  runs;
+- task ID has not been used in previous Source/Calibration/Target/Phase1B development runs;
 - exclude the untouched B1-R reserve rather than consuming it incidentally;
 - reset/initial public state is available;
 - requested target is not already exposed by an exact public take action at entry;
 - enough public candidate receptacles exist to make the search subproblem meaningful.
 
-Do not inspect hidden placement, PDDL answer, task outcome, oracle route, or expected
-arm winner.
+Do not inspect hidden placement, PDDL answer, task outcome, oracle route, or expected arm winner.
 
-Select exactly 8 per family with a deterministic, predeclared public-only rule and
-salt; then interleave them as above.
+Select exactly 8 per family with a deterministic, predeclared public-only rule and salt; then interleave them as above.
 
 Persist:
 
@@ -143,17 +132,15 @@ Persist:
 - replay specs / initial public fingerprints where available;
 - registry digest.
 
-If fewer than 8 eligible untouched tasks exist for any family, STOP before model
-calls and report the public-only shortage. Do not relax criteria after inspecting
-outcomes.
+If fewer than 8 eligible untouched tasks exist for any family, STOP before model calls and report the public-only shortage. Do not relax criteria after inspecting outcomes.
 
 ## 6. Initialization
 
 Both arms start independently from the same warm start:
 
-[
+\[
 K_0^{established}=K^*
-]
+\]
 
 Generic:
 
@@ -172,8 +159,7 @@ comparison_ledger = empty
 
 The two arms never share evolved memory.
 
-This pilot deliberately remains warm-start. It does not test native Stage1/cold-start
-formation.
+This pilot deliberately remains warm-start. It does not test native Stage1/cold-start formation.
 
 ## 7. Arm G — Generic Evolving Exploration
 
@@ -202,24 +188,21 @@ Important:
 
 The pilot intentionally does not add a PROBE/NONE gate.
 
-The question at this stage is whether persistent history-conditioned exploration starts
-to outperform persistent generic exploration as history grows.
-
 ## 8. Arm T — Targeted Exploratory Memory
 
 T uses the frozen Phase 1B mechanism plus the exploration-history lifecycle.
 
 Persistent state:
 
-[
+\[
 K_t^{established}
 +
 K_{t,active}^{exploratory}
 +
-mathcal E_t^{history}
+\mathcal E_t^{history}
 +
-	ext{comparison ledger}
-]
+\text{comparison ledger}
+\]
 
 ### 8.1 Task start
 
@@ -245,8 +228,7 @@ Do not fallback to Generic C2 in T when no H is active/relevant.
 
 ### 8.2 Fact commit and archive
 
-Once an H is actually activated, mechanically append one compact
-`ExplorationHistoryRecord`.
+Once an H is actually activated, mechanically append one compact `ExplorationHistoryRecord`.
 
 Minimum record:
 
@@ -263,17 +245,7 @@ evidence_id
 related_post_test_memory_ids
 ```
 
-The archive records that the experiment was attempted.
-
-It must not mechanically label:
-
-```text
-true / false
-confirmed / falsified
-confidence
-```
-
-because consumed does not mean falsified or confirmed.
+The archive records that the experiment was attempted. It must not mechanically label true/false, confirmed/falsified, or confidence.
 
 Actual task/probe evidence is fact-committed exactly as in frozen Phase 1B.
 
@@ -287,9 +259,7 @@ A continues to own:
 - comparison epistemic assessment for consumed-H evidence;
 - Established Memory ADD/REFINE/SPECIALIZE/MERGE.
 
-After accepted A materialization, mechanically link relevant new/updated Established
-Memory IDs back to the archived exploration record as
-`related_post_test_memory_ids`.
+After accepted A materialization, mechanically link relevant new/updated Established Memory IDs back to the archived exploration record as `related_post_test_memory_ids`.
 
 ### 8.4 B/C after the episode
 
@@ -304,16 +274,13 @@ B does not receive exploration history in this pilot.
 If B=OPEN:
 
 1. retrieve up to 3 relevant exploration-history summaries;
-2. pass the abstract Functional Contract, current Established Memory, capabilities
-   and those compact history summaries to C;
+2. pass the abstract Functional Contract, current Established Memory, capabilities and those compact history summaries to C;
 3. C returns CREATE or NONE.
 
 C should use prior history only semantically:
 
-- return NONE when the proposed experiment would merely repeat an equivalent tested
-  hypothesis in a comparable scope;
-- CREATE when the proposal is materially different in scope, realization, capability
-  context, or because new Established Memory changes the unresolved comparison;
+- return NONE when the proposed experiment would merely repeat an equivalent tested hypothesis in a comparable scope;
+- CREATE when the proposal is materially different in scope, realization, capability context, or because new Established Memory changes the unresolved comparison;
 - a justified retest is allowed.
 
 Do not implement a hard similarity threshold or rule-based hypothesis dedup.
@@ -345,8 +312,7 @@ Do not pass raw archived trajectories or the whole evidence store.
 
 C receives the selected compact history records.
 
-Do not build embeddings, Graph retrieval, vector stores, or a new online controller for
-this pilot.
+Do not build embeddings, Graph retrieval, vector stores, or a new online controller for this pilot.
 
 ## 10. Controlled execution boundary
 
@@ -365,39 +331,33 @@ Both arms share:
 - same A contracts;
 - same failure/fact-commit semantics.
 
-Canonical continuation remains deterministic. This pilot intentionally tests the
-scale value of exploration scheduling/content/history rather than restoring a full
-autonomous actor.
-
-Established Memory can still affect the model-facing generic/targeted probe and
-offline B/C/A evolution, but this pilot does not claim to test a full learned downstream
-policy.
+Canonical continuation remains deterministic. This pilot intentionally tests the scale value of exploration scheduling/content/history rather than restoring a full autonomous actor.
 
 ## 11. Primary outcome
 
 Use one primary behavioral quantity:
 
-[
-C_a(N)=sum_{t=1}^{N}	ext{environment actions to exact target acquisition}_{a,t}
-]
+\[
+C_a(N)=\sum_{t=1}^{N}\text{environment actions to exact target acquisition}_{a,t}
+\]
 
 for:
 
-[
-a in {G,T}
-]
+\[
+a \in \{G,T\}
+\]
 
 Report cumulative curves at:
 
-[
+\[
 N=8,16,24,32
-]
+\]
 
 and:
 
-[
-Delta C(N)=C_T(N)-C_G(N)
-]
+\[
+\Delta C(N)=C_T(N)-C_G(N)
+\]
 
 Do not require monotonic improvement or T superiority from the first task.
 
@@ -416,8 +376,7 @@ Record enough raw state to inspect:
 - comparison NEW/REFINE/MERGE/DUPLICATE;
 - active/created/consumed H.
 
-At the end, semantically inspect whether the system produced useful diversity/reuse or
-mostly near-duplicates.
+At the end, semantically inspect whether the system produced useful diversity/reuse or mostly near-duplicates.
 
 ### M2 — Does history actually change future exploration?
 
@@ -428,8 +387,6 @@ Record:
 - G C2 probe sequence;
 - A SUPPORTING/CONTRADICTING/INCONCLUSIVE.
 
-This asks whether T's accumulated history actually changes behavior.
-
 ### M3 — Does the archive reduce redundant exploration?
 
 Record:
@@ -439,8 +396,7 @@ Record:
 - C CREATE/NONE with relevant history;
 - C reason/audit text.
 
-After the run, manually/agent-review the small set of cases where relevant history was
-returned and C either suppressed or retested a proposal.
+After the run, manually/agent-review the small set of cases where relevant history was returned and C either suppressed or retested a proposal.
 
 Classify descriptively:
 
@@ -454,16 +410,9 @@ Do not use these post-hoc labels to alter the run.
 
 ## 13. Cost/model telemetry
 
-Record model calls, input/output/cached tokens and available cost estimates by:
+Record model calls, input/output/cached tokens and available cost estimates by arm, role, task and checkpoint.
 
-- arm;
-- role;
-- task;
-- checkpoint.
-
-This is secondary.
-
-Do not optimize the pilot based on token cost after seeing outcomes.
+This is secondary. Do not optimize the pilot based on token cost after seeing outcomes.
 
 ## 14. Implementation discipline
 
@@ -475,8 +424,7 @@ phase1c-scale-pilot-v1
 
 Do not change the frozen Phase 1B scientific behavior in place.
 
-Reuse existing Phase 1A C2, Phase 1B A/B/C/H/retrieval/reconciliation and controlled
-execution code where practical.
+Reuse existing Phase 1A C2, Phase 1B A/B/C/H/retrieval/reconciliation and controlled execution code where practical.
 
 Before model calls:
 
@@ -498,49 +446,24 @@ Only then run paid calls.
 
 Run the complete 32-task G and T streams with the frozen registry.
 
-Do not:
-
-- tune after early tasks;
-- replace tasks;
-- change prompts/models halfway;
-- stop because one arm looks bad;
-- inspect hidden placement;
-- add Max during the Flash run;
-- rerun failed semantic calls for a nicer result.
+Do not tune after early tasks, replace tasks, change prompts/models halfway, stop because one arm looks bad, inspect hidden placement, add Max during the Flash run, or rerun failed semantic calls for a nicer result.
 
 Use existing fail-closed behavior and preserve every failure artifact.
 
-An infrastructure failure that prevents the environment/API from running may stop the
-run, but a scientific/semantic failure is evidence and should remain in the stream.
+An infrastructure failure that prevents the environment/API from running may stop the run, but a scientific/semantic failure is evidence and should remain in the stream.
 
 ## 16. Interpretation after the Flash pilot
 
 This pilot is exploratory hypothesis evidence.
 
-### Continue toward Max / larger-scale testing
+Worth continuing toward Max/larger-scale testing if either:
 
-Worth continuing if either:
+1. **behavioral scale signal:** Targeted cumulative cost begins to improve relative to Generic as N grows; or
+2. **mechanism signal:** H/comparison/archive/A dynamics clearly evolve with history and T behavior increasingly differs from G, even if 32-task cumulative cost has not yet separated.
 
-1. **behavioral scale signal:** Targeted cumulative cost begins to improve relative to
-   Generic as N grows; or
-2. **mechanism signal:** H/comparison/archive/A dynamics clearly evolve with history and
-   T behavior increasingly differs from G, even if 32-task cumulative cost has not yet
-   separated.
+If after 32 tasks H remains mostly repetitive, archive rarely changes C, retrieval rarely activates useful H, A rarely accumulates meaningful comparative evidence, and G/T behavior does not structurally diverge, review the scale hypothesis before spending on Max or longer streams.
 
-### Review before scaling further
-
-If after 32 tasks:
-
-- H remains mostly repetitive;
-- archive rarely changes C;
-- retrieval rarely activates useful H;
-- A rarely accumulates meaningful comparative evidence;
-- G/T behavior does not structurally diverge;
-
-then review the scale hypothesis before spending on Max or longer streams.
-
-Do not automatically run Max. Stop after Flash results and semantic review for researcher
-decision.
+Do not automatically run Max. Stop after Flash results and semantic review for researcher decision.
 
 ## 17. Explicitly deferred
 
@@ -557,14 +480,12 @@ This pilot does not include:
 - retrieval algorithm comparison;
 - paper-level significance testing.
 
-Those are justified only after this pilot produces a useful signal.
-
 ## 18. Outputs
 
 Before calls:
 
 - `docs/103_phase1c_flash_scale_pilot_transition.md`
-- committed fresh registry/exclusion manifest
+- committed fresh registry/exclusion manifest.
 
 After run:
 
