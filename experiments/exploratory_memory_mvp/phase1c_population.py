@@ -127,6 +127,7 @@ def load_prior_exclusion_manifest(cases_root: Path = DEFAULT_CASES_ROOT) -> dict
         if path.name in {
             Path(DEFAULT_PHASE1C_REGISTRY_PATH).name,
             "phase1d_long_horizon_registry.json",
+            "phase1e_cross_model_registry.json",
         }:
             continue
         try:
