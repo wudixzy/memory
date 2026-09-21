@@ -101,6 +101,10 @@ authorized. AppWorld Problem B is formally closed; see
 
 ## Read first
 
+- [`docs/37_method_structural_initialization.md`](docs/37_method_structural_initialization.md) — method-native initialization, including empty exploration history at cold start.
+- [`docs/38_exploratory_memory_lifecycle.md`](docs/38_exploratory_memory_lifecycle.md) — one-shot active H plus offline exploration-history archive and C-side semantic dedup.
+- [`docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`](docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md) — active 32-task Flash scale-aware hypothesis pilot.
+
 - [`docs/00_research_brief.md`](docs/00_research_brief.md) — background, related work, gap, problem definitions.
 - [`docs/25_research_progress.md`](docs/25_research_progress.md) — latest completed experiments and evidence limits.
 - [`docs/26_strategy_lockin_experiment_plan.md`](docs/26_strategy_lockin_experiment_plan.md) — B-focused scientific target and staged experiment plan.

@@ -4,109 +4,265 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: Phase 1B Finalization — A Fault Isolation & Freeze.
+Current cycle: **Phase 1C — Flash Scale-Aware Hypothesis Pilot**.
 
-Baseline:
+Frozen Phase 1B baseline:
 
-    f6bc77207557af68e913e5c037d5371651274dfb
+    c8daa67ba9d9d6257d65e446b437d362e60abc61
 
 Read first:
 
-1. docs/98_phase1b_prescale_closure_results.md
-2. docs/99_phase1b_prescale_closure_semantic_review_and_decision.md
-3. docs/96_phase1b_prescale_closure_plan.md
-4. docs/current_state/02_method_architecture.md
-5. docs/current_state/03_component_contracts.md
+1. docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md
+2. docs/38_exploratory_memory_lifecycle.md
+3. docs/37_method_structural_initialization.md
+4. docs/101_phase1b_final_freeze_memo.md
+5. docs/current_state/02_method_architecture.md
+6. docs/current_state/03_component_contracts.md
 
-## Goal
+## Scientific goal
 
-This is a pure code/artifact regression and freeze cycle. Do not make model or
-API calls, rerun the six-task or twelve-task stream, or start a fresh task.
-Use the saved closure artifacts to validate the local A fault-isolation fix.
+Run the first scale-aware hypothesis pilot:
 
-The only blocker addressed here is the old all-or-nothing A validation path:
-an invalid Established Memory update must not discard a valid epistemic
-assessment for the same actual evidence.
+    32 fresh tasks
+    ×
+    G = persistent generic C2 exploration
+    T = history-conditioned exploratory memory
+    ×
+    qwen3.8-flash only
 
-## Preserve method roles
+The question is not paper-level superiority. It is:
 
-A = actual-evidence Established Memory reconciliation and epistemic interpretation.
-B = unresolved incumbent-comparison diagnosis.
-C = grounded future-probe synthesis.
-H = one-shot exploratory memory.
-Consolidation = identity/dedup/merge/lineage/lifecycle only.
-Code = IDs/provenance/transactions/schema/artifacts.
+    As history accumulates, do history-derived H + exploration history
+    begin to change exploration and produce cumulative value?
 
-Do not add a new semantic authority.
+Observe:
 
-## Authorized implementation change
+    H1 history changes future exploration
+    H2 exploration history reduces redundant exploration
+    H3 cumulative search cost begins to improve
 
-Split A handling into two mechanical layers:
+## Do not reopen Phase 1B
 
-1. Validate and materialize the epistemic assessment independently
-   (`evidence_role`, `comparison_assessment`, `still_unresolved` and their
-   consumed-H/probe constraints).
-2. Validate and materialize each Established Memory update independently.
-
-The runner owns current evidence IDs, task/artifact references, consumed-H and
-comparison lineage. A must not generate provenance or evidence references.
-Invalid updates are rejected individually; the runner must not guess a target,
-convert REFINE to ADD, or discard a valid assessment.
-
-The A prompt must state operation-specific target contracts: ADD has no target,
-REFINE/SPECIALIZE have exactly one existing target, and MERGE has at least two
-distinct existing targets. The strict validator remains authoritative if the
-provider schema cannot express conditional constraints.
-
-Persist A artifacts separately:
-
-    raw/parsed model output
-    epistemic_validation.json
-    updates_validation.json
-    materialization.json
-
-Do not change retrieval, H lifecycle, models, K*, executor, probe budget, task ordering,
-comparison ontology, Stage1 or Graph retrieval.
-
-## No-model regression checkpoint
-
-Use the saved closure artifacts and fake transports only. Verify:
-
-- A has no model-generated provenance field;
-- Task 3's valid epistemic assessment survives malformed REFINE([]);
-- Task 2 ADD and Task 4 legal REFINE still materialize;
-- invalid epistemic assessment is rejected without semantic materialization;
-- factual evidence and H consumption remain durable;
-- B/C firewall, C future entity leakage, evidence ownership, temporal facts,
-  and compact reconciliation context remain valid;
-- real Established Memory ADD/REFINE/SPECIALIZE/MERGE semantics remain intact.
-
-Run focused/regression tests, Ruff, compile checks and `git diff --check`.
-No model/API call is allowed in this cycle.
-
-## Freeze decision
-
-If the saved Task 3 assessment survives while its malformed REFINE update is
-rejected, Task 2/4 valid ADD/REFINE updates still materialize, factual commits
-and H consumption remain durable, and existing leakage/evidence/temporal
-invariants pass, record:
+Phase 1B is frozen as:
 
     READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 
-Known limitations must include possible unsafe B contracts, possible
-near-duplicate comparison identity, unvalidated scale retrieval quality, and
-the controlled ALFWorld search abstraction not being a full autonomous actor.
+Do not tune A/B/C/retrieval/comparison identity using the old dev tasks.
 
-After this code-only freeze, stop. The next cycle may design the fresh 40–60
-task longitudinal scale experiment; do not insert another development run in
-this cycle.
+Implement Phase 1C as a new versioned path, e.g.:
 
-## Outputs
+    phase1c-scale-pilot-v1
+
+Reuse frozen components where possible.
+
+## Model policy
+
+This cycle is Flash-only:
+
+    qwen3.8-flash
+    thinking=false
+    temperature=0
+
+Use Flash for selector, H retrieval, B, exploration-history retrieval, C, A and
+H/comparison reconciliation.
+
+Do not run qwen3.8-max in this cycle.
+
+A Max replication requires a later researcher decision after Flash review.
+
+## Fresh stream
+
+Before any model call, freeze exactly 32 untouched ALFWorld tasks:
+
+    8 simple
+    8 clean
+    8 cool
+    8 heat
+
+Order:
+
+    simple -> clean -> cool -> heat -> repeat
+
+Selection is public-only/outcome-blind.
+
+Exclude all previously used tasks and preserve the existing untouched B1-R reserve rather
+than consuming it incidentally.
+
+No hidden placement/PDDL/outcome/oracle information may affect eligibility or order.
+
+If 8 fresh eligible tasks per family cannot be found, STOP before calls.
+
+Commit registry, exclusions, order and digest before calls.
+
+## Arm G
+
+G reuses Phase 1A C2 generic exploration on every eligible task:
+
+    current G Established Memory
+    -> generic C2 probe, max 2 candidates
+    -> canonical continuation
+    -> actual evidence
+    -> A
+    -> next G Established Memory
+
+G has no B/C/H/comparison archive/exploration history.
+
+Do not add PROBE/NONE gate.
+
+## Arm T
+
+T keeps independent state:
+
+    Established Memory
+    active H
+    comparison ledger
+    Exploration History
+
+At task start:
+
+    retrieve at most one active H
+
+If activated:
+
+    targeted probe <=2
+    -> consume H
+    -> append compact ExplorationHistoryRecord
+    -> continuation if needed
+
+If no H:
+
+    canonical continuation directly
+
+Actual evidence enters frozen A.
+
+After the episode, B runs from pre-update Established Memory.
+
+If B=OPEN:
+
+    retrieve top-3 relevant archive records
+    -> C sees Functional Contract + Established Memory + capabilities + compact history
+    -> CREATE or NONE
+
+B does not read archive.
+
+No hard semantic similarity/dedup rule.
+
+## Exploration History
+
+Archive only records what was actually tried.
+
+Minimum compact fields:
+
+    exploration_id
+    source_h_id
+    source_comparison_id
+    scope
+    hypothesis
+    realization_pattern
+    source provenance
+    activation_task_id
+    evidence_id
+    related_post_test_memory_ids
+
+Do not store semantic true/false/confidence labels.
+
+Archive is offline-only; never expose it to the online actor/retriever.
+
+History retrieval runs only after B=OPEN and only when archive is non-empty.
+
+Return top-3 existing IDs or NONE with strict schema.
+
+No embeddings/Graph/vector DB in this pilot.
+
+## Shared execution
+
+G/T must share:
+
+- exact task/order;
+- replay spec/public initial fingerprint;
+- Flash backbone;
+- max 2 probe candidates;
+- controlled candidate executor;
+- deterministic canonical continuation;
+- target-acquisition endpoint;
+- A/fact-commit semantics.
+
+The two arms never share evolved memory.
+
+Canonical continuation remains deterministic. This pilot tests exploration-scale dynamics,
+not a full learned autonomous actor.
+
+## Primary outcome
+
+Cumulative environment actions to exact target acquisition:
+
+    C_G(N), C_T(N)
+
+Report at:
+
+    N = 8, 16, 24, 32
+
+and:
+
+    Delta C(N) = C_T(N) - C_G(N)
+
+Do not demand monotonic improvement.
+
+## Minimal mechanism review
+
+Only require three mechanism questions:
+
+1. Does H/comparison memory grow or evolve rather than remaining trivial/repetitive?
+2. Does accumulated history actually change T's future probes relative to G?
+3. Does exploration history suppress/redirect repeated exploration?
+
+Preserve raw artifacts so semantic review can inspect these after the run.
+
+## Before paid calls
+
+Implement and test:
+
+- new Phase1C two-arm runner;
+- fresh registry/exclusion manifest;
+- archive fact-commit/lifecycle;
+- top-3 archive retrieval;
+- C history input;
+- G isolation from T history;
+- G/T replay/public-state equivalence;
+- checkpoint snapshots;
+- telemetry.
+
+Run focused/regression tests, Ruff, compileall and git diff --check.
+
+Commit and push immutable transition before calls.
+
+## Run discipline
+
+Run all 32 tasks for G and T under the frozen protocol.
+
+No:
+
+- mid-run tuning;
+- task replacement;
+- prompt/model changes;
+- result-driven stopping;
+- semantic retries;
+- Max;
+- native cold start;
+- third arm.
+
+Scientific/semantic failures remain evidence and must be preserved fail-closed.
+
+## After Flash run
 
 Write:
 
-- docs/100_phase1b_finalization_plan_and_changes.md
-- docs/101_phase1b_final_freeze_memo.md
+- docs/104_phase1c_flash_scale_pilot_results.md
+- docs/105_phase1c_flash_scale_pilot_semantic_review.md
 
-No method-superiority claim is permitted from the closure or regression
-artifacts.
+Stop for researcher review.
+
+Do not automatically launch Max.
+
+A later Max replication is justified only if the Flash pilot shows a behavioral scale signal
+or a meaningful mechanism signal.

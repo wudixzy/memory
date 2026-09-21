@@ -1,12 +1,12 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-21 active cycle:** Phase 1B Pre-Scale Closure completed with one localized A fault-isolation blocker. The final code-only cycle is **Phase 1B Finalization — A Fault Isolation & Freeze**. Read `docs/100_phase1b_finalization_plan_and_changes.md`, `docs/101_phase1b_final_freeze_memo.md`, and current `AGENTS.md`. No model/API calls or task reruns are permitted in this cycle.
+> **2026-09-21 active cycle:** Phase 1B is frozen as `READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`. The active cycle is **Phase 1C — Flash Scale-Aware Hypothesis Pilot**. Read `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`, `docs/38_exploratory_memory_lifecycle.md`, `docs/37_method_structural_initialization.md`, and current `AGENTS.md`. The pilot is 32 fresh tasks, G vs T, Flash-only; Max is deferred until researcher review.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 
-> 状态：当前项目单一接手入口（2026-09-21，Phase 1B Finalization — A Fault Isolation & Freeze）
+> 状态：当前项目单一接手入口（2026-09-21，Phase 1C — Flash Scale-Aware Hypothesis Pilot）
 > Branch：exp/minimal-exploratory-memory-validation
-> Baseline commit：f6bc77207557af68e913e5c037d5371651274dfb
+> Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
 > 原则：本文只写当前共识与当前证据边界；历史设计演化请查顶层 docs/00–69。
 
@@ -145,8 +145,9 @@ H 的关键性质：
 \begin{aligned}
 G_0 &= G_{\text{tool}} \\
 K_0^{established} &= \varnothing \\
-K_0^{exploratory} &= \varnothing \\
-\mathcal T_0 &= \varnothing
+K_0^{exploratory} &= \\varnothing \\
+\\mathcal E_0^{history} &= \\varnothing \\
+\\mathcal T_0 &= \\varnothing
 \end{aligned}}
 \]
 
@@ -435,6 +436,10 @@ Persistent H：
     PROBE_EVIDENCE_READY
 
 Consumed 也不等于 hypothesis 被证实或证伪，只表示这条 one-shot instruction 不再进入未来 active pool。
+
+### Exploration History / Archive
+
+被实际激活的 H 同时进入离线 `\\mathcal E^{history}`。Archive 不进入在线 recall，只在未来 B=OPEN 后向 C 暴露少量相关、已测试 exploratory hypotheses，帮助避免重复实验。是否等价、是否值得 materially different retest 仍由 C 语义判断；B 当前不读取 archive。详见 `docs/38_exploratory_memory_lifecycle.md`。
 
 ---
 
