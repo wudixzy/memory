@@ -175,7 +175,7 @@ correct.
 ### H2 — history reduces repeated exploratory experiments
 
 Partially supported but unresolved. History was actually retrieved in all 23
-auditable C cases. Fifteen of eighteen NONE decisions were consistent with
+auditable C cases. Sixteen of eighteen NONE decisions were consistent with
 visible prior comparisons; two were possible over-suppression cases. CREATE
 contained three materially different proposals, one justified retest, and one
 clear near-duplicate. The evidence argues against systematic overproduction

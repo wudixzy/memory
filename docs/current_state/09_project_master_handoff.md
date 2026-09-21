@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-21 active cycle:** Phase 1C and the authorized Phase 1D Flash long-horizon continuation are complete. The Phase 1D result is development evidence only; its primary interpretation is `SCALE_POSITIVE`, with a recommendation for separately authorized cross-model validation. New participants should read `docs/107_phase1c_h2_exploration_history_audit.md`, `docs/108_phase1d_flash_long_horizon_validation_plan.md`, `docs/110_phase1d_flash_long_horizon_results.md`, `docs/111_phase1d_flash_long_horizon_semantic_review.md`, and current `AGENTS.md`. No further model/API call or Max run is currently authorized.
+> **2026-09-22 active cycle:** Phase 1C and the authorized Phase 1D Flash long-horizon continuation are complete. Phase 1D is development evidence only and was interpreted as `SCALE_POSITIVE`. The authorized Phase 1E Max run stopped at task 62 on a host `/tmp` no-space carrier failure and is invalid for cross-model interpretation. Read `docs/110_phase1d_flash_long_horizon_results.md`, `docs/111_phase1d_flash_long_horizon_semantic_review.md`, `docs/112_phase1e_cross_model_validation_plan.md`, `docs/113_phase1e_max_validation_transition.md`, `docs/114_phase1e_max_validation_results.md`, `docs/115_phase1e_max_validation_semantic_review.md`, and current `AGENTS.md`. No further model/API call or replacement Max run is currently authorized.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 
-> 状态：当前项目单一接手入口（2026-09-21，Phase 1C/Phase 1D 已完成；Phase 1D 语义 review 完成；等待研究者决定是否进行 cross-model validation）
+> 状态：当前项目单一接手入口（2026-09-22，Phase 1C/Phase 1D 已完成；Phase 1E 因 carrier 临时存储 infrastructure failure 未完成；等待研究者 review）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -991,7 +991,9 @@ Phase 1C H2 artifact audit / Phase 1D Flash long-horizon validation
 
 Phase 1C/Phase 1D 只验证 scale-aware hypothesis，不是 paper-level 主实验，
 且均已完成。Phase 1D 从 Phase 1C task-32 的 immutable G/T state 继续，运行
-了唯一授权的 32-task suffix；没有 Max、retry、task replacement 或新 stream：
+了唯一授权的 32-task suffix；没有 Max、retry、task replacement 或新 stream。
+随后 Phase 1E 使用同一 64-task population 独立启动 Max G/T，但在 global
+task 62 因 `/tmp` 无空间而停止；没有 retry 或 task replacement：
 
 \[
 32\ \text{fresh tasks}
@@ -1016,8 +1018,9 @@ Phase 1C 的三个观察目标：
 3. H3：这些机制是否开始改善 cumulative search cost。
 
 Phase 1D 的 suffix registry、运行时和语义 review 已分别保存在 transition
-及 docs/110–111 中。当前不要 rerun Phase 1D 或自动启动 Max；下一阶段只有
-在研究者明确授权后才可进行 cross-model validation。
+及 docs/110–111 中。Phase 1E transition、partial runtime 和 invalid-run
+review 保存在 docs/113–115 中。当前不要 rerun Phase 1D、补跑 Phase 1E、
+或启动正式实验；先等待 researcher review infrastructure failure。
 
 # 21. 当前不要重新打开的问题
 

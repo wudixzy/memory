@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1E qwen3.8-max Cross-Model Validation**.
+Current cycle: **Phase 1E Max Cross-Model Validation — infrastructure review**.
 
 Frozen Phase 1B baseline:
 
@@ -26,17 +26,18 @@ Read first:
 
 Phase 1C and the authorized Phase 1D Flash continuation are complete. Both
 remain development/validation evidence only; neither is a paper-level
-superiority result. Phase 1D was classified `SCALE_POSITIVE` and separately
-authorized cross-model validation is now the active cycle. The Phase 1D
-runtime and interpretation are recorded in `docs/110_phase1d_flash_long_horizon_results.md`
-and `docs/111_phase1d_flash_long_horizon_semantic_review.md`.
+superiority result. Phase 1D was classified `SCALE_POSITIVE`. Phase 1E was
+then attempted under an immutable Max transition, but stopped at global task
+62 because the ALFWorld/TextWorld carrier could not write `libdownward.so`
+to `/tmp` (`OSError: [Errno 28] No space left on device`). The partial run is
+invalid for cross-model interpretation; see `docs/114_phase1e_max_validation_results.md`
+and `docs/115_phase1e_max_validation_semantic_review.md`.
 
 The Phase 1E no-model transition is documented in
-`docs/113_phase1e_max_validation_transition.md` and uses the exact combined
-64-task Phase 1C/1D population. Max must start fresh G/T warm-start state and
-must not load Flash-evolved memory. Max calls are authorized only after the
-immutable transition commit is pushed; before that point no model transport
-may be initialized.
+`docs/113_phase1e_max_validation_transition.md` and used the exact combined
+64-task Phase 1C/1D population. Max started fresh G/T warm-start state and did
+not load Flash-evolved memory. No further Max/model calls are authorized from
+this handoff until the researcher reviews the infrastructure failure.
 
 Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
 lifecycle/dedup/retrieval fixes based on their outcomes.
@@ -82,7 +83,8 @@ Reuse frozen components where possible.
 
 ## Model policy
 
-The completed Phase 1C/1D cycles were Flash-only. Phase 1E is Max-only:
+The completed Phase 1C/1D cycles were Flash-only. The attempted Phase 1E was
+Max-only:
 
     qwen3.8-max
     thinking=false
@@ -91,7 +93,8 @@ The completed Phase 1C/1D cycles were Flash-only. Phase 1E is Max-only:
 Use Max for selector, H retrieval, B, exploration-history retrieval, C, A and
 H/comparison reconciliation.
 
-Do not mix Flash outputs/configuration into Phase 1E.
+Do not mix Flash outputs/configuration into Phase 1E. Do not rerun or replace
+the incomplete Phase 1E stream without explicit researcher authorization.
 
 ## Fresh stream
 
@@ -294,7 +297,7 @@ Completed artifacts:
 - docs/110_phase1d_flash_long_horizon_results.md
 - docs/111_phase1d_flash_long_horizon_semantic_review.md
 
-The researcher has explicitly authorized the Phase 1E Max validation. Do not
-launch it before the immutable Phase 1E transition commit is pushed, and do
-not launch formal evaluation or another development run after Phase 1E
-without a new researcher authorization.
+The Phase 1E transition was pushed before Max calls, but the run stopped at
+task 62 for a host temporary-storage failure. Preserve the partial artifacts
+and wait for researcher review. Do not launch a replacement, formal
+evaluation, or another development run from this handoff.

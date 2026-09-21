@@ -1,8 +1,9 @@
-# 10. Current Review Protocol — Phase 1D Flash Long-Horizon Validation
+# 10. Current Review Protocol — Phase 1E Max Infrastructure Review
 
-> Status: Phase 1C and Phase 1D completed; Phase 1D semantic review completed
-> (2026-09-21). Current recommendation: cross-model validation, pending
-> explicit researcher authorization; Max remains unauthorized.
+> Status: Phase 1C and Phase 1D completed; the authorized Phase 1E Max run
+> stopped at global task 62 because the carrier could not write to `/tmp`.
+> (2026-09-22). Phase 1E is invalid for cross-model interpretation; no
+> replacement Max/model call is currently authorized.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
@@ -89,9 +90,15 @@ superiority claim.
 
 The project has not established general memory superiority, cross-model
 robustness, native cold-start performance, full autonomous-agent benefit, or
-cross-benchmark generality. If Phase 1D is later authorized and supports the
-mechanism, the next stages are cross-model validation, Method/Evaluation v1
-freezing, and only then fresh formal controlled evaluation.
+cross-benchmark generality. Phase 1D supported a development-scale Flash
+signal, after which the authorized Phase 1E Max validation was attempted but
+stopped as infrastructure-invalid. The next stages remain researcher review
+of that failure, a protocol-consistent replacement only if authorized,
+cross-model validation, Method/Evaluation v1 freezing, and only then fresh
+formal controlled evaluation.
 
-No Max call is authorized in the current state. A separate researcher
-decision is required before cross-model validation.
+Phase 1E transition `0ada221` preceded all recorded Max calls, but the run is
+invalid/incomplete because the carrier stopped at task 62 with
+`OSError: [Errno 28] No space left on device` while writing a temporary
+`libdownward.so`. No replacement run, formal evaluation, or additional model
+call is authorized until researcher review of docs/114–115.
