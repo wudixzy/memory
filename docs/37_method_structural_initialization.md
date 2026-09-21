@@ -159,7 +159,27 @@ K_0^{exploratory}=\varnothing
 
 Exploratory Memory 只能由后续 B/C 在真实 established experience 基础上生成，不能在没有历史 evidence 时预置。
 
-### 5.4 Semantic Concept / Experience Graph
+### 5.4 Exploration History / Archive
+
+初始为空：
+
+\[
+\mathcal E_0^{history}=\varnothing
+\]
+
+Exploration History 不是在线可召回 Memory，而是已经提出 / 激活过的 exploratory hypotheses 的离线 archive。
+
+它只在某条 exploratory memory 被实际激活后开始积累，用于：
+
+- C 阶段避免重复提出已经测试过的等价 hypothesis；
+- provenance / experiment audit；
+- 关联后续由测试 trajectory 形成的 Established Memory。
+
+其具体 lifecycle 见：
+
+- [38_exploratory_memory_lifecycle.md](38_exploratory_memory_lifecycle.md)
+
+### 5.5 Semantic Concept / Experience Graph
 
 经验语义部分初始为空。
 
@@ -180,7 +200,7 @@ Exploratory Memory 只能由后续 B/C 在真实 established experience 基础�
 Cold start：
 
 \[
-(G_0^{tool}, K_0^{established}=\varnothing, K_0^{exploratory}=\varnothing)
+(G_0^{tool}, K_0^{established}=\varnothing, K_0^{exploratory}=\varnothing, \mathcal E_0^{history}=\varnothing)
 \]
 
 第一条 trajectory：
@@ -314,6 +334,7 @@ K_{0,MVP}^{exploratory}=\varnothing
 G_0 &= G_{tool} \\
 K_0^{established} &= \varnothing \\
 K_0^{exploratory} &= \varnothing \\
+\mathcal E_0^{history} &= \varnothing \\
 \mathcal T_0 &= \varnothing
 \end{aligned}
 }
@@ -325,6 +346,7 @@ K_0^{exploratory} &= \varnothing \\
 - 经验语义不预定义；
 - 第一条 trajectory 开始产生 Candidate Experience；
 - A 从真实 evidence 中逐步形成 Semantic Memory / Semantic Concept；
-- B/C 只能在已有经验基础上形成 exploratory memory。
+- B/C 只能在已有经验基础上形成 exploratory memory；
+- exploratory memory 在线只保留 active one-shot items，激活后进入不可在线召回的 \(\mathcal E^{history}\) 供未来 C 查重与实验审计。
 
 这部分应视为当前方法定义的一部分，并在后续实现文档和主 method 文档中保持一致。
