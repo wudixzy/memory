@@ -1024,6 +1024,37 @@ def apply_a_updates(
     return created
 
 
+def apply_a_update(
+    memory: dict[str, Any],
+    update: dict[str, Any],
+    *,
+    task_id: str,
+    artifact_ref: str,
+    evidence_id: str,
+    consumed_h_id: str | None,
+    comparison_id: str | None,
+) -> list[str]:
+    """Materialize one already-validated A update.
+
+    Keeping the single-update wrapper separate lets the runner reject one
+    malformed update without discarding an independent epistemic assessment
+    or any other valid update from the same model response.
+    """
+
+    return apply_a_updates(
+        memory,
+        {
+            "decision": "UPDATE",
+            "updates": [update],
+        },
+        task_id=task_id,
+        artifact_ref=artifact_ref,
+        evidence_id=evidence_id,
+        consumed_h_id=consumed_h_id,
+        comparison_id=comparison_id,
+    )
+
+
 def mark_h_consumed(memory: dict[str, Any], h_id: str, *, task_id: str, evidence_id: str) -> None:
     for entry in memory["exploratory_memories"]:
         if entry["h_id"] == h_id:
@@ -1322,14 +1353,8 @@ def build_phase1b_a_response_format(existing_memory_ids: list[str]) -> dict[str,
     }
 
 
-def validate_phase1b_a_result(
-    result: dict[str, Any],
-    *,
-    existing_memory_ids: list[str],
-    has_consumed_h: bool,
-    has_actual_probe_evidence: bool,
-) -> dict[str, Any]:
-    """Validate A's Phase 1B epistemic and established-memory output."""
+def _validate_phase1b_a_envelope(result: dict[str, Any]) -> dict[str, Any]:
+    """Validate the common A response envelope without validating updates."""
 
     if not isinstance(result, dict) or set(result) != {
         "decision",
@@ -1339,6 +1364,25 @@ def validate_phase1b_a_result(
         "still_unresolved",
     }:
         raise SchemaError("Phase 1B A result has unexpected fields")
+    if not isinstance(result["updates"], list):
+        raise SchemaError("Phase 1B A updates must be a list")
+    if not isinstance(result["still_unresolved"], list) or any(
+        not isinstance(item, str) or not item.strip() for item in result["still_unresolved"]
+    ):
+        raise SchemaError("Phase 1B A still_unresolved is malformed")
+    assert_no_evaluator_keys(result)
+    return result
+
+
+def validate_phase1b_a_assessment(
+    result: dict[str, Any],
+    *,
+    has_consumed_h: bool,
+    has_actual_probe_evidence: bool,
+) -> dict[str, Any]:
+    """Validate A's epistemic assessment independently of memory updates."""
+
+    _validate_phase1b_a_envelope(result)
     if result["decision"] not in {"NO_CHANGE", "UPDATE"}:
         raise SchemaError("Phase 1B A decision is invalid")
     if result["evidence_role"] not in EVIDENCE_ROLES:
@@ -1356,43 +1400,136 @@ def validate_phase1b_a_result(
         "CONTRADICTING",
     }:
         raise SchemaError("A RESOLVED assessment needs discriminative evidence")
-    updates = result["updates"]
+    return result
+
+
+def validate_phase1b_a_update(
+    update: dict[str, Any],
+    *,
+    existing_memory_ids: list[str],
+) -> dict[str, Any]:
+    """Validate one Established Memory update mechanically."""
+
+    required = {
+        "operation",
+        "target_memory_ids",
+        "scope",
+        "guidance",
+        "evidence_basis",
+    }
+    if not isinstance(update, dict) or set(update) != required:
+        raise SchemaError("Phase 1B A update is malformed")
+    operation = update["operation"]
+    targets = update["target_memory_ids"]
+    if operation not in {"ADD", "REFINE", "SPECIALIZE", "MERGE"}:
+        raise SchemaError("Phase 1B A update operation is invalid")
+    existing = set(existing_memory_ids)
+    if not isinstance(targets, list) or any(
+        not isinstance(item, str) or item == "NONE" or item not in existing for item in targets
+    ):
+        raise SchemaError("Phase 1B A target memory ids are invalid")
+    if operation == "ADD" and targets:
+        raise SchemaError("Phase 1B A ADD must target no existing memory")
+    if operation in {"REFINE", "SPECIALIZE"} and len(targets) != 1:
+        raise SchemaError("Phase 1B A REFINE/SPECIALIZE needs one target")
+    if operation == "MERGE" and len(targets) < 2:
+        raise SchemaError("Phase 1B A MERGE needs at least two targets")
+    for key in ("scope", "guidance", "evidence_basis"):
+        _nonempty_string(update[key], "Phase 1B A update." + key)
+    return update
+
+
+def validate_phase1b_a_updates(
+    result: dict[str, Any],
+    *,
+    existing_memory_ids: list[str],
+) -> dict[str, Any]:
+    """Return a per-update acceptance report without rejecting the assessment."""
+
+    updates = result.get("updates") if isinstance(result, dict) else None
     if not isinstance(updates, list):
         raise SchemaError("Phase 1B A updates must be a list")
-    if result["decision"] == "NO_CHANGE" and updates:
-        raise SchemaError("Phase 1B A NO_CHANGE must not contain updates")
-    if result["decision"] == "UPDATE" and not updates:
-        raise SchemaError("Phase 1B A UPDATE requires updates")
-    existing = set(existing_memory_ids)
-    for update in updates:
-        required = {
-            "operation",
-            "target_memory_ids",
-            "scope",
-            "guidance",
-            "evidence_basis",
+    if result.get("decision") == "UPDATE" and not updates:
+        return {
+            "status": "rejected",
+            "accepted_count": 0,
+            "rejected_count": 1,
+            "updates": [],
+            "error": {
+                "type": "SchemaError",
+                "message": "Phase 1B A UPDATE requires updates",
+            },
         }
-        if not isinstance(update, dict) or set(update) != required:
-            raise SchemaError("Phase 1B A update is malformed")
-        operation = update["operation"]
-        targets = update["target_memory_ids"]
-        if operation not in {"ADD", "REFINE", "SPECIALIZE", "MERGE"}:
-            raise SchemaError("Phase 1B A update operation is invalid")
-        if not isinstance(targets, list) or any(
-            not isinstance(item, str) or item == "NONE" or item not in existing for item in targets
-        ):
-            raise SchemaError("Phase 1B A target memory ids are invalid")
-        if operation == "ADD" and targets:
-            raise SchemaError("Phase 1B A ADD must target no existing memory")
-        if operation in {"REFINE", "SPECIALIZE"} and len(targets) != 1:
-            raise SchemaError("Phase 1B A REFINE/SPECIALIZE needs one target")
-        if operation == "MERGE" and len(targets) < 2:
-            raise SchemaError("Phase 1B A MERGE needs at least two targets")
-        for key in ("scope", "guidance", "evidence_basis"):
-            _nonempty_string(update[key], "Phase 1B A update." + key)
-    if not isinstance(result["still_unresolved"], list) or any(
-        not isinstance(item, str) or not item.strip() for item in result["still_unresolved"]
-    ):
-        raise SchemaError("Phase 1B A still_unresolved is malformed")
-    assert_no_evaluator_keys(result)
+    report: list[dict[str, Any]] = []
+    for index, update in enumerate(updates):
+        if result.get("decision") == "NO_CHANGE":
+            error = SchemaError("Phase 1B A NO_CHANGE must not contain updates")
+        else:
+            try:
+                validate_phase1b_a_update(
+                    update,
+                    existing_memory_ids=existing_memory_ids,
+                )
+            except Exception as caught:
+                error = caught
+            else:
+                report.append(
+                    {
+                        "index": index,
+                        "status": "accepted",
+                        "update": copy.deepcopy(update),
+                    }
+                )
+                continue
+        report.append(
+            {
+                "index": index,
+                "status": "rejected",
+                "update": copy.deepcopy(update),
+                "error": {"type": type(error).__name__, "message": str(error)},
+            }
+        )
+    rejected = sum(item["status"] == "rejected" for item in report)
+    if rejected == 0:
+        status = "accepted"
+    elif rejected == len(report):
+        status = "rejected"
+    else:
+        status = "partial"
+    return {
+        "status": status,
+        "accepted_count": len(report) - rejected,
+        "rejected_count": rejected,
+        "updates": report,
+    }
+
+
+def validate_phase1b_a_result(
+    result: dict[str, Any],
+    *,
+    existing_memory_ids: list[str],
+    has_consumed_h: bool,
+    has_actual_probe_evidence: bool,
+) -> dict[str, Any]:
+    """Legacy all-or-nothing validator retained for strict callers/tests.
+
+    The longitudinal runner uses the layered validators above so an invalid
+    update cannot erase an otherwise valid epistemic assessment.
+    """
+
+    validate_phase1b_a_assessment(
+        result,
+        has_consumed_h=has_consumed_h,
+        has_actual_probe_evidence=has_actual_probe_evidence,
+    )
+    update_report = validate_phase1b_a_updates(
+        result,
+        existing_memory_ids=existing_memory_ids,
+    )
+    if update_report["rejected_count"]:
+        first = next(item for item in update_report["updates"] if item["status"] == "rejected")
+        error = first["error"]
+        raise SchemaError(error["message"])
+    if result["decision"] == "UPDATE" and not result["updates"]:
+        raise SchemaError("Phase 1B A UPDATE requires updates")
     return result

@@ -65,7 +65,7 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     RETRIEVAL_SCHEMA,
     active_established_memory_ids,
     active_h_entries,
-    apply_a_updates,
+    apply_a_update,
     apply_comparison_evidence_assessment,
     build_a_input_for_task,
     build_b_to_c_projection,
@@ -83,7 +83,8 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     memory_state_digest,
     reconcile_h_and_comparison,
     validate_memory_state,
-    validate_phase1b_a_result,
+    validate_phase1b_a_assessment,
+    validate_phase1b_a_updates,
     validate_reconciliation_result,
     validate_retrieval_result,
 )
@@ -682,6 +683,8 @@ def _run_task(
         consumed_h = h_entry["future_h"] if h_entry is not None else {"status": "NONE"}
         a_parsed = None
         a_status: dict[str, Any] = {"status": "not_started"}
+        a_assessment_valid = False
+        a_updates_report: dict[str, Any] = {"status": "not_started", "updates": []}
         try:
             a_input = build_a_input_for_task(
                 memory_before=memory_before,
@@ -709,23 +712,82 @@ def _run_task(
         except Exception as error:
             a_status = {"status": "input_invalid", "error": safe_error(error)}
             write_json(task_dir / "a" / "validation_error.json", a_status["error"])
+            write_json(
+                task_dir / "a" / "epistemic_validation.json",
+                {"status": "not_run", "error": a_status["error"]},
+            )
+            write_json(
+                task_dir / "a" / "updates_validation.json",
+                {"status": "not_run", "updates": []},
+            )
         if a_parsed is not None:
             try:
-                a_parsed = validate_phase1b_a_result(
+                a_parsed = validate_phase1b_a_assessment(
                     a_parsed,
-                    existing_memory_ids=[
-                        *active_established_memory_ids(memory_before),
-                    ],
                     has_consumed_h=h_id is not None,
                     has_actual_probe_evidence=(
                         h_id is not None and probe["runtime_status"] == "EVIDENCE_OBTAINED"
                     ),
                 )
+                a_assessment_valid = True
                 write_json(task_dir / "a" / "a_parsed.json", a_parsed)
+                write_json(
+                    task_dir / "a" / "epistemic_validation.json",
+                    {
+                        "status": "accepted",
+                        "decision": a_parsed["decision"],
+                        "evidence_role": a_parsed["evidence_role"],
+                        "comparison_assessment": a_parsed["comparison_assessment"],
+                        "still_unresolved": list(a_parsed["still_unresolved"]),
+                    },
+                )
+                a_updates_report = validate_phase1b_a_updates(
+                    a_parsed,
+                    existing_memory_ids=active_established_memory_ids(memory_before),
+                )
+                write_json(task_dir / "a" / "updates_validation.json", a_updates_report)
+                a_status = {
+                    **a_status,
+                    "status": "assessment_accepted",
+                    "updates_validation_status": a_updates_report["status"],
+                    "accepted_update_count": a_updates_report["accepted_count"],
+                    "rejected_update_count": a_updates_report["rejected_count"],
+                }
             except Exception as error:
-                a_status = {"status": "invalid", "error": safe_error(error)}
-                write_json(task_dir / "a" / "validation_error.json", a_status["error"])
+                a_status = {**a_status, "status": "assessment_invalid", "error": safe_error(error)}
+                write_json(
+                    task_dir / "a" / "epistemic_validation.json",
+                    {"status": "rejected", "error": a_status["error"]},
+                )
+                write_json(
+                    task_dir / "a" / "updates_validation.json",
+                    {
+                        "status": "blocked_epistemic_assessment_invalid",
+                        "updates": [],
+                    },
+                )
                 a_parsed = None
+        elif a_status.get("status") not in {"input_invalid"}:
+            write_json(
+                task_dir / "a" / "epistemic_validation.json",
+                {"status": "model_output_unavailable", "model_status": a_status},
+            )
+            write_json(
+                task_dir / "a" / "updates_validation.json",
+                {"status": "blocked_model_output_unavailable", "updates": []},
+            )
+
+        # Reconciliation is identity/lifecycle-only.  It may see the valid
+        # A semantic assessment, but never receives an update that the
+        # mechanical Layer-B validator rejected.
+        a_result_for_reconciliation = None
+        if a_assessment_valid and a_parsed is not None:
+            a_result_for_reconciliation = copy.deepcopy(a_parsed)
+            a_result_for_reconciliation["updates"] = [
+                item["update"]
+                for item in a_updates_report["updates"]
+                if item["status"] == "accepted"
+            ]
 
         b_input = build_longitudinal_b_input(
             task_with_instruction,
@@ -817,7 +879,7 @@ def _run_task(
             reconciliation_input = build_reconciliation_input(
                 memory_before=memory_before,
                 evidence_package=evidence,
-                a_result=a_parsed,
+                a_result=a_result_for_reconciliation,
                 b_result=b_parsed,
                 c_result=c_parsed,
                 existing_comparison_ids=[
@@ -905,18 +967,17 @@ def _run_task(
         next_memory = copy.deepcopy(fact_memory)
         a_update_ids: list[str] = []
         a_assessment = None
-        if a_parsed is not None:
-            try:
-                a_update_ids = apply_a_updates(
-                    next_memory,
-                    a_parsed,
-                    task_id=task["task_id"],
-                    artifact_ref=str(task_dir / "a"),
-                    evidence_id=evidence["evidence_id"],
-                    consumed_h_id=h_id,
-                    comparison_id=(h_entry["comparison_id"] if h_entry is not None else None),
-                )
-                if h_id is not None:
+        a_materialization: dict[str, Any] = {
+            "status": "skipped_epistemic_assessment_invalid",
+            "epistemic_assessment": None,
+            "updates": [],
+        }
+        if a_assessment_valid and a_parsed is not None:
+            a_materialization["status"] = "assessment_accepted"
+            if a_updates_report.get("error") is not None:
+                a_materialization["updates_validation_error"] = a_updates_report["error"]
+            if h_id is not None:
+                try:
                     h_for_assessment = next(
                         item
                         for item in next_memory["exploratory_memories"]
@@ -933,11 +994,71 @@ def _run_task(
                             probe["runtime_status"] == "EVIDENCE_OBTAINED"
                         ),
                     )
-            except Exception as error:
-                a_status = {"status": "materialization_invalid", "error": safe_error(error)}
-                write_json(task_dir / "a" / "materialization_error.json", a_status["error"])
-                a_update_ids = []
-                a_assessment = None
+                    a_materialization["epistemic_assessment"] = {
+                        "status": "accepted",
+                        **a_assessment,
+                    }
+                except Exception as error:
+                    a_materialization["status"] = "assessment_materialization_invalid"
+                    a_materialization["epistemic_assessment"] = {
+                        "status": "rejected",
+                        "error": safe_error(error),
+                    }
+                    write_json(task_dir / "a" / "materialization_error.json", safe_error(error))
+            else:
+                a_materialization["epistemic_assessment"] = {
+                    "status": "not_applicable",
+                    "reason": "no_consumed_h",
+                }
+
+            for update_item in a_updates_report["updates"]:
+                if update_item["status"] != "accepted":
+                    a_materialization["updates"].append(
+                        {
+                            "index": update_item["index"],
+                            "status": "rejected",
+                            "update": update_item["update"],
+                            "reason": "validation",
+                            "error": update_item["error"],
+                        }
+                    )
+                    continue
+                try:
+                    created_ids = apply_a_update(
+                        next_memory,
+                        update_item["update"],
+                        task_id=task["task_id"],
+                        artifact_ref=str(task_dir / "a"),
+                        evidence_id=evidence["evidence_id"],
+                        consumed_h_id=h_id,
+                        comparison_id=(h_entry["comparison_id"] if h_entry is not None else None),
+                    )
+                    a_update_ids.extend(created_ids)
+                    a_materialization["updates"].append(
+                        {
+                            "index": update_item["index"],
+                            "status": "accepted",
+                            "update": update_item["update"],
+                            "created_memory_ids": created_ids,
+                        }
+                    )
+                except Exception as error:
+                    a_materialization["updates"].append(
+                        {
+                            "index": update_item["index"],
+                            "status": "rejected",
+                            "update": update_item["update"],
+                            "reason": "materialization",
+                            "error": safe_error(error),
+                        }
+                    )
+            if a_updates_report["rejected_count"] or any(
+                item["status"] == "rejected" for item in a_materialization["updates"]
+            ):
+                a_materialization["status"] = "partial"
+            elif a_materialization["status"] == "assessment_accepted":
+                a_materialization["status"] = "accepted"
+        write_json(task_dir / "a" / "materialization.json", a_materialization)
         reconciliation_effect = None
         if (
             b_parsed is not None
@@ -982,6 +1103,7 @@ def _run_task(
                 "a_status": a_status,
                 "b_status": b_status,
                 "c_status": c_status,
+                "a_materialization": a_materialization,
                 "h_reconciliation_status": reconciliation_status,
                 "a_update_ids": a_update_ids,
                 "a_assessment": a_assessment,

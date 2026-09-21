@@ -4,25 +4,29 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: Phase 1B Pre-Scale Closure.
+Current cycle: Phase 1B Finalization — A Fault Isolation & Freeze.
 
 Baseline:
 
-    4051e0eda7372448a9ac191701172ea5984c1257
+    f6bc77207557af68e913e5c037d5371651274dfb
 
 Read first:
 
-1. docs/96_phase1b_prescale_closure_plan.md
-2. docs/95_phase1b_interface_hardening_semantic_review.md
-3. docs/current_state/02_method_architecture.md
-4. docs/current_state/03_component_contracts.md
+1. docs/98_phase1b_prescale_closure_results.md
+2. docs/99_phase1b_prescale_closure_semantic_review_and_decision.md
+3. docs/96_phase1b_prescale_closure_plan.md
+4. docs/current_state/02_method_architecture.md
+5. docs/current_state/03_component_contracts.md
 
 ## Goal
 
-Close the last local interface blockers, prove one complete live longitudinal memory loop, then
-freeze immediately for the fresh 40–60-task scale experiment.
+This is a pure code/artifact regression and freeze cycle. Do not make model or
+API calls, rerun the six-task or twelve-task stream, or start a fresh task.
+Use the saved closure artifacts to validate the local A fault-isolation fix.
 
-This is not another tuning/calibration round.
+The only blocker addressed here is the old all-or-nothing A validation path:
+an invalid Established Memory update must not discard a valid epistemic
+assessment for the same actual evidence.
 
 ## Preserve method roles
 
@@ -35,94 +39,74 @@ Code = IDs/provenance/transactions/schema/artifacts.
 
 Do not add a new semantic authority.
 
-## Exactly three authorized changes
+## Authorized implementation change
 
-1. Remove provenance from A model output. Runner binds evidence/task/artifact/H lineage
-   mechanically.
-2. B-to-C projection contains only the abstract Functional Contract. Full incumbent_segment and
-   B audit narration remain B-only. Entity-bearing Functional Contract still fails closed.
-3. Compact identity-reconciliation context so persisted raw evidence/history is not copied
-   wholesale into each model prompt.
+Split A handling into two mechanical layers:
+
+1. Validate and materialize the epistemic assessment independently
+   (`evidence_role`, `comparison_assessment`, `still_unresolved` and their
+   consumed-H/probe constraints).
+2. Validate and materialize each Established Memory update independently.
+
+The runner owns current evidence IDs, task/artifact references, consumed-H and
+comparison lineage. A must not generate provenance or evidence references.
+Invalid updates are rejected individually; the runner must not guess a target,
+convert REFINE to ADD, or discard a valid assessment.
+
+The A prompt must state operation-specific target contracts: ADD has no target,
+REFINE/SPECIALIZE have exactly one existing target, and MERGE has at least two
+distinct existing targets. The strict validator remains authoritative if the
+provider schema cannot express conditional constraints.
+
+Persist A artifacts separately:
+
+    raw/parsed model output
+    epistemic_validation.json
+    updates_validation.json
+    materialization.json
 
 Do not change retrieval, H lifecycle, models, K*, executor, probe budget, task ordering,
 comparison ontology, Stage1 or Graph retrieval.
 
-## No-model checkpoint
+## No-model regression checkpoint
 
-Before calls, regression-test:
+Use the saved closure artifacts and fake transports only. Verify:
 
 - A has no model-generated provenance field;
-- runner provenance binding and A materialization;
-- B entity-bearing audit prose no longer blocks an entity-free Functional Contract;
-- entity-bearing Functional Contract still fails closed;
-- C future entity leakage rejection;
-- fact commit and H consumption survive later semantic failure;
-- evidence refs remain runner-owned;
-- consolidation cannot set epistemic comparison status;
-- temporal facts;
-- real Established Memory ADD/REFINE/SPECIALIZE/MERGE semantics;
-- reconciliation input omits full raw evidence_store/history.
+- Task 3's valid epistemic assessment survives malformed REFINE([]);
+- Task 2 ADD and Task 4 legal REFINE still materialize;
+- invalid epistemic assessment is rejected without semantic materialization;
+- factual evidence and H consumption remain durable;
+- B/C firewall, C future entity leakage, evidence ownership, temporal facts,
+  and compact reconciliation context remain valid;
+- real Established Memory ADD/REFINE/SPECIALIZE/MERGE semantics remain intact.
 
-Run focused/regression tests, Ruff, compileall and git diff --check.
+Run focused/regression tests, Ruff, compile checks and `git diff --check`.
+No model/API call is allowed in this cycle.
 
-Commit/push transition before model calls.
+## Freeze decision
 
-## Single closure check
+If the saved Task 3 assessment survives while its malformed REFINE update is
+rejected, Task 2/4 valid ADD/REFINE updates still materialize, factual commits
+and H consumption remain durable, and existing leakage/evidence/temporal
+invariants pass, record:
 
-Run exactly the first six tasks from the frozen Phase 1B dev stream, original order, seed 42:
+    READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 
-1. SprayBottle -> Toilet-426
-2. clean Apple -> Fridge-27
-3. cool Pot -> Shelf-1
-4. heat Egg -> GarbageCan-2
-5. cool Lettuce -> DiningTable-21
-6. heat Egg -> SideTable-21
+Known limitations must include possible unsafe B contracts, possible
+near-duplicate comparison identity, unvalidated scale retrieval quality, and
+the controlled ALFWorld search abstraction not being a full autonomous actor.
 
-Start from canonical K*, empty H/comparison/evidence state.
-
-Same frozen model configs.
-
-No retry, no mid-run patch, no second closure run.
-
-## Review
-
-Read all six complete chains.
-
-The run passes only if:
-
-- C source-answer leakage remains zero;
-- A provenance/interface failures are zero on consumed-H cases;
-- at least one real chain completes:
-  B/C creates H -> later retrieval -> probe evidence -> accepted A assessment -> memory state
-  materialized;
-- actual facts and consumed-H state survive downstream semantic failures;
-- evidence refs remain deterministic;
-- no unsupported RESOLVED;
-- temporal facts remain correct;
-- reconciliation prompt no longer grows with full raw historical evidence archive;
-- no obvious state corruption from Established Memory materialization.
-
-Do not require improved search cost or task performance.
-
-## Final decision
-
-Exactly:
-
-READY_FOR_SCALE
-or
-NOT_READY_METHOD_RETHINK
-
-If READY_FOR_SCALE, freeze and proceed directly to the fresh 40–60-task scale experiment.
-Do not insert another development gate.
-
-If NOT_READY_METHOD_RETHINK, stop model calls.
+After this code-only freeze, stop. The next cycle may design the fresh 40–60
+task longitudinal scale experiment; do not insert another development run in
+this cycle.
 
 ## Outputs
 
 Write:
 
-- docs/97_phase1b_prescale_closure_transition.md
-- docs/98_phase1b_prescale_closure_results.md
-- docs/99_phase1b_prescale_closure_semantic_review_and_decision.md
+- docs/100_phase1b_finalization_plan_and_changes.md
+- docs/101_phase1b_final_freeze_memo.md
 
-No superiority claim from this development run.
+No method-superiority claim is permitted from the closure or regression
+artifacts.

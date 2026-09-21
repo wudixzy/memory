@@ -1,12 +1,12 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-21 active cycle:** Phase 1B Interface Hardening completed at docs/94–95. Major structural correctness risks are resolved; the remaining active stage is **Phase 1B Pre-Scale Closure**. Read `docs/96_phase1b_prescale_closure_plan.md` and current `AGENTS.md`. This stage permits exactly three local interface corrections and one fixed 6-task closure check; if it passes, freeze and proceed directly to the fresh longitudinal scale experiment.
+> **2026-09-21 active cycle:** Phase 1B Pre-Scale Closure completed with one localized A fault-isolation blocker. The final code-only cycle is **Phase 1B Finalization — A Fault Isolation & Freeze**. Read `docs/100_phase1b_finalization_plan_and_changes.md`, `docs/101_phase1b_final_freeze_memo.md`, and current `AGENTS.md`. No model/API calls or task reruns are permitted in this cycle.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 
-> 状态：当前项目单一接手入口（2026-09-20，Actor-Stack Development Diagnostic）
+> 状态：当前项目单一接手入口（2026-09-21，Phase 1B Finalization — A Fault Isolation & Freeze）
 > Branch：exp/minimal-exploratory-memory-validation
-> Baseline commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
+> Baseline commit：f6bc77207557af68e913e5c037d5371651274dfb
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
 > 原则：本文只写当前共识与当前证据边界；历史设计演化请查顶层 docs/00–69。
 
@@ -863,9 +863,10 @@ commit a738366...：
 
 No paid model/API call。
 
-## 17.9 Gate B1 Protocol Transition
+## 17.9 Gate B1 Protocol Transition (historical)
 
-Current cycle is **Gate B1 — Independent C1 Actor Calibration**. The method,
+This was the historical **Gate B1 — Independent C1 Actor Calibration** cycle.
+The method,
 K*, Source/Calibration/Target partitions, actor prompt, step cap and transport
 configuration are frozen. The only permitted real model experiment is one C1
 run on the ten hard-calibration tasks; the 18 diagnostic tasks, all targets,
@@ -957,36 +958,29 @@ diagnostic tasks cannot affect admission and are not run in this cycle.
 
 # 20. 当前下一步
 
-Gate B1 已完成并 FAIL；随后对 10 条真实轨迹进行了人工诊断（docs/72）。
-当前证据不足以把失败主要归因于 Qwen3.8-Flash，至少存在两个需要先隔离的 stack-level confound：
-
-1. K* 与 actor-facing carrier contract 部分不一致，尤其 cool realization，以及 generic search
-   在 transformation family 上“找到后直接去 destination”的过宽 guidance；
-2. actor history 只有 action strings，没有历史 public observations，导致已检查/为空等原始
-   交互事实无法直接回看。
+Phase 1B Pre-Scale Closure 的唯一六-task closure run 已完成并记录在
+`docs/98_phase1b_prescale_closure_results.md` 与
+`docs/99_phase1b_prescale_closure_semantic_review_and_decision.md`。它证明了
+Task 1→2 的完整 longitudinal loop，但发现一个局部 A interface blocker：合法的
+`CONTRADICTING / PARTIALLY_RESOLVED` assessment 会被同一 response 中非法的
+`REFINE` 空 target 绑定整体丢弃。
 
 当前 active cycle 改为：
 
-    Phase 1A Actor-Stack Development Diagnostic
+    Phase 1B Finalization — A Fault Isolation & Freeze
 
-正式计划见：
+本 cycle 只做无模型代码/artifact regression：把 A 的 epistemic assessment 与
+Established Memory updates 分层验证和物化，并使用保存的 Task 1/2/3/4 artifacts 回归。
+不得重新运行六-task、十二-task或 fresh task，不得进行任何 model/API call。
 
-    docs/73_phase1_actor_stack_development_diagnostic_plan.md
+如果回归通过，决策为：
 
-本 cycle 使用原 10 tasks 作为 development set：
+    READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 
-    D0 = 已有 Gate B1，不重跑
-    D1 = K* carrier-correct candidate v2 + action-only history
-    D2 = same K* v2 + raw action->observation history
-
-D1/D2 必须完整保存逐步 trajectory 供下一轮人工 review。不要只保留 aggregate。
-
-旧 10 tasks 经本轮调优后不再可作为 independent gate。若可行，必须在 D1/D2 模型调用前，
-仅用 public-only criteria 从未使用 ALFWorld split 预注册 fresh Gate B1-R；不得使用原 20 targets
-补 gate，也不得在本 cycle 执行 Gate B1-R。
-
-D2 完成后 STOP。下一轮 researcher review 再决定最终 K*/actor interface、是否需要 prompt
-diagnostic/stronger actor，以及何时执行 fresh independent Gate B1-R。
+然后停止 development/tuning，下一 cycle 直接设计 fresh 40–60 task longitudinal scale
+experiment。已知限制为：unsafe B Functional Contract 会 fail-closed、comparison identity
+可能产生 near-duplicate、retrieval quality 尚未规模验证、当前 controlled ALFWorld search
+abstraction 不是完整 autonomous actor。
 
 # 21. 当前不要重新打开的问题
 

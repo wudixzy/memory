@@ -22,7 +22,9 @@ from exploratory_memory_mvp.common import (  # noqa: E402
 )
 from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     DEFAULT_STREAM_PATH,
+    apply_a_update,
     apply_a_updates,
+    apply_comparison_evidence_assessment,
     build_a_input_for_task,
     build_b_to_c_projection,
     build_evidence_package,
@@ -36,9 +38,19 @@ from exploratory_memory_mvp.phase1b_contract import (  # noqa: E402
     memory_state_digest,
     validate_controlled_endpoint,
     validate_memory_state,
+    validate_phase1b_a_assessment,
     validate_phase1b_a_result,
+    validate_phase1b_a_updates,
     validate_reconciliation_result,
     validate_retrieval_result,
+)
+
+CLOSURE_ARTIFACT_ROOT = (
+    Path(__file__).resolve().parents[1]
+    / "artifacts"
+    / "exploratory_memory_mvp"
+    / "phase1b-prescale-closure-20260921-0745fcd"
+    / "tasks"
 )
 from exploratory_memory_mvp.run_phase1b_longitudinal import (  # noqa: E402
     run_longitudinal_stream,
@@ -488,6 +500,207 @@ class Phase1BContractTests(unittest.TestCase):
         self.assertEqual(binding["consumed_h_id"], "h-fixture")
         self.assertNotIn("provenance", update)
 
+    def test_a_fault_isolation_accepts_saved_task3_assessment_and_rejects_only_update(self):
+        if not CLOSURE_ARTIFACT_ROOT.is_dir():
+            self.skipTest("saved Phase 1B closure artifacts are not present")
+        task_dir = CLOSURE_ARTIFACT_ROOT / "03-b74ce78e8759"
+        result = json.loads((task_dir / "a" / "parsed.json").read_text())
+        memory_before = json.loads((task_dir / "memory_before.json").read_text())
+        fact_memory = json.loads((task_dir / "memory_after_fact_commit.json").read_text())
+        retrieval = json.loads((task_dir / "retrieval" / "retrieval_parsed.json").read_text())
+        evidence = json.loads((task_dir / "evidence_package.json").read_text())
+        probe = json.loads((task_dir / "probe" / "probe_summary.json").read_text())
+        active_ids = [item["memory_id"] for item in memory_before["established_memories"]]
+
+        assessment = validate_phase1b_a_assessment(
+            result,
+            has_consumed_h=retrieval["decision"] == "ACTIVATE",
+            has_actual_probe_evidence=probe["runtime_status"] == "EVIDENCE_OBTAINED",
+        )
+        updates = validate_phase1b_a_updates(result, existing_memory_ids=active_ids)
+        self.assertEqual(assessment["evidence_role"], "CONTRADICTING")
+        self.assertEqual(assessment["comparison_assessment"], "PARTIALLY_RESOLVED")
+        self.assertEqual(updates["status"], "rejected")
+        self.assertEqual(updates["rejected_count"], 1)
+        self.assertEqual(
+            updates["updates"][0]["error"]["message"],
+            "Phase 1B A REFINE/SPECIALIZE needs one target",
+        )
+
+        h_id = retrieval["h_id"]
+        h_entry = next(
+            item
+            for item in memory_before["exploratory_memories"]
+            if item["h_id"] == h_id
+        )
+        bound = apply_comparison_evidence_assessment(
+            fact_memory,
+            comparison_id=h_entry["comparison_id"],
+            evidence_id=evidence["evidence_id"],
+            evidence_role=assessment["evidence_role"],
+            comparison_assessment=assessment["comparison_assessment"],
+            task_id=evidence["task"]["task_id"],
+            has_actual_probe_evidence=True,
+        )
+        self.assertEqual(bound["evidence_id"], evidence["evidence_id"])
+        comparison = next(
+            item
+            for item in fact_memory["comparison_ledger"]
+            if item["comparison_id"] == h_entry["comparison_id"]
+        )
+        self.assertIn(evidence["evidence_id"], comparison["contradicting_evidence_refs"])
+        self.assertEqual(comparison["status"], "PARTIALLY_RESOLVED")
+        self.assertEqual(
+            [item["memory_id"] for item in fact_memory["established_memories"]],
+            [item["memory_id"] for item in memory_before["established_memories"]],
+        )
+        consumed = next(
+            item for item in fact_memory["exploratory_memories"] if item["h_id"] == h_id
+        )
+        self.assertEqual(consumed["status"], "consumed")
+
+    def test_saved_task2_add_and_task4_refine_still_materialize(self):
+        if not CLOSURE_ARTIFACT_ROOT.is_dir():
+            self.skipTest("saved Phase 1B closure artifacts are not present")
+        for task_name, expected_operation in (
+            ("02-f13421bdbb8a", "ADD"),
+            ("04-6ce98e7a5d4c", "REFINE"),
+        ):
+            task_dir = CLOSURE_ARTIFACT_ROOT / task_name
+            result = json.loads((task_dir / "a" / "parsed.json").read_text())
+            memory_before = json.loads((task_dir / "memory_before.json").read_text())
+            fact_memory = json.loads((task_dir / "memory_after_fact_commit.json").read_text())
+            retrieval = json.loads((task_dir / "retrieval" / "retrieval_parsed.json").read_text())
+            evidence = json.loads((task_dir / "evidence_package.json").read_text())
+            probe = json.loads((task_dir / "probe" / "probe_summary.json").read_text())
+            active_ids = [item["memory_id"] for item in memory_before["established_memories"]]
+            assessment = validate_phase1b_a_assessment(
+                result,
+                has_consumed_h=True,
+                has_actual_probe_evidence=probe["runtime_status"] == "EVIDENCE_OBTAINED",
+            )
+            updates = validate_phase1b_a_updates(result, existing_memory_ids=active_ids)
+            self.assertEqual(updates["status"], "accepted")
+            self.assertEqual(updates["updates"][0]["update"]["operation"], expected_operation)
+            h_entry = next(
+                item
+                for item in memory_before["exploratory_memories"]
+                if item["h_id"] == retrieval["h_id"]
+            )
+            apply_comparison_evidence_assessment(
+                fact_memory,
+                comparison_id=h_entry["comparison_id"],
+                evidence_id=evidence["evidence_id"],
+                evidence_role=assessment["evidence_role"],
+                comparison_assessment=assessment["comparison_assessment"],
+                task_id=evidence["task"]["task_id"],
+                has_actual_probe_evidence=True,
+            )
+            created = apply_a_update(
+                fact_memory,
+                updates["updates"][0]["update"],
+                task_id=evidence["task"]["task_id"],
+                artifact_ref=str(task_dir / "a"),
+                evidence_id=evidence["evidence_id"],
+                consumed_h_id=retrieval["h_id"],
+                comparison_id=h_entry["comparison_id"],
+            )
+            self.assertTrue(created)
+            if expected_operation == "REFINE":
+                target = updates["updates"][0]["update"]["target_memory_ids"][0]
+                refined = next(
+                    item
+                    for item in fact_memory["established_memories"]
+                    if item["memory_id"] == target
+                )
+                self.assertTrue(refined["versions"])
+
+    def test_saved_no_h_assessment_remains_irrelevant_and_open(self):
+        if not CLOSURE_ARTIFACT_ROOT.is_dir():
+            self.skipTest("saved Phase 1B closure artifacts are not present")
+        task_dir = CLOSURE_ARTIFACT_ROOT / "01-fe5a5bac7cf1"
+        result = json.loads((task_dir / "a" / "parsed.json").read_text())
+        memory_before = json.loads((task_dir / "memory_before.json").read_text())
+        assessment = validate_phase1b_a_assessment(
+            result,
+            has_consumed_h=False,
+            has_actual_probe_evidence=False,
+        )
+        self.assertEqual(assessment["evidence_role"], "IRRELEVANT")
+        self.assertEqual(assessment["comparison_assessment"], "REMAINS_OPEN")
+        self.assertEqual(
+            validate_phase1b_a_updates(
+                result,
+                existing_memory_ids=[
+                    item["memory_id"] for item in memory_before["established_memories"]
+                ],
+            )["status"],
+            "accepted",
+        )
+
+    def test_invalid_epistemic_assessment_is_rejected_without_materialization(self):
+        result = {
+            "decision": "UPDATE",
+            "evidence_role": "NOT_A_ROLE",
+            "comparison_assessment": "PARTIALLY_RESOLVED",
+            "updates": [],
+            "still_unresolved": ["the comparison remains open"],
+        }
+        with self.assertRaises(SchemaError):
+            validate_phase1b_a_assessment(
+                result,
+                has_consumed_h=True,
+                has_actual_probe_evidence=True,
+            )
+
+    def test_a_update_validation_is_per_item_and_keeps_valid_update(self):
+        memory = initial_memory_state()
+        result = {
+            "decision": "UPDATE",
+            "evidence_role": "INCONCLUSIVE",
+            "comparison_assessment": "REMAINS_OPEN",
+            "updates": [
+                {
+                    "operation": "ADD",
+                    "target_memory_ids": [],
+                    "scope": "fixture scope",
+                    "guidance": "fixture guidance",
+                    "evidence_basis": "actual fixture evidence",
+                },
+                {
+                    "operation": "REFINE",
+                    "target_memory_ids": [],
+                    "scope": "invalid scope",
+                    "guidance": "invalid guidance",
+                    "evidence_basis": "actual fixture evidence",
+                },
+            ],
+            "still_unresolved": ["fixture comparison remains open"],
+        }
+        validate_phase1b_a_assessment(
+            result,
+            has_consumed_h=True,
+            has_actual_probe_evidence=True,
+        )
+        report = validate_phase1b_a_updates(
+            result,
+            existing_memory_ids=[item["memory_id"] for item in memory["established_memories"]],
+        )
+        self.assertEqual(report["status"], "partial")
+        self.assertEqual(report["accepted_count"], 1)
+        self.assertEqual(report["rejected_count"], 1)
+        created = apply_a_update(
+            memory,
+            report["updates"][0]["update"],
+            task_id="fixture-task",
+            artifact_ref="fixture/a",
+            evidence_id="evidence-fixture",
+            consumed_h_id="h-fixture",
+            comparison_id="comparison-fixture",
+        )
+        self.assertEqual(len(created), 1)
+        self.assertEqual(report["updates"][1]["status"], "rejected")
+
     def test_temporal_evidence_binds_later_exposure_and_acquisition_events(self):
         task = load_phase1b_stream()["tasks"][0]
         episode = _FakeEpisode(task["task_id"], 42)
@@ -590,6 +803,9 @@ class Phase1BContractTests(unittest.TestCase):
                 self.assertTrue((task_dir / "memory_before.json").is_file())
                 self.assertTrue((task_dir / "evidence_package.json").is_file())
                 self.assertTrue((task_dir / "memory_after.json").is_file())
+                self.assertTrue((task_dir / "a" / "epistemic_validation.json").is_file())
+                self.assertTrue((task_dir / "a" / "updates_validation.json").is_file())
+                self.assertTrue((task_dir / "a" / "materialization.json").is_file())
                 self.assertTrue((task_dir / "task_summary.json").is_file())
             # No fake model payload may contain evaluator-only phase labels.
             self.assertNotIn("case_type", json.dumps(transport.payloads))

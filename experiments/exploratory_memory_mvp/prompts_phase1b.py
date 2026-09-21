@@ -96,10 +96,25 @@ evidence. The runner binds the consumed H's mechanically known comparison id,
 current evidence id, task id, artifact path, and memory lineage. Do not output
 evidence IDs, artifact paths, provenance, or evidence-reference lists.
 
-For established memory updates, use ADD with no target ids, REFINE or
-SPECIALIZE with exactly one existing target memory id, and MERGE with at least
-two existing target memory ids. The supplied target-memory-id enum is the only
-legal way to name current Established Memory. Do not reactivate the consumed H.
+For established memory updates, use the operation-specific target contract
+below. The supplied target-memory-id enum is the only legal way to name
+current Established Memory. Do not guess a target and do not reactivate the
+consumed H.
+
+  ADD:
+    "operation":"ADD", "target_memory_ids":[]
+  REFINE:
+    "operation":"REFINE", "target_memory_ids":["<exactly one listed active memory id>"]
+  SPECIALIZE:
+    "operation":"SPECIALIZE", "target_memory_ids":["<exactly one listed active memory id>"]
+  MERGE:
+    "operation":"MERGE", "target_memory_ids":[
+      "<at least two distinct listed active memory ids>", ...]
+
+If you cannot identify the required target memory ids, do not invent a target;
+return NO_CHANGE or leave the update out while preserving the evidence
+assessment. An invalid update binding must not change the evidence assessment.
+
 Return exactly one JSON object with fields:
 {
   "decision":"NO_CHANGE | UPDATE",
@@ -107,7 +122,7 @@ Return exactly one JSON object with fields:
   "comparison_assessment":"REMAINS_OPEN | PARTIALLY_RESOLVED | RESOLVED",
   "updates":[{
     "operation":"ADD | REFINE | SPECIALIZE | MERGE",
-    "target_memory_ids":[],
+    "target_memory_ids":["operation-specific ids as described above"],
     "scope":"...",
     "guidance":"...",
     "evidence_basis":"..."

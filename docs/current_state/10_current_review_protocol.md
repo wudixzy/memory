@@ -1,18 +1,19 @@
 # 10. Current Review Protocol：这一轮如何审查与决定是否进入 Actor Gate
 
-> 状态：当前 reviewer contract（2026-09-20，Actor-Stack Development Diagnostic）
-> Baseline commit：7e98ebaf550f4e57ea7a80c43e203f9b7cec4f13
-> 当前目标：用 D1/D2 隔离 K*/carrier 与 raw-history confound；保留完整轨迹；不把 development result 当 independent gate。
+> 状态：当前 reviewer contract（2026-09-21，Phase 1B Finalization — A Fault Isolation & Freeze）
+> Baseline commit：f6bc77207557af68e913e5c037d5371651274dfb
+> 当前目标：仅用保存的 closure artifacts 回归 A fault isolation；禁止模型/API调用和任何 task rerun。
 
 ---
 
 ## 1. Review 的目的
 
-> **Current cycle override:** the previous actor-stack review below is
-> historical.  The active review is `Phase 1B Interface Hardening` (docs/92–95):
-> inspect the B→C firewall, C future boundary, A epistemic assessment,
-> deterministic evidence binding, consolidation identity-only behavior, and
-> fact-commit persistence.  Do not reopen actor tuning or run fresh evaluation.
+> **Current cycle override:** the actor-stack and Interface-Hardening reviews
+> below are historical. The active review is `Phase 1B Finalization — A Fault
+> Isolation & Freeze` (docs/100–101): verify that a valid A epistemic
+> assessment survives an invalid Established Memory update, while preserving
+> all existing leakage, evidence, temporal and fact-commit invariants.
+> Do not reopen actor tuning or run fresh evaluation.
 
 这一轮 review 不是：
 
@@ -437,7 +438,10 @@ Reviewer 发现文档/结果越界时，应要求降 claim，而不是增加实�
 
 ---
 
-# 11. 当前 review verdict 与 development transition
+# 11. 历史 review verdict 与 development transition
+
+The following actor-stack development transition is historical. The active
+finalization contract is in `AGENTS.md` and docs/100–101.
 
 当前：
 
@@ -457,7 +461,7 @@ Gate B1 的 4/10、6/10 step-cap 与 cool 0/2 是有效 negative evidence，但�
 原 10 hard-calibration tasks 从现在起是 development evidence，不再具有 independent admission
 地位。完整计划见 docs/73_phase1_actor_stack_development_diagnostic_plan.md。
 
-# 12. 下一次 researcher review 应检查什么
+# 12. 历史 researcher review 重点
 
 D1/D2 完成后，review 重点不是“是否达到 8/10”，而是逐轨迹比较：
 

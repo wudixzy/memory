@@ -136,14 +136,11 @@
 - **新参与者提示词**：docs/70_project_onboarding_prompt.md
 - **当前实现契约**：根目录 AGENTS.md
 
-当前 active cycle 是 **Phase 1A Actor-Stack Development Diagnostic (D1/D2)**。
-Gate B1 已 FAIL，且 docs/72 的逐轨迹诊断显示失败不能主要归因于模型；当前优先隔离
-K*/carrier contract 与 raw-history representation 两个 confound。
+当前 active cycle 是 **Phase 1B Finalization — A Fault Isolation & Freeze**。
+Phase 1B closure 已证明一条完整 longitudinal loop，但 Task 3 暴露了 A 的
+epistemic assessment 与 malformed Established Memory update 被整体拒绝的问题；本轮只用
+保存 artifacts 做无模型 fault-isolation regression，不重新运行 task。
 
-原 10 个 hard-calibration tasks 已转为 development evidence。D1/D2 必须完整保留原始逐步
-trajectory 供下一轮 review；不得在这些任务上调优后继续把它们当 independent Gate B1。
-正式计划见 [docs/73_phase1_actor_stack_development_diagnostic_plan.md](../73_phase1_actor_stack_development_diagnostic_plan.md)。
-
-原 20 个 Phase 1A targets 继续封存。若数据允许，应在 D1/D2 模型调用前从未使用的 pinned
-ALFWorld split 以 public-only deterministic protocol 预注册 fresh Gate B1-R，但本 cycle 不执行它。
-D2 后 STOP，等待 researcher review。
+原 20 个 Phase 1A targets 继续封存；本 cycle 不执行 Gate B1-R、B2/B3 或任何 fresh task。
+正式结果见 [docs/100_phase1b_finalization_plan_and_changes.md](../100_phase1b_finalization_plan_and_changes.md)
+与 [docs/101_phase1b_final_freeze_memo.md](../101_phase1b_final_freeze_memo.md)。
