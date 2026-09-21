@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1C — Flash Scale-Aware Hypothesis Pilot**.
+Current cycle: **Phase 1C H2 audit and Phase 1D protocol preparation**.
 
 Frozen Phase 1B baseline:
 
@@ -14,15 +14,34 @@ Read first:
 
 1. docs/106_phase1c_experiment_design_handoff.md
 2. docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md
-3. docs/38_exploratory_memory_lifecycle.md
-4. docs/37_method_structural_initialization.md
-5. docs/101_phase1b_final_freeze_memo.md
-6. docs/current_state/02_method_architecture.md
-7. docs/current_state/03_component_contracts.md
+3. docs/107_phase1c_h2_exploration_history_audit.md
+4. docs/108_phase1d_flash_long_horizon_validation_plan.md
+5. docs/38_exploratory_memory_lifecycle.md
+6. docs/37_method_structural_initialization.md
+7. docs/101_phase1b_final_freeze_memo.md
+8. docs/current_state/02_method_architecture.md
+9. docs/current_state/03_component_contracts.md
 
-## Scientific goal
+## Current post-pilot status
 
-Run the first scale-aware hypothesis pilot:
+Phase 1C is complete. Its immutable runtime remains development evidence only;
+it is not a paper-level superiority result.
+
+The no-model H2 artifact audit is complete in
+`docs/107_phase1c_h2_exploration_history_audit.md`. The Phase 1D continuation
+protocol is prepared in `docs/108_phase1d_flash_long_horizon_validation_plan.md`
+and is pending explicit researcher authorization.
+
+No model/API calls are currently authorized. Do not run Phase 1D, Max, or any
+new validation stream in the current cycle. Do not modify the saved Phase 1C
+runtime or silently add lifecycle/dedup/retrieval fixes based on its outcomes.
+
+The protocol and execution instructions below are the frozen Phase 1C
+reference, not current execution authorization.
+
+## Historical Phase 1C protocol (completed; frozen reference)
+
+The completed scale-aware hypothesis pilot used:
 
     32 fresh tasks
     ×
@@ -237,9 +256,10 @@ Run focused/regression tests, Ruff, compileall and git diff --check.
 
 Commit and push immutable transition before calls.
 
-## Run discipline
+## Run discipline (historical reference)
 
-Run all 32 tasks for G and T under the frozen protocol.
+The completed Phase 1C stream ran all 32 tasks for G and T under the frozen
+protocol.
 
 No:
 
@@ -254,9 +274,9 @@ No:
 
 Scientific/semantic failures remain evidence and must be preserved fail-closed.
 
-## After Flash run
+## After Flash run (completed)
 
-Write:
+Completed artifacts:
 
 - docs/104_phase1c_flash_scale_pilot_results.md
 - docs/105_phase1c_flash_scale_pilot_semantic_review.md
@@ -265,5 +285,6 @@ Stop for researcher review.
 
 Do not automatically launch Max.
 
-A later Max replication is justified only if the Flash pilot shows a behavioral scale signal
-or a meaningful mechanism signal.
+A later Max replication is not authorized by this handoff. The current
+post-pilot decision is to review the H2 audit and Phase 1D plan first; no
+additional model call should be made without explicit researcher approval.

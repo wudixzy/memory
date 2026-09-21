@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-21 active cycle:** Phase 1B is frozen as `READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS`. The active cycle is **Phase 1C — Flash Scale-Aware Hypothesis Pilot**. New participants should read `docs/106_phase1c_experiment_design_handoff.md` first, then `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`, `docs/38_exploratory_memory_lifecycle.md`, and current `AGENTS.md`. The next paid experiment is one 32-task fresh Flash G-vs-T longitudinal pilot; do not reopen Phase 1B development.
+> **2026-09-21 active cycle:** Phase 1C is complete, and the no-model H2 artifact audit is complete. Phase 1D is prepared but pending researcher authorization. New participants should read `docs/107_phase1c_h2_exploration_history_audit.md`, `docs/108_phase1d_flash_long_horizon_validation_plan.md`, and current `AGENTS.md`. No model/API call, Max run, or new validation stream is currently authorized.
 
 > **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
 
-> 状态：当前项目单一接手入口（2026-09-21，Phase 1C — Flash Scale-Aware Hypothesis Pilot）
+> 状态：当前项目单一接手入口（2026-09-21，Phase 1C 已完成；H2 审计完成；Phase 1D 待研究者授权）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -977,15 +977,18 @@ READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 当前 active cycle 已切换到：
 
 ```text
-Phase 1C — Flash Scale-Aware Hypothesis Pilot
+Phase 1C H2 artifact audit / Phase 1D protocol preparation
 ```
 
-正式计划与无缝接手入口：
+结果、审计和待授权计划：
 
-- `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`
-- `docs/106_phase1c_experiment_design_handoff.md`
+- `docs/104_phase1c_flash_scale_pilot_results.md`
+- `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
+- `docs/107_phase1c_h2_exploration_history_audit.md`
+- `docs/108_phase1d_flash_long_horizon_validation_plan.md`
 
-本轮只验证 scale-aware hypothesis，不是 paper-level 主实验：
+Phase 1C 只验证 scale-aware hypothesis，不是 paper-level 主实验，且已
+完成。当前没有模型/API 调用授权；不要启动 Phase 1D、Max 或新的验证流：
 
 \[
 32\ \text{fresh tasks}
@@ -1009,7 +1012,10 @@ Phase 1C 的三个观察目标：
 2. H2：exploration history 是否减少 redundant exploration；
 3. H3：这些机制是否开始改善 cumulative search cost。
 
-在任何模型调用前必须先冻结并提交 untouched 32-task public-only registry。Flash pilot 完成后 STOP 做 researcher review，不自动运行 Max。
+Phase 1D 若获授权，必须先冻结并提交新的 untouched public-only suffix
+registry，并从 Phase 1C task-32 的不可变 G/T 状态继续。当前仅保留
+`docs/108_phase1d_flash_long_horizon_validation_plan.md` 作为计划，不创建
+registry、不初始化 transport、不运行模型。
 
 # 21. 当前不要重新打开的问题
 

@@ -1,99 +1,95 @@
-# 10. Current Review Protocol — Phase 1C Flash Scale Pilot
+# 10. Current Review Protocol — Phase 1C H2 Audit / Phase 1D Pending
 
-> Status: active reviewer contract (2026-09-21)
+> Status: Phase 1C completed; H2 audit completed; Phase 1D protocol prepared
+> and pending researcher authorization (2026-09-21).
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
-> Active plan: `docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md`
+> Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
+> `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
+> Current audit/plan: `docs/107_phase1c_h2_exploration_history_audit.md`,
+> `docs/108_phase1d_flash_long_horizon_validation_plan.md`
 
-## 1. Review purpose
+## 1. Active authorization boundary
 
-The current cycle is no longer actor calibration or Phase 1B interface development.
+Phase 1C was one 32-task Flash development stream comparing persistent generic
+exploration (G) with history-conditioned exploration (T). It produced
+mechanism and descriptive behavioral evidence, not a paper-level superiority
+claim.
 
-The single review question is:
+The current cycle is a no-model post-hoc H2 audit plus preparation of a
+possible Phase 1D continuation. **No model/API calls are currently
+authorized.** Do not run Flash, Max, Phase 1D, a new task stream, or any
+additional development experiment until the researcher explicitly authorizes
+the prepared protocol.
 
-> Does a 32-task Flash longitudinal pilot show that history-derived exploratory memory
-> begins to create scale-dependent mechanism or behavioral value relative to persistent
-> generic C2 exploration?
+Do not modify the immutable Phase 1C runtime, its task population, model
+configuration, prompts, retrieval, lifecycle, comparison identity, or H2
+interpretation after the fact.
 
-This is hypothesis evidence, not a final paper experiment.
+## 2. H2 audit boundary
 
-## 2. Before calls
+The deterministic extraction utility is:
 
-Reviewer must verify:
+```text
+experiments/exploratory_memory_mvp/analyze_phase1c_h2_audit.py
+```
 
-- Phase 1B behavior is not silently retuned;
-- docs/37–38 lifecycle/init definitions are present;
-- exactly 32 fresh tasks are frozen before outcomes;
-- 8 tasks per admitted family;
-- deterministic interleaved order;
-- previous used tasks and B1-R reserve excluded;
-- no hidden placement/PDDL/outcome used;
-- G/T share replay/public initial state;
-- qwen3.8-flash is used for all model-facing roles;
-- no Max calls;
-- G has no access to H/comparison/archive;
-- T archive is populated only after actual H activation;
-- archive retrieval returns only existing archive IDs;
-- C sees only compact selected archive summaries;
-- probe budget and canonical continuation are shared;
-- registry/transition commit precedes paid calls.
+It reads only:
 
-If these fail, block before paid execution.
+```text
+artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474
+```
 
-## 3. During run
+The extraction uses the archive actually supplied to C, selected real history
+IDs, visible C outputs, B→C projection, and mechanical reconciliation/task
+artifacts. It does not inspect PDDL, hidden placement, oracle routes, target
+outcomes, or call a model. The resulting local artifact is:
 
-Do not tune.
+```text
+artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474-h2-audit-v1/extracted_cases.json
+```
 
-Semantic/model failures are evidence and stay fail-closed.
+The audited population is 30 history-available C cases: 20 CREATE and 10
+NONE. Task 1 is excluded because no prior archive was available; task 23 is
+excluded because the existing B→C firewall correctly prevented C. See
+`docs/107_phase1c_h2_exploration_history_audit.md` for the complete manual
+labels and root-cause discussion.
 
-Do not replace tasks or rerun calls for cleaner outputs.
+## 3. Current H2 conclusion
 
-Only infrastructure failures that prevent execution justify stopping.
+The audit found:
 
-## 4. After run
+* 14 `MATERIALLY_DIFFERENT` CREATE cases;
+* 5 `JUSTIFIED_RETEST` CREATE cases;
+* 1 confirmed `REDUNDANT_NEAR_DUPLICATE` CREATE case;
+* 6 `REASONABLE_SUPPRESSION`, 2 `POSSIBLE_OVER_SUPPRESSION`, and 2
+  `UNCLEAR` NONE cases.
 
-Review four things separately.
+No correctness blocker was found. The decision is
+`PROCEED_TO_LONG_HORIZON_VALIDATION`, not “H2 passed”. Occasional semantic
+near-duplication and backlog growth remain development risks to measure in a
+future frozen continuation; they must not be patched silently from this
+stream.
 
-### Performance
+## 4. Prepared Phase 1D (not authorized)
 
-Report cumulative environment actions for G/T at 8/16/24/32.
+`docs/108_phase1d_flash_long_horizon_validation_plan.md` proposes continuing
+from the immutable G/T state at task 32 and adding a fresh public-only suffix
+of 32 tasks (8 per admitted family), with checkpoints at N=40/48/56/64.
+It keeps qwen3.8-flash, the Phase 1C behavior, and the same G/T mechanical
+controls. It is a plan only: no suffix registry, transport, paid run, or
+transition commit is created by the current cycle.
 
-Do not over-interpret a single endpoint or require monotonicity.
+The eventual review must distinguish scale-positive, saturation, scale
+degradation, mechanism overproduction, and mechanism-positive/behavior-
+negative outcomes without converting development evidence into a formal
+superiority claim.
 
-### H1 — history changes exploration
+## 5. Claims and next-stage boundary
 
-Inspect H creation/retrieval/activation and whether T probe behavior increasingly differs from G.
+The project has not established general memory superiority, cross-model
+robustness, native cold-start performance, full autonomous-agent benefit, or
+cross-benchmark generality. If Phase 1D is later authorized and supports the
+mechanism, the next stages are cross-model validation, Method/Evaluation v1
+freezing, and only then fresh formal controlled evaluation.
 
-### H2 — archive suppresses redundant exploration
-
-Inspect C decisions where relevant archive history was retrieved. Distinguish reasonable
-duplicate suppression, materially different proposals, justified retests, apparent redundant
-retests and possible over-suppression.
-
-### H3 — cumulative behavior
-
-Judge whether the cumulative G/T cost trajectory gives an early scale-positive signal.
-
-## 5. Decision boundary
-
-Possible research conclusions:
-
-- behavioral + mechanism signal -> worth freezing/replicating with Max and larger protocol;
-- mechanism signal only -> likely worth extending horizon before rejection;
-- no meaningful mechanism signal -> review hypothesis/system before spending on Max;
-- infrastructure/scientific corruption -> result invalid, fix correctness only.
-
-Do not automatically start Max.
-
-## 6. Claims still forbidden
-
-A single 32-task Flash stream does not establish:
-
-- general memory superiority;
-- paper-level statistical significance;
-- cross-model robustness;
-- native cold-start success;
-- full autonomous-agent benefit;
-- cross-benchmark generality.
-
-The cycle exists only to decide whether the scale-aware hypothesis deserves the next level of
-experimental investment.
+No Max call is authorized in the current state.
