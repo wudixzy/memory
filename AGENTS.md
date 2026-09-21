@@ -24,22 +24,20 @@ Read first:
 
 ## Current Phase 1D status
 
-Phase 1C is complete. Its immutable runtime remains development evidence only;
-it is not a paper-level superiority result.
+Phase 1C and the authorized Phase 1D Flash continuation are complete. Both
+remain development/validation evidence only; neither is a paper-level
+superiority result. The Phase 1D runtime and interpretation are recorded in
+`docs/110_phase1d_flash_long_horizon_results.md` and
+`docs/111_phase1d_flash_long_horizon_semantic_review.md`.
 
-The no-model H2 artifact audit is complete in
-`docs/107_phase1c_h2_exploration_history_audit.md`. The researcher has
-authorized the Phase 1D continuation described in
-`docs/108_phase1d_flash_long_horizon_validation_plan.md`.
+The Phase 1D run used the immutable transition `ac0bb2b`, continued from the
+validated Phase 1C M32 endpoint, and completed one 32-task G/T suffix. No
+retry, task replacement, Max call, or method/lifecycle change occurred. The
+current recommendation is cross-model validation, pending explicit researcher
+authorization. Max remains unauthorized.
 
-Before the immutable transition commit is pushed, only public census,
-continuation-state validation, registry construction, tests and prepare-mode
-checks are allowed. After that transition, exactly one 32-task G/T Flash
-suffix may run. No Max call, second stream, retry, task replacement, or
-method/lifecycle change is authorized.
-
-Do not modify the saved Phase 1C runtime or silently add lifecycle/dedup/
-retrieval fixes based on its outcomes.
+Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
+lifecycle/dedup/retrieval fixes based on their outcomes.
 
 The protocol and execution instructions below are the frozen Phase 1C
 reference, not current execution authorization.
@@ -281,10 +279,11 @@ Scientific/semantic failures remain evidence and must be preserved fail-closed.
 
 ## Phase 1D execution boundary
 
-Phase 1D must continue from the exact Phase 1C M32 endpoint and use the
-versioned suffix runner/registry. It must report cumulative N=40/48/56/64 and
-the marginal 33–64 result separately, preserve all raw failure artifacts, and
-stop for researcher review after the result/semantic-review documents.
+Phase 1D continued from the exact Phase 1C M32 endpoint using the versioned
+suffix runner/registry. It reported cumulative N=40/48/56/64 and the
+marginal 33–64 result separately, preserved raw failure artifacts, and stopped
+after the result/semantic-review documents. Do not rerun it or extend the
+development stream without a new researcher authorization.
 
 ## After Flash run (historical Phase 1C completed)
 
@@ -292,11 +291,13 @@ Completed artifacts:
 
 - docs/104_phase1c_flash_scale_pilot_results.md
 - docs/105_phase1c_flash_scale_pilot_semantic_review.md
+- docs/110_phase1d_flash_long_horizon_results.md
+- docs/111_phase1d_flash_long_horizon_semantic_review.md
 
 Stop for researcher review.
 
 Do not automatically launch Max.
 
 A later Max replication is not authorized by this handoff. The current
-post-pilot decision is to review the H2 audit and Phase 1D plan first; no
-additional model call should be made without explicit researcher approval.
+post-Phase-1D recommendation is cross-model validation, but no additional
+model call should be made without explicit researcher approval.

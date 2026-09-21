@@ -1,7 +1,8 @@
 # 10. Current Review Protocol — Phase 1D Flash Long-Horizon Validation
 
-> Status: Phase 1C completed; H2 audit completed; Phase 1D authorized and
-> transition-frozen before execution (2026-09-21).
+> Status: Phase 1C and Phase 1D completed; Phase 1D semantic review completed
+> (2026-09-21). Current recommendation: cross-model validation, pending
+> explicit researcher authorization; Max remains unauthorized.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
@@ -15,11 +16,11 @@ exploration (G) with history-conditioned exploration (T). It produced
 mechanism and descriptive behavioral evidence, not a paper-level superiority
 claim.
 
-The current cycle is the researcher-authorized Phase 1D continuation. Before
-the immutable transition commit is pushed, no model/API calls are allowed.
-After that commit, only one 32-task G/T Flash suffix (64 episodes) may run.
-Max, a new task stream, a second model, retries, and additional development
-experiments remain unauthorized.
+The completed Phase 1D cycle was the researcher-authorized continuation from
+the exact Phase 1C M32 endpoint. It ran one 32-task G/T Flash suffix (64
+episodes) after immutable transition commit `ac0bb2b`. No Max call, retry,
+task replacement, or additional stream was run. The result is development
+evidence only; see docs/110 and docs/111.
 
 Do not modify the immutable Phase 1C runtime, its task population, model
 configuration, prompts, retrieval, lifecycle, comparison identity, or H2
@@ -73,12 +74,11 @@ stream.
 ## 4. Phase 1D continuation
 
 `docs/108_phase1d_flash_long_horizon_validation_plan.md` and
-`docs/109_phase1d_flash_long_horizon_transition.md` freeze continuation from
+`docs/109_phase1d_flash_long_horizon_transition.md` froze continuation from
 the immutable G/T state at task 32, with a public-only suffix of 32 tasks
-(8 per admitted family), checkpoints at N=40/48/56/64. It keeps
+(8 per admitted family), checkpoints at N=40/48/56/64. It kept
 qwen3.8-flash, the Phase 1C behavior and the same G/T mechanical controls.
-The suffix run is still pending execution in this cycle; no Max call is
-authorized.
+The completed result and semantic review are in docs/110 and docs/111.
 
 The eventual review must distinguish scale-positive, saturation, scale
 degradation, mechanism overproduction, and mechanism-positive/behavior-
@@ -93,4 +93,5 @@ cross-benchmark generality. If Phase 1D is later authorized and supports the
 mechanism, the next stages are cross-model validation, Method/Evaluation v1
 freezing, and only then fresh formal controlled evaluation.
 
-No Max call is authorized in the current state.
+No Max call is authorized in the current state. A separate researcher
+decision is required before cross-model validation.
