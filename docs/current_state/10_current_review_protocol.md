@@ -1,7 +1,7 @@
-# 10. Current Review Protocol — Phase 1C H2 Audit / Phase 1D Pending
+# 10. Current Review Protocol — Phase 1D Flash Long-Horizon Validation
 
-> Status: Phase 1C completed; H2 audit completed; Phase 1D protocol prepared
-> and pending researcher authorization (2026-09-21).
+> Status: Phase 1C completed; H2 audit completed; Phase 1D authorized and
+> transition-frozen before execution (2026-09-21).
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
@@ -15,11 +15,11 @@ exploration (G) with history-conditioned exploration (T). It produced
 mechanism and descriptive behavioral evidence, not a paper-level superiority
 claim.
 
-The current cycle is a no-model post-hoc H2 audit plus preparation of a
-possible Phase 1D continuation. **No model/API calls are currently
-authorized.** Do not run Flash, Max, Phase 1D, a new task stream, or any
-additional development experiment until the researcher explicitly authorizes
-the prepared protocol.
+The current cycle is the researcher-authorized Phase 1D continuation. Before
+the immutable transition commit is pushed, no model/API calls are allowed.
+After that commit, only one 32-task G/T Flash suffix (64 episodes) may run.
+Max, a new task stream, a second model, retries, and additional development
+experiments remain unauthorized.
 
 Do not modify the immutable Phase 1C runtime, its task population, model
 configuration, prompts, retrieval, lifecycle, comparison identity, or H2
@@ -70,14 +70,15 @@ near-duplication and backlog growth remain development risks to measure in a
 future frozen continuation; they must not be patched silently from this
 stream.
 
-## 4. Prepared Phase 1D (not authorized)
+## 4. Phase 1D continuation
 
-`docs/108_phase1d_flash_long_horizon_validation_plan.md` proposes continuing
-from the immutable G/T state at task 32 and adding a fresh public-only suffix
-of 32 tasks (8 per admitted family), with checkpoints at N=40/48/56/64.
-It keeps qwen3.8-flash, the Phase 1C behavior, and the same G/T mechanical
-controls. It is a plan only: no suffix registry, transport, paid run, or
-transition commit is created by the current cycle.
+`docs/108_phase1d_flash_long_horizon_validation_plan.md` and
+`docs/109_phase1d_flash_long_horizon_transition.md` freeze continuation from
+the immutable G/T state at task 32, with a public-only suffix of 32 tasks
+(8 per admitted family), checkpoints at N=40/48/56/64. It keeps
+qwen3.8-flash, the Phase 1C behavior and the same G/T mechanical controls.
+The suffix run is still pending execution in this cycle; no Max call is
+authorized.
 
 The eventual review must distinguish scale-positive, saturation, scale
 degradation, mechanism overproduction, and mechanism-positive/behavior-

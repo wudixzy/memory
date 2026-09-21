@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1C H2 audit and Phase 1D protocol preparation**.
+Current cycle: **Phase 1D Flash Long-Horizon Validation**.
 
 Frozen Phase 1B baseline:
 
@@ -22,19 +22,24 @@ Read first:
 8. docs/current_state/02_method_architecture.md
 9. docs/current_state/03_component_contracts.md
 
-## Current post-pilot status
+## Current Phase 1D status
 
 Phase 1C is complete. Its immutable runtime remains development evidence only;
 it is not a paper-level superiority result.
 
 The no-model H2 artifact audit is complete in
-`docs/107_phase1c_h2_exploration_history_audit.md`. The Phase 1D continuation
-protocol is prepared in `docs/108_phase1d_flash_long_horizon_validation_plan.md`
-and is pending explicit researcher authorization.
+`docs/107_phase1c_h2_exploration_history_audit.md`. The researcher has
+authorized the Phase 1D continuation described in
+`docs/108_phase1d_flash_long_horizon_validation_plan.md`.
 
-No model/API calls are currently authorized. Do not run Phase 1D, Max, or any
-new validation stream in the current cycle. Do not modify the saved Phase 1C
-runtime or silently add lifecycle/dedup/retrieval fixes based on its outcomes.
+Before the immutable transition commit is pushed, only public census,
+continuation-state validation, registry construction, tests and prepare-mode
+checks are allowed. After that transition, exactly one 32-task G/T Flash
+suffix may run. No Max call, second stream, retry, task replacement, or
+method/lifecycle change is authorized.
+
+Do not modify the saved Phase 1C runtime or silently add lifecycle/dedup/
+retrieval fixes based on its outcomes.
 
 The protocol and execution instructions below are the frozen Phase 1C
 reference, not current execution authorization.
@@ -274,7 +279,14 @@ No:
 
 Scientific/semantic failures remain evidence and must be preserved fail-closed.
 
-## After Flash run (completed)
+## Phase 1D execution boundary
+
+Phase 1D must continue from the exact Phase 1C M32 endpoint and use the
+versioned suffix runner/registry. It must report cumulative N=40/48/56/64 and
+the marginal 33–64 result separately, preserve all raw failure artifacts, and
+stop for researcher review after the result/semantic-review documents.
+
+## After Flash run (historical Phase 1C completed)
 
 Completed artifacts:
 
