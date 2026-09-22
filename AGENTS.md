@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1F-MA-v2 — 12-task matched-adaptation validation**.
+Current cycle: **Phase 1F-MA-v2 complete — researcher review pending**.
 
 Frozen Phase 1B baseline:
 
@@ -12,22 +12,24 @@ Frozen Phase 1B baseline:
 
 Read first:
 
-1. docs/124_phase1f_ma_v2_transition.md
-2. docs/123_phase1f_population_gate_blocker.md (historical 16-task blocker)
-3. docs/122_phase1f_matched_adaptation_execution_plan.md
-4. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
-5. docs/121_phase1f_matched_adaptation_validation_plan.md
-6. docs/118_phase1e_max_completed_results.md
-7. docs/119_phase1e_cross_model_final_review.md
-8. docs/110_phase1d_flash_long_horizon_results.md
-9. docs/111_phase1d_flash_long_horizon_semantic_review.md
-10. docs/107_phase1c_h2_exploration_history_audit.md
-11. docs/108_phase1d_flash_long_horizon_validation_plan.md
-12. docs/38_exploratory_memory_lifecycle.md
-13. docs/37_method_structural_initialization.md
-14. docs/101_phase1b_final_freeze_memo.md
-15. docs/current_state/02_method_architecture.md
-16. docs/current_state/03_component_contracts.md
+1. docs/126_phase1f_ma_v2_semantic_review.md
+2. docs/125_phase1f_ma_v2_results.md
+3. docs/124_phase1f_ma_v2_transition.md
+4. docs/123_phase1f_population_gate_blocker.md (historical 16-task blocker)
+5. docs/122_phase1f_matched_adaptation_execution_plan.md
+6. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
+7. docs/121_phase1f_matched_adaptation_validation_plan.md
+8. docs/118_phase1e_max_completed_results.md
+9. docs/119_phase1e_cross_model_final_review.md
+10. docs/110_phase1d_flash_long_horizon_results.md
+11. docs/111_phase1d_flash_long_horizon_semantic_review.md
+12. docs/107_phase1c_h2_exploration_history_audit.md
+13. docs/108_phase1d_flash_long_horizon_validation_plan.md
+14. docs/38_exploratory_memory_lifecycle.md
+15. docs/37_method_structural_initialization.md
+16. docs/101_phase1b_final_freeze_memo.md
+17. docs/current_state/02_method_architecture.md
+18. docs/current_state/03_component_contracts.md
 
 ## Current Phase 1F-MA-v2 status
 
@@ -40,12 +42,17 @@ other committed protected IDs. They are permanently development-only and are
 not a formal reserve. Future formal evaluation requires separate admission of
 a new untouched population/split.
 
-The no-model T-Hybrid runner, registry, carrier public-reset identity manifest,
-analysis, and tests are frozen in `docs/124`. Before the immutable transition
-commit is pushed, no model/API calls are authorized. After it is pushed, the
-only authorized experiment is exactly 12 tasks × G/T0/T1 × Flash/Max = 72
-episodes, with no retry, replacement, tuning, or additional run. Formal
-evaluation and Method/Evaluation v1 freeze remain unauthorized.
+The T-Hybrid runner, registry, carrier public-reset identity manifest,
+analysis, and tests were frozen in `docs/124`; the authorized 12 tasks ×
+G/T0/T1 × Flash/Max run completed as 72 episodes. Results and semantic review
+are in `docs/125` and `docs/126`. The primary interpretation is
+`MEMORY_EVOLUTION_REGIME_REMAINS`: T1 had modestly fewer actions than T0 for
+both models, but the Max residual against G and model/trajectory-dependent
+A/H/comparison evolution remain. No further model/API call is authorized
+automatically. Do not rerun, tune, create another development stream, freeze
+Method/Evaluation v1, or begin formal evaluation without researcher review.
+Formal evaluation requires separate admission of a new untouched
+population/split; the current residual is not a formal reserve.
 
 ## Historical Phase 1F attribution status
 
@@ -60,8 +67,9 @@ and `docs/121_phase1f_matched_adaptation_validation_plan.md`.
 Phase 1F attribution and provenance analysis is complete. The original
 matched-adaptation proposal is recorded in docs/120–121; its calibration
 block was superseded by the no-model compatibility check in docs/122. The
-population gate then failed as recorded in docs/123. Formal evaluation and
-Method/Evaluation v1 freeze remain unauthorized.
+population gate then failed as recorded in docs/123. Phase 1F-MA-v2 later
+completed; see docs/125–126. Formal evaluation and Method/Evaluation v1 freeze
+remain unauthorized pending researcher review.
 
 ## Historical Phase 1E status
 
@@ -79,18 +87,18 @@ in `docs/116_phase1e_max_prefix_diagnostic.md`,
 `docs/117_phase1e_max_resume_transition.md`,
 `docs/118_phase1e_max_completed_results.md`, and
 `docs/119_phase1e_cross_model_final_review.md`. Phase 1E itself is closed:
-never rerun or replace its tasks. Current model-call authorization is limited
-to the six Phase 1F-MA-v2 streams frozen in docs/124, after that transition is
-pushed. No additional development stream, method modification, Method or
-Evaluation v1 freeze, or formal experiment is authorized.
+never rerun or replace its tasks. The six Phase 1F-MA-v2 streams frozen in
+docs/124 are now complete; see docs/125–126. No additional model call,
+development stream, method modification, Method or Evaluation v1 freeze, or
+formal experiment is authorized automatically.
 
 Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
 lifecycle/dedup/retrieval fixes based on their outcomes.
 
 The Phase 1C protocol and instructions below are historical frozen references,
-not current execution instructions. The only current execution authorization
-is the Phase 1F-MA-v2 scope in `docs/124`, conditional on its immutable
-transition commit being pushed.
+not current execution instructions. Phase 1F-MA-v2 in `docs/124` is also
+complete; consult docs/125–126 for the current evidence boundary and await
+researcher review before any further experiment.
 
 ## Historical Phase 1C protocol (completed; frozen reference)
 

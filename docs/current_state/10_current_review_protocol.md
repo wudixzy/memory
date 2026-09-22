@@ -1,32 +1,32 @@
-# 10. Current Review Protocol — Phase 1F-MA-v2 Matched Adaptation
+# 10. Current Review Protocol — Phase 1F-MA-v2 Results Review
 
-> Status: Phase 1C/1D and segmented Phase 1E are complete; Phase 1F
-> attribution/provenance review is complete. The original 16-task proposal
-> remains historically blocked (docs/123). The researcher separately
-> authorized Phase 1F-MA-v2 with 12 development-only tasks, three per family.
-> No model/API call occurred before the immutable transition. After its commit
-> is pushed, only the six frozen streams (72 episodes) are authorized. Formal
-> evaluation remains unauthorized, and this residual is not a formal reserve.
+> Status: Phase 1C/1D Flash, segmented Phase 1E Max, Phase 1F attribution,
+> and Phase 1F-MA-v2 are complete development evidence. Phase 1F-MA-v2 ran
+> exactly 12 development-only tasks across G/T0/T1 and Flash/Max (72 episodes).
+> Its primary interpretation is `MEMORY_EVOLUTION_REGIME_REMAINS`: T1−T0 was
+> modestly negative for both models, but a residual Max T1−G gap and
+> model/trajectory-dependent memory-state evolution remain. See docs/125–126.
+> No model/API call is authorized automatically. Formal evaluation remains
+> unauthorized; this residual is not a formal reserve.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
-> Current audit/plan: `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`,
+> Current audit/plan/results: `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`,
 > `docs/121_phase1f_matched_adaptation_validation_plan.md`,
 > `docs/122_phase1f_matched_adaptation_execution_plan.md`, historical blocker
-> `docs/123_phase1f_population_gate_blocker.md`, and active transition
-> `docs/124_phase1f_ma_v2_transition.md`.
+> `docs/123_phase1f_population_gate_blocker.md`, transition
+> `docs/124_phase1f_ma_v2_transition.md`, and completed results/review in
+> docs/125–126.
 
 ## 1. Active authorization boundary
 
 The Phase 1E resume is complete. The original 1–61 prefix and resumed 62–64
 segment were mechanically reconstructed and validated as one registered
-1–64 stream, while retaining segmented provenance. Do not rerun or replace any
-task. Phase 1F-MA-v2 is the active bounded development cycle. Before the
-immutable transition commit is pushed, no model/API calls are authorized.
-After it is pushed, the only authorized calls are the 12 frozen tasks across
-G/T0/T1 and Flash/Max (72 episodes). No retries, replacements, tuning,
-additional stream, Method/Evaluation v1 freeze, or formal evaluation are
-authorized by this transition.
+1–64 stream, while retaining segmented provenance. Phase 1F-MA-v2 also
+completed after its immutable transition. Do not rerun or replace its tasks.
+The authorization for its six streams (72 episodes) is spent. No additional
+model/API call, tuning, development stream, Method/Evaluation v1 freeze, or
+formal evaluation is authorized automatically. Await researcher review.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced
@@ -118,26 +118,27 @@ docs/118–121. These historical Phase 1E/attribution results authorize no
 reruns. The separate current Phase 1F-MA-v2 scope is defined only by docs/124;
 formal experiments remain unauthorized.
 
-## 6. Phase 1F status and active v2 boundary
+## 6. Phase 1F status and completed v2 boundary
 
 The deterministic aligned-artifact analysis is implemented at
 `experiments/exploratory_memory_mvp/analyze_cross_model_attribution.py`.
 Findings and protocol-development provenance are in
 `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`. The
-active one-dimension, symmetric T-no-H-to-generic-C2 validation is the new
-12-task Phase 1F-MA-v2 transition in
-`docs/124_phase1f_ma_v2_transition.md`; docs/121 remains its earlier proposal.
+one-dimension, symmetric T-no-H-to-generic-C2 validation is complete. Its
+transition, results, and review are in docs/124–126; docs/121 remains its
+earlier proposal.
 
 Current boundary:
 
 * Phase 1E completed; no Phase 1E result/runtime is to be rewritten.
 * The original Phase 1F-MA 16-task gate failure remains historical; no result
   from it exists.
-* Phase 1F-MA-v2 population and code are frozen in docs/124 after a fresh
-  researcher authorization. The selected 12 tasks are development-only and
-  confirmatory-ineligible; no formal reserve is claimed.
-* No model/API call occurred before the immutable transition. Once that commit
-  is pushed, exactly the six frozen 12-task streams are authorized.
-* Do not tune, retry, replace tasks, create another development run, freeze
-  Method v1, or begin formal evaluation. Future formal evaluation requires a
-  separately admitted untouched population/split.
+* Phase 1F-MA-v2 completed on its frozen 12-task development-only population;
+  all six streams are confirmatory-ineligible and no formal reserve is
+  claimed.
+* Its development interpretation is `MEMORY_EVOLUTION_REGIME_REMAINS`; T1
+  reduced T0 actions by 11 (Flash) and 4 (Max), but Max T1 remained 33 actions
+  above G, with distinct comparison/H evolution. See docs/125–126.
+* Do not tune, retry, replace tasks, or create another development run.
+  Method v1 freeze and formal evaluation await researcher review. Formal
+  evaluation requires a separately admitted untouched population/split.
