@@ -1,17 +1,19 @@
-# 10. Current Review Protocol — Phase 1F Attribution Review
+# 10. Current Review Protocol — Phase 1F-MA Population Gate Blocker
 
 > Status: Phase 1C, Phase 1D, and segmented Phase 1E are complete. Phase 1F
-> attribution/provenance analysis is complete and a bounded matched-adaptation
-> plan is prepared. Phase 1E remains development evidence classified
-> `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`, not a confirmatory or paper-level
-> result. No model/API calls are currently authorized.
+> attribution/provenance analysis is complete. The researcher authorized
+> preparation of one T no-H composition validation, but the no-model fresh
+> population/formal-reserve gate failed (eligible remainder 5/12/3/4; no
+> independent reserve registered). No tasks were selected, no transition was
+> created, and no model/API calls are currently authorized. No-model runner,
+> analyzer, and fake-transport tests were prepared without opening that gate.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
-> Current audit/plan: `docs/107_phase1c_h2_exploration_history_audit.md`,
-> `docs/108_phase1d_flash_long_horizon_validation_plan.md`; Phase 1E review:
-> `docs/116_phase1e_max_prefix_diagnostic.md`, `docs/117–119`, and current
-> Phase 1F docs `docs/120–121`.
+> Current audit/plan: `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`,
+> `docs/121_phase1f_matched_adaptation_validation_plan.md`, and
+> `docs/122_phase1f_matched_adaptation_execution_plan.md`; population gate
+> outcome: `docs/123_phase1f_population_gate_blocker.md`.
 
 ## 1. Active authorization boundary
 
@@ -20,8 +22,9 @@ segment were mechanically reconstructed and validated as one registered
 1–64 stream, while retaining segmented provenance. Do not rerun or replace any
 task. Phase 1F audit/plan is complete. No further model/API calls, method
 changes, matched-adaptation runs, or formal evaluation are currently
-authorized; await researcher review of docs/120–121. The matched-adaptation
-plan is a proposal only, not execution authorization.
+authorized; the population gate failed (docs/123), so no transition or run
+exists. Code-only T-Hybrid scaffolding is not execution authorization. Do not
+resume without a defensible new population boundary.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced
@@ -126,8 +129,9 @@ Current boundary:
 
 * Phase 1E completed; no Phase 1E result/runtime is to be rewritten.
 * Phase 1F attribution/provenance audit completed with no model/API calls.
-* Matched-adaptation protocol prepared, pending explicit researcher
-  authorization; it has not been run or transitioned.
+* Matched-adaptation execution plan refined to remove paid calibration; the
+  public-population gate failed before task selection, so no transition/run
+  exists.
 * Formal evaluation and Method/Evaluation v1 freeze are not authorized.
-* No Flash/Max calls, method tuning, or new development stream may start under
-  this handoff alone.
+* No Flash/Max calls, method tuning, population relaxation, or new development
+  stream may start under this handoff alone.

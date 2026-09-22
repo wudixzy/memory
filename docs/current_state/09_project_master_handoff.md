@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-22 active status:** Phase 1C/1D Flash validation and Phase 1E Max cross-model validation are complete development evidence. Phase 1E was completed as a segmented stream: original tasks 1–61 plus registered tasks 62–64 resumed from verified M61 states after the temporary-storage interruption. Its interpretation is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; the Phase 1F no-model attribution/provenance audit and bounded matched-adaptation plan are in docs/120–121. Current leading attribution is `MIXED`; Phase 1F plan awaits researcher authorization. No model/API calls, method changes, Method/Evaluation v1 freeze, or formal experiment are currently authorized. Read docs/118–121 and current `AGENTS.md`.
+> **2026-09-22 active status:** Phase 1C/1D Flash validation and segmented Phase 1E Max validation are complete development evidence. Phase 1E is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; Phase 1F attribution/provenance audit is complete with leading attribution `MIXED`. The researcher authorized preparation of one T no-H composition validation, but its public population gate failed: only 5/12/3/4 fresh eligible tasks remain by family and no defensible untouched formal-reserve boundary is registered. No Phase 1F tasks were selected, no transition was created, and no model/API calls are authorized. Code-only T-Hybrid scaffolding was prepared and tested but does not open the gate. See docs/122–123 and current `AGENTS.md`; formal evaluation and Method/Evaluation v1 freeze remain unauthorized.
 
 > **Historical 2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. The Phase 1A controlled-targeting protocol described in the historical sections below is retained for context; it is not the active cycle. The historical Gate B1/B1-R autonomous-actor path is evidence only.
 
-> 状态：当前项目单一接手入口（2026-09-22，Phase 1F attribution/provenance audit 已完成，matched-adaptation plan 待 review；当前无模型调用授权）
+> 状态：当前项目单一接手入口（2026-09-22，Phase 1F-MA 人口门槛阻塞；当前无模型调用授权）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -974,10 +974,10 @@ READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 - `docs/100_phase1b_finalization_plan_and_changes.md`
 - `docs/101_phase1b_final_freeze_memo.md`
 
-当前 active cycle 已完成：
+当前阶段：
 
 ```text
-Phase 1C H2 artifact audit / Phase 1D Flash long-horizon validation
+Phase 1F-MA T-Hybrid no-model preparation；population gate blocked
 ```
 
 结果、审计和待授权计划：
@@ -988,6 +988,10 @@ Phase 1C H2 artifact audit / Phase 1D Flash long-horizon validation
 - `docs/108_phase1d_flash_long_horizon_validation_plan.md`
 - `docs/110_phase1d_flash_long_horizon_results.md`
 - `docs/111_phase1d_flash_long_horizon_semantic_review.md`
+- `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`
+- `docs/121_phase1f_matched_adaptation_validation_plan.md`
+- `docs/122_phase1f_matched_adaptation_execution_plan.md`
+- `docs/123_phase1f_population_gate_blocker.md`
 
 Phase 1C/Phase 1D 只验证 scale-aware hypothesis，不是 paper-level 主实验，
 且均已完成。Phase 1D 从 Phase 1C task-32 的 immutable G/T state 继续，运行
@@ -1024,11 +1028,12 @@ Phase 1E 的原始 interruption、prefix audit、resume transition、完整结�
 `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`：Max 的 overall T−G acquisition-action
 delta 为 +47，主要来自 no-H episodes；H-active 子集整体近中性。Phase 1F
 基于冻结 artifacts 和历史变更记录完成了 no-model attribution/provenance audit，
-leading attribution 为 `MIXED`，并准备了一项只改变 T no-H composition、且对
-Flash/Max 对称应用的 matched-adaptation plan（docs/120–121）。这些是单一
-dependent stream 的描述性证据，不是因果估计。当前没有模型/API 调用授权；
-matched-adaptation plan、formal evaluation 和 Method/Evaluation v1 freeze 均待
-researcher review/explicit authorization。
+leading attribution 为 `MIXED`。研究者之后授权准备只改变 T no-H composition、
+对 Flash/Max 对称应用的验证；但冻结人口门槛失败（eligible remainder 为
+5/12/3/4，缺少独立 formal reserve）。因此没有选 task、没有 transition，也没有
+执行模型调用。继续需要研究者确定新的开发/保留人口边界；不得缩小样本、借用
+B1-R 或动用未来正式评估数据。Formal evaluation 和 Method/Evaluation v1
+freeze 仍未授权。
 
 # 21. 当前不要重新打开的问题
 
@@ -1114,4 +1119,4 @@ researcher review/explicit authorization。
 
 # 24. 一句话当前状态
 
-> Phase 1B 的最小 longitudinal loop 与 scientific boundaries 已完成并冻结；当前第一次直接测试 scale-aware hypothesis：随着 history 与 exploration archive 积累，Targeted exploration 是否开始相对 persistent generic exploration 产生机制和累计行为价值。
+> Phase 1C/1D/1E validation 与 Phase 1F attribution 已完成；Phase 1F-MA 的 no-model 准备发现 fresh population/formal-reserve gate 不满足。等待研究者重新指定可辩护的人口边界；未进行 T-Hybrid 模型实验或正式评估。

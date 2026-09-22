@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1F cross-model attribution and matched-adaptation plan — review required**.
+Current cycle: **Phase 1F-MA T-Hybrid no-model preparation — population gate blocked**.
 
 Frozen Phase 1B baseline:
 
@@ -12,21 +12,41 @@ Frozen Phase 1B baseline:
 
 Read first:
 
-1. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
-2. docs/121_phase1f_matched_adaptation_validation_plan.md
-3. docs/118_phase1e_max_completed_results.md
-4. docs/119_phase1e_cross_model_final_review.md
-5. docs/110_phase1d_flash_long_horizon_results.md
-6. docs/111_phase1d_flash_long_horizon_semantic_review.md
-7. docs/107_phase1c_h2_exploration_history_audit.md
-8. docs/108_phase1d_flash_long_horizon_validation_plan.md
-9. docs/38_exploratory_memory_lifecycle.md
-10. docs/37_method_structural_initialization.md
-11. docs/101_phase1b_final_freeze_memo.md
-12. docs/current_state/02_method_architecture.md
-13. docs/current_state/03_component_contracts.md
+1. docs/123_phase1f_population_gate_blocker.md
+2. docs/122_phase1f_matched_adaptation_execution_plan.md
+3. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
+4. docs/121_phase1f_matched_adaptation_validation_plan.md
+5. docs/118_phase1e_max_completed_results.md
+6. docs/119_phase1e_cross_model_final_review.md
+7. docs/110_phase1d_flash_long_horizon_results.md
+8. docs/111_phase1d_flash_long_horizon_semantic_review.md
+9. docs/107_phase1c_h2_exploration_history_audit.md
+10. docs/108_phase1d_flash_long_horizon_validation_plan.md
+11. docs/38_exploratory_memory_lifecycle.md
+12. docs/37_method_structural_initialization.md
+13. docs/101_phase1b_final_freeze_memo.md
+14. docs/current_state/02_method_architecture.md
+15. docs/current_state/03_component_contracts.md
 
-## Current Phase 1F status
+## Current Phase 1F-MA status
+
+Researcher-authorized preparation proposed one symmetric T no-H composition
+adaptation across Flash and Max. The no-model public population audit is
+recorded in `docs/123_phase1f_population_gate_blocker.md`: after frozen
+historical/protected exclusions, the eligible `valid_unseen` remainder is
+5/12/3/4 across simple/clean/cool/heat, and no distinct formal-reserve
+manifest/split is available locally. The required four-per-family population
+and development/formal separation therefore fail.
+
+No Phase 1F task was selected and no immutable experiment transition was
+created. Code-only T-Hybrid runner/analyzer scaffolding and fake-transport tests
+were prepared, but the hard population gate remains closed and **no model/API
+calls are authorized**. Do not shrink the population, borrow B1-R, relabel the
+residual as formal reserve, or run any of the six streams. Execution requires a
+newly established public development population and untouched formal-reserve
+boundary plus a fresh researcher decision.
+
+## Historical Phase 1F attribution status
 
 Phase 1E is complete development evidence. Its cross-model behavioral value
 did not replicate: Flash ended at `Delta(T-G)=-92`, while Max ended at `+47`
@@ -36,11 +56,11 @@ The Phase 1F artifact/provenance audit and a bounded matched-adaptation plan
 are recorded in `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`
 and `docs/121_phase1f_matched_adaptation_validation_plan.md`.
 
-**No model/API calls are currently authorized.** The Phase 1F matched-
-adaptation plan is pending researcher review; formal evaluation and Method /
-Evaluation v1 freeze are not authorized. Do not launch the planned calibration
-or held-out stream, call Flash or Max, or change the method without explicit
-researcher authorization.
+Phase 1F attribution and provenance analysis is complete. The original
+matched-adaptation proposal is recorded in docs/120–121; its calibration
+block was superseded by the no-model compatibility check in docs/122. The
+population gate then failed as recorded in docs/123. Formal evaluation and
+Method/Evaluation v1 freeze remain unauthorized.
 
 ## Historical Phase 1E status
 
