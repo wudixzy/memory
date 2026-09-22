@@ -1,0 +1,1376 @@
+{
+  "excluded_unique_count": 130,
+  "exclusions_sha256": "3e00dcd05770551183df56f75be2b73934771ffdbce8e55b6256b77201611b3a",
+  "historical_or_protected_prior_count": 98,
+  "phase1d_development_count": 32,
+  "phase1e_reused_count": 64,
+  "records": [
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-AlarmClock-None-DeskLamp-314/trial_T20190908_042426_942777"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Book-None-DeskLamp-317/trial_T20190909_201143_217673"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-CD-None-DeskLamp-317/trial_T20190908_032827_984500"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Newspaper-None-DeskLamp-216/trial_T20190908_143004_004127"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Newspaper-None-DeskLamp-218/trial_T20190909_045059_467374"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Pencil-None-DeskLamp-320/trial_T20190908_143748_669974"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Pillow-None-DeskLamp-216/trial_T20190907_220638_188496"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "look_at_obj_in_light-Plate-None-DeskLamp-218/trial_T20190907_212525_656549"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1_source_tasks.json"
+      ],
+      "task_id": "pick_and_place_simple-AlarmClock-None-Desk-314/trial_T20190908_185938_027368"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042933_874605"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_calibration_registry.json",
+        "phase1_p3_missing_cell_tasks.json",
+        "phase1_paired_actor_stack_tasks.json",
+        "phase1_registered_targets.json",
+        "transfer_pairs.json"
+      ],
+      "task_id": "pick_and_place_simple-Laptop-None-Desk-306/trial_T20190909_075009_810389"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Mug-None-Desk-308/trial_T20190908_125200_737896"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_and_place_simple-Mug-None-Desk-308/trial_T20190909_203041_433487"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_121952_610012"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122024_052056"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1_source_tasks.json"
+      ],
+      "task_id": "pick_and_place_simple-Pencil-None-Shelf-310/trial_T20190908_023553_529151"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190906_184021_215264"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1_source_tasks.json"
+      ],
+      "task_id": "pick_and_place_simple-Plate-None-Dresser-218/trial_T20190907_013555_841038"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191429_743650"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021650_880235"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021728_339782"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1_source_tasks.json",
+        "transfer_pairs.json"
+      ],
+      "task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110224_056978"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "cases.json",
+        "phase1_registered_targets.json",
+        "phase1_source_tasks.json"
+      ],
+      "task_id": "pick_and_place_simple-SoapBottle-None-Cabinet-417/trial_T20190910_084726_610116"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004351_281384"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json",
+        "transfer_pairs.json"
+      ],
+      "task_id": "pick_and_place_simple-SprayBottle-None-Toilet-426/trial_T20190908_155225_439006"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205204_244321"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Apple-None-Fridge-27/trial_T20190906_220808_492885"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "transfer_pairs.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Apple-None-Microwave-14/trial_T20190909_120203_117379"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cup-None-Shelf-20/trial_T20190909_150437_976767"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-DishSponge-None-Cabinet-414/trial_T20190909_061502_436342"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-DishSponge-None-Cart-430/trial_T20190906_233458_108018"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-DishSponge-None-Toilet-427/trial_T20190908_234203_467365"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120632_691361"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110445_675754"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110531_148235"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Knife-None-DiningTable-26/trial_T20190908_133611_882723"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190909_100824_609831"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221355_558505"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032518_891433"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213356_017769"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_paired_actor_stack_tasks.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-428/trial_T20190908_154959_290951"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074045_109439"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080800_275989"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080825_222432"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091747_866951"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091811_414150"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-15/trial_T20190909_085448_256298"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-7/trial_T20190909_021904_818116"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Cup-None-Microwave-30/trial_T20190909_073451_112369"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173120_648218"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_123133_763972"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-DiningTable-21/trial_T20190909_045111_863875"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_121559_082363"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_121710_650938"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_paired_actor_stack_tasks.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153036_598316"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_153111_234827"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_paired_actor_stack_tasks.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Mug-None-Shelf-1/trial_T20190908_073555_430020"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Pot-None-Shelf-1/trial_T20190906_234856_560153"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033157_424297"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033228_194678"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102608_318800"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102710_795182"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_cool_then_place_in_recep-WineBottle-None-Cabinet-17/trial_T20190907_064240_113879"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182259_116320"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_p3_missing_cell_tasks.json",
+        "phase1_paired_actor_stack_tasks.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-20/trial_T20190910_105931_762443"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145050_918567"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145143_820541"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145356_918528"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172429_549227"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083429_887065"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_b1r_reservation.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083507_594820"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113432_673307"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113523_123938"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-2/trial_T20190909_101128_479012"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Egg-None-SideTable-21/trial_T20190907_045036_700265"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021200_669381"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021247_306737"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json",
+        "phase1b_dev_stream.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-20/trial_T20190908_230106_156334"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231"
+    },
+    {
+      "reasons": [
+        "phase1d_longitudinal_development_task",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1d_long_horizon_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171850_960211"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171933_349922"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Plate-None-CounterTop-28/trial_T20190907_180117_721981"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-CounterTop-15/trial_T20190908_231700_114762"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-Fridge-27/trial_T20190908_143628_766051"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161745_664033"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-14/trial_T20190909_114325_950642"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d",
+        "phase1e_cross_model_reuse"
+      ],
+      "sources": [
+        "phase1c_scale_pilot_registry.json:selected_tasks",
+        "phase1e_cross_model_registry.json:selected_tasks"
+      ],
+      "task_id": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-CD-None-SideTable-321/trial_T20190912_055724_501328"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-CellPhone-None-Bed-314/trial_T20190909_013435_646326"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-CellPhone-None-Dresser-229/trial_T20190911_131442_170447"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-CreditCard-None-ArmChair-227/trial_T20190907_075635_674582"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-Pencil-None-CoffeeTable-229/trial_T20190910_231706_006365"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-RemoteControl-None-ArmChair-230/trial_T20190907_195427_201890"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-SoapBottle-None-Toilet-405/trial_T20190909_014901_056414"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-Statue-None-Dresser-213/trial_T20190909_065343_750913"
+    },
+    {
+      "reasons": [
+        "historical_or_protected_before_phase1d"
+      ],
+      "sources": [
+        "phase1_calibration_registry.json",
+        "phase1_registered_targets.json"
+      ],
+      "task_id": "pick_two_obj_and_place-Vase-None-CoffeeTable-214/trial_T20190910_173303_364989"
+    }
+  ],
+  "schema_version": "phase1f-ma-v2-protected-exclusions-v1",
+  "scope": "historical/protected Phase 1A-1E and committed prior-use task IDs",
+  "source_phase1d_prior_task_ids_sha256": "5f73488e4d9f1e0bbde64b149ffad69ec29174331fca540724fe5b6d128ff475",
+  "source_phase1d_selected_task_ids_sha256": "76404ac40fbffabfe20301a191a866109b5d0039d3998bbc64fd4a79f6f8e7ff",
+  "source_phase1e_selected_task_ids_sha256": "69cf0bc660df2283aa55b668aece2cecca39da73d76e31e886968da003bc3fe7"
+}
