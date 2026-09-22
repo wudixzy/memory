@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1F-MA T-Hybrid no-model preparation — population gate blocked**.
+Current cycle: **Phase 1F-MA-v2 — 12-task matched-adaptation validation**.
 
 Frozen Phase 1B baseline:
 
@@ -12,39 +12,40 @@ Frozen Phase 1B baseline:
 
 Read first:
 
-1. docs/123_phase1f_population_gate_blocker.md
-2. docs/122_phase1f_matched_adaptation_execution_plan.md
-3. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
-4. docs/121_phase1f_matched_adaptation_validation_plan.md
-5. docs/118_phase1e_max_completed_results.md
-6. docs/119_phase1e_cross_model_final_review.md
-7. docs/110_phase1d_flash_long_horizon_results.md
-8. docs/111_phase1d_flash_long_horizon_semantic_review.md
-9. docs/107_phase1c_h2_exploration_history_audit.md
-10. docs/108_phase1d_flash_long_horizon_validation_plan.md
-11. docs/38_exploratory_memory_lifecycle.md
-12. docs/37_method_structural_initialization.md
-13. docs/101_phase1b_final_freeze_memo.md
-14. docs/current_state/02_method_architecture.md
-15. docs/current_state/03_component_contracts.md
+1. docs/124_phase1f_ma_v2_transition.md
+2. docs/123_phase1f_population_gate_blocker.md (historical 16-task blocker)
+3. docs/122_phase1f_matched_adaptation_execution_plan.md
+4. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
+5. docs/121_phase1f_matched_adaptation_validation_plan.md
+6. docs/118_phase1e_max_completed_results.md
+7. docs/119_phase1e_cross_model_final_review.md
+8. docs/110_phase1d_flash_long_horizon_results.md
+9. docs/111_phase1d_flash_long_horizon_semantic_review.md
+10. docs/107_phase1c_h2_exploration_history_audit.md
+11. docs/108_phase1d_flash_long_horizon_validation_plan.md
+12. docs/38_exploratory_memory_lifecycle.md
+13. docs/37_method_structural_initialization.md
+14. docs/101_phase1b_final_freeze_memo.md
+15. docs/current_state/02_method_architecture.md
+16. docs/current_state/03_component_contracts.md
 
-## Current Phase 1F-MA status
+## Current Phase 1F-MA-v2 status
 
-Researcher-authorized preparation proposed one symmetric T no-H composition
-adaptation across Flash and Max. The no-model public population audit is
-recorded in `docs/123_phase1f_population_gate_blocker.md`: after frozen
-historical/protected exclusions, the eligible `valid_unseen` remainder is
-5/12/3/4 across simple/clean/cool/heat, and no distinct formal-reserve
-manifest/split is available locally. The required four-per-family population
-and development/formal separation therefore fail.
+The earlier 16-task proposal and failed four-per-family population gate remain
+historical evidence in `docs/123`. Under a new researcher authorization, a
+separately preregistered 12-task development registry was frozen at exactly
+three tasks per family. The local eligible residual remains 5/12/3/4; the
+selected tasks are disjoint from Phase 1A–1E, Phase 1B development, B1-R, and
+other committed protected IDs. They are permanently development-only and are
+not a formal reserve. Future formal evaluation requires separate admission of
+a new untouched population/split.
 
-No Phase 1F task was selected and no immutable experiment transition was
-created. Code-only T-Hybrid runner/analyzer scaffolding and fake-transport tests
-were prepared, but the hard population gate remains closed and **no model/API
-calls are authorized**. Do not shrink the population, borrow B1-R, relabel the
-residual as formal reserve, or run any of the six streams. Execution requires a
-newly established public development population and untouched formal-reserve
-boundary plus a fresh researcher decision.
+The no-model T-Hybrid runner, registry, carrier public-reset identity manifest,
+analysis, and tests are frozen in `docs/124`. Before the immutable transition
+commit is pushed, no model/API calls are authorized. After it is pushed, the
+only authorized experiment is exactly 12 tasks × G/T0/T1 × Flash/Max = 72
+episodes, with no retry, replacement, tuning, or additional run. Formal
+evaluation and Method/Evaluation v1 freeze remain unauthorized.
 
 ## Historical Phase 1F attribution status
 
@@ -77,18 +78,19 @@ The Phase 1E prefix audit, resume transition, and final review are documented
 in `docs/116_phase1e_max_prefix_diagnostic.md`,
 `docs/117_phase1e_max_resume_transition.md`,
 `docs/118_phase1e_max_completed_results.md`, and
-`docs/119_phase1e_cross_model_final_review.md`. **No model/API calls are
-currently authorized.** Do not rerun any Phase 1E task, start another
-development stream, modify the method from these outcomes, freeze Method or
-Evaluation v1, or launch formal experiments without new researcher review and
-authorization.
+`docs/119_phase1e_cross_model_final_review.md`. Phase 1E itself is closed:
+never rerun or replace its tasks. Current model-call authorization is limited
+to the six Phase 1F-MA-v2 streams frozen in docs/124, after that transition is
+pushed. No additional development stream, method modification, Method or
+Evaluation v1 freeze, or formal experiment is authorized.
 
 Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
 lifecycle/dedup/retrieval fixes based on their outcomes.
 
-The protocol and execution instructions below are historical frozen
-references, not current execution authorization. Current authorization is
-limited to analysis/researcher review; no model/API work is authorized.
+The Phase 1C protocol and instructions below are historical frozen references,
+not current execution instructions. The only current execution authorization
+is the Phase 1F-MA-v2 scope in `docs/124`, conditional on its immutable
+transition commit being pushed.
 
 ## Historical Phase 1C protocol (completed; frozen reference)
 

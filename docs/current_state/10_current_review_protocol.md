@@ -1,30 +1,32 @@
-# 10. Current Review Protocol — Phase 1F-MA Population Gate Blocker
+# 10. Current Review Protocol — Phase 1F-MA-v2 Matched Adaptation
 
-> Status: Phase 1C, Phase 1D, and segmented Phase 1E are complete. Phase 1F
-> attribution/provenance analysis is complete. The researcher authorized
-> preparation of one T no-H composition validation, but the no-model fresh
-> population/formal-reserve gate failed (eligible remainder 5/12/3/4; no
-> independent reserve registered). No tasks were selected, no transition was
-> created, and no model/API calls are currently authorized. No-model runner,
-> analyzer, and fake-transport tests were prepared without opening that gate.
+> Status: Phase 1C/1D and segmented Phase 1E are complete; Phase 1F
+> attribution/provenance review is complete. The original 16-task proposal
+> remains historically blocked (docs/123). The researcher separately
+> authorized Phase 1F-MA-v2 with 12 development-only tasks, three per family.
+> No model/API call occurred before the immutable transition. After its commit
+> is pushed, only the six frozen streams (72 episodes) are authorized. Formal
+> evaluation remains unauthorized, and this residual is not a formal reserve.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
 > Current audit/plan: `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`,
-> `docs/121_phase1f_matched_adaptation_validation_plan.md`, and
-> `docs/122_phase1f_matched_adaptation_execution_plan.md`; population gate
-> outcome: `docs/123_phase1f_population_gate_blocker.md`.
+> `docs/121_phase1f_matched_adaptation_validation_plan.md`,
+> `docs/122_phase1f_matched_adaptation_execution_plan.md`, historical blocker
+> `docs/123_phase1f_population_gate_blocker.md`, and active transition
+> `docs/124_phase1f_ma_v2_transition.md`.
 
 ## 1. Active authorization boundary
 
 The Phase 1E resume is complete. The original 1–61 prefix and resumed 62–64
 segment were mechanically reconstructed and validated as one registered
 1–64 stream, while retaining segmented provenance. Do not rerun or replace any
-task. Phase 1F audit/plan is complete. No further model/API calls, method
-changes, matched-adaptation runs, or formal evaluation are currently
-authorized; the population gate failed (docs/123), so no transition or run
-exists. Code-only T-Hybrid scaffolding is not execution authorization. Do not
-resume without a defensible new population boundary.
+task. Phase 1F-MA-v2 is the active bounded development cycle. Before the
+immutable transition commit is pushed, no model/API calls are authorized.
+After it is pushed, the only authorized calls are the 12 frozen tasks across
+G/T0/T1 and Flash/Max (72 episodes). No retries, replacements, tuning,
+additional stream, Method/Evaluation v1 freeze, or formal evaluation are
+authorized by this transition.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced
@@ -112,26 +114,30 @@ direction. Phase 1F's leading attribution is `MIXED`: stronger observed
 Max-G generic probing, intentional T no-H asymmetry, and model-dependent
 memory evolution all remain plausible contributors. This is one reused
 development population per model, not a causal or formal estimate. See
-docs/118–121. No model/API calls or formal experiments are currently
-authorized.
+docs/118–121. These historical Phase 1E/attribution results authorize no
+reruns. The separate current Phase 1F-MA-v2 scope is defined only by docs/124;
+formal experiments remain unauthorized.
 
-## 6. Phase 1F current status
+## 6. Phase 1F status and active v2 boundary
 
 The deterministic aligned-artifact analysis is implemented at
 `experiments/exploratory_memory_mvp/analyze_cross_model_attribution.py`.
 Findings and protocol-development provenance are in
-`docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`.
-The only proposed next validation is a one-dimension, symmetric
-T-no-H-to-generic-C2 matched-adaptation design in
-`docs/121_phase1f_matched_adaptation_validation_plan.md`.
+`docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`. The
+active one-dimension, symmetric T-no-H-to-generic-C2 validation is the new
+12-task Phase 1F-MA-v2 transition in
+`docs/124_phase1f_ma_v2_transition.md`; docs/121 remains its earlier proposal.
 
 Current boundary:
 
 * Phase 1E completed; no Phase 1E result/runtime is to be rewritten.
-* Phase 1F attribution/provenance audit completed with no model/API calls.
-* Matched-adaptation execution plan refined to remove paid calibration; the
-  public-population gate failed before task selection, so no transition/run
-  exists.
-* Formal evaluation and Method/Evaluation v1 freeze are not authorized.
-* No Flash/Max calls, method tuning, population relaxation, or new development
-  stream may start under this handoff alone.
+* The original Phase 1F-MA 16-task gate failure remains historical; no result
+  from it exists.
+* Phase 1F-MA-v2 population and code are frozen in docs/124 after a fresh
+  researcher authorization. The selected 12 tasks are development-only and
+  confirmatory-ineligible; no formal reserve is claimed.
+* No model/API call occurred before the immutable transition. Once that commit
+  is pushed, exactly the six frozen 12-task streams are authorized.
+* Do not tune, retry, replace tasks, create another development run, freeze
+  Method v1, or begin formal evaluation. Future formal evaluation requires a
+  separately admitted untouched population/split.

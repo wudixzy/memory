@@ -1,11 +1,9 @@
-"""Phase 1F matched-adaptation code path (G/T0/T1, Flash/Max).
+"""Phase 1F-MA-v2 matched-adaptation code path (G/T0/T1, Flash/Max).
 
-This module consumes an already-frozen registry; it never selects tasks or
-builds a population.  The current census gate is intentionally closed, so the
-public entry point supports preparation only until a new reviewed population
-gate is established.  Episode helpers are independently testable with fake
-episodes/transports and reuse the frozen Phase 1C retrieval, probe, evidence,
-continuation, A/B/C, and reconciliation components.
+The runner consumes the committed public-only 12-task registry and a separate
+post-selection carrier replay-integrity manifest. It reuses frozen Phase 1C
+retrieval, probe, evidence, continuation, A/B/C, and reconciliation behavior;
+it does not select tasks or tune method components.
 """
 
 from __future__ import annotations
@@ -60,10 +58,20 @@ from exploratory_memory_mvp.phase1c_contract import (  # noqa: E402
     update_exploration_history_links,
     validate_phase1c_arm_state,
 )
+from exploratory_memory_mvp.phase1f_ma_v2_population import (  # noqa: E402
+    validate_phase1f_ma_v2_registry,
+)
 
-PHASE1F_PROTOCOL_VERSION = "phase1f-matched-adaptation-v1"
-PHASE1F_RUN_CONFIG_SCHEMA = "phase1f-matched-adaptation-run-config-v1"
-PHASE1F_SUMMARY_SCHEMA = "phase1f-matched-adaptation-summary-v1"
+PHASE1F_PROTOCOL_VERSION = "phase1f-ma-v2"
+PHASE1F_RUN_CONFIG_SCHEMA = "phase1f-ma-v2-run-config-v1"
+PHASE1F_SUMMARY_SCHEMA = "phase1f-ma-v2-summary-v1"
+PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA = "phase1f-ma-v2-carrier-replay-manifest-v1"
+PHASE1F_CARRIER_REPLAY_MANIFEST_PATH = (
+    "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/carrier_replay_manifest.json"
+)
+PHASE1F_CARRIER_IDENTITY_SCOPE = (
+    "post-selection carrier hashes; never used in population eligibility or selection"
+)
 MODELS = ("qwen3.8-flash", "qwen3.8-max")
 ARMS = ("G", "T0", "T1")
 T1_ROUTES = frozenset(
@@ -74,21 +82,16 @@ T1_ROUTES = frozenset(
     }
 )
 
-# Workstream A census result, preserved as a hard execution gate.  It is not a
-# task list and is never used to select, replace, or order tasks.
+# The Phase 1F-MA-v2 gate is opened only by validating its frozen public
+# registry.  The prior 16-task census failure remains historical evidence in
+# docs/123; the new 12-task budget is separately authorized and preregistered.
 CURRENT_POPULATION_GATE = {
-    "status": "blocked",
-    "reason": "insufficient_eligible_fresh_tasks_and_no_verified_formal_reserve",
-    "eligible_fresh_counts": {
-        "pick_and_place_simple": 5,
-        "pick_clean_then_place_in_recep": 12,
-        "pick_cool_then_place_in_recep": 3,
-        "pick_heat_then_place_in_recep": 4,
-    },
-    "minimum_per_family_for_current_gate": 4,
-    "blocking_family": "pick_cool_then_place_in_recep",
-    "blocking_count": 3,
-    "formal_reserve_verified": False,
+    "gate_id": "phase1f-ma-v2-public-registry-gate-v1",
+    "status": "requires_frozen_registry_validation",
+    "required_task_count": 12,
+    "required_family_count": 3,
+    "formal_reserve_gate_required": False,
+    "selected_tasks_development_only": True,
 }
 
 _ROLE_NAMES = (
@@ -144,11 +147,11 @@ MODEL_ROLE_CONFIGS = _model_role_configs()
 
 
 class PopulationGateBlocked(RuntimeError):
-    """Raised before episode initialization while the registered census gate is closed."""
+    """Raised before episode initialization if the frozen population gate fails."""
 
 
 def _validate_frozen_registry(registry: dict[str, Any]) -> dict[str, Any]:
-    """Validate shape and preserve order; deliberately does not select tasks."""
+    """Validate public registry shape; selection remains in the population validator."""
 
     if not isinstance(registry, dict):
         raise SchemaError("Phase 1F requires an externally frozen registry object")
@@ -158,14 +161,16 @@ def _validate_frozen_registry(registry: dict[str, Any]) -> dict[str, Any]:
     required = {
         "task_id",
         "task_family",
+        "global_index",
         "requested_seed",
         "split",
         "public_instruction",
         "public_initial_fingerprint",
-        "replay_spec",
+        "public_replay_spec",
+        "designation",
     }
     seen: set[str] = set()
-    for task in tasks:
+    for index, task in enumerate(tasks, start=1):
         if not isinstance(task, dict) or not required.issubset(task):
             raise SchemaError("Phase 1F frozen registry task is missing public replay fields")
         if not isinstance(task["task_id"], str) or not task["task_id"].strip():
@@ -173,11 +178,90 @@ def _validate_frozen_registry(registry: dict[str, Any]) -> dict[str, Any]:
         if task["task_id"] in seen:
             raise SchemaError("Phase 1F frozen registry contains duplicate task ids")
         seen.add(task["task_id"])
-        if not isinstance(task["replay_spec"], dict):
-            raise SchemaError("Phase 1F replay_spec must be an object")
+        if not isinstance(task["public_replay_spec"], dict):
+            raise SchemaError("Phase 1F public_replay_spec must be an object")
         if type(task["requested_seed"]) is not int:
             raise SchemaError("Phase 1F requested_seed must be an integer")
+        if task["designation"] != "development-only / confirmatory-ineligible":
+            raise SchemaError("Phase 1F tasks must be development-only")
+        public_replay = task["public_replay_spec"]
+        if (
+            task["global_index"] != index
+            or public_replay.get("task_id") != task["task_id"]
+            or public_replay.get("requested_seed") != task["requested_seed"]
+            or public_replay.get("split") != task["split"]
+            or public_replay.get("expected_public_initial_fingerprint")
+            != task["public_initial_fingerprint"]
+        ):
+            raise SchemaError("Phase 1F public replay identity/order mismatch")
     return copy.deepcopy(registry)
+
+
+def _validated_population_gate(registry: dict[str, Any]) -> dict[str, Any]:
+    gate = validate_phase1f_ma_v2_registry(registry, repo_root=ROOT)
+    if not isinstance(gate, dict) or gate.get("valid") is not True:
+        raise PopulationGateBlocked("Phase 1F-MA-v2 public registry validation did not pass")
+    normalized = copy.deepcopy(gate)
+    normalized["status"] = "passed"
+    return normalized
+
+
+def _carrier_manifest_digest(manifest: dict[str, Any]) -> str:
+    return _digest(
+        {key: value for key, value in manifest.items() if key != "manifest_sha256"}
+    )
+
+
+def _validate_carrier_replay_manifest(
+    registry: dict[str, Any], manifest: dict[str, Any]
+) -> dict[str, dict[str, Any]]:
+    """Bind selected public tasks to post-selection carrier replay identities.
+
+    Carrier replay hashes are integrity metadata only. They are never used to
+    select, rank, exclude, or order the public task population.
+    """
+
+    if not isinstance(manifest, dict):
+        raise SchemaError("A frozen carrier replay manifest is required")
+    if manifest.get("schema_version") != PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA:
+        raise SchemaError("Carrier replay manifest schema is invalid")
+    if manifest.get("manifest_sha256") != _carrier_manifest_digest(manifest):
+        raise SchemaError("Carrier replay manifest digest mismatch")
+    if manifest.get("identity_scope") != PHASE1F_CARRIER_IDENTITY_SCOPE:
+        raise SchemaError("Carrier replay identity scope is not frozen")
+    if manifest.get("phase1f_registry_sha256") != _registry_digest(registry):
+        raise SchemaError("Carrier replay manifest belongs to a different public registry")
+    selected_ids = [task["task_id"] for task in registry["selected_tasks"]]
+    if manifest.get("selected_task_ids_sha256") != _digest(selected_ids):
+        raise SchemaError("Carrier replay manifest selected-ID digest mismatch")
+    records = manifest.get("records")
+    if not isinstance(records, list) or len(records) != len(selected_ids):
+        raise SchemaError("Carrier replay manifest does not cover every selected task")
+    replay_specs: dict[str, dict[str, Any]] = {}
+    # Length equality is checked above; plain zip preserves compatibility with
+    # the pinned ALFWorld runtime environment while remaining fail-closed.
+    for index, (task, record) in enumerate(zip(registry["selected_tasks"], records), start=1):
+        if not isinstance(record, dict) or record.get("global_index") != index:
+            raise SchemaError("Carrier replay manifest task order is invalid")
+        if (
+            record.get("task_id") != task["task_id"]
+            or record.get("task_family") != task["task_family"]
+            or record.get("public_initial_fingerprint") != task["public_initial_fingerprint"]
+        ):
+            raise SchemaError("Carrier replay manifest task identity mismatch")
+        replay_spec = record.get("carrier_replay_spec")
+        if not isinstance(replay_spec, dict):
+            raise SchemaError("Carrier replay manifest is missing a carrier replay spec")
+        if (
+            replay_spec.get("task_id") != task["task_id"]
+            or replay_spec.get("requested_seed") != task["requested_seed"]
+            or replay_spec.get("split") != task["split"]
+        ):
+            raise SchemaError("Carrier replay spec task/seed/split mismatch")
+        if record.get("carrier_replay_spec_sha256") != _digest(replay_spec):
+            raise SchemaError("Carrier replay spec digest mismatch")
+        replay_specs[task["task_id"]] = copy.deepcopy(replay_spec)
+    return replay_specs
 
 
 def _registry_digest(registry: dict[str, Any]) -> str:
@@ -232,7 +316,13 @@ def _assert_six_independent_fresh_states(
             raise SchemaError(f"{model}/{arm} initial state contains exploration history")
 
 
-def _run_config(registry: dict[str, Any], *, allow_network: bool) -> dict[str, Any]:
+def _run_config(
+    registry: dict[str, Any],
+    *,
+    allow_network: bool,
+    population_gate: dict[str, Any],
+    carrier_replay_manifest_sha256: str | None = None,
+) -> dict[str, Any]:
     return {
         "schema_version": PHASE1F_RUN_CONFIG_SCHEMA,
         "protocol": PHASE1F_PROTOCOL_VERSION,
@@ -243,6 +333,7 @@ def _run_config(registry: dict[str, Any], *, allow_network: bool) -> dict[str, A
         "git_head": _git_head(),
         "registry_id": registry.get("registry_id"),
         "registry_sha256": _registry_digest(registry),
+        "carrier_replay_manifest_sha256": carrier_replay_manifest_sha256,
         "selected_task_count": len(registry["selected_tasks"]),
         "selected_task_ids_sha256": _digest(
             [task["task_id"] for task in registry["selected_tasks"]]
@@ -266,9 +357,9 @@ def _run_config(registry: dict[str, Any], *, allow_network: bool) -> dict[str, A
             "valid_NONE_or_empty_pool": "frozen_generic_C2_then_canonical_continuation",
             "invalid_or_error": "frozen_fail_closed_continuation_without_C2_fallback",
         },
-        "population_gate": copy.deepcopy(CURRENT_POPULATION_GATE),
+        "population_gate": copy.deepcopy(population_gate),
         "network_opt_in": allow_network,
-        "execution_status": "blocked_pending_new_population_census_and_review",
+        "execution_status": "prepared_before_model_execution",
     }
 
 
@@ -277,16 +368,27 @@ def _prepare_artifacts(
     registry: dict[str, Any],
     *,
     allow_network: bool = False,
+    population_gate: dict[str, Any] | None = None,
+    carrier_replay_manifest_sha256: str | None = None,
+    carrier_replay_manifest: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[tuple[str, str], dict[str, Any]]]:
     """Create initial stream states and write their transport-free snapshots."""
 
     registry_snapshot = _validate_frozen_registry(registry)
     make_run_directory(output)
     states = _new_stream_states()
-    config = _run_config(registry_snapshot, allow_network=allow_network)
+    validated_gate = population_gate or _validated_population_gate(registry_snapshot)
+    config = _run_config(
+        registry_snapshot,
+        allow_network=allow_network,
+        population_gate=validated_gate,
+        carrier_replay_manifest_sha256=carrier_replay_manifest_sha256,
+    )
     write_json(output / "run_config.json", config)
     registry_snapshot.pop("_path", None)
     write_json(output / "registry_snapshot.json", registry_snapshot)
+    if carrier_replay_manifest is not None:
+        write_json(output / "carrier_replay_manifest.json", carrier_replay_manifest)
     initial_digests: dict[str, str] = {}
     for (model, arm), state in states.items():
         label = f"{_model_slug(model)}-{arm}"
@@ -299,7 +401,7 @@ def _prepare_artifacts(
         "task_count": len(registry_snapshot["selected_tasks"]),
         "registry_sha256": config["registry_sha256"],
         "initial_state_digests": initial_digests,
-        "population_gate": copy.deepcopy(CURRENT_POPULATION_GATE),
+        "population_gate": copy.deepcopy(validated_gate),
     }
     write_json(output / "prepare_only.json", result)
     return result, states
@@ -313,23 +415,149 @@ def prepare_phase1f_matched_adaptation(
 ) -> dict[str, Any]:
     """Write a transport-free preparation from a supplied registry, without selection."""
 
-    result, _states = _prepare_artifacts(output, registry, allow_network=allow_network)
+    frozen_registry = _validate_frozen_registry(registry)
+    population_gate = _validated_population_gate(frozen_registry)
+    result, _states = _prepare_artifacts(
+        output,
+        frozen_registry,
+        allow_network=allow_network,
+        population_gate=population_gate,
+    )
+    return result
+
+
+def preflight_phase1f_registry(
+    output: Path,
+    registry: dict[str, Any],
+    *,
+    episode_factory: Callable = StepwiseTask,
+    carrier_manifest_output: Path | None = None,
+) -> dict[str, Any]:
+    """Reset each selected task once and freeze post-selection carrier identity hashes.
+
+    The public population has already been selected and frozen. Carrier replay
+    metadata is collected strictly as execution-integrity information; it does
+    not affect public eligibility, selection, ranking, or ordering.
+    """
+
+    frozen_registry = _validate_frozen_registry(registry)
+    _validated_population_gate(frozen_registry)
+    if carrier_manifest_output is not None and carrier_manifest_output.exists():
+        raise SchemaError("Refusing to overwrite an existing carrier replay manifest")
+    make_run_directory(output)
+    records: list[dict[str, Any]] = []
+    for index, task in enumerate(frozen_registry["selected_tasks"], start=1):
+        record = {
+            "index": index,
+            "task_id": task["task_id"],
+            "task_family": task["task_family"],
+            "requested_seed": task["requested_seed"],
+            "expected_public_initial_fingerprint": task["public_initial_fingerprint"],
+            "status": "started",
+        }
+        episode = None
+        try:
+            episode = episode_factory(
+                task["task_id"],
+                task["requested_seed"],
+                replay_spec=None,
+                split=task["split"],
+            )
+            if episode.task_id != task["task_id"] or episode.seed != task["requested_seed"]:
+                raise PairingError("Carrier preflight task/seed differs from the frozen registry")
+            carrier_spec = copy.deepcopy(episode.replay_spec)
+            if (
+                carrier_spec.get("task_id") != task["task_id"]
+                or carrier_spec.get("requested_seed") != task["requested_seed"]
+                or carrier_spec.get("split") != task["split"]
+            ):
+                raise PairingError("Carrier replay spec task/seed/split differs from the registry")
+            actual_fingerprint = episode.initial_public_state_fingerprint
+            if actual_fingerprint != task["public_initial_fingerprint"]:
+                raise PairingError("Carrier preflight public initial fingerprint mismatch")
+            execution = episode.execution()
+            if execution.get("executed_actions"):
+                raise SchemaError("Carrier preflight unexpectedly executed an environment action")
+            record.update(
+                {
+                    "status": "passed",
+                    "actual_public_initial_fingerprint": actual_fingerprint,
+                    "carrier_replay_spec_sha256": _digest(carrier_spec),
+                    "carrier_replay_spec": carrier_spec,
+                    "environment_actions": 0,
+                }
+            )
+        except Exception as error:
+            record.update({"status": "failed", "error": safe_error(error)})
+            write_json(
+                output / "tasks" / f"{index:02d}-{_digest(task['task_id'])[:10]}.json",
+                record,
+            )
+            write_json(
+                output / "preflight_summary.json",
+                {
+                    "protocol": PHASE1F_PROTOCOL_VERSION,
+                    "status": "failed_closed",
+                    "model_calls": 0,
+                    "transport_initializations": 0,
+                    "environment_actions": 0,
+                    "records": [*records, record],
+                },
+            )
+            raise
+        finally:
+            if episode is not None:
+                episode.close()
+        records.append(record)
+        write_json(output / "tasks" / f"{index:02d}-{_digest(task['task_id'])[:10]}.json", record)
+
+    result = {
+        "protocol": PHASE1F_PROTOCOL_VERSION,
+        "status": "passed",
+        "registry_sha256": _registry_digest(frozen_registry),
+        "selected_task_ids_sha256": _digest(
+            [task["task_id"] for task in frozen_registry["selected_tasks"]]
+        ),
+        "task_count": len(records),
+        "model_calls": 0,
+        "transport_initializations": 0,
+        "environment_actions": 0,
+        "records": records,
+    }
+    carrier_manifest = {
+        "schema_version": PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA,
+        "phase1f_registry_sha256": _registry_digest(frozen_registry),
+        "selected_task_ids_sha256": _digest(
+            [task["task_id"] for task in frozen_registry["selected_tasks"]]
+        ),
+        "identity_scope": PHASE1F_CARRIER_IDENTITY_SCOPE,
+        "records": [
+            {
+                "global_index": record["index"],
+                "task_id": record["task_id"],
+                "task_family": record["task_family"],
+                "requested_seed": record["requested_seed"],
+                "public_initial_fingerprint": record["actual_public_initial_fingerprint"],
+                "carrier_replay_spec_sha256": record["carrier_replay_spec_sha256"],
+                "carrier_replay_spec": record["carrier_replay_spec"],
+            }
+            for record in records
+        ],
+    }
+    carrier_manifest["manifest_sha256"] = _carrier_manifest_digest(carrier_manifest)
+    if carrier_manifest_output is not None:
+        if carrier_manifest_output.exists():
+            raise SchemaError("Refusing to overwrite an existing carrier replay manifest")
+    write_json(output / "carrier_replay_manifest.json", carrier_manifest)
+    if carrier_manifest_output is not None:
+        write_json(carrier_manifest_output, carrier_manifest)
+    result["carrier_replay_manifest_sha256"] = carrier_manifest["manifest_sha256"]
+    write_json(output / "preflight_summary.json", result)
     return result
 
 
 def _model_slug(model: str) -> str:
     return {"qwen3.8-flash": "flash", "qwen3.8-max": "max"}[model]
-
-
-def _assert_population_gate_open() -> None:
-    if CURRENT_POPULATION_GATE["status"] != "passed":
-        counts = CURRENT_POPULATION_GATE["eligible_fresh_counts"]
-        raise PopulationGateBlocked(
-            "Phase 1F execution blocked: the census yielded eligible fresh counts "
-            f"{counts}; pick_cool_then_place_in_recep has 3 eligible tasks "
-            "against the required 4, and no formal reserve is verified. "
-            "No task will be initialized."
-        )
 
 
 def _validate_t1_retrieval_route(
@@ -474,6 +702,7 @@ def _run_t1_arm(
         "status": "started",
         "artifact_dir": str(arm_dir),
         "probe_route": None,
+        "retrieval_status": None,
     }
     fact_memory: dict[str, Any] | None = None
     archive_state = copy.deepcopy(state)
@@ -490,6 +719,8 @@ def _run_t1_arm(
             transport_factory=transport_factory,
         )
         row["probe_route"] = route
+        route_record = json.loads((arm_dir / "probe_route.json").read_text(encoding="utf-8"))
+        row["retrieval_status"] = route_record.get("retrieval_status")
         continuation = frozen_phase1c._execute_continuation_search(
             episode,
             initial_state=initial_state,
@@ -757,6 +988,14 @@ def _run_stream_episode(
             row["arm"] = "T0"
             row["internal_contract_arm"] = "T"
             task_summary_path = Path(row["artifact_dir"]) / "task_summary.json"
+            retrieval_status_path = Path(row["artifact_dir"]) / "retrieval" / "status.json"
+            if retrieval_status_path.is_file():
+                try:
+                    row["retrieval_status"] = json.loads(
+                        retrieval_status_path.read_text(encoding="utf-8")
+                    ).get("status")
+                except (OSError, json.JSONDecodeError):
+                    row["retrieval_status"] = "artifact_unavailable"
             write_json(task_summary_path, row)
             return row, next_state
         raise SchemaError("Unknown Phase 1F arm")
@@ -773,8 +1012,13 @@ def _run_registered_streams(
     env_file: Path,
     transport_factory: Callable | None,
     episode_factory: Callable,
+    carrier_replay_specs: dict[str, dict[str, Any]] | None = None,
+    carrier_replay_manifest_sha256: str | None = None,
+    population_gate: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Longitudinal six-stream executor, used only after the population gate opens."""
+    """Longitudinal six-stream executor, used only after immutable admission."""
+
+    carrier_replay_specs = carrier_replay_specs or {}
 
     pair_rows: list[dict[str, Any]] = []
     for index, task in enumerate(registry["selected_tasks"], start=1):
@@ -785,16 +1029,28 @@ def _run_registered_streams(
             "index": index,
             "task_id": task["task_id"],
             "task_family": task["task_family"],
+            "requested_seed": task["requested_seed"],
+            "public_initial_fingerprint": task["public_initial_fingerprint"],
+            "public_replay_spec_sha256": _digest(task.get("public_replay_spec", {})),
+            "phase": "tasks_1_6" if index <= 6 else "tasks_7_12",
             "pairing_valid": True,
         }
         open_episodes: dict[tuple[str, str], Any] = {}
         try:
+            carrier_replay_spec = carrier_replay_specs.get(task["task_id"])
+            if carrier_replay_spec is None:
+                # Private unit tests may supply a synthetic replay spec. The
+                # public runner always validates the complete carrier manifest.
+                carrier_replay_spec = task.get("replay_spec")
+            if not isinstance(carrier_replay_spec, dict):
+                raise SchemaError("Missing frozen carrier replay spec for selected task")
+            task_row["carrier_replay_spec_sha256"] = _digest(carrier_replay_spec)
             for model in MODELS:
                 for arm in ARMS:
                     open_episodes[(model, arm)] = episode_factory(
                         task["task_id"],
                         task["requested_seed"],
-                        replay_spec=task["replay_spec"],
+                        replay_spec=carrier_replay_spec,
                         split=task["split"],
                     )
                     if (
@@ -830,6 +1086,10 @@ def _run_registered_streams(
                         transport_factory=transport_factory,
                     )
                     row["model"] = model
+                    if row.get("task_id") != task["task_id"]:
+                        raise PairingError("Episode task identity differs from the frozen registry")
+                    if row.get("requested_seed") != task["requested_seed"]:
+                        raise PairingError("Episode seed differs from the frozen registry")
                     model_rows[arm] = row
                     states[(model, arm)] = next_state
                     snapshot = output / "state_snapshots" / _model_slug(model) / arm
@@ -850,8 +1110,12 @@ def _run_registered_streams(
         "schema_version": PHASE1F_SUMMARY_SCHEMA,
         "protocol": PHASE1F_PROTOCOL_VERSION,
         "development_only": True,
-        "population_gate": copy.deepcopy(CURRENT_POPULATION_GATE),
+        "population_gate": copy.deepcopy(
+            population_gate or {"status": "internal_unvalidated_test_fixture"}
+        ),
         "registry_sha256": _registry_digest(registry),
+        "carrier_replay_manifest_sha256": carrier_replay_manifest_sha256,
+        "selected_task_ids": [task["task_id"] for task in registry["selected_tasks"]],
         "selected_task_ids_sha256": _digest(
             [task["task_id"] for task in registry["selected_tasks"]]
         ),
@@ -878,16 +1142,28 @@ def run_phase1f_matched_adaptation(
     transport_factory: Callable | None = None,
     episode_factory: Callable = StepwiseTask,
     prepare_only: bool = False,
+    carrier_replay_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Prepare the six streams; execution is blocked by the current census gate."""
+    """Execute a frozen 12-task six-stream matched-adaptation development run."""
 
     frozen_registry = _validate_frozen_registry(registry)
+    population_gate = _validated_population_gate(frozen_registry)
+    carrier_specs: dict[str, dict[str, Any]] = {}
+    carrier_manifest_sha256 = None
+    validated_carrier_manifest = None
     if not prepare_only:
-        _assert_population_gate_open()
+        carrier_specs = _validate_carrier_replay_manifest(
+            frozen_registry, carrier_replay_manifest
+        )
+        validated_carrier_manifest = copy.deepcopy(carrier_replay_manifest)
+        carrier_manifest_sha256 = carrier_replay_manifest["manifest_sha256"]
     prepare_result, states = _prepare_artifacts(
         output,
         frozen_registry,
         allow_network=allow_network,
+        population_gate=population_gate,
+        carrier_replay_manifest_sha256=carrier_manifest_sha256,
+        carrier_replay_manifest=validated_carrier_manifest,
     )
     if prepare_only:
         return prepare_result
@@ -899,27 +1175,54 @@ def run_phase1f_matched_adaptation(
         env_file=env_file,
         transport_factory=transport_factory,
         episode_factory=episode_factory,
+        carrier_replay_specs=carrier_specs,
+        carrier_replay_manifest_sha256=carrier_manifest_sha256,
+        population_gate=population_gate,
     )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry-json", type=Path, required=True)
+    parser.add_argument("--carrier-replay-manifest", type=Path)
+    parser.add_argument("--carrier-manifest-output", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     parser.add_argument("--allow-network", action="store_true")
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args()
     try:
         registry = json.loads(args.registry_json.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         raise SystemExit("The supplied frozen registry JSON is unavailable or invalid") from None
+    if args.preflight_only and args.prepare_only:
+        raise SystemExit("Choose either --preflight-only or --prepare-only")
+    if args.preflight_only:
+        result = preflight_phase1f_registry(
+            args.output,
+            registry,
+            carrier_manifest_output=args.carrier_manifest_output,
+        )
+        print(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2))
+        return
+    carrier_replay_manifest = None
+    if not args.prepare_only:
+        if args.carrier_replay_manifest is None:
+            raise SystemExit("Scientific execution requires --carrier-replay-manifest")
+        try:
+            carrier_replay_manifest = json.loads(
+                args.carrier_replay_manifest.read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError):
+            raise SystemExit("Carrier replay manifest is unavailable or invalid") from None
     result = run_phase1f_matched_adaptation(
         args.output,
         registry,
         allow_network=args.allow_network,
         env_file=args.env_file,
         prepare_only=args.prepare_only,
+        carrier_replay_manifest=carrier_replay_manifest,
     )
     print(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2))
 

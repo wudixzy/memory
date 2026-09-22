@@ -18,22 +18,29 @@ from exploratory_memory_mvp.analyze_phase1f_matched_adaptation import (
     analyze_phase1f_summary,
     build_phase1f_report,
 )
-from exploratory_memory_mvp.common import SchemaError
+from exploratory_memory_mvp.common import ROOT, SchemaError, read_json
 from exploratory_memory_mvp.controlled_targeting import CandidateProbeLedger
 from exploratory_memory_mvp.phase1c_contract import phase1c_initial_arm_state, state_digest
+from exploratory_memory_mvp.phase1f_ma_v2_population import PHASE1F_MA_V2_REGISTRY_PATH
 from exploratory_memory_mvp.run_phase1f_matched_adaptation import (
     ARMS,
     CURRENT_POPULATION_GATE,
     MODEL_ROLE_CONFIGS,
     MODELS,
-    PopulationGateBlocked,
+    PHASE1F_CARRIER_IDENTITY_SCOPE,
+    PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA,
+    PHASE1F_PROTOCOL_VERSION,
+    PHASE1F_SUMMARY_SCHEMA,
+    _digest,
     _install_model_configs,
     _new_stream_states,
     _restore_model_configs,
     _run_registered_streams,
     _run_t1_arm,
     _run_t1_probe_stage,
+    _validate_carrier_replay_manifest,
     _validate_t1_retrieval_route,
+    preflight_phase1f_registry,
     run_phase1f_matched_adaptation,
 )
 
@@ -70,6 +77,50 @@ def _synthetic_registry():
         "phase": "synthetic_test_only",
     }
     return {"registry_id": "synthetic-test-only", "selected_tasks": [task]}
+
+
+def _synthetic_analysis_summary():
+    family_order = (
+        "pick_and_place_simple",
+        "pick_clean_then_place_in_recep",
+        "pick_cool_then_place_in_recep",
+        "pick_heat_then_place_in_recep",
+    ) * 3
+    selected_ids = [f"task-{index:02d}" for index in range(1, 13)]
+    summary = {
+        "schema_version": PHASE1F_SUMMARY_SCHEMA,
+        "protocol": PHASE1F_PROTOCOL_VERSION,
+        "registry_sha256": "synthetic-test-only",
+        "selected_task_ids": selected_ids,
+        "selected_task_ids_sha256": _digest(selected_ids),
+        "results": [],
+    }
+    for index, (task_id, family) in enumerate(zip(selected_ids, family_order, strict=True), 1):
+        task_result = {
+            "index": index,
+            "task_id": task_id,
+            "task_family": family,
+            "pairing_valid": True,
+        }
+        for model in MODELS:
+            task_result[model.replace("qwen3.8-", "")] = {
+                arm: {
+                    "model": model,
+                    "task_id": task_id,
+                    "task_family": family,
+                    "actions_to_target_acquisition": {"G": 8, "T0": 10, "T1": 6}[arm],
+                    "target_acquired": True,
+                    "retrieval_status": "parsed",
+                    "probe_route": "generic_c2_then_continuation" if arm == "T1" else None,
+                    "activated_h_id": None,
+                    "probe_environment_action_count": 2 if arm == "T1" else 0,
+                    "probe_acquired_target": True if arm == "T1" else False,
+                    "continuation_environment_action_count": 0 if arm == "T1" else 8,
+                }
+                for arm in ARMS
+            }
+        summary["results"].append(task_result)
+    return summary
 
 
 class FakeEpisode:
@@ -142,6 +193,27 @@ class FakeEpisode:
 
     def close(self):
         self.closed = True
+
+
+class FakePublicPreflightEpisode:
+    def __init__(self, task_id, seed, *, replay_spec=None, split):
+        self.task_id = task_id
+        self.seed = seed
+        self.replay_spec = replay_spec
+        self.split = split
+        self.initial_public_state_fingerprint = None
+        self.closed = False
+        self._execution = {"executed_actions": []}
+
+    def execution(self):
+        return copy.deepcopy(self._execution)
+
+    def close(self):
+        self.closed = True
+
+
+def _frozen_public_registry():
+    return read_json(ROOT / PHASE1F_MA_V2_REGISTRY_PATH)
 
 
 class FakeDashScopeTransport:
@@ -289,7 +361,7 @@ class Phase1FMatchedAdaptationTests(unittest.TestCase):
 
             result = run_phase1f_matched_adaptation(
                 output,
-                _synthetic_registry(),
+                _frozen_public_registry(),
                 prepare_only=True,
                 transport_factory=forbidden,
                 episode_factory=forbidden,
@@ -298,31 +370,121 @@ class Phase1FMatchedAdaptationTests(unittest.TestCase):
             self.assertEqual(result["model_calls"], 0)
             self.assertEqual(result["transport_initializations"], 0)
             self.assertEqual(len(result["initial_state_digests"]), 6)
-            self.assertEqual(CURRENT_POPULATION_GATE["status"], "blocked")
-            self.assertEqual(
-                result["population_gate"]["eligible_fresh_counts"],
-                {
-                    "pick_and_place_simple": 5,
-                    "pick_clean_then_place_in_recep": 12,
-                    "pick_cool_then_place_in_recep": 3,
-                    "pick_heat_then_place_in_recep": 4,
-                },
-            )
+            self.assertEqual(CURRENT_POPULATION_GATE["required_task_count"], 12)
+            self.assertEqual(result["population_gate"]["status"], "passed")
+            self.assertEqual(result["population_gate"]["selected_count"], 12)
             self.assertEqual(len(list((output / "initial_states").glob("*.json"))), 6)
 
-    def test_current_population_gate_blocks_before_creating_run_or_transport(self):
+    def test_invalid_registry_fails_before_creating_run_or_transport(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "must-not-exist"
+            registry = _frozen_public_registry()
+            registry["selected_tasks"].pop()
 
             def forbidden(_):
                 raise AssertionError("blocked execution must not initialize anything")
 
-            with self.assertRaises(PopulationGateBlocked):
+            with self.assertRaises(SchemaError):
                 run_phase1f_matched_adaptation(
                     output,
-                    _synthetic_registry(),
+                    registry,
                     transport_factory=forbidden,
                     episode_factory=forbidden,
+                )
+            self.assertFalse(output.exists())
+
+    def test_carrier_preflight_freezes_exact_execution_identity_without_actions(self):
+        registry = _frozen_public_registry()
+        opened = []
+
+        def factory(task_id, seed, *, replay_spec, split):
+            task = next(row for row in registry["selected_tasks"] if row["task_id"] == task_id)
+            episode = FakePublicPreflightEpisode(
+                task_id,
+                seed,
+                replay_spec={
+                    "task_id": task_id,
+                    "requested_seed": seed,
+                    "split": split,
+                    "game_file_sha256": f"game-{len(opened)}",
+                },
+                split=split,
+            )
+            episode.initial_public_state_fingerprint = task["public_initial_fingerprint"]
+            opened.append(episode)
+            return episode
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            result = preflight_phase1f_registry(
+                root / "preflight",
+                registry,
+                episode_factory=factory,
+                carrier_manifest_output=root / "carrier_manifest.json",
+            )
+            manifest = read_json(root / "carrier_manifest.json")
+            self.assertEqual(result["status"], "passed")
+            self.assertEqual(result["model_calls"], 0)
+            self.assertEqual(result["transport_initializations"], 0)
+            self.assertEqual(result["environment_actions"], 0)
+            self.assertEqual(len(opened), 12)
+            self.assertTrue(all(episode.closed for episode in opened))
+            self.assertEqual(manifest["schema_version"], PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA)
+            replay_specs = _validate_carrier_replay_manifest(registry, manifest)
+            self.assertEqual(set(replay_specs), set(registry["selected_task_ids"]))
+
+    def test_carrier_manifest_rejects_registry_or_replay_identity_mismatch(self):
+        registry = _frozen_public_registry()
+        manifest = {
+            "schema_version": PHASE1F_CARRIER_REPLAY_MANIFEST_SCHEMA,
+            "phase1f_registry_sha256": registry["registry_sha256"],
+            "selected_task_ids_sha256": _digest(registry["selected_task_ids"]),
+            "identity_scope": PHASE1F_CARRIER_IDENTITY_SCOPE,
+            "records": [],
+        }
+        for index, task in enumerate(registry["selected_tasks"], start=1):
+            spec = {
+                "task_id": task["task_id"],
+                "requested_seed": task["requested_seed"],
+                "split": task["split"],
+                "game_file_sha256": f"game-{index}",
+            }
+            manifest["records"].append(
+                {
+                    "global_index": index,
+                    "task_id": task["task_id"],
+                    "task_family": task["task_family"],
+                    "requested_seed": task["requested_seed"],
+                    "public_initial_fingerprint": task["public_initial_fingerprint"],
+                    "carrier_replay_spec_sha256": _digest(spec),
+                    "carrier_replay_spec": spec,
+                }
+            )
+        manifest["manifest_sha256"] = _digest(manifest)
+        _validate_carrier_replay_manifest(registry, manifest)
+
+        wrong = copy.deepcopy(manifest)
+        wrong["records"][0]["carrier_replay_spec"]["task_id"] = "other-task"
+        wrong.pop("manifest_sha256")
+        wrong["manifest_sha256"] = _digest(wrong)
+        with self.assertRaises(SchemaError):
+            _validate_carrier_replay_manifest(registry, wrong)
+
+    def test_scientific_execution_requires_frozen_carrier_manifest_before_output(self):
+        registry = _frozen_public_registry()
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "must-not-exist"
+
+            def forbidden(*_args, **_kwargs):
+                raise AssertionError("validation failure must precede transport/episode use")
+
+            with self.assertRaises(SchemaError):
+                run_phase1f_matched_adaptation(
+                    output,
+                    registry,
+                    transport_factory=forbidden,
+                    episode_factory=forbidden,
+                    carrier_replay_manifest=None,
                 )
             self.assertFalse(output.exists())
 
@@ -470,7 +632,7 @@ class Phase1FMatchedAdaptationTests(unittest.TestCase):
                 episode_factory=FakeEpisode,
             )
 
-            self.assertEqual(summary["schema_version"], "phase1f-matched-adaptation-summary-v1")
+            self.assertEqual(summary["schema_version"], PHASE1F_SUMMARY_SCHEMA)
             self.assertEqual(len(summary["results"]), 1)
             task_row = summary["results"][0]
             self.assertEqual(set(task_row["flash"]), set(ARMS))
@@ -519,17 +681,17 @@ class Phase1FMatchedAdaptationTests(unittest.TestCase):
                 self.assertFalse(payload["enable_thinking"])
 
             report_dir = Path(temporary) / "analysis"
-            report = analyze_phase1f_summary(summary, report_dir)
+            report = analyze_phase1f_summary(_synthetic_analysis_summary(), report_dir)
             self.assertEqual(set(report["models"]), set(MODELS))
             for model in MODELS:
                 contrasts = report["models"][model]["overall"]["contrasts"]
                 self.assertEqual(set(contrasts), {"T0-G", "T1-G", "T1-T0"})
                 self.assertEqual(
                     report["models"][model]["by_h_activation"]["T1"]["no_h"]["task_n"],
-                    1,
+                    12,
                 )
                 no_h = report["models"][model]["t1_no_h_generic_probe"]
-                self.assertEqual(len(no_h), 1)
+                self.assertEqual(len(no_h), 12)
                 self.assertEqual(no_h[0]["probe_action_count"], 2)
                 self.assertTrue(no_h[0]["probe_acquired_target"])
                 self.assertEqual(no_h[0]["continuation_action_count"], 0)
@@ -599,53 +761,24 @@ class Phase1FMatchedAdaptationTests(unittest.TestCase):
             _restore_model_configs(previous_configs)
 
     def test_analyzer_calculates_signed_arm_contrasts_and_rejects_bad_pairing(self):
-        summary = {
-            "schema_version": "phase1f-matched-adaptation-summary-v1",
-            "protocol": "phase1f-matched-adaptation-v1",
-            "registry_sha256": "synthetic",
-            "results": [
-                {
-                    "task_id": "task-1",
-                    "task_family": "family-a",
-                    "phase": "heldout",
-                    "pairing_valid": True,
-                    **{
-                        model: {
-                            "G": {
-                                "task_id": "task-1",
-                                "task_family": "family-a",
-                                "actions_to_target_acquisition": 8,
-                                "target_acquired": True,
-                            },
-                            "T0": {
-                                "task_id": "task-1",
-                                "task_family": "family-a",
-                                "actions_to_target_acquisition": 10,
-                                "target_acquired": True,
-                            },
-                            "T1": {
-                                "task_id": "task-1",
-                                "task_family": "family-a",
-                                "actions_to_target_acquisition": 6,
-                                "target_acquired": True,
-                            },
-                        }
-                        for model in ("flash", "max")
-                    },
-                }
-            ],
-        }
+        summary = _synthetic_analysis_summary()
         report = build_phase1f_report(summary)
         for model in MODELS:
             contrasts = report["models"][model]["overall"]["contrasts"]
-            self.assertEqual(contrasts["T0-G"]["total_delta"], 2)
-            self.assertEqual(contrasts["T1-G"]["total_delta"], -2)
-            self.assertEqual(contrasts["T1-T0"]["total_delta"], -4)
-            self.assertEqual(report["models"][model]["by_phase"]["heldout"]["task_n"], 1)
+            self.assertEqual(contrasts["T0-G"]["total_delta"], 24)
+            self.assertEqual(contrasts["T1-G"]["total_delta"], -24)
+            self.assertEqual(contrasts["T1-T0"]["total_delta"], -48)
+            self.assertEqual(report["models"][model]["by_phase"]["tasks_1_6"]["task_n"], 6)
+            self.assertEqual(report["models"][model]["by_phase"]["tasks_7_12"]["task_n"], 6)
         broken = copy.deepcopy(summary)
         broken["results"][0]["pairing_valid"] = False
         with self.assertRaises(SchemaError):
             build_phase1f_report(broken)
+
+        bad_family_order = copy.deepcopy(summary)
+        bad_family_order["results"][0]["task_family"] = "pick_cool_then_place_in_recep"
+        with self.assertRaises(SchemaError):
+            build_phase1f_report(bad_family_order)
 
     def test_model_config_scope_restores_frozen_phase1c_configs(self):
         original_selector = copy.deepcopy(frozen_phase1c.SELECTOR_MODEL_CONFIG)

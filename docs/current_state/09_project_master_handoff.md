@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-22 active status:** Phase 1C/1D Flash validation and segmented Phase 1E Max validation are complete development evidence. Phase 1E is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; Phase 1F attribution/provenance audit is complete with leading attribution `MIXED`. The researcher authorized preparation of one T no-H composition validation, but its public population gate failed: only 5/12/3/4 fresh eligible tasks remain by family and no defensible untouched formal-reserve boundary is registered. No Phase 1F tasks were selected, no transition was created, and no model/API calls are authorized. Code-only T-Hybrid scaffolding was prepared and tested but does not open the gate. See docs/122–123 and current `AGENTS.md`; formal evaluation and Method/Evaluation v1 freeze remain unauthorized.
+> **2026-09-22 active status:** Phase 1C/1D Flash validation and segmented Phase 1E Max validation are complete development evidence. Phase 1E is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; Phase 1F attribution/provenance audit is complete with leading attribution `MIXED`. The earlier 16-task Phase 1F-MA proposal remains blocked as documented in docs/123. A new researcher-authorized Phase 1F-MA-v2 uses a separately frozen 12-task development-only registry (3 per family) and tests only T no-H composition across Flash/Max. No formal reserve is claimed; formal population admission remains a separate future blocker. No model/API call occurred before the immutable transition. Only after that transition is pushed are exactly six streams / 72 episodes authorized. Formal evaluation and Method/Evaluation v1 freeze remain unauthorized.
 
 > **Historical 2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. The Phase 1A controlled-targeting protocol described in the historical sections below is retained for context; it is not the active cycle. The historical Gate B1/B1-R autonomous-actor path is evidence only.
 
-> 状态：当前项目单一接手入口（2026-09-22，Phase 1F-MA 人口门槛阻塞；当前无模型调用授权）
+> 状态：当前项目单一接手入口（2026-09-22，Phase 1F-MA-v2 immutable transition；仅授权 transition push 后运行 72 个 development episodes）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -977,7 +977,7 @@ READY_FOR_SCALE_WITH_KNOWN_LIMITATIONS
 当前阶段：
 
 ```text
-Phase 1F-MA T-Hybrid no-model preparation；population gate blocked
+Phase 1F-MA-v2 — 12-task balanced matched-adaptation validation
 ```
 
 结果、审计和待授权计划：
@@ -992,6 +992,7 @@ Phase 1F-MA T-Hybrid no-model preparation；population gate blocked
 - `docs/121_phase1f_matched_adaptation_validation_plan.md`
 - `docs/122_phase1f_matched_adaptation_execution_plan.md`
 - `docs/123_phase1f_population_gate_blocker.md`
+- `docs/124_phase1f_ma_v2_transition.md`
 
 Phase 1C/Phase 1D 只验证 scale-aware hypothesis，不是 paper-level 主实验，
 且均已完成。Phase 1D 从 Phase 1C task-32 的 immutable G/T state 继续，运行
@@ -1028,12 +1029,16 @@ Phase 1E 的原始 interruption、prefix audit、resume transition、完整结�
 `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`：Max 的 overall T−G acquisition-action
 delta 为 +47，主要来自 no-H episodes；H-active 子集整体近中性。Phase 1F
 基于冻结 artifacts 和历史变更记录完成了 no-model attribution/provenance audit，
-leading attribution 为 `MIXED`。研究者之后授权准备只改变 T no-H composition、
-对 Flash/Max 对称应用的验证；但冻结人口门槛失败（eligible remainder 为
-5/12/3/4，缺少独立 formal reserve）。因此没有选 task、没有 transition，也没有
-执行模型调用。继续需要研究者确定新的开发/保留人口边界；不得缩小样本、借用
-B1-R 或动用未来正式评估数据。Formal evaluation 和 Method/Evaluation v1
-freeze 仍未授权。
+leading attribution 为 `MIXED`。16-task 方案的 cool quota 阻塞仍保留为历史记录；
+研究者随后单独授权 12-task v2（3/family）development-only 设计，不要求当前
+本地残余形成 formal reserve。v2 registry 使用预冻结 salt、public-only eligibility
+和固定交错顺序；所选 task 与历史/保护人口不重叠，并永久标记为 confirmatory-
+ineligible。详见 docs/124。其余当前 eligible residual 不构成 formal reserve，未来
+Formal Population Admission 仍是 paper-level evaluation 的独立前置条件。
+
+截至 transition push 前没有任何 Phase 1F-MA 模型/API call。transition push 后唯一
+授权为 12 tasks × G/T0/T1 × Flash/Max = 72 episodes。不得重试、替换 task、调参或
+启动其他开发实验。Formal evaluation 和 Method/Evaluation v1 freeze 仍未授权。
 
 # 21. 当前不要重新打开的问题
 
@@ -1119,4 +1124,4 @@ freeze 仍未授权。
 
 # 24. 一句话当前状态
 
-> Phase 1C/1D/1E validation 与 Phase 1F attribution 已完成；Phase 1F-MA 的 no-model 准备发现 fresh population/formal-reserve gate 不满足。等待研究者重新指定可辩护的人口边界；未进行 T-Hybrid 模型实验或正式评估。
+> Phase 1C/1D/1E validation 与 Phase 1F attribution 已完成；原 16-task Phase 1F-MA gate 阻塞后，研究者授权了独立的 12-task Phase 1F-MA-v2 development population。唯一执行授权为 transition push 后的 72 个 G/T0/T1 × Flash/Max episodes；formal population admission 与正式评估仍待后续审查。

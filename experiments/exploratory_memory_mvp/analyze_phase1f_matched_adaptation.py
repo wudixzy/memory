@@ -19,9 +19,17 @@ from exploratory_memory_mvp.run_phase1f_matched_adaptation import (  # noqa: E40
     MODELS,
     PHASE1F_PROTOCOL_VERSION,
     PHASE1F_SUMMARY_SCHEMA,
+    _digest,
 )
 
-CONTRASTS = (("T0", "G"), ("T1", "G"), ("T1", "T0"))
+EXPECTED_FAMILY_ORDER = (
+    "pick_and_place_simple",
+    "pick_clean_then_place_in_recep",
+    "pick_cool_then_place_in_recep",
+    "pick_heat_then_place_in_recep",
+)
+EXPECTED_FAMILY_SEQUENCE = EXPECTED_FAMILY_ORDER * 3
+CONTRASTS = (("T1", "T0"), ("T0", "G"), ("T1", "G"))
 
 
 def _action_value(row: dict[str, Any]) -> int | None:
@@ -85,17 +93,40 @@ def build_phase1f_report(summary: dict[str, Any]) -> dict[str, Any]:
     if summary.get("protocol") != PHASE1F_PROTOCOL_VERSION:
         raise SchemaError("Phase 1F summary protocol is not recognized")
     results = summary.get("results")
-    if not isinstance(results, list):
-        raise SchemaError("Phase 1F paired results must be a list")
+    selected_ids = summary.get("selected_task_ids")
+    if not isinstance(results, list) or len(results) != 12:
+        raise SchemaError("Phase 1F-MA-v2 requires exactly 12 paired task rows")
+    if (
+        not isinstance(selected_ids, list)
+        or len(selected_ids) != 12
+        or any(not isinstance(task_id, str) or not task_id for task_id in selected_ids)
+        or len(set(selected_ids)) != 12
+    ):
+        raise SchemaError("Phase 1F-MA-v2 summary has no valid frozen selected task list")
+    selected_ids_sha256 = summary.get("selected_task_ids_sha256")
+    if selected_ids_sha256 != _digest(selected_ids):
+        raise SchemaError("Phase 1F-MA-v2 selected task digest is invalid")
+    if not isinstance(summary.get("registry_sha256"), str) or not summary["registry_sha256"]:
+        raise SchemaError("Phase 1F-MA-v2 summary is missing its registry digest")
 
     model_items: dict[str, list[dict[str, Any]]] = {model: [] for model in MODELS}
     seen_pairs: set[tuple[str, str]] = set()
-    for task_result in results:
+    # The exact 12-row length is validated above; plain zip also keeps the
+    # deterministic analyzer usable in the pinned Python 3.9 carrier env.
+    for expected_index, (task_result, expected_family) in enumerate(
+        zip(results, EXPECTED_FAMILY_SEQUENCE), start=1
+    ):
         if not isinstance(task_result, dict) or task_result.get("pairing_valid") is not True:
             raise SchemaError("Phase 1F analyzer requires valid paired task rows")
         task_id = task_result.get("task_id")
         family = task_result.get("task_family")
-        if not isinstance(task_id, str) or not isinstance(family, str):
+        if (
+            not isinstance(task_id, str)
+            or not isinstance(family, str)
+            or task_result.get("index") != expected_index
+            or family != expected_family
+            or task_id != selected_ids[expected_index - 1]
+        ):
             raise SchemaError("Phase 1F paired task identity is malformed")
         for model in MODELS:
             model_rows = task_result.get(model.replace("qwen3.8-", ""))
@@ -111,11 +142,14 @@ def build_phase1f_report(summary: dict[str, Any]) -> dict[str, Any]:
                     raise SchemaError("Phase 1F arm summary is malformed")
                 if row.get("task_id") != task_id or row.get("task_family") != family:
                     raise SchemaError("Phase 1F arm identity differs from paired task")
+                if row.get("model") != model:
+                    raise SchemaError("Phase 1F arm row contains a different model backbone")
             model_items[model].append(
                 {
+                    "index": expected_index,
                     "task_id": task_id,
                     "task_family": family,
-                    "phase": task_result.get("phase"),
+                    "phase": "tasks_1_6" if expected_index <= 6 else "tasks_7_12",
                     "rows": model_rows,
                     "actions": {arm: _action_value(model_rows[arm]) for arm in ARMS},
                     "contrasts": {},
@@ -144,17 +178,17 @@ def build_phase1f_report(summary: dict[str, Any]) -> dict[str, Any]:
                         [
                             item
                             for item in items
-                            if (item["rows"][arm].get("activated_h_id") is not None)
-                            == (state == "h_active")
+                            if _activation_class(item["rows"][arm], arm) == state
                         ],
                         arm,
                     )
-                    for state in ("h_active", "no_h")
+                    for state in ("h_active", "no_h", "retrieval_error_or_unknown")
                 }
                 for arm in ("T0", "T1")
             },
             "t1_no_h_generic_probe": [
                 {
+                    "index": item["index"],
                     "task_id": item["task_id"],
                     "task_family": item["task_family"],
                     "probe_route": item["rows"]["T1"].get("probe_route"),
@@ -171,6 +205,7 @@ def build_phase1f_report(summary: dict[str, Any]) -> dict[str, Any]:
             ],
             "per_task": [
                 {
+                    "index": item["index"],
                     "task_id": item["task_id"],
                     "task_family": item["task_family"],
                     "phase": item["phase"],
@@ -190,14 +225,28 @@ def build_phase1f_report(summary: dict[str, Any]) -> dict[str, Any]:
         }
 
     return {
-        "schema_version": "phase1f-matched-adaptation-analysis-v1",
+        "schema_version": "phase1f-ma-v2-analysis-v1",
         "protocol": PHASE1F_PROTOCOL_VERSION,
         "endpoint": "environment actions to exact target acquisition",
         "interpretation": "descriptive paired development evidence; not causal",
         "registry_sha256": summary.get("registry_sha256"),
+        "selected_task_ids_sha256": selected_ids_sha256,
+        "selected_task_ids": selected_ids,
         "task_n": len(results),
         "models": report_models,
     }
+
+
+def _activation_class(row: dict[str, Any], arm: str) -> str:
+    if row.get("activated_h_id") is not None:
+        return "h_active"
+    if arm == "T1":
+        if row.get("probe_route") == "generic_c2_then_continuation":
+            return "no_h"
+        return "retrieval_error_or_unknown"
+    if row.get("retrieval_status") in {"parsed", "deterministic_empty_active_pool"}:
+        return "no_h"
+    return "retrieval_error_or_unknown"
 
 
 def _markdown_report(report: dict[str, Any]) -> str:
