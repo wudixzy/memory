@@ -1,24 +1,23 @@
-# 10. Current Review Protocol — Phase 1E Max M61 Resume
+# 10. Current Review Protocol — Phase 1E Results Review
 
-> Status: Phase 1C and Phase 1D completed. The original Phase 1E Max attempt
-> stopped before task 62 episode creation because `/tmp` had no space. The
-> researcher has authorized a no-model audit and, after an immutable resume
-> transition is committed/pushed, continuation from Max M61 for only registered
-> tasks 62–64. No model/API call is authorized before that transition.
+> Status: Phase 1C, Phase 1D, and the segmented Phase 1E Max stream are complete.
+> Phase 1E is development evidence classified
+> `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`, not a confirmatory or paper-level
+> result. No model/API calls are currently authorized pending researcher review.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
 > Current audit/plan: `docs/107_phase1c_h2_exploration_history_audit.md`,
-> `docs/108_phase1d_flash_long_horizon_validation_plan.md`
+> `docs/108_phase1d_flash_long_horizon_validation_plan.md`; Phase 1E review:
+> `docs/116_phase1e_max_prefix_diagnostic.md` and `docs/117–119`.
 
 ## 1. Active authorization boundary
 
-The active cycle is the infrastructure-only `phase1e-max-resume-v1`
-continuation. It must use the exact original Phase 1E registry and Max G/T M61
-states; run only tasks 62→63→64; use `qwen3.8-max` for every model-facing role;
-and preserve segmented execution provenance. Tasks 1–61 must never be rerun.
-No retries, replacements, Flash fallback, method changes, or formal evaluation
-are authorized. The no-model prefix and resume records are in docs/116–117.
+The Phase 1E resume is complete. The original 1–61 prefix and resumed 62–64
+segment were mechanically reconstructed and validated as one registered
+1–64 stream, while retaining segmented provenance. Do not rerun or replace any
+task. No further model/API calls, method changes, development runs, or formal
+evaluation are currently authorized; await researcher review of docs/118–119.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced
@@ -96,19 +95,11 @@ superiority claim.
 
 ## 5. Claims and next-stage boundary
 
-The project has not established general memory superiority, cross-model
-robustness, native cold-start performance, full autonomous-agent benefit, or
-cross-benchmark generality. Phase 1D supported a development-scale Flash
-signal, after which the authorized Phase 1E Max validation was attempted but
-stopped as infrastructure-invalid. The next stages remain researcher review
-of that failure, a protocol-consistent replacement only if authorized,
-cross-model validation, Method/Evaluation v1 freezing, and only then fresh
-formal controlled evaluation.
-
-Phase 1E transition `0ada221` preceded all recorded Max calls, but the original
-run is invalid/incomplete because the carrier stopped before task 62 episode
-creation with `OSError: [Errno 28] No space left on device` while writing a
-temporary `libdownward.so`. The researcher has explicitly authorized only the
-segmented M61 continuation for tasks 62–64 after docs/117 is committed/pushed;
-no replacement of tasks 1–61, formal evaluation, or other model call is
-authorized.
+The project has not established general memory superiority, native cold-start
+performance, full autonomous-agent benefit, or cross-benchmark generality.
+Phase 1E completed as a segmented Max continuation and was classified
+`MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`: the mechanism formed, but cumulative
+Max T used 47 more acquisition actions than G, concentrated in no-H tasks.
+This is one reused development population per model, not a causal or formal
+estimate. See docs/118–119. Any next research stage requires researcher review;
+no additional model/API calls or formal experiments are currently authorized.

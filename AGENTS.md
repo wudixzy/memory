@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1E Max Resume — authorized continuation of tasks 62–64**.
+Current cycle: **Phase 1E completed — researcher review required**.
 
 Frozen Phase 1B baseline:
 
@@ -24,35 +24,31 @@ Read first:
 
 ## Current Phase 1E status
 
-Phase 1C and the authorized Phase 1D Flash continuation are complete. Both
-remain development/validation evidence only; neither is a paper-level
-superiority result. Phase 1D was classified `SCALE_POSITIVE`. Phase 1E was
-then attempted under an immutable Max transition, but stopped at global task
-62 because the ALFWorld/TextWorld carrier could not write `libdownward.so`
-to `/tmp` (`OSError: [Errno 28] No space left on device`). The partial run is
-invalid for cross-model interpretation as a complete stream; see
-`docs/114_phase1e_max_validation_results.md` and
-`docs/115_phase1e_max_validation_semantic_review.md`.
+Phase 1C and Phase 1D are complete development/validation streams; neither is
+a paper-level superiority result. Phase 1D was classified `SCALE_POSITIVE`.
+Phase 1E completed its registered 64-task Max stream as a segmented
+continuation after the original task-62 temporary-storage failure. The
+continuation began from the verified original M61 states and ran only tasks
+62–64; the original 1–61 artifacts were not rerun or changed. The final
+development interpretation is
+`MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; see `docs/118` and `docs/119`.
 
-The Phase 1E no-model transition is documented in
-`docs/113_phase1e_max_validation_transition.md` and used the exact combined
-64-task Phase 1C/1D population. Max started fresh G/T warm-start state and did
-not load Flash-evolved memory. The researcher has now authorized a
-protocol-consistent continuation from the validated Max M61 state for only
-registered tasks 62–64. The no-model prefix diagnostic is documented in
-`docs/116_phase1e_max_prefix_diagnostic.md`; resume checks and the carrier-only
-preflight are documented in `docs/117_phase1e_max_resume_transition.md`.
-**No model call is authorized before the resume transition is committed and
-pushed.** After that commit, only the sequential G/T pairs for tasks 62, 63,
-and 64 may run. Do not rerun tasks 1–61, retry any previous call, replace a
-task, call Flash, or start formal experiments.
+The Phase 1E prefix audit, resume transition, and final review are documented
+in `docs/116_phase1e_max_prefix_diagnostic.md`,
+`docs/117_phase1e_max_resume_transition.md`,
+`docs/118_phase1e_max_completed_results.md`, and
+`docs/119_phase1e_cross_model_final_review.md`. **No model/API calls are
+currently authorized.** Do not rerun any Phase 1E task, start another
+development stream, modify the method from these outcomes, freeze Method or
+Evaluation v1, or launch formal experiments without new researcher review and
+authorization.
 
 Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
 lifecycle/dedup/retrieval fixes based on their outcomes.
 
-The protocol and execution instructions below are the frozen Phase 1C/1E
-reference, not broader current execution authorization. Current authorization
-is limited to the Phase 1E M61 continuation above.
+The protocol and execution instructions below are historical frozen
+references, not current execution authorization. Current authorization is
+limited to analysis/researcher review; no model/API work is authorized.
 
 ## Historical Phase 1C protocol (completed; frozen reference)
 
@@ -92,8 +88,8 @@ Reuse frozen components where possible.
 
 ## Model policy
 
-The completed Phase 1C/1D cycles were Flash-only. The attempted Phase 1E was
-Max-only:
+The completed Phase 1C/1D cycles were Flash-only. The completed Phase 1E
+cross-model validation stream was Max-only:
 
     qwen3.8-max
     thinking=false
@@ -102,8 +98,8 @@ Max-only:
 Use Max for selector, H retrieval, B, exploration-history retrieval, C, A and
 H/comparison reconciliation.
 
-Do not mix Flash outputs/configuration into Phase 1E. Do not rerun or replace
-the incomplete Phase 1E stream without explicit researcher authorization.
+Do not mix Flash outputs/configuration into the recorded Phase 1E stream. Do
+not rerun, replace, or extend any Phase 1E tasks.
 
 ## Fresh stream
 
@@ -297,7 +293,7 @@ marginal 33–64 result separately, preserved raw failure artifacts, and stopped
 after the result/semantic-review documents. Do not rerun it or extend the
 development stream without a new researcher authorization.
 
-## After Flash/Phase 1D runs (historical; Phase 1E active)
+## After Flash/Phase 1D runs (historical context; Phase 1E now complete)
 
 Completed artifacts:
 
@@ -306,9 +302,8 @@ Completed artifacts:
 - docs/110_phase1d_flash_long_horizon_results.md
 - docs/111_phase1d_flash_long_horizon_semantic_review.md
 
-The Phase 1E transition was pushed before Max calls, but the original run
-stopped before task 62 episode creation for a host temporary-storage failure.
-Preserve the partial artifacts. The current, narrower authorization to resume
-only tasks 62–64 after the new immutable transition is recorded above; this
-historical paragraph does not authorize a replacement run, formal evaluation,
-or another development stream.
+The original Phase 1E run stopped before task 62 episode creation for a host
+temporary-storage failure. The authorized continuation from M61 is complete
+and recorded in docs/118–119. Preserve both runtime segments and their
+provenance. No replacement run, formal evaluation, or additional development
+stream is authorized by this historical protocol text.

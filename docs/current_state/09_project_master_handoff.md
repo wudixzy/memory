@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-22 active cycle:** Phase 1C and the authorized Phase 1D Flash long-horizon continuation are complete; Phase 1D is development evidence only and was interpreted as `SCALE_POSITIVE`. The original Phase 1E Max run stopped before task 62 episode creation on a host `/tmp` no-space carrier failure. The researcher has authorized a no-model audit and a protocol-consistent continuation from the original Max M61 state for only tasks 62–64, after an immutable resume transition is committed and pushed. No model/API call is authorized before that transition. Read `docs/110_phase1d_flash_long_horizon_results.md`, `docs/111_phase1d_flash_long_horizon_semantic_review.md`, `docs/112_phase1e_cross_model_validation_plan.md`, `docs/113_phase1e_max_validation_transition.md`, `docs/114_phase1e_max_validation_results.md`, `docs/115_phase1e_max_validation_semantic_review.md`, `docs/116_phase1e_max_prefix_diagnostic.md`, `docs/117_phase1e_max_resume_transition.md`, and current `AGENTS.md`.
+> **2026-09-22 active status:** Phase 1C/1D Flash validation and Phase 1E Max cross-model validation are complete development evidence. Phase 1E was completed as a segmented stream: original tasks 1–61 plus registered tasks 62–64 resumed from verified M61 states after the temporary-storage interruption. Its interpretation is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`, not a confirmatory or paper-level result. No model/API calls, method changes, Method/Evaluation v1 freeze, or formal experiment are currently authorized pending researcher review. Read docs/110–119 and current `AGENTS.md`.
 
-> **2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. For the active Phase 1A protocol, read `docs/83_phase1a_controlled_targeting_fast_track_plan.md` and current `AGENTS.md`. The historical Gate B1/B1-R autonomous-actor path below is retained as evidence but is no longer the prerequisite for the versioned controlled-targeting-v2 experiment.
+> **Historical 2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. The Phase 1A controlled-targeting protocol described in the historical sections below is retained for context; it is not the active cycle. The historical Gate B1/B1-R autonomous-actor path is evidence only.
 
-> 状态：当前项目单一接手入口（2026-09-22，Phase 1E 原运行因临时存储失败而中断；仅授权在新 immutable transition 后从 M61 继续完成任务 62–64）
+> 状态：当前项目单一接手入口（2026-09-22，Phase 1E segmented continuation 已完成；等待 researcher review，当前无模型调用授权）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -991,9 +991,10 @@ Phase 1C H2 artifact audit / Phase 1D Flash long-horizon validation
 
 Phase 1C/Phase 1D 只验证 scale-aware hypothesis，不是 paper-level 主实验，
 且均已完成。Phase 1D 从 Phase 1C task-32 的 immutable G/T state 继续，运行
-了唯一授权的 32-task suffix；没有 Max、retry、task replacement 或新 stream。
-随后 Phase 1E 使用同一 64-task population 独立启动 Max G/T，但在 global
-task 62 因 `/tmp` 无空间而停止；没有 retry 或 task replacement：
+了唯一授权的 32-task suffix；没有 retry 或 task replacement。Phase 1E 使用
+同一 64-task population 独立启动 Max G/T。原运行在 task 62 episode creation
+前因 `/tmp` 无空间中断；之后从验证通过的 M61 G/T state 仅续跑原注册的
+62–64，形成 segmented complete stream。详见 docs/116–119：
 
 \[
 32\ \text{fresh tasks}
@@ -1017,12 +1018,14 @@ Phase 1C 的三个观察目标：
 2. H2：exploration history 是否减少 redundant exploration；
 3. H3：这些机制是否开始改善 cumulative search cost。
 
-Phase 1D 的 suffix registry、运行时和语义 review 已分别保存在 transition
-及 docs/110–111 中。Phase 1E transition、partial runtime 和 invalid-run
-review 保存在 docs/113–115 中。当前 researcher 已授权对 1–61 前缀做无模型
-诊断，并在新的 immutable resume transition 提交后，从原始 Max M61 状态依序
-续跑原注册的 62–64。不得重跑 1–61、替换任务或启动正式实验；细节见
-docs/116–117。
+Phase 1D 的 suffix registry、运行时和语义 review 保存在 docs/109–111。
+Phase 1E 的原始 interruption、prefix audit、resume transition、完整结果与
+最终复核分别保存在 docs/113–119。最终 development interpretation 为
+`MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`：Max 的 overall T−G acquisition-action
+delta 为 +47，主要来自 no-H episodes；H-active 子集略有利于 T。这是单一
+dependent stream 的描述性分解，不是因果估计。当前没有模型/API 调用授权；
+不得重跑任务、调整方法、启动新 development stream 或进入 formal evaluation，
+除非 researcher 另行 review 并授权。
 
 # 21. 当前不要重新打开的问题
 
