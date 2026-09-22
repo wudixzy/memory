@@ -1,0 +1,41 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate directly to the cooling appliance first. Open it if closed and inspect for the target object. If found, take it and proceed with the cooling routine. If not found, continue searching other semantically plausible receptacles in listed order.",
+  "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+  "probe_spec": {
+    "adaptive_policy": "Select the cooling appliance from the current observation's admissible go-to actions. Upon arrival, issue an open action if the observation indicates it is closed, then inspect. If the target object is observed, take it. If the target is absent, resume searching other receptacles using the established listed-order guidance.",
+    "capability_requirements": [
+      "go to",
+      "open",
+      "take",
+      "look"
+    ],
+    "evidence_goal": "Whether navigating to the cooling appliance first successfully locates the target object or reduces total search steps compared to visiting receptacles in strict listed order or by generic surface priority.",
+    "local_function": "Initial receptacle selection during target object search",
+    "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+    "required_downstream_state": "Target object held in agent inventory; agent located at the receptacle where the target was found.",
+    "stop_conditions": [
+      "Target object is found and taken into inventory",
+      "Cooling appliance has been opened and inspected without finding the target object",
+      "An action fails or returns an error"
+    ]
+  },
+  "provenance": [
+    "entry_state.admissible_actions",
+    "historical_capability_vocabulary.observed_exact_actions",
+    "pre_update_established_memories.established-search-listed-order-general",
+    "pre_update_established_memories.established-cool-then-place-routine"
+  ],
+  "reason": "Previous explorations tested generic semantic prioritization for pick-and-place and pick-clean-then-place tasks. This probe tests a task-specific heuristic for pick-cool-then-place: visiting the cooling appliance first because it is both a plausible location for food items and a mandatory downstream waypoint, potentially saving navigation steps.",
+  "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+  "source_grounding": {
+    "entry_action": "go to fridge_1",
+    "public_capability_evidence": [
+      "go to fridge_1 is in currently_admissible_actions",
+      "fridge_1 is in currently_visible_or_referenced_entities",
+      "go to is in historical action_names"
+    ],
+    "why_grounded": "The action is explicitly listed in the entry-state admissible actions and navigates to the dedicated cooling appliance visible in the room observation."
+  },
+  "type": "exploratory"
+}

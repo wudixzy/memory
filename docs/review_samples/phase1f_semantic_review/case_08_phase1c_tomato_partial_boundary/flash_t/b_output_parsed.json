@@ -1,0 +1,19 @@
+{
+  "decision": "OPEN",
+  "evidence_status": {
+    "comparative_support": "The supplied history establishes that direct navigation to an open surface works, but does not prove it is superior to the established 'semantic prioritization' or 'open-surface-first' memories, which have conflicting evidence regarding efficiency vs. reliability.",
+    "feasibility_support": "The incumbent behavior successfully acquired the target object within the controlled endpoint scope.",
+    "policy_relevance": "Resolving whether to trust direct open-surface acquisition over semantic container prioritization materially changes search policy for food items in kitchen environments."
+  },
+  "functional_contract": {
+    "available_state": "Agent at start location; target type known (tomato); environment contains mixed open surfaces and closed storage.",
+    "constraints": [
+      "Must preserve target acquisition success rate.",
+      "Must minimize step count relative to baseline heuristics."
+    ],
+    "local_function": "Select and navigate to a receptacle based on a specific heuristic (direct open-surface check vs. semantic priority).",
+    "required_downstream_state": "Target object in inventory."
+  },
+  "incumbent_segment": "The agent navigated directly to countertop_1 and acquired tomato_1 in 2 steps, bypassing the established memory's guidance to prioritize semantically likely closed containers (fridge) or perform a broader open-surface scan.",
+  "warrant": "The incumbent demonstrates a highly efficient 2-step acquisition that contradicts the complexity of established memories (which suggest checking fridges or scanning multiple countertops). This discrepancy suggests the established policies may be suboptimal for this specific layout/object combination, warranting a test to determine if simple open-surface targeting should supersede semantic prioritization for tomatoes."
+}

@@ -1,0 +1,68 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-8f8505695fa0c9df",
+        "hypothesis": "Prioritizing inspection of closed storage receptacles (drawers/cabinets) over open surfaces (countertops/shelves) reduces total navigation steps by avoiding redundant visits to empty open areas, assuming the target is more likely to be hidden inside a container.",
+        "probe_summary": {
+          "evidence_goal": "Compare the number of navigation steps taken to find the target against the baseline established memory (which uses simple listed order). Success is defined by finding the target with fewer or equal steps while maintaining correctness.",
+          "local_function": "Selecting the next receptacle to inspect during search.",
+          "realization_pattern": "Filter candidate receptacles by type: prioritize 'closed storage' types (e.g., drawers, cabinets, fridges) over 'open surface' types (e.g., countertops, shelves). Within the prioritized group, select the nearest or first-listed instance.",
+          "stop_conditions": [
+            "Target object is acquired.",
+            "All candidate receptacles have been inspected without finding the target.",
+            "Navigation error occurs."
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some plate and put it in countertop."
+    },
+    "current_task": {
+      "instruction": "clean some plate and put it in countertop.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 2895,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/retrieval/retrieval_input.json",
+    "sha256": "2111ad092a0abbaf218695d46f9137704f8a0f4373db23072db071d55ca39537",
+    "status": "available"
+  }
+}

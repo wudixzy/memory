@@ -1,0 +1,59 @@
+{
+  "content": {
+    "actually_activated_h_id": null,
+    "archive_files": {
+      "after": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_after.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [],
+    "h_state_after_episode": [],
+    "retrieval_decision": "GENERIC_C2",
+    "retrieval_h_id": "NONE"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2668,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+      "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+      "status": "available"
+    },
+    {
+      "bytes": 224957,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_before.json",
+      "sha256": "5296516a3aea35cd5c39a855fb4f69f1e9a2d1827c3e015c44ae2b0b161b8c89",
+      "status": "available"
+    },
+    {
+      "bytes": 236618,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_after.json",
+      "sha256": "5fde9f0a052fa9e2458cad71e8e574866ede40a4fa31382250d642bbc3331974",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_after.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    }
+  ]
+}

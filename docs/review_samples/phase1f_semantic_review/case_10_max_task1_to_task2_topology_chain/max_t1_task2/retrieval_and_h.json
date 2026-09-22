@@ -1,0 +1,67 @@
+{
+  "content": {
+    "actually_activated_h_id": null,
+    "archive_files": {
+      "after": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/exploration_history_after.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-cfd2fc58104a4c7a",
+        "consumed_at_task": null,
+        "created_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "h_id": "h-08e26bc3ebfdd940",
+        "status": "active"
+      }
+    ],
+    "retrieval_decision": "NONE",
+    "retrieval_h_id": "NONE"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 10387,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/task_summary.json",
+      "sha256": "94c87073baa12ff1e8a18fed53c160fe2bb72694ef3ec847dac2d8337fc6e30e",
+      "status": "available"
+    },
+    {
+      "bytes": 53151,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/memory_before.json",
+      "sha256": "900de50eb3d2fe11d9066fb67d92fe45a0aa3db689d0f2864a86ad1f6990e42e",
+      "status": "available"
+    },
+    {
+      "bytes": 65072,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/memory_after.json",
+      "sha256": "653bd959b430c2544599849f3caf4dc0a394478e1b4b3a94a6f89dd9cad02fed",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/exploration_history_after.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    }
+  ]
+}

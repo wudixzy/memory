@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "7200b74d966fcef8fe105e8668a2e45f02fb2a1500cf2c22d52ef480ca6c880e",
+        "requested_seed": 42,
+        "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "7200b74d966fcef8fe105e8668a2e45f02fb2a1500cf2c22d52ef480ca6c880e",
+        "requested_seed": 42,
+        "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+      }
+    },
+    "e0_initial_fingerprint": "7200b74d966fcef8fe105e8668a2e45f02fb2a1500cf2c22d52ef480ca6c880e",
+    "e1_initial_fingerprint": "7200b74d966fcef8fe105e8668a2e45f02fb2a1500cf2c22d52ef480ca6c880e",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2823,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/pairing_proof.json",
+      "sha256": "5798a8bff28c48aa750e06d1ae56c06f90dfadb3014086b395f7851559ae599d",
+      "status": "available"
+    }
+  ]
+}

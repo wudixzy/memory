@@ -1,0 +1,48 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "No hypothesis was activated or tested in this episode.",
+          "Whether the listed-order search strategy is globally optimal compared to alternative search orderings remains untested.",
+          "The full task (placing the saltshaker on a drawer) was not completed, so downstream placement execution remains unresolved."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at room center with full list of visible receptacles from initial observation; target object is not initially visible; inventory is empty.",
+          "constraints": [
+            "Must not interact with or pick up non-target objects",
+            "Must open closed receptacles before inspection",
+            "Must preserve ability to navigate to destination receptacle after acquisition"
+          ],
+          "local_function": "Sequentially navigate to each receptacle in listed order, open if closed, inspect contents, and take the target object when found.",
+          "required_downstream_state": "Target object is held in agent inventory; agent is located at the receptacle where the target was found."
+        }
+      },
+      "c_candidate": null,
+      "current_evidence_id": "evidence-c5b91536ae7975e6",
+      "history_retrieval": {
+        "decision": "NONE",
+        "exploration_ids": []
+      },
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+    },
+    "existing_comparison_ids": [],
+    "existing_comparison_summaries": [],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1808,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T1/h_reconciliation/reconciliation_input.json",
+    "sha256": "1263afaf70b6613ce99cf1ed5fae7c9496048863d03b5c17e5a9b33c0d7101e9",
+    "status": "available"
+  }
+}

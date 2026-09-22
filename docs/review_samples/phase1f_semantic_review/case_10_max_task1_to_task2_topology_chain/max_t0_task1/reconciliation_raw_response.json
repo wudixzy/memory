@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": true,\n  \"operation\": \"ADD\",\n  \"rationale\": \"No existing comparisons; C proposed a new exploratory candidate comparing open-surface-first search to strict list-order traversal. A confirms the comparison remains open and untested.\",\n  \"target_comparison_id\": \"NEW\"\n}",
+  "role": "assistant"
+}

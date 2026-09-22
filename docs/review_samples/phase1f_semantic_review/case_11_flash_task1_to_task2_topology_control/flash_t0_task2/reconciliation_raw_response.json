@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": false,\n  \"operation\": \"NO_NEW_H\",\n  \"rationale\": \"C returned no candidate. A's assessment is PARTIALLY_RESOLVED with inconclusive evidence for the specific hypothesis (baseline not executed), so no new H can be grounded or added.\",\n  \"target_comparison_id\": \"NONE\"\n}",
+  "role": "assistant"
+}

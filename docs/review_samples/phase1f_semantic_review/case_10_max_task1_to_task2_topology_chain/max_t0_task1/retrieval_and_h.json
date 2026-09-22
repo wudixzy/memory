@@ -1,0 +1,67 @@
+{
+  "content": {
+    "actually_activated_h_id": null,
+    "archive_files": {
+      "after": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/exploration_history_after.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-9237af7e062ed4d8",
+        "status": "active"
+      }
+    ],
+    "retrieval_decision": "NONE",
+    "retrieval_h_id": "NONE"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 10172,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/task_summary.json",
+      "sha256": "2b45f9cdc82d1084e6dadb24f2bed9c078ea97a3b88aa67ebd40ae07bf3d7e6e",
+      "status": "available"
+    },
+    {
+      "bytes": 1944,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/memory_before.json",
+      "sha256": "b58be6a2be9cc8567c302a1338357a4606c883486547f26ecb49a145d79b1123",
+      "status": "available"
+    },
+    {
+      "bytes": 49918,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/memory_after.json",
+      "sha256": "4ce282c88e4085c4aa20c4e16de1eb00a6f37d4cc35445392677ff8311021b76",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/exploration_history_after.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    }
+  ]
+}

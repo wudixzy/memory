@@ -1,0 +1,179 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 0,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "Whether prioritizing open horizontal surfaces before closed storage receptacles is generally more efficient for non-food targets that typically spawn on stovetops or other specific fixtures.",
+          "Optimal search ordering for cookware items (e.g., pans, pots) which frequently appear on stoveburners rather than countertops or inside cabinets."
+        ],
+        "updates": []
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 30,
+    "activated_h_id": null,
+    "arm": "T0",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "No comparative evidence exists; the trajectory never tested the memory's open-surface-first guidance, so the incumbent's status as preferred realization is entirely unresolved.",
+          "feasibility_support": "The exhaustive search eventually located the pan on stoveburner_4 and acquired it at step 30, confirming feasibility under this episode's scope.",
+          "policy_relevance": "Resolving whether open-surface-first or stoveburner-priority search outperforms exhaustive cabinet/drawer enumeration could materially reduce search steps for cooking-related targets like pans."
+        },
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of admissible receptacles; target (pan) not visible in entry observation; task requires acquiring a pan for downstream cooling.",
+          "constraints": [
+            "Must not modify or interact with non-target objects",
+            "Must terminate search immediately upon first target observation",
+            "Must remain within admissible navigation actions"
+          ],
+          "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+          "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine."
+        },
+        "incumbent_segment": "Exhaustive closed-receptacle-first search visiting all cabinets and drawers before inspecting open surfaces and stoveburners",
+        "warrant": "The incumbent performed an exhaustive 28-step search prioritizing closed cabinets and drawers before reaching open surfaces and stoveburners, directly contradicting the established memory's open-surface-first guidance. The trajectory proves only that exhaustive search is feasible here, not that it is optimal. Since pans are strongly associated with stoveburners and open surfaces, resolving whether a targeted or open-surface-first policy reduces search cost is highly policy-relevant."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "CREATE",
+        "guidance": "Navigate to an available cooking appliance first. If the target cooking vessel is observed there, take it. If not, fall back to inspecting available open horizontal surfaces, then closed storage receptacles. Stop searching as soon as the target is observed.",
+        "hypothesis": "For cooking vessels requiring downstream cooling, prioritizing navigation to cooking appliances (e.g., stove burners) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "probe_spec": {
+          "adaptive_policy": "From the entry state, select an available cooking appliance from the admissible actions and navigate to it. Inspect the resulting observation for the target cooking vessel. If found, take it and terminate the search. If not found, select an available open horizontal surface and navigate to it, repeating the inspection. If still not found, select a closed storage receptacle, navigate to it, open it, and inspect. Terminate immediately upon first target observation.",
+          "capability_requirements": [
+            "go to",
+            "look",
+            "open",
+            "take"
+          ],
+          "evidence_goal": "Whether navigating to a cooking appliance first yields the target cooking vessel in fewer total search actions than starting with open horizontal surfaces or closed storage receptacles.",
+          "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+          "realization_pattern": "visit a cooking appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+          "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine.",
+          "stop_conditions": [
+            "Target cooking vessel is observed and taken",
+            "All cooking appliances have been inspected without finding the target",
+            "An action fails or is not admissible",
+            "Maximum of three distinct receptacle categories visited without success"
+          ]
+        },
+        "provenance": [
+          "entry_state_capabilities.currently_admissible_actions",
+          "historical_capability_vocabulary.action_names",
+          "pre_update_established_memories.established-search-listed-order-general"
+        ],
+        "reason": "Previous exploration tested appliance-first search only for food items. This probe tests whether the same semantic heuristic applies to cooking vessels like pans, which are strongly associated with stove burners rather than countertops or cabinets, representing a materially different scope and realization context.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a cooking vessel (e.g., pan, pot) not immediately visible in the entry observation and the room contains both open horizontal surfaces, closed storage receptacles, and cooking appliances.",
+        "source_grounding": {
+          "entry_action": "go to stoveburner_1",
+          "public_capability_evidence": [
+            "go to stoveburner_1 is present in entry_state_capabilities.currently_admissible_actions",
+            "go to is present in historical_capability_vocabulary.action_names"
+          ],
+          "why_grounded": "stoveburner_1 is listed in the currently_admissible_actions at the entry state and represents a cooking appliance relevant to the target cooking vessel."
+        },
+        "type": "exploratory"
+      },
+      "phase": "phase1c_c",
+      "status": "parsed"
+    },
+    "candidate_probe_count": 0,
+    "candidate_sequence": [],
+    "environment_action_count": 30,
+    "h_reconciliation_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "keep_candidate_h": true,
+        "operation": "REFINE_EXISTING",
+        "rationale": "Candidate H extends the existing comparison's search-ordering theme to cooking vessels and cooking appliances. Linked consumed H h-492f4d237f36cd53 addressed food items and food-preparation appliances; this candidate is a distinct refinement for cookware, not a duplicate.",
+        "target_comparison_id": "comparison-a4dd496faa0506d4"
+      },
+      "phase": "phase1c_h_reconciliation",
+      "status": "parsed"
+    },
+    "reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c",
+      "candidate_retained": true,
+      "comparison_id": "comparison-a4dd496faa0506d4",
+      "comparison_status": "OPEN",
+      "h_id": "h-adc5f270fff807b5",
+      "operation": "REFINE_EXISTING"
+    },
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "NONE",
+      "h_id": "NONE"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 13018,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+      "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+      "status": "available"
+    }
+  ]
+}

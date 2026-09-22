@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "902225d4e7dde2e82772cd2afefa37c811bcce2bb6e16697396e037c3655b591",
+        "requested_seed": 42,
+        "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "902225d4e7dde2e82772cd2afefa37c811bcce2bb6e16697396e037c3655b591",
+        "requested_seed": 42,
+        "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      }
+    },
+    "e0_initial_fingerprint": "902225d4e7dde2e82772cd2afefa37c811bcce2bb6e16697396e037c3655b591",
+    "e1_initial_fingerprint": "902225d4e7dde2e82772cd2afefa37c811bcce2bb6e16697396e037c3655b591",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2769,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/pairing_proof.json",
+      "sha256": "02dcf5ebdb1e047255ba9f87f6ffe159c0446f0589b8ba1390ee8cf044834b98",
+      "status": "available"
+    }
+  ]
+}

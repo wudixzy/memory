@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/h_reconciliation/prompt.json",
+  "reason": "No reconciliation stage followed the rejected B-to-C handoff; see validation_and_handoff.json.",
+  "status": "not_available"
+}

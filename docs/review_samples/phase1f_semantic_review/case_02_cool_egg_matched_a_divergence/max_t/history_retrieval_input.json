@@ -1,0 +1,45 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-3ef3b43e4c09a8cb",
+        "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+        "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles; target object not initially visible; inventory empty.",
+      "constraints": [
+        "Must not take non-target objects",
+        "Must open closed receptacles before inspection",
+        "Must preserve ability to navigate to cooling and placement receptacles after acquisition"
+      ],
+      "local_function": "Sequentially navigate to each receptacle in the listed order, open if closed, inspect for target, and acquire it upon first exposure.",
+      "required_downstream_state": "Target object held in agent inventory; agent positioned at the receptacle where target was found."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3400,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "f320ac9b59cbd4c57ed982b0833df3a43d17645623e27a4bb63b2c11dbc14092",
+    "status": "available"
+  }
+}

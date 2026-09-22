@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": true,\n  \"operation\": \"ADD\",\n  \"rationale\": \"C proposes a genuinely new comparison for pick-cool-then-place tasks prioritizing open cooking surfaces to locate a cooking vessel. This differs in scope and target object from existing comparisons (which focus on cooling appliances, heating, or pick-clean tasks). No existing comparison ID applies.\",\n  \"target_comparison_id\": \"NEW\"\n}",
+  "role": "assistant"
+}

@@ -1,0 +1,99 @@
+{
+  "content": {
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "countertop_1"
+    ],
+    "environment_actions": [
+      "go to countertop_1",
+      "take soapbar_1 from countertop_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to countertop_1",
+          "take soapbar_1 from countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_11. On countertop_1, you see soapbar_1, and soapbottle_1.",
+          "You take soapbar_1 from countertop_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine countertop_1",
+            "examine soapbar_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put soapbar_1 in/on countertop_1"
+          ],
+          "observation": "You take soapbar_1 from countertop_1."
+        },
+        "selection": {
+          "candidate_index": 4,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 1,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 1706,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/probe_summary.json",
+      "sha256": "2d3afc252f861011b1364ebc28a55f0aac8e49eccdaf0f39d1aa805368a11195",
+      "status": "available"
+    },
+    {
+      "bytes": 9253,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/selector_input.json",
+      "sha256": "08a8f6d1b70c4356f0072e4e4d857e74644de9af0ffb3bc2a528ac1112fcee90",
+      "status": "available"
+    },
+    {
+      "bytes": 73,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/raw_response.json",
+      "sha256": "54d1fc3d944b783e24b3986a4b87c7371f366fe1b6663a0dab2c5dc61e673ba3",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/parsed.json",
+      "sha256": "4ee8cabec3ac6de448e8c6de36df2542c79834acaccd80934a26906d64f62aba",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/probe/steps/001/selector_validation.json",
+      "sha256": "d7d76007d431a97050a4063a17b67e53719bdf818b7f60e7be03bd6c1c63bc86",
+      "status": "available"
+    }
+  ]
+}

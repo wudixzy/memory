@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "7662f7dd42e1b59c9f2f238bf30a56f2cb4a67f0c2ea667492e4c49fcbc113f7",
+        "requested_seed": 42,
+        "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "7662f7dd42e1b59c9f2f238bf30a56f2cb4a67f0c2ea667492e4c49fcbc113f7",
+        "requested_seed": 42,
+        "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+      }
+    },
+    "e0_initial_fingerprint": "7662f7dd42e1b59c9f2f238bf30a56f2cb4a67f0c2ea667492e4c49fcbc113f7",
+    "e1_initial_fingerprint": "7662f7dd42e1b59c9f2f238bf30a56f2cb4a67f0c2ea667492e4c49fcbc113f7",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2793,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/pairing_proof.json",
+      "sha256": "1694bc5fb6960384249567a740da5e6fda0b7cf91af62d50d3a20140ea74269c",
+      "status": "available"
+    }
+  ]
+}

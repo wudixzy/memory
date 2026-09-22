@@ -1,0 +1,152 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 1,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "still_unresolved": [
+          "The hypothesis claims a reduction in total action steps compared to semantic-priority search. While the open-surface-first strategy achieved acquisition in 2 steps, no direct comparison data from a semantic-priority baseline (e.g., checking fridge first) was provided in this specific probe to definitively quantify the step reduction or prove superiority over that specific alternative in this instance."
+        ],
+        "updates": [
+          {
+            "evidence_basis": "The agent successfully acquired egg_3 in 2 steps by navigating to countertop_1 (an open surface) first, consistent with the exploratory hypothesis that prioritizing open surfaces avoids container opening costs and yields fast acquisition for perishable food items when present on surfaces.",
+            "guidance": "When searching for perishable food items like eggs, tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+            "operation": "REFINE",
+            "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, egg, etc.) where the target location is unknown.",
+            "target_memory_ids": [
+              "established-3134b2ab1f0a162d"
+            ]
+          }
+        ]
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 2,
+    "activated_h_id": "h-fa21be2a8f9e2284",
+    "arm": "T",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "Memory contains conflicting guidance: 'established-search-listed-order-general' suggests prioritizing semantically likely containers (fridge) for food, while 'established-3134b2ab1f0a162d' suggests prioritizing open surfaces. The current task involves an egg (food), but was acquired on a countertop. It is unclear if the open-surface-first strategy is superior to semantic-first (fridge) or spatial-listed order for eggs specifically, as no direct comparison against a fridge-first policy for this specific object type/layout is established in memory.",
+          "feasibility_support": "The trajectory confirms that navigating directly to a visible open surface (countertop) allows for rapid target acquisition when the object is present there.",
+          "policy_relevance": "Resolving whether to prioritize open surfaces vs. semantic containers (fridge) for eggs affects search efficiency across all kitchen tasks involving perishable food items."
+        },
+        "functional_contract": {
+          "available_state": "Agent at start location; target (egg) not visible in initial observation; multiple receptacle types (cabinets, drawers, countertops, fridge) available.",
+          "constraints": [
+            "Must minimize total action count to acquisition.",
+            "Must correctly identify the target object among distractors if present."
+          ],
+          "local_function": "Select and navigate to a receptacle to locate and take the target egg.",
+          "required_downstream_state": "Agent holding the target egg."
+        },
+        "incumbent_segment": "Acquisition of egg_3 from countertop_1 in 2 steps via direct navigation to an open surface.",
+        "warrant": "The incumbent used an open-surface-first strategy which succeeded quickly. However, existing memories suggest semantic prioritization (checking fridge first for food) might be standard, yet previous evidence showed it failed when the fridge was empty. A controlled test comparing open-surface-first vs. semantic-first for eggs would clarify the optimal default policy for this high-frequency object class."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "NONE"
+      },
+      "phase": "phase1c_c",
+      "status": "parsed"
+    },
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "countertop_1"
+    ],
+    "environment_action_count": 2,
+    "h_reconciliation_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "keep_candidate_h": false,
+        "operation": "NO_NEW_H",
+        "rationale": "C returned no candidate hypothesis. The current evidence supports the existing active H in comparison-c137d39514515893 (open-surface-first for eggs), but without a new proposal from C, no new H can be added or refined.",
+        "target_comparison_id": "NONE"
+      },
+      "phase": "phase1c_h_reconciliation",
+      "status": "parsed"
+    },
+    "reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    },
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-fa21be2a8f9e2284"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_clean_then_place_in_recep",
+    "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 12442,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+      "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+      "status": "available"
+    }
+  ]
+}

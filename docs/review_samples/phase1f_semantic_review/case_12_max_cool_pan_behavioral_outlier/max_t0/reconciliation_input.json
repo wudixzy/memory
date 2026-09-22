@@ -1,0 +1,118 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "Whether prioritizing open horizontal surfaces before closed storage receptacles is generally more efficient for non-food targets that typically spawn on stovetops or other specific fixtures.",
+          "Optimal search ordering for cookware items (e.g., pans, pots) which frequently appear on stoveburners rather than countertops or inside cabinets."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of admissible receptacles; target (pan) not visible in entry observation; task requires acquiring a pan for downstream cooling.",
+          "constraints": [
+            "Must not modify or interact with non-target objects",
+            "Must terminate search immediately upon first target observation",
+            "Must remain within admissible navigation actions"
+          ],
+          "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+          "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine."
+        }
+      },
+      "c_candidate": {
+        "decision": "CREATE",
+        "guidance": "Navigate to an available cooking appliance first. If the target cooking vessel is observed there, take it. If not, fall back to inspecting available open horizontal surfaces, then closed storage receptacles. Stop searching as soon as the target is observed.",
+        "hypothesis": "For cooking vessels requiring downstream cooling, prioritizing navigation to cooking appliances (e.g., stove burners) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "probe_spec": {
+          "adaptive_policy": "From the entry state, select an available cooking appliance from the admissible actions and navigate to it. Inspect the resulting observation for the target cooking vessel. If found, take it and terminate the search. If not found, select an available open horizontal surface and navigate to it, repeating the inspection. If still not found, select a closed storage receptacle, navigate to it, open it, and inspect. Terminate immediately upon first target observation.",
+          "capability_requirements": [
+            "go to",
+            "look",
+            "open",
+            "take"
+          ],
+          "evidence_goal": "Whether navigating to a cooking appliance first yields the target cooking vessel in fewer total search actions than starting with open horizontal surfaces or closed storage receptacles.",
+          "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+          "realization_pattern": "visit a cooking appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+          "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine.",
+          "stop_conditions": [
+            "Target cooking vessel is observed and taken",
+            "All cooking appliances have been inspected without finding the target",
+            "An action fails or is not admissible",
+            "Maximum of three distinct receptacle categories visited without success"
+          ]
+        },
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a cooking vessel (e.g., pan, pot) not immediately visible in the entry observation and the room contains both open horizontal surfaces, closed storage receptacles, and cooking appliances.",
+        "type": "exploratory"
+      },
+      "current_evidence_id": "evidence-cdddcc19daff1cb5",
+      "history_retrieval": {
+        "decision": "SELECT",
+        "exploration_ids": [
+          "exploration-h-9237af7e062ed4d8",
+          "exploration-h-492f4d237f36cd53"
+        ]
+      },
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+    },
+    "existing_comparison_ids": [
+      "comparison-a4dd496faa0506d4"
+    ],
+    "existing_comparison_summaries": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+        "linked_h_summaries": [
+          {
+            "comparison_id": "comparison-a4dd496faa0506d4",
+            "h_id": "h-9237af7e062ed4d8",
+            "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+            "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+            "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+            "status": "consumed"
+          },
+          {
+            "comparison_id": "comparison-a4dd496faa0506d4",
+            "h_id": "h-492f4d237f36cd53",
+            "hypothesis": "For food items requiring downstream cooling, prioritizing navigation to food-preparation appliances (e.g., toasters, microwaves) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+            "realization_pattern": "visit a food-preparation appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+            "scope": "ALFWorld pick-cool-then-place tasks where the target object is a food item not immediately visible in the entry observation and the room contains both open surfaces, closed storage receptacles, and food-preparation appliances.",
+            "status": "consumed"
+          },
+          {
+            "comparison_id": "comparison-a4dd496faa0506d4",
+            "h_id": "h-c4608903eb1da8ff",
+            "hypothesis": "For food items requiring downstream heating, prioritizing navigation to cold-storage or heating appliances (e.g., a fridge or microwave) before inspecting general open horizontal surfaces reduces total search actions by targeting semantically likely spawn locations first.",
+            "realization_pattern": "visit a cold-storage appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+            "scope": "ALFWorld pick-heat-then-place tasks where the target food object is not immediately visible in the entry observation and the room contains open surfaces, closed storage receptacles, and heating appliances.",
+            "status": "superseded"
+          },
+          {
+            "comparison_id": "comparison-a4dd496faa0506d4",
+            "h_id": "h-b34dfbffa05d48ac",
+            "hypothesis": "For bathroom-specific target objects like soap bottles, prioritizing inspection of closed storage receptacles (e.g., cabinets) before open horizontal surfaces (e.g., countertops) reduces total search actions compared to the general open-surface-first heuristic.",
+            "realization_pattern": "visit a closed storage receptacle first, opening it if needed; if empty, visit an open horizontal surface next",
+            "scope": "ALFWorld pick-and-place tasks in bathroom environments where the target is a hygiene or toiletry item not immediately visible, and the room contains both open horizontal surfaces and closed storage receptacles typical of bathrooms.",
+            "status": "active"
+          }
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "status": "OPEN"
+      }
+    ],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 8222,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/reconciliation_input.json",
+    "sha256": "9adf27f7f3d99bd4c78882568e399daa4b8d2a1728cce3ba15f3e82568d453dc",
+    "status": "available"
+  }
+}

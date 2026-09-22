@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": true,\n  \"operation\": \"ADD\",\n  \"rationale\": \"The C candidate proposes a specific 'open-surface-first' heuristic for perishable food items (eggs) in kitchens. While similar to existing comparisons for tomatoes (comparison-e9007f0de961e2ea) and condiments (comparison-b1b7c37008df8834), the scope is distinct (perishable food vs. tomato/condiment). The current evidence contradicts the incumbent semantic-priority strategy (fridge-first) but does not yet validate the open-surface-first alternative for this specific object class. A new comparison is required to test this specific hypothesis against the established baseline.\",\n  \"target_comparison_id\": \"NEW\"\n}",
+  "role": "assistant"
+}

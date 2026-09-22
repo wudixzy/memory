@@ -1,0 +1,167 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/b_c_handoff/projection.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "b_c_handoff_validation_error": {
+      "content": {
+        "message": "B-to-C handoff contains a source entity id",
+        "type": "SchemaError"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 87,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/b_c_handoff/validation_error.json",
+        "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+        "status": "available"
+      }
+    },
+    "c_mechanical_grounding": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/c/mechanical_grounding.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_status": {
+      "content": {
+        "error": {
+          "message": "B-to-C handoff contains a source entity id",
+          "type": "SchemaError"
+        },
+        "status": "b_to_c_handoff_invalid"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 146,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/c/status.json",
+        "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+        "status": "available"
+      }
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The hypothesis claims faster acquisition than baseline strategies (spatial order or cabinet-first). While the stove-first strategy achieved acquisition in 3 steps, no direct comparison data against a specific baseline run is provided in this single episode to definitively prove superiority over all alternatives."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 482,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/epistemic_validation.json",
+        "sha256": "b6f7c6825e3762c923248233d433ade4232386de8a8249f28b13e88bd79c88e9",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "supporting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-978dc9a18a8b29f6",
+          "evidence_id": "evidence-112d7d796d146f00",
+          "evidence_role": "SUPPORTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-87d1cd11cd066c18"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired pan_1 in 3 steps by navigating directly to stoveburner_2 after checking stoveburner_1. This confirms that prioritizing stoveburners for cookware items yields rapid acquisition when the item is present on an appliance, supporting the semantic binding hypothesis.",
+              "guidance": "When searching for cookware items (pans, pots) in kitchen environments, prioritize inspecting stoveburners before other open surfaces (countertops/shelves) or closed storage. If the target is not found on stoveburners, proceed to other open surfaces, then closed storage.",
+              "operation": "REFINE",
+              "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot).",
+              "target_memory_ids": [
+                "established-87d1cd11cd066c18"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1336,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/materialization.json",
+        "sha256": "57d5d9884cc64056efd32ff214632d534c6609c41d5eb671076faf67d8b318cd",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired pan_1 in 3 steps by navigating directly to stoveburner_2 after checking stoveburner_1. This confirms that prioritizing stoveburners for cookware items yields rapid acquisition when the item is present on an appliance, supporting the semantic binding hypothesis.",
+              "guidance": "When searching for cookware items (pans, pots) in kitchen environments, prioritize inspecting stoveburners before other open surfaces (countertops/shelves) or closed storage. If the target is not found on stoveburners, proceed to other open surfaces, then closed storage.",
+              "operation": "REFINE",
+              "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot).",
+              "target_memory_ids": [
+                "established-87d1cd11cd066c18"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1012,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/updates_validation.json",
+        "sha256": "79b366af3ec161598202380374c425fc50103b3a792a583aa60de0d7dd892f64",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 482,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/epistemic_validation.json",
+      "sha256": "b6f7c6825e3762c923248233d433ade4232386de8a8249f28b13e88bd79c88e9",
+      "status": "available"
+    },
+    {
+      "bytes": 1012,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/updates_validation.json",
+      "sha256": "79b366af3ec161598202380374c425fc50103b3a792a583aa60de0d7dd892f64",
+      "status": "available"
+    },
+    {
+      "bytes": 1336,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a/materialization.json",
+      "sha256": "57d5d9884cc64056efd32ff214632d534c6609c41d5eb671076faf67d8b318cd",
+      "status": "available"
+    },
+    {
+      "bytes": 87,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/b_c_handoff/validation_error.json",
+      "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+      "status": "available"
+    },
+    {
+      "bytes": 146,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/c/status.json",
+      "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+      "status": "available"
+    }
+  ]
+}

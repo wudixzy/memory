@@ -1,0 +1,178 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-3ef3b43e4c09a8cb",
+        "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+        "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4"
+      },
+      {
+        "exploration_id": "exploration-h-9ca77aa6b36d0b57",
+        "hypothesis": "Prioritizing the single most semantically canonical storage receptacle for a perishable food target before inspecting generic surfaces reduces search steps compared to both strict listed-order traversal and broad surface-priority heuristics tested previously.",
+        "realization_pattern": "Navigate to the single most semantically canonical storage receptacle for the target object type; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles in listed order.",
+        "scope": "ALFWorld pick-heat-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and a cold-storage receptacle is present among many candidate locations.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-10f29a4d820ad738",
+        "hypothesis": "Prioritizing receptacles that match the task-specified destination type (e.g., searching storage units of the same class as the final placement location) before other surfaces reduces total search steps compared to both strict listed-order traversal and generic semantic plausibility heuristics, because objects are often stored near or within their canonical destination furniture class.",
+        "realization_pattern": "Identify a storage receptacle whose type matches the task-specified destination category; navigate to it first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+        "source_comparison_id": "comparison-8a5b75fcd09336dc"
+      },
+      {
+        "exploration_id": "exploration-h-e6c23949f174b273",
+        "hypothesis": "Navigating to the task-specified destination receptacle first to probe its accessibility (e.g., whether it requires opening) before beginning the search for the target object reduces total task steps compared to searching all receptacles in listed order or by semantic plausibility, because it resolves destination constraints early without assuming the target is inside it.",
+        "realization_pattern": "Navigate to the task-named destination receptacle; open if it is a closed container; observe its state; then fall back to systematic traversal of remaining receptacles to find and acquire the target object.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the task instruction names a specific destination receptacle that is reachable from the entry state, and no prior exploration has tested probing that exact named destination before searching other receptacles.",
+        "source_comparison_id": "comparison-8a5b75fcd09336dc"
+      },
+      {
+        "exploration_id": "exploration-h-caa251953f322a75",
+        "hypothesis": "Navigating first to the task-relevant cooling appliance (a closed storage receptacle) to search for the target may locate it faster than systematically traversing all visible receptacles in listed order, because food items are commonly stored inside cooling appliances.",
+        "realization_pattern": "Navigate to a task-relevant closed storage receptacle first, open and inspect it for the target; if absent, revert to systematic traversal of remaining receptacles in listed order.",
+        "scope": "ALFWorld tasks requiring cooling a target object before placement, where the target is not immediately visible and a known cooling appliance is present in the initial room observation.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4"
+      },
+      {
+        "exploration_id": "exploration-h-9354131b9c1fc01f",
+        "hypothesis": "Prioritizing receptacles whose type semantically suggests they hold fabric items (e.g., towel or handtowel holders) before inspecting generic closed storage reduces search steps for cloth targets, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Identify a receptacle whose type semantically matches the target object category; navigate to it first; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "scope": "ALFWorld clean-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including fabric-associated holders, and no prior exploration has tested domain-specific semantic prioritization for cloth-like targets.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-059586dfc8012b41",
+        "hypothesis": "Navigating to the named destination receptacle first to check for and acquire the target object reduces total steps compared to listed-order traversal when the target is already staged at the destination, because it avoids unnecessary search of other receptacles and positions the agent directly for the subsequent cooling operation.",
+        "realization_pattern": "Navigate to the task-named destination receptacle; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible, the task instruction names a specific destination receptacle that can also hold the target type, and the functional contract requires acquiring the target at the destination if present before downstream cooling.",
+        "source_comparison_id": "comparison-ae60f3483a2fdf49"
+      },
+      {
+        "exploration_id": "exploration-h-513b9268f2d9e8ad",
+        "hypothesis": "For cookware targets (e.g., pans), navigating first to a domain-matched open cooking surface may locate the target with fewer steps than strict listed-order traversal, because unlike fabric or small items, cookware is typically placed on open burners rather than inside closed cabinets, avoiding the overhead penalty observed for other object types.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles in listed order.",
+        "scope": "ALFWorld cool-then-place tasks where the target object is not immediately visible, the entry observation lists multiple domain-semantically matched cooking surfaces, and established memory warns against generic semantic prioritization that incurs overhead when targets reside in closed containers.",
+        "source_comparison_id": "comparison-98d40199a1723ab6"
+      },
+      {
+        "exploration_id": "exploration-h-94cf7204d270c463",
+        "hypothesis": "Prioritizing a cold-storage appliance over generic listed-order traversal or broad semantic plausibility reduces search steps for food objects in heat-then-place tasks, because raw food items are canonically stored in refrigeration units before heating.",
+        "realization_pattern": "Navigate to a cold-storage appliance; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-heat-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including a cold-storage appliance, and no prior exploration has tested prioritizing cold-storage appliances for food items that require subsequent heating.",
+        "source_comparison_id": "comparison-41cc2428ee53c66e"
+      },
+      {
+        "exploration_id": "exploration-h-0861b5675e68b4f3",
+        "hypothesis": "When multiple receptacles share the task-specified destination type, navigating to a non-destination instance of that type first reduces search steps compared to strict listed-order traversal or generic semantic plausibility, because objects are often stored on furniture matching the destination category even if not on the exact final placement surface.",
+        "realization_pattern": "Identify a receptacle whose type matches the task-specified destination category but is not the designated final placement target; navigate to it first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists multiple receptacles of the same type as the task-specified destination, and no prior exploration has tested prioritizing a non-destination instance of the destination type before searching other receptacles.",
+        "source_comparison_id": "comparison-2906d2e6deadadc3"
+      },
+      {
+        "exploration_id": "exploration-h-488efac368bb5d8f",
+        "hypothesis": "For food targets that require downstream cooling, prioritizing open cooking surfaces (where raw ingredients are commonly staged) before searching closed storage receptacles or the cooling appliance itself reduces total acquisition steps by avoiding unnecessary open/close actions on containers unlikely to hold uncooled food.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; acquire if present; otherwise fall back to listed-order traversal of remaining receptacles excluding the dedicated cooling appliance until target is held.",
+        "scope": "ALFWorld cool-then-place tasks targeting food items where the entry observation lists open cooking surfaces and closed storage receptacles, and prior tests of cooling-appliance-first and destination-first search have been explored.",
+        "source_comparison_id": "comparison-39b7da7506c87073"
+      },
+      {
+        "exploration_id": "exploration-h-c63cb319e69ea08c",
+        "hypothesis": "Prioritizing the heating appliance (the task's intermediate processing station) as the first search location for a heat-target object reduces total search steps compared to strict listed-order traversal, because mugs are often placed on or near heating appliances in preparation for the heating step.",
+        "realization_pattern": "Navigate to a heating appliance receptacle first; inspect its surface for the target object; acquire if present; otherwise continue systematic search of remaining receptacles in listed order, opening closed receptacles before inspection.",
+        "scope": "ALFWorld pick-heat-then-place tasks where the target is a mug not immediately visible in the entry observation and a heating appliance is present among many candidate receptacles.",
+        "source_comparison_id": "comparison-58656d0d411cf276"
+      },
+      {
+        "exploration_id": "exploration-h-b025343afe42b875",
+        "hypothesis": "For clean-then-place tasks targeting perishable food items, prioritizing open cooking surfaces before cold-storage receptacles reduces search steps compared to listed-order traversal or cold-storage-first search, because raw food items awaiting cleaning may be staged on open preparation or cooking surfaces rather than stored inside refrigeration units.",
+        "realization_pattern": "Navigate to an open cooking surface first; inspect for the target object; if absent, navigate to a cold-storage receptacle, open it, and inspect; if still absent, continue systematic traversal of remaining receptacles.",
+        "scope": "ALFWorld clean-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and both open cooking surfaces and cold-storage receptacles are available.",
+        "source_comparison_id": "comparison-e43edfe833157f5a"
+      },
+      {
+        "exploration_id": "exploration-h-f98f1efb76abeeb5",
+        "hypothesis": "Prioritizing open horizontal surfaces (e.g., countertops) as the first search locations for a mug target reduces total search steps compared to strict listed-order traversal, because mugs are frequently staged on open surfaces rather than inside closed cabinets or drawers, avoiding the overhead of opening multiple closed receptacles early in the search.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-fb6419f0cc942fc9"
+      },
+      {
+        "exploration_id": "exploration-h-aaef157feb9532ff",
+        "hypothesis": "For cookware targets like pans, navigating first to a domain-matched open cooking surface (e.g., a stove burner) may locate the target with fewer steps than strict listed-order traversal, because unlike fabric or small items previously tested, cookware is typically placed on open burners rather than inside closed cabinets, potentially avoiding the overhead penalty observed for other object types.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles in listed order.",
+        "scope": "ALFWorld clean-then-place tasks targeting cookware where the entry observation lists multiple open cooking surfaces and closed storage receptacles, and established memory warns against generic semantic prioritization that incurs overhead when targets reside in closed containers.",
+        "source_comparison_id": "comparison-98d40199a1723ab6"
+      },
+      {
+        "exploration_id": "exploration-h-1f77dd7c74d9e64d",
+        "hypothesis": "Prioritizing an available beverage-associated appliance surface as the first search location for a mug target reduces total search steps compared to both strict listed-order traversal and generic open-surface prioritization, because mugs are frequently staged near beverage preparation appliances rather than on general countertops or inside closed cabinets.",
+        "realization_pattern": "Navigate to a beverage-associated appliance surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-cb2e837d31c11478"
+      },
+      {
+        "exploration_id": "exploration-h-8fc4a41253abddd7",
+        "hypothesis": "For small dining condiment targets (e.g., saltshakers), navigating directly to an available open horizontal surface first can efficiently locate the target without the overhead of opening closed storage receptacles, outperforming strict listed-order traversal which may encounter closed cabinets early in the list.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones as needed.",
+        "scope": "ALFWorld pick-and-place tasks targeting small dining condiment objects where the entry observation lists multiple open horizontal surfaces and closed storage receptacles, and the target is not immediately visible.",
+        "source_comparison_id": "comparison-9ae1c3a0bff6b20f"
+      },
+      {
+        "exploration_id": "exploration-h-9c5cdfaad8ecd2c0",
+        "hypothesis": "Prioritizing an available open horizontal surface as the first search location for a mug target reduces total search steps compared to strict listed-order traversal when the destination is a beverage-associated appliance, because mugs are frequently staged on general countertops rather than inside closed cabinets or at the destination appliance itself.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a beverage-associated appliance, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-fb6419f0cc942fc9"
+      },
+      {
+        "exploration_id": "exploration-h-5afc3629f8404c59",
+        "hypothesis": "For root vegetable targets in cool-then-place tasks, prioritizing open horizontal preparation surfaces before closed storage receptacles reduces acquisition steps compared to strict listed-order traversal, because such food items are frequently staged on countertops for preparation rather than stored inside cabinets or drawers.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object type; acquire if present; otherwise fall back to listed-order traversal of remaining receptacles excluding the dedicated cooling appliance until target is held.",
+        "scope": "ALFWorld cool-then-place tasks targeting root vegetable food items where the entry observation lists open horizontal surfaces, closed storage receptacles, and a cold-storage appliance, and prior tests of cooking-surface-first and cold-storage-first search have been explored.",
+        "source_comparison_id": "comparison-43a0d0e09425cdc1"
+      },
+      {
+        "exploration_id": "exploration-h-f9e349c7471f657e",
+        "hypothesis": "Navigating to a towelholder-type receptacle before inspecting generic closed storage or other fixtures reduces search steps for acquiring a cloth object in a clean-then-place task, because towelholders are semantically specialized for fabric items.",
+        "realization_pattern": "Identify a fabric-specialized holder receptacle; navigate to it; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "scope": "ALFWorld clean-then-place tasks where the target is a cloth, the entry observation lists multiple receptacles including fabric-associated holders and closed storage, and prior semantic-priority tests have not specifically targeted towelholder-type receptacles as the first probe for cloth objects.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles; target cloth not visible; task requires clean-then-place to cabinet.",
+      "constraints": [
+        "Must not confuse towel objects with cloth target",
+        "Must open closed receptacles before taking contents",
+        "Must preserve ability to reach sinkbasin for downstream cleaning"
+      ],
+      "local_function": "Probe domain-semantically matched fabric holders first, then fall back to systematic traversal of closed receptacles to locate and acquire the cloth target.",
+      "required_downstream_state": "Cloth target held in inventory, agent positioned to proceed to cleaning phase."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 22486,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "b14daa88e313c492f5c40021cbca4fb8112c6253206fbd43cee80e4188132a1e",
+    "status": "available"
+  }
+}

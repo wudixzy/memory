@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/retrieval/status.json",
+  "reason": "The frozen G arm has no active-H retrieval stage; this artifact is not applicable.",
+  "status": "not_available"
+}

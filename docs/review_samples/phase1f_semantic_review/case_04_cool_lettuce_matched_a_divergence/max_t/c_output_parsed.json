@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/c/c_parsed.json",
+  "reason": "C was not reached after B-to-C handoff validation failed; see validation_and_handoff.json for the preserved validator artifact.",
+  "status": "not_available"
+}

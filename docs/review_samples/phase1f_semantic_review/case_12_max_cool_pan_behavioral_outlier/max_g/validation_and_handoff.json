@@ -1,0 +1,102 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b_c_handoff/projection.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/mechanical_grounding.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "No exploratory hypothesis was activated or tested in this episode.",
+          "The full cool-then-place routine (navigating to fridge, cooling the pan, and placing it on a countertop) remains unexecuted and unresolved."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 379,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/epistemic_validation.json",
+        "sha256": "9ad8404799da25110f9f66c5ecbfb2d1ab88601c104feab583087594836c6cf4",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "reason": "no_consumed_h",
+          "status": "not_applicable"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 139,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/materialization.json",
+        "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 379,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/epistemic_validation.json",
+      "sha256": "9ad8404799da25110f9f66c5ecbfb2d1ab88601c104feab583087594836c6cf4",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    }
+  ]
+}

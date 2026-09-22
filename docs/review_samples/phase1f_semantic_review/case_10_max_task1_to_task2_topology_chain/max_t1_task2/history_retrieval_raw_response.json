@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/exploration_history_retrieval/raw_response.json",
+  "reason": "No pre-task Exploration History records were available; this optional retrieval stage was not reached.",
+  "status": "not_available"
+}

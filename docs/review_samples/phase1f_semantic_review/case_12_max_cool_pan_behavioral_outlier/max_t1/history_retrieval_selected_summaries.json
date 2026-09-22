@@ -1,0 +1,11 @@
+{
+  "content": [],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "status": "available"
+  }
+}

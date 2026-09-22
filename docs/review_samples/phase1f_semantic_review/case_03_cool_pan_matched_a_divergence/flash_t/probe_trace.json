@@ -1,0 +1,193 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "stoveburner_1",
+      "stoveburner_2"
+    ],
+    "environment_actions": [
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "take pan_1 from stoveburner_2"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to stoveburner_1"
+        ],
+        "candidate_id": "stoveburner_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_15. On stoveburner_1, you see pot_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine stoveburner_1",
+            "examine stoveburner_3",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_2",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take pot_1 from stoveburner_1",
+            "take pot_1 from stoveburner_3"
+          ],
+          "observation": "You arrive at loc_15. On stoveburner_1, you see pot_1."
+        },
+        "selection": {
+          "candidate_index": 20,
+          "selected_candidate": "stoveburner_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to stoveburner_2",
+          "take pan_1 from stoveburner_2"
+        ],
+        "candidate_id": "stoveburner_2",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_19. On stoveburner_2, you see pan_1.",
+          "You take pan_1 from stoveburner_2."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine pan_1",
+            "examine stoveburner_2",
+            "examine stoveburner_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_3",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put pan_1 in/on stoveburner_2",
+            "put pan_1 in/on stoveburner_4"
+          ],
+          "observation": "You take pan_1 from stoveburner_2."
+        },
+        "selection": {
+          "candidate_index": 20,
+          "selected_candidate": "stoveburner_2"
+        },
+        "step": 2,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 3790,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/probe_summary.json",
+      "sha256": "e413e8c81f58af587287df88002d06670dc599164312caf4d7f61d87f933bf8f",
+      "status": "available"
+    },
+    {
+      "bytes": 56342,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/selector_input.json",
+      "sha256": "7c221e1e74b7848fafb40697fe3901f40fea7ec46ce74d0dcfdc32ed8e92d69f",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/raw_response.json",
+      "sha256": "7578c7ffea1565e186b74b2b8e7dddc44d2bc23d120c024b3158324a09fabe03",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/parsed.json",
+      "sha256": "9fa4205956d180445bafe9ebc91ec5a8c865d9e40feeabc84a65a7b7b138f8e0",
+      "status": "available"
+    },
+    {
+      "bytes": 69,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/001/selector_validation.json",
+      "sha256": "7ae7126bbc1cab74c0e0f498820eaac4cd28559f715e4a61d67a12444f267ffd",
+      "status": "available"
+    },
+    {
+      "bytes": 56111,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/selector_input.json",
+      "sha256": "0940480944a538ba1c5d0a365dd8b9ca952e5b676abd13fcbfd21dc821cd51f2",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/raw_response.json",
+      "sha256": "7578c7ffea1565e186b74b2b8e7dddc44d2bc23d120c024b3158324a09fabe03",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/parsed.json",
+      "sha256": "9fa4205956d180445bafe9ebc91ec5a8c865d9e40feeabc84a65a7b7b138f8e0",
+      "status": "available"
+    },
+    {
+      "bytes": 69,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/probe/steps/002/selector_validation.json",
+      "sha256": "f3fda1aa39b15fbe64fc776bd21406ccb0e79fb37eb880a9ad4d979636a2f611",
+      "status": "available"
+    }
+  ]
+}

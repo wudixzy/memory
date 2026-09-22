@@ -1,0 +1,70 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "The downstream execution of the pick-and-place task (transporting saltshaker to drawer) was not run by the Phase 1B dev protocol, so the full task completion and final placement success remain unverified.",
+          "No exploratory hypothesis was activated or probed; therefore, no comparison between strategies can be assessed."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at start location with knowledge of all visible receptacles; target object hidden in one of them.",
+          "constraints": [
+            "Must only visit admissible locations.",
+            "Must open closed containers before inspection.",
+            "Must stop searching once target is acquired."
+          ],
+          "local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+          "required_downstream_state": "Agent holding the target object, ready for transport/placement phase."
+        }
+      },
+      "c_candidate": {
+        "decision": "CREATE",
+        "guidance": "Identify the destination receptacle type from the task instruction. Navigate to and inspect only those receptacles matching that type first. If the target is not found after exhausting same-type candidates, resume standard full-room search.",
+        "hypothesis": "Prioritizing search of receptacles that match the destination type (e.g., drawers if placing on a drawer) reduces total steps compared to scanning all visible receptacles in arbitrary or listed order.",
+        "probe_spec": {
+          "adaptive_policy": "At each step, check current location's contents. If target found, take it. If not, move to next same-type receptacle. If no same-type receptacles remain unchecked, move to any unchecked receptacle of other types.",
+          "capability_requirements": [
+            "go to",
+            "open",
+            "take"
+          ],
+          "evidence_goal": "Compare number of 'go to' actions required to find the target against baseline established-search-listed-order-general.",
+          "local_function": "Select next candidate receptacle for inspection during search phase.",
+          "realization_pattern": "Filter visible receptacles by type matching the destination; iterate through filtered subset before unfiltered remainder.",
+          "required_downstream_state": "Agent holding the target object.",
+          "stop_conditions": [
+            "Target object acquired.",
+            "All same-type receptacles inspected without finding target (fallback triggered).",
+            "Maximum search iterations reached."
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "type": "exploratory"
+      },
+      "current_evidence_id": "evidence-53204986b86d7ee5",
+      "history_retrieval": {
+        "decision": "NONE",
+        "exploration_ids": []
+      },
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+    },
+    "existing_comparison_ids": [],
+    "existing_comparison_summaries": [],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3450,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/h_reconciliation/reconciliation_input.json",
+    "sha256": "3fe2add854ccf75f7903f8cfb177286f8fbd42814c840f53cc0b26c67d4a1bf9",
+    "status": "available"
+  }
+}

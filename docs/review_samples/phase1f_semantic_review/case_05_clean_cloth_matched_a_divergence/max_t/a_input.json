@@ -1,0 +1,456 @@
+{
+  "content": {
+    "consumed_exploratory_memory": {
+      "guidance": "Navigate to an available towelholder-type receptacle first. Inspect it for a cloth object. If a cloth is present, take it. If no cloth is found, fall back to systematic traversal of remaining receptacles, opening any closed storage before inspection.",
+      "hypothesis": "Navigating to a towelholder-type receptacle before inspecting generic closed storage or other fixtures reduces search steps for acquiring a cloth object in a clean-then-place task, because towelholders are semantically specialized for fabric items.",
+      "probe_policy": {
+        "adaptive_policy": "Select a towelholder-type receptacle from the current observation's admissible actions. Navigate to it. If the resulting observation reveals a cloth object, take it. If no cloth is visible, proceed to the next most plausible receptacle (e.g., handtowelholder, then closed storage), opening closed receptacles before inspection. Do not perform cleaning or placement actions during this search segment.",
+        "capability_requirements": [
+          "go to",
+          "open",
+          "take",
+          "look"
+        ],
+        "evidence_goal": "Whether a cloth object is found at the towelholder-type receptacle on the first navigation attempt, compared to the number of navigation and open actions required if searching closed storage receptacles first.",
+        "local_function": "Search for and acquire a cloth object by selecting receptacles to inspect, navigating to them, opening if closed, and taking the cloth when found.",
+        "realization_pattern": "Identify a fabric-specialized holder receptacle; navigate to it; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "required_downstream_state": "Agent holds a cloth object in inventory, ready to proceed to the cleaning phase.",
+        "stop_conditions": [
+          "Cloth object successfully taken into inventory",
+          "Towelholder-type receptacle inspected and confirmed empty with fallback traversal initiated",
+          "Inventory already contains a cloth object",
+          "No towelholder-type receptacle is reachable via admissible actions"
+        ]
+      },
+      "scope": "ALFWorld clean-then-place tasks where the target is a cloth, the entry observation lists multiple receptacles including fabric-associated holders and closed storage, and prior semantic-priority tests have not specifically targeted towelholder-type receptacles as the first probe for cloth objects.",
+      "type": "exploratory"
+    },
+    "environment_outcome": {
+      "e1": {
+        "controlled_endpoint": {
+          "downstream_execution": "not_run_by_phase1b_dev_protocol",
+          "name": "target_acquisition",
+          "target_acquired": true
+        },
+        "environment_action_count": 5,
+        "steps": 5
+      }
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. Additionally, for heat-then-place tasks involving egg targets, be aware that strict listed-order traversal can incur substantial overhead if the egg is staged on or near the destination receptacle (e.g., garbagecan); consider checking the destination receptacle early when it is an open container where food items may be staged. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in both heat-then-place and clean-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) or a beverage-associated appliance surface (e.g., coffeemachine) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes. For small dining condiment targets (e.g., saltshakers), be aware that navigating to open horizontal surfaces (e.g., countertops) first can add navigation overhead if the condiment is stored inside a closed receptacle (e.g., cabinet); rely on listed-order traversal as the default for condiment targets unless strong evidence indicates staging on open surfaces. Preliminary evidence also suggests that for leafy vegetable targets (e.g., lettuce) in cool-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the target without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/013-354ba16d246b/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/023-bc4ff2ea2b99/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/026-1ebd66e39251/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/030-c9c712e8da31/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/032-281ba9916f97/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/035-1b48423d1600/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/036-f6179e37f967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/044-8ead717078ff/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/047-e291c26a89d5/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/048-cbb06188aa8e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/049-cfba8f6fb27c/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/050-4cf78e471066/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/056-f7b879447438/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": null,
+            "consumed_h_id": null,
+            "evidence_id": "evidence-b3685af0060903af",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113523_123938"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "probe_evidence": {
+      "activated_h_id": null,
+      "evidence_package_id": "evidence-d2a497aaf2d7beb9",
+      "runtime_status": "EVIDENCE_OBTAINED",
+      "temporal_facts": {
+        "acquisition_phase": "continuation",
+        "continuation_events": [
+          {
+            "action": "go to cabinet_4",
+            "admissible_actions": [
+              "examine cabinet_4",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "open cabinet_4"
+            ],
+            "event_id": "event-7bcdd72a7b08e242",
+            "observation": "You arrive at loc_7. cabinet_4 is closed.",
+            "ordinal": 3,
+            "phase": "continuation"
+          },
+          {
+            "action": "open cabinet_4",
+            "admissible_actions": [
+              "close cabinet_4",
+              "examine cabinet_4",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "take cloth_1 from cabinet_4"
+            ],
+            "event_id": "event-5554d9efa05c6758",
+            "observation": "You open cabinet_4. In cabinet_4, you see cloth_1.",
+            "ordinal": 4,
+            "phase": "continuation"
+          },
+          {
+            "action": "take cloth_1 from cabinet_4",
+            "admissible_actions": [
+              "close cabinet_4",
+              "examine cabinet_4",
+              "examine cloth_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "put cloth_1 in/on cabinet_4"
+            ],
+            "event_id": "event-b804a643937878bc",
+            "observation": "You take cloth_1 from cabinet_4.",
+            "ordinal": 5,
+            "phase": "continuation"
+          }
+        ],
+        "entry_target_visible": false,
+        "environment_action_count": 5,
+        "first_target_exposure_event": "event-5554d9efa05c6758",
+        "probe_events": [
+          {
+            "action": "go to towelholder_1",
+            "admissible_actions": [
+              "examine towelholder_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "inventory",
+              "look",
+              "take towel_1 from towelholder_1"
+            ],
+            "event_id": "event-62654e11811507e9",
+            "observation": "You arrive at loc_9. On towelholder_1, you see towel_1.",
+            "ordinal": 1,
+            "phase": "probe"
+          },
+          {
+            "action": "go to handtowelholder_1",
+            "admissible_actions": [
+              "examine handtowelholder_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look"
+            ],
+            "event_id": "event-b7c063192d25b0e4",
+            "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing.",
+            "ordinal": 2,
+            "phase": "probe"
+          }
+        ],
+        "target_acquired_event": "event-b804a643937878bc"
+      }
+    },
+    "target_task": {
+      "instruction": "put a clean cloth in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    },
+    "target_trajectory": {
+      "completed_requested_sequence": false,
+      "executed_actions": [
+        "go to towelholder_1",
+        "go to handtowelholder_1",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "take cloth_1 from cabinet_4"
+      ],
+      "final": {
+        "admissible_actions": [
+          "close cabinet_4",
+          "examine cabinet_4",
+          "examine cloth_1",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look",
+          "put cloth_1 in/on cabinet_4"
+        ],
+        "observation": "You take cloth_1 from cabinet_4."
+      },
+      "initial": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "initial_public_state_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: put a clean cloth in cabinet."
+      },
+      "seed": 42,
+      "steps": [
+        {
+          "action": "go to towelholder_1",
+          "admissible_actions": [
+            "examine towelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "inventory",
+            "look",
+            "take towel_1 from towelholder_1"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_9. On towelholder_1, you see towel_1.",
+          "step": 1
+        },
+        {
+          "action": "go to handtowelholder_1",
+          "admissible_actions": [
+            "examine handtowelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing.",
+          "step": 2
+        },
+        {
+          "action": "go to cabinet_4",
+          "admissible_actions": [
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "open cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_7. cabinet_4 is closed.",
+          "step": 3
+        },
+        {
+          "action": "open cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take cloth_1 from cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You open cabinet_4. In cabinet_4, you see cloth_1.",
+          "step": 4
+        },
+        {
+          "action": "take cloth_1 from cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "examine cloth_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put cloth_1 in/on cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You take cloth_1 from cabinet_4.",
+          "step": 5
+        }
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/environment_outcome/e1/controlled_endpoint/environment_won",
+    "/environment_outcome/e1/done",
+    "/environment_outcome/e1/reward",
+    "/environment_outcome/e1/won",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions",
+    "/probe_evidence/temporal_facts/continuation_events/*/done",
+    "/probe_evidence/temporal_facts/continuation_events/*/won",
+    "/probe_evidence/temporal_facts/probe_events/*/done",
+    "/probe_evidence/temporal_facts/probe_events/*/won",
+    "/probe_evidence/trace",
+    "/provenance",
+    "/target_trajectory/final/done",
+    "/target_trajectory/final/reward",
+    "/target_trajectory/final/won",
+    "/target_trajectory/initial/done",
+    "/target_trajectory/initial/won",
+    "/target_trajectory/steps/*/done",
+    "/target_trajectory/steps/*/reward",
+    "/target_trajectory/steps/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 112441,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/a_input.json",
+    "sha256": "62b37fec7a6c789edfe19aaf22ed881c872ec5c3135f2c66b763bfe1b93f03a4",
+    "status": "available"
+  }
+}

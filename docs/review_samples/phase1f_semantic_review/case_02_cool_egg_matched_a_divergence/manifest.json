@@ -1,0 +1,1651 @@
+{
+  "artifact_records": [
+    {
+      "extraction": "public_projection",
+      "output_bytes": 70491,
+      "output_path": "flash_t/a_input.json",
+      "output_sha256": "dc8d494b20e2ab0321eed0123e6ea73a7d572be4e522f225b5103d77ade4d4e4",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/probe_evidence/temporal_facts/continuation_events/*/done",
+        "/probe_evidence/temporal_facts/continuation_events/*/won",
+        "/probe_evidence/temporal_facts/probe_events/*/done",
+        "/probe_evidence/temporal_facts/probe_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 82648,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/a_input.json",
+          "sha256": "11e35d7a1fede14e30b1c21806a619e9928b69836316decce67cdfb2030e4c2d",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1748,
+      "output_path": "flash_t/a_output_parsed.json",
+      "output_sha256": "603ac33bc827a8d7cf36a90a7aede38610f24bde242d8496feae51dad344a03f",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1748,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/a_parsed.json",
+          "sha256": "603ac33bc827a8d7cf36a90a7aede38610f24bde242d8496feae51dad344a03f",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1796,
+      "output_path": "flash_t/a_output_raw.json",
+      "output_sha256": "f40450c68caaf237884d650d795b5b30f5b88d10b557e5381b23a52053766eb4",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1796,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/raw_response.json",
+          "sha256": "f40450c68caaf237884d650d795b5b30f5b88d10b557e5381b23a52053766eb4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 821,
+      "output_path": "flash_t/a_response_prompt.json",
+      "output_sha256": "146785ce7c5c8b40d1c9569dd788ef9fbc14397a10edfe5bbfaa67ec43a5a73b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 92656,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/prompt.json",
+          "sha256": "1b7f1be1f85eaff69007cc39fb106046811707fd71f1dd9bc3f9a9ea3e13ab18",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 67515,
+      "output_path": "flash_t/b_input.json",
+      "output_sha256": "44f017ab8ff494aa603e9a8f4ac93d4baf147b637480ab1650126b06a3a679a3",
+      "removed_json_pointers": [
+        "/controlled_endpoint/environment_won",
+        "/current_initial_state/won",
+        "/current_trajectory/final/done",
+        "/current_trajectory/final/reward",
+        "/current_trajectory/final/won",
+        "/current_trajectory/initial/done",
+        "/current_trajectory/initial/won",
+        "/current_trajectory/steps/*/done",
+        "/current_trajectory/steps/*/reward",
+        "/current_trajectory/steps/*/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 75670,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b/b_input.json",
+          "sha256": "f16fe1cc257ae6ccf55c496c2d87c39b284ac8b327e6ece9a5676cab7a23ecb0",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1786,
+      "output_path": "flash_t/b_output_parsed.json",
+      "output_sha256": "5fdfb3335963fb59e4fef1cc48ef474b330579edbbcd16ac89c512b15e5d28e6",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1786,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b/b_parsed.json",
+          "sha256": "5fdfb3335963fb59e4fef1cc48ef474b330579edbbcd16ac89c512b15e5d28e6",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1892,
+      "output_path": "flash_t/b_output_raw.json",
+      "output_sha256": "08ec35a698877408ed5fa56f6a35eda65484cf84cad99e36e86dc0d3400ebb83",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1892,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b/raw_response.json",
+          "sha256": "08ec35a698877408ed5fa56f6a35eda65484cf84cad99e36e86dc0d3400ebb83",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 821,
+      "output_path": "flash_t/b_response_prompt.json",
+      "output_sha256": "c20fa114c36e2a8cd9784d477a9998a2c8c82ca9ae68ebac8fee3e362cfcfc3b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 86817,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b/prompt.json",
+          "sha256": "502609ff0f3e9e8a01932dab0f2e5ed850c723f4742b8969293caf72ddae997a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 302,
+      "output_path": "flash_t/c_error.json",
+      "output_sha256": "518742cc1b76d866db08f4d62e858de050b16c5eef9f3c26f0ffe95ddbf4fb79",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3689,
+      "output_path": "flash_t/c_output_parsed.json",
+      "output_sha256": "4e7a8177c2843c6cf19b37796a1df83a1116a7527fa5c15211e008c4b93587c7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3689,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/c_parsed.json",
+          "sha256": "4e7a8177c2843c6cf19b37796a1df83a1116a7527fa5c15211e008c4b93587c7",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3845,
+      "output_path": "flash_t/c_output_raw.json",
+      "output_sha256": "f2f5da65c37d27f8977798c603cebb150b673556cda18886a21169fe08a60389",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3845,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/raw_response.json",
+          "sha256": "f2f5da65c37d27f8977798c603cebb150b673556cda18886a21169fe08a60389",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 821,
+      "output_path": "flash_t/c_response_prompt.json",
+      "output_sha256": "2258c92a57bd90e192955c14aaa4d6f92310ee8eecfa0c4b3de0499f01dbe644",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 29959,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/prompt.json",
+          "sha256": "5bdde1f1491bbf35efc79f29c5f9803fa914ce0cd3782b7651926a76c9fd835f",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 14535,
+      "output_path": "flash_t/c_visible_input.json",
+      "output_sha256": "80be571ce9f556945bc47c3829d9b167c0629d97fcee8dc151f8045c32489b32",
+      "removed_json_pointers": [
+        "/local_state_and_evidence/entry_state/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 23852,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/c_input.json",
+          "sha256": "a6ee63a10327c13b8653c51460079279ebc6a7e8982c4a59d0da7c9abdfebb6e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 15979,
+      "output_path": "flash_t/comparison_before_after.json",
+      "output_sha256": "fb71cbbe97ea009072ccc831bf8a94088df1de90f37e5b93c8562c947ae37ece",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 859290,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_before.json",
+          "sha256": "77e56477db6d3f8205147740d85faa01a7e8d76a3ab9aea229f23ebfc4e580f6",
+          "status": "available"
+        },
+        {
+          "bytes": 972437,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_after.json",
+          "sha256": "5bfe474dafef5d6f39d6771e1a6028603bb601d3160095dc44b58b0fc5437bc5",
+          "status": "available"
+        },
+        {
+          "bytes": 16471,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/task_summary.json",
+          "sha256": "48bbd5d43bcb48da096ff3f75bfca26315da8f2177e8c5e5dfba1a20e75b4210",
+          "status": "available"
+        },
+        {
+          "bytes": 1899,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/materialization.json",
+          "sha256": "1f398f7bd3ba21442ddf516f7bb0c28a3e658672bde3d0df09def47a40e65f9d",
+          "status": "available"
+        },
+        {
+          "bytes": 684,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "2c65a72b3c2f2eadf9eccfe0dbb37e419a31ce321bd9850d9ca17ebdcb3d3372",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 54598,
+      "output_path": "flash_t/continuation_trace.json",
+      "output_sha256": "a9acf462e53e48862b30e4ef88ef26679b3a6c316b9f57ada8851105141b9b4b",
+      "removed_json_pointers": [
+        "/environment_actions",
+        "/trace/*/actions/*/before/done",
+        "/trace/*/actions/*/before/won",
+        "/trace/*/actions/*/result/action",
+        "/trace/*/actions/*/result/done",
+        "/trace/*/actions/*/result/executed",
+        "/trace/*/actions/*/result/reward",
+        "/trace/*/actions/*/result/step",
+        "/trace/*/actions/*/result/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 55830,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/continuation_search/continuation_trace.json",
+          "sha256": "67b574674255d7682363564fff1ff761611204754c4489b5176e1baf09070e3b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 32822,
+      "output_path": "flash_t/evidence_package.json",
+      "output_sha256": "be5edb19ea95b6da8ede9993a195efc69b64404989d235650eccbe418cf40a83",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/continuation_trace/trace/*/actions/*/before/won",
+        "/continuation_trace/trace/*/actions/*/result/reward",
+        "/continuation_trace/trace/*/actions/*/result/won",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/probe_trace/trace/*/result/final_state/won",
+        "/provenance",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 93961,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/evidence_package.json",
+          "sha256": "f9d67b51fb9282096ee50e4983c8fd8fcc00bab27587aa52ed1eae1697e8601a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 4591,
+      "output_path": "flash_t/history_retrieval_input.json",
+      "output_sha256": "c1a0e40b50a672926d106235ecd72922740b095dd23c45a629e9dbb89fcc9323",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 4066,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_retrieval/retrieval_input.json",
+          "sha256": "1894bc0162f0cc8f74ebb69cc2cb273f1d2c3b40243807a4ffa7b790909ba46b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 168,
+      "output_path": "flash_t/history_retrieval_parsed.json",
+      "output_sha256": "83a6e48107d90a15136da2759d52edbb00dd04e9cc26799401ebbbd5b1b4c9c9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 168,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_retrieval/retrieval_parsed.json",
+          "sha256": "83a6e48107d90a15136da2759d52edbb00dd04e9cc26799401ebbbd5b1b4c9c9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 226,
+      "output_path": "flash_t/history_retrieval_raw_response.json",
+      "output_sha256": "2525427bd107d84ad355db155b99aee837b3fc41d7ed77a52210d08225b258ef",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 226,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_retrieval/raw_response.json",
+          "sha256": "2525427bd107d84ad355db155b99aee837b3fc41d7ed77a52210d08225b258ef",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 2569,
+      "output_path": "flash_t/history_retrieval_selected_summaries.json",
+      "output_sha256": "93f89852849a4f13a52fbaec6bde153ab9e6fe0192abf454192d250299df9d0b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2091,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_retrieval/selected_summaries.json",
+          "sha256": "c5952ef3d2d3478df0dca322011724b738d78a17c6186d793a7d6594484f0479",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1580,
+      "output_path": "flash_t/pairing_proof.json",
+      "output_sha256": "a7e55ab77f5165bcd6dae29111e833afd3edfb4be2abb21e983fac32a88af7d2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2793,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/pairing_proof.json",
+          "sha256": "1694bc5fb6960384249567a740da5e6fda0b7cf91af62d50d3a20140ea74269c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 22993,
+      "output_path": "flash_t/post_task_state.json",
+      "output_sha256": "47c5abb1100dcd02c1b019d145dbe7da8f2d15f37ea9e26dc3ba4e1816362616",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 972437,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_after.json",
+          "sha256": "5bfe474dafef5d6f39d6771e1a6028603bb601d3160095dc44b58b0fc5437bc5",
+          "status": "available"
+        },
+        {
+          "bytes": 7168,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_after.json",
+          "sha256": "451aff4dc6e2456f622b1ae4ec75074f9172aed646eee9c5978bb6880f0b101b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 14359,
+      "output_path": "flash_t/pre_task_state.json",
+      "output_sha256": "b82571a592a7f2da54c769fba8bb8a7bb03291f7e974fa4a7d3bcb4695aa295a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 859290,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_before.json",
+          "sha256": "77e56477db6d3f8205147740d85faa01a7e8d76a3ab9aea229f23ebfc4e580f6",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 7801,
+      "output_path": "flash_t/probe_trace.json",
+      "output_sha256": "19cf3faafe53b409db4c8ecd8031b8ae2fc401fab8ba5ac13c74478fe0dee10b",
+      "removed_json_pointers": [
+        "/trace/*/result/final_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 3989,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/probe_summary.json",
+          "sha256": "9f76333092fb02669936af0bd3dd10bcf25473baf3147c531c2b184fdd93f44e",
+          "status": "available"
+        },
+        {
+          "bytes": 18608,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/001/selector_input.json",
+          "sha256": "2338da3abb3481b52b1559a40a8131aa2abb93e0bdb1adf2d36bf1a33cf65742",
+          "status": "available"
+        },
+        {
+          "bytes": 74,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/001/raw_response.json",
+          "sha256": "28778ba0d06e1e2db7d5d85971bd32fda29e4aebc85c32cbebfb8eff7f57735c",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/001/parsed.json",
+          "sha256": "f9e94a6ae6721a83d4068459c7106ccf64b8fc7cbeae7ddf06e10167a6b4e196",
+          "status": "available"
+        },
+        {
+          "bytes": 64,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/001/selector_validation.json",
+          "sha256": "6bbf400a481c656237dc95d79a86ef07356623bc94dcf8ffc414ab350e6043fe",
+          "status": "available"
+        },
+        {
+          "bytes": 18526,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/002/selector_input.json",
+          "sha256": "454d63be887e40ddd1be77048d70a38bb1ec246f990c49f8ec96e6d1d97c4f0e",
+          "status": "available"
+        },
+        {
+          "bytes": 71,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/002/raw_response.json",
+          "sha256": "ef046bcd4eea0f54fcac60c0c0ad9813bd5717d240489da3f2686b82d684a6e2",
+          "status": "available"
+        },
+        {
+          "bytes": 27,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/002/parsed.json",
+          "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/probe/steps/002/selector_validation.json",
+          "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2899,
+      "output_path": "flash_t/public_task_context.json",
+      "output_sha256": "b85e5f31ed50518c0b64b1d84810bf67238ab01a8d52a1fb66957d9c90acb889",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 715373,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1c_scale_pilot_registry.json",
+          "sha256": "ac2b4522ef184aeb468b370ae42517f6dda3ab052d9b82a21047220e405206f8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 15374,
+      "output_path": "flash_t/reconciliation_input.json",
+      "output_sha256": "89702029c518de4dcc32efbd7a3cdf43088b0858ba52aa03a4e2a618d4973e4f",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 14552,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/reconciliation_input.json",
+          "sha256": "e30584f91ceea8351424d788bbe3fe252143c4c08652308793cb8774a4302f2b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 684,
+      "output_path": "flash_t/reconciliation_parsed.json",
+      "output_sha256": "2c65a72b3c2f2eadf9eccfe0dbb37e419a31ce321bd9850d9ca17ebdcb3d3372",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 684,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "2c65a72b3c2f2eadf9eccfe0dbb37e419a31ce321bd9850d9ca17ebdcb3d3372",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 836,
+      "output_path": "flash_t/reconciliation_prompt.json",
+      "output_sha256": "fe7a45904e71c9129a3bf6b47d7ed0550cc358f9255d6b86cfcb632860cbf084",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 17516,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/prompt.json",
+          "sha256": "a81e5aff9ec49f2c4375e082bb715734701ce5c532c35fe76b489e372a1eb35b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 745,
+      "output_path": "flash_t/reconciliation_raw_response.json",
+      "output_sha256": "37fb424802aed91c777d91752a0c94e54d22aaba7e9a98fdeac5fa073dda29bc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 745,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/raw_response.json",
+          "sha256": "37fb424802aed91c777d91752a0c94e54d22aaba7e9a98fdeac5fa073dda29bc",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 14560,
+      "output_path": "flash_t/retrieval_and_h.json",
+      "output_sha256": "74ed274e38419c2a709c6620a82eaef38fb9a30393bf6e877147a72f3d574fc5",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 16471,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/task_summary.json",
+          "sha256": "48bbd5d43bcb48da096ff3f75bfca26315da8f2177e8c5e5dfba1a20e75b4210",
+          "status": "available"
+        },
+        {
+          "bytes": 859290,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_before.json",
+          "sha256": "77e56477db6d3f8205147740d85faa01a7e8d76a3ab9aea229f23ebfc4e580f6",
+          "status": "available"
+        },
+        {
+          "bytes": 972437,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/memory_after.json",
+          "sha256": "5bfe474dafef5d6f39d6771e1a6028603bb601d3160095dc44b58b0fc5437bc5",
+          "status": "available"
+        },
+        {
+          "bytes": 5796,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_before.json",
+          "sha256": "ce5b8651fdd84e229998709427ab3fe88eb7521a1a825cb58d6e6dc3c9b61528",
+          "status": "available"
+        },
+        {
+          "bytes": 7168,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/exploration_history_after.json",
+          "sha256": "451aff4dc6e2456f622b1ae4ec75074f9172aed646eee9c5978bb6880f0b101b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 6863,
+      "output_path": "flash_t/retrieval_input.json",
+      "output_sha256": "278f09947c56a133b2321748fa4bcc244d6f6fcf8b1c15633ca5ab8c024fb2d4",
+      "removed_json_pointers": [
+        "/current_initial_public_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 6231,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/retrieval/retrieval_input.json",
+          "sha256": "655f3c9ec55b3983c52bc98b2418599bfd46d86fc720bee667315d850a8a8e89",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 61,
+      "output_path": "flash_t/retrieval_parsed.json",
+      "output_sha256": "d21e5ae3d983fdaed415ec16074a021961fd83f342e6d6811c0f70d5762a0d98",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 61,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/retrieval/retrieval_parsed.json",
+          "sha256": "d21e5ae3d983fdaed415ec16074a021961fd83f342e6d6811c0f70d5762a0d98",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 102,
+      "output_path": "flash_t/retrieval_raw_response.json",
+      "output_sha256": "f6b6d80a19bd994f5f805972b3eb3c907c7bd086e846991770327ff98b1fb0a7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 102,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/retrieval/raw_response.json",
+          "sha256": "f6b6d80a19bd994f5f805972b3eb3c907c7bd086e846991770327ff98b1fb0a7",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 683,
+      "output_path": "flash_t/retrieval_status.json",
+      "output_sha256": "dc24f08746540e4ef89b92194b69b46bedb7f3d61e63b4cd695abf060731266b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 683,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/retrieval/status.json",
+          "sha256": "dc24f08746540e4ef89b92194b69b46bedb7f3d61e63b4cd695abf060731266b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 12562,
+      "output_path": "flash_t/task_summary.json",
+      "output_sha256": "f1def8a8a46db0a239bb8ad647935e19ecfb9439b1cd07f18c72208aa7075d78",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 16471,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/task_summary.json",
+          "sha256": "48bbd5d43bcb48da096ff3f75bfca26315da8f2177e8c5e5dfba1a20e75b4210",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 10782,
+      "output_path": "flash_t/validation_and_handoff.json",
+      "output_sha256": "f42fa3fc2f8ade7631ae2620cae4fddeb7938033d4ed3a1413086c66c85ac447",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 373,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/epistemic_validation.json",
+          "sha256": "fafb812e40ebc1a892c22a2034b73fec9eb5967570953b894663937f96c4ae05",
+          "status": "available"
+        },
+        {
+          "bytes": 1558,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/updates_validation.json",
+          "sha256": "c7dff316be13b6073cb33210994c696382e2bb72ae061f722af52bcb06685322",
+          "status": "available"
+        },
+        {
+          "bytes": 1899,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/materialization.json",
+          "sha256": "1f398f7bd3ba21442ddf516f7bb0c28a3e658672bde3d0df09def47a40e65f9d",
+          "status": "available"
+        },
+        {
+          "bytes": 576,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b_c_handoff/projection.json",
+          "sha256": "7ab193643de16c2cf740b8150a2c500d85fdc5dc3185222332e8b9001dfe62ab",
+          "status": "available"
+        },
+        {
+          "bytes": 1211,
+          "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/mechanical_grounding.json",
+          "sha256": "e1db5b47ae08d4b4c09131643c6b6e999d3d23289b54bbc0ae48efaa0292f38a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 67598,
+      "output_path": "max_t/a_input.json",
+      "output_sha256": "4c373577df4ea2790ced36b1e4c919bc5b252748e0e6880e94bdc114afafa803",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/probe_evidence/temporal_facts/continuation_events/*/done",
+        "/probe_evidence/temporal_facts/continuation_events/*/won",
+        "/probe_evidence/temporal_facts/probe_events/*/done",
+        "/probe_evidence/temporal_facts/probe_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 69537,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/a_input.json",
+          "sha256": "7b0b7397939c9284e9b9d3c35a66b7eca338bace8b5e56276b576fd69742fb4c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 533,
+      "output_path": "max_t/a_output_parsed.json",
+      "output_sha256": "1e3a75ca149a7e9235470764ce1ad7493cebe58695effe13ba46f21360451ed9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 533,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/a_parsed.json",
+          "sha256": "1e3a75ca149a7e9235470764ce1ad7493cebe58695effe13ba46f21360451ed9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 604,
+      "output_path": "max_t/a_output_raw.json",
+      "output_sha256": "ca0a2bf53d014d600f766a63b05ca7ea4e52a048c7b8a18975e57c8852361d5e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 604,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/raw_response.json",
+          "sha256": "ca0a2bf53d014d600f766a63b05ca7ea4e52a048c7b8a18975e57c8852361d5e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 826,
+      "output_path": "max_t/a_response_prompt.json",
+      "output_sha256": "a0570c2933a0e21174aeab3752e56d1d8b1517ea5b6aec50faaebecc5735a425",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 79021,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/prompt.json",
+          "sha256": "2bfed57a0d27bdda59940e551604378a8eccc6ec181c57c8cd025493a270abf6",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 64278,
+      "output_path": "max_t/b_input.json",
+      "output_sha256": "ef920ab5c64ef301be914d0f9296ed9a250631afb25c8843a7c4b1eefff5fa2a",
+      "removed_json_pointers": [
+        "/controlled_endpoint/environment_won",
+        "/current_initial_state/won",
+        "/current_trajectory/final/done",
+        "/current_trajectory/final/reward",
+        "/current_trajectory/final/won",
+        "/current_trajectory/initial/done",
+        "/current_trajectory/initial/won",
+        "/current_trajectory/steps/*/done",
+        "/current_trajectory/steps/*/reward",
+        "/current_trajectory/steps/*/won",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 62214,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b/b_input.json",
+          "sha256": "61c78c9e8269210b23bba73669ed035f9fd2bc065f03b8584d577463c6661c04",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1774,
+      "output_path": "max_t/b_output_parsed.json",
+      "output_sha256": "52cea8fbf0cb112de5f0431d0783a194ba301d5261cbba70ce60ab4cf4c763a0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1774,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b/b_parsed.json",
+          "sha256": "52cea8fbf0cb112de5f0431d0783a194ba301d5261cbba70ce60ab4cf4c763a0",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1769,
+      "output_path": "max_t/b_output_raw.json",
+      "output_sha256": "753f3fd2758b7b96229862c4801ce808c69d00993d0883d1665dd716ae217cb2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1769,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b/raw_response.json",
+          "sha256": "753f3fd2758b7b96229862c4801ce808c69d00993d0883d1665dd716ae217cb2",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 826,
+      "output_path": "max_t/b_response_prompt.json",
+      "output_sha256": "22661cf0878c2138bf3ab8fb67d2597b1542c10b036bc5b9cd6f85a3ead1b0ed",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 72831,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b/prompt.json",
+          "sha256": "162635a45731e1ac324be90598b0bf0dc2e9e8beb3c9b2205be240a05ad29162",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 307,
+      "output_path": "max_t/c_error.json",
+      "output_sha256": "119e328d2869d6204ee65bcb3b8dc7d3ce37c2aeae234fe95786f1f3a59efca0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 25,
+      "output_path": "max_t/c_output_parsed.json",
+      "output_sha256": "abb554bed493c7cdb773f88ad85f7f04f808cda1c918c15f39f5d62e54c237bc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 25,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/c_parsed.json",
+          "sha256": "abb554bed493c7cdb773f88ad85f7f04f808cda1c918c15f39f5d62e54c237bc",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 66,
+      "output_path": "max_t/c_output_raw.json",
+      "output_sha256": "300e9173105ec9a79a52a5671dac0580ae5ab0e47f9832c56f1200663334b872",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 66,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/raw_response.json",
+          "sha256": "300e9173105ec9a79a52a5671dac0580ae5ab0e47f9832c56f1200663334b872",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 826,
+      "output_path": "max_t/c_response_prompt.json",
+      "output_sha256": "603955d75c2cda90976e0a250ca16ed732f805f601c29286f136ab913ca32f89",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 16653,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/prompt.json",
+          "sha256": "4a9190b6c946f56f7ea31b7f20d5f99952c21b60b35250d63b15869f146896e4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 11977,
+      "output_path": "max_t/c_visible_input.json",
+      "output_sha256": "72baa0ae579c5c61cbbda9e04500a2af463ddb40e55328b68970c0630f177cf7",
+      "removed_json_pointers": [
+        "/local_state_and_evidence/entry_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 11073,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/c_input.json",
+          "sha256": "f8bf3262892878ac212c54935d3c05403f777059f360686d4ffc2e63da6e5084",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 8657,
+      "output_path": "max_t/comparison_before_after.json",
+      "output_sha256": "98439b71adf4b9a6100a4aea6d9a3c8c37d2471a945cfd223eff84b757882d3a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 738751,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+          "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+          "status": "available"
+        },
+        {
+          "bytes": 844341,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_after.json",
+          "sha256": "1c1f79766a70887de341eff71b5015db098b4af5dca8d482e5730eb697bdda20",
+          "status": "available"
+        },
+        {
+          "bytes": 9388,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+          "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+          "status": "available"
+        },
+        {
+          "bytes": 336,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/materialization.json",
+          "sha256": "c38e77d76333fe6a8b2a107a136d6041aac49b9e54ed32e1bc9dd110c9e58db4",
+          "status": "available"
+        },
+        {
+          "bytes": 309,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "4d6e462d606a1d7cc8ceab513886ffab72a378be053db1f3e981d6ee35715b15",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 54603,
+      "output_path": "max_t/continuation_trace.json",
+      "output_sha256": "da4ff07038a20047972cf2fa306d7cdac6e0d84ce0a679384d8d32e0fb91df6f",
+      "removed_json_pointers": [
+        "/environment_actions",
+        "/trace/*/actions/*/before/done",
+        "/trace/*/actions/*/before/won",
+        "/trace/*/actions/*/result/action",
+        "/trace/*/actions/*/result/done",
+        "/trace/*/actions/*/result/executed",
+        "/trace/*/actions/*/result/reward",
+        "/trace/*/actions/*/result/step",
+        "/trace/*/actions/*/result/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 55830,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/continuation_search/continuation_trace.json",
+          "sha256": "67b574674255d7682363564fff1ff761611204754c4489b5176e1baf09070e3b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 32827,
+      "output_path": "max_t/evidence_package.json",
+      "output_sha256": "207a9bb03c4e3878fd170ea7e944154cd32896d9753dd404a503456896a143a6",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/continuation_trace/trace/*/actions/*/before/won",
+        "/continuation_trace/trace/*/actions/*/result/reward",
+        "/continuation_trace/trace/*/actions/*/result/won",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/probe_trace/trace/*/result/final_state/won",
+        "/provenance",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 93971,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/evidence_package.json",
+          "sha256": "8c3fc5a2e75472c8674b24355da4a4809306553e4520e695a653cc7c9b994e98",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 3904,
+      "output_path": "max_t/history_retrieval_input.json",
+      "output_sha256": "2c73bda1f31f7ae108d2ae024a3c1ceb940c60e068dae8800743a4a62a5844a1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3400,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_retrieval/retrieval_input.json",
+          "sha256": "f320ac9b59cbd4c57ed982b0833df3a43d17645623e27a4bb63b2c11dbc14092",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 168,
+      "output_path": "max_t/history_retrieval_parsed.json",
+      "output_sha256": "eed272f103bcd76679c5fe6edfb186668e2f9df1ccfbb68e6de86cee6a72a5f7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 168,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_retrieval/retrieval_parsed.json",
+          "sha256": "eed272f103bcd76679c5fe6edfb186668e2f9df1ccfbb68e6de86cee6a72a5f7",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 195,
+      "output_path": "max_t/history_retrieval_raw_response.json",
+      "output_sha256": "33e3fa7dc8793a05df7f015aeb1877efc55d9b86bdc6fb977c4c6540900bcb1b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 195,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_retrieval/raw_response.json",
+          "sha256": "33e3fa7dc8793a05df7f015aeb1877efc55d9b86bdc6fb977c4c6540900bcb1b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 3113,
+      "output_path": "max_t/history_retrieval_selected_summaries.json",
+      "output_sha256": "66e2825fdba898bc6ce06f4976bb0f28595e586855b7b121abadd0199305501a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2630,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_retrieval/selected_summaries.json",
+          "sha256": "35745b89bde23bba6fdc826903baccece9eed05ce0095a169687fc2fa42f5b37",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1585,
+      "output_path": "max_t/pairing_proof.json",
+      "output_sha256": "70e15817690fa57c472d9ed734ae1b0f267d140592a3084135e543fb2b26bcf2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2793,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/pairing_proof.json",
+          "sha256": "1694bc5fb6960384249567a740da5e6fda0b7cf91af62d50d3a20140ea74269c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 12993,
+      "output_path": "max_t/post_task_state.json",
+      "output_sha256": "7f4cb313d6ff7002075161c2a258b50321926867d82bfe689ba05988580d4243",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 844341,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_after.json",
+          "sha256": "1c1f79766a70887de341eff71b5015db098b4af5dca8d482e5730eb697bdda20",
+          "status": "available"
+        },
+        {
+          "bytes": 4889,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_after.json",
+          "sha256": "ac8ed826f6088e91e31a58608653b1cfd2c00993b336a765ddae8eab2a64145b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 7663,
+      "output_path": "max_t/pre_task_state.json",
+      "output_sha256": "a8bcb6156fd5e4641175350d746868628f77ebf2061005b75a695f1dc19aade0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 738751,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+          "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 7884,
+      "output_path": "max_t/probe_trace.json",
+      "output_sha256": "6c265214b1ea1b2a596339a2d64ceb793623592912d8034280124ea061f40212",
+      "removed_json_pointers": [
+        "/trace/*/result/final_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 3989,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/probe_summary.json",
+          "sha256": "9f76333092fb02669936af0bd3dd10bcf25473baf3147c531c2b184fdd93f44e",
+          "status": "available"
+        },
+        {
+          "bytes": 5164,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/001/selector_input.json",
+          "sha256": "23b34d25bf71aac0b2dab9cd51c2d31f65846c54e615c430145c3ee46e55d2cb",
+          "status": "available"
+        },
+        {
+          "bytes": 68,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/001/raw_response.json",
+          "sha256": "c218b6573d6001cdf975c69823cd8a9954454c26bd01678f2a3ad4713ee8ccff",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/001/parsed.json",
+          "sha256": "f9e94a6ae6721a83d4068459c7106ccf64b8fc7cbeae7ddf06e10167a6b4e196",
+          "status": "available"
+        },
+        {
+          "bytes": 64,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/001/selector_validation.json",
+          "sha256": "6bbf400a481c656237dc95d79a86ef07356623bc94dcf8ffc414ab350e6043fe",
+          "status": "available"
+        },
+        {
+          "bytes": 5082,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/002/selector_input.json",
+          "sha256": "26773c3bb0174e895097c6e2cf0253cbda92b239a70fa7882ec7cebbcb76f6d4",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/002/raw_response.json",
+          "sha256": "5ddc51269cc697e62192948eb41e2cb646620b98fdc4c31a075f2d0ccefb7cd1",
+          "status": "available"
+        },
+        {
+          "bytes": 27,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/002/parsed.json",
+          "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/probe/steps/002/selector_validation.json",
+          "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2899,
+      "output_path": "max_t/public_task_context.json",
+      "output_sha256": "a58ed2622996d45eeba20455026a68fc11e579e3ad2ca10c07dfa17208a53e95",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 269433,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1e_cross_model_registry.json",
+          "sha256": "d1dedf3037c5e7f052b584ae6217b9a1b37c9f03bc915a369631831b9f2af402",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 10800,
+      "output_path": "max_t/reconciliation_input.json",
+      "output_sha256": "3b4d36c2866dfcd2735ef08e104992d58fa44be6b17013e0b8edf9ab3b375fc7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 10121,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/reconciliation_input.json",
+          "sha256": "fbb903a562e2d91ef7863f6cadbcc834f061003b185e0f4ca0b15879d837211a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 309,
+      "output_path": "max_t/reconciliation_parsed.json",
+      "output_sha256": "4d6e462d606a1d7cc8ceab513886ffab72a378be053db1f3e981d6ee35715b15",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 309,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "4d6e462d606a1d7cc8ceab513886ffab72a378be053db1f3e981d6ee35715b15",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 841,
+      "output_path": "max_t/reconciliation_prompt.json",
+      "output_sha256": "9f861b17c49e77ceafa0d53624f7982eda1a14a2a8e177320ce2142691363503",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 12835,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/prompt.json",
+          "sha256": "07b230ff679d4115c02bc53470805053d9ce5cbc8aa82230aa1c21d2180de6ab",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 370,
+      "output_path": "max_t/reconciliation_raw_response.json",
+      "output_sha256": "2ee5842f25c140c65378bf1161b1412a874bf0f4a979dde6f9273e0f01e12528",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 370,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/raw_response.json",
+          "sha256": "2ee5842f25c140c65378bf1161b1412a874bf0f4a979dde6f9273e0f01e12528",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 10205,
+      "output_path": "max_t/retrieval_and_h.json",
+      "output_sha256": "9b31fb8d53fc4085db9e0ae8641236bac7f5a76b757e4677fd5dcb276115d13d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 9388,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+          "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+          "status": "available"
+        },
+        {
+          "bytes": 738751,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+          "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+          "status": "available"
+        },
+        {
+          "bytes": 844341,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_after.json",
+          "sha256": "1c1f79766a70887de341eff71b5015db098b4af5dca8d482e5730eb697bdda20",
+          "status": "available"
+        },
+        {
+          "bytes": 3216,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_before.json",
+          "sha256": "19b41619bfbc7681654327c77d65617a0da4299ff53ada15ef9e237d77267ae7",
+          "status": "available"
+        },
+        {
+          "bytes": 4889,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_after.json",
+          "sha256": "ac8ed826f6088e91e31a58608653b1cfd2c00993b336a765ddae8eab2a64145b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 6763,
+      "output_path": "max_t/retrieval_input.json",
+      "output_sha256": "8f905170e3712ef500a8c5fc486e059c2ddc5f6bfe66775fa60de7dc45e2dfb2",
+      "removed_json_pointers": [
+        "/current_initial_public_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 6150,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/retrieval/retrieval_input.json",
+          "sha256": "6a00c15f9718288e2a6569feb8b52a27b3aa447e8a11fdee43109dac5399edc3",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 61,
+      "output_path": "max_t/retrieval_parsed.json",
+      "output_sha256": "4890fb79663fb82c29f90ae960421c6bd9bbb979a4147a36a4a2ae635d48ee13",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 61,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/retrieval/retrieval_parsed.json",
+          "sha256": "4890fb79663fb82c29f90ae960421c6bd9bbb979a4147a36a4a2ae635d48ee13",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 102,
+      "output_path": "max_t/retrieval_raw_response.json",
+      "output_sha256": "20bc0bd5f4d443093063b16135ef07978d03ef4c7820fac8e7fe164e1034673f",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 102,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/retrieval/raw_response.json",
+          "sha256": "20bc0bd5f4d443093063b16135ef07978d03ef4c7820fac8e7fe164e1034673f",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 681,
+      "output_path": "max_t/retrieval_status.json",
+      "output_sha256": "859abce05576d688cfbf784b6151b15f7425632c0001fdcaa481dcc569b345b8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 681,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/retrieval/status.json",
+          "sha256": "859abce05576d688cfbf784b6151b15f7425632c0001fdcaa481dcc569b345b8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 7014,
+      "output_path": "max_t/task_summary.json",
+      "output_sha256": "826f17553a0abd0beda8e998427c27ed8f4e630f556324d6c83e2aac541de1e8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 9388,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+          "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 6468,
+      "output_path": "max_t/validation_and_handoff.json",
+      "output_sha256": "2a3481bdbf29346d9ef04729d8b38208b941398ccb8fe560014f97aaf8cf91d6",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 540,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/epistemic_validation.json",
+          "sha256": "ef83af6a735f2a07b47a03e071fe4d3f05c42b1e0f086d064f6c3a22342b411d",
+          "status": "available"
+        },
+        {
+          "bytes": 90,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/updates_validation.json",
+          "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+          "status": "available"
+        },
+        {
+          "bytes": 336,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/materialization.json",
+          "sha256": "c38e77d76333fe6a8b2a107a136d6041aac49b9e54ed32e1bc9dd110c9e58db4",
+          "status": "available"
+        },
+        {
+          "bytes": 712,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b_c_handoff/projection.json",
+          "sha256": "507b7fc47e4ac487666e90c033b351d35da4cc9e451bf5c43d18315554b105a7",
+          "status": "available"
+        },
+        {
+          "bytes": 50,
+          "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/mechanical_grounding.json",
+          "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+          "status": "available"
+        }
+      ]
+    }
+  ],
+  "case_categories": [
+    "MATCHED_A_DIVERGENCE"
+  ],
+  "case_id": "case_02_cool_egg_matched_a_divergence",
+  "episodes": [
+    {
+      "activated_h_ids": [
+        "h-f8ba6a4abd04c9b1"
+      ],
+      "arm": "T",
+      "backbone": "qwen3.8-flash",
+      "comparison_ids_after": [
+        "comparison-4332f3630f19e699",
+        "comparison-c0ae98e34177afb9",
+        "comparison-0e240389305dbecb",
+        "comparison-04b3769e6328be11",
+        "comparison-e9007f0de961e2ea",
+        "comparison-b1b7c37008df8834",
+        "comparison-434be6bf5e301755",
+        "comparison-526718e3a6226baf"
+      ],
+      "comparison_ids_before": [
+        "comparison-4332f3630f19e699",
+        "comparison-c0ae98e34177afb9",
+        "comparison-0e240389305dbecb",
+        "comparison-04b3769e6328be11",
+        "comparison-e9007f0de961e2ea",
+        "comparison-b1b7c37008df8834",
+        "comparison-434be6bf5e301755"
+      ],
+      "episode_key": "flash_t",
+      "exploration_history_ids_after": [
+        "exploration-h-0974fda62b083da2",
+        "exploration-h-557c586a16b7ecc2",
+        "exploration-h-eb5b08ddf0ead2f7",
+        "exploration-h-0ca06b77b7caeceb",
+        "exploration-h-f8ba6a4abd04c9b1"
+      ],
+      "exploration_history_ids_before": [
+        "exploration-h-0974fda62b083da2",
+        "exploration-h-557c586a16b7ecc2",
+        "exploration-h-eb5b08ddf0ead2f7",
+        "exploration-h-0ca06b77b7caeceb"
+      ],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/initial_public_fingerprint.json",
+        "sha256": "83c9515aba4555aaa9cf581a97f05649448ec1652541dc698962e0a1f00c0864",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2793,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/pairing_proof.json",
+        "sha256": "1694bc5fb6960384249567a740da5e6fda0b7cf91af62d50d3a20140ea74269c",
+        "status": "available"
+      },
+      "public_target": "put a cool egg in sinkbasin.",
+      "registry_sha256": "ac2b4522ef184aeb468b370ae42517f6dda3ab052d9b82a21047220e405206f8",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1c_scale_pilot_registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1C Flash",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474",
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_global_index": 11,
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+      "task_summary_source": {
+        "bytes": 16471,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/task_summary.json",
+        "sha256": "48bbd5d43bcb48da096ff3f75bfca26315da8f2177e8c5e5dfba1a20e75b4210",
+        "status": "available"
+      }
+    },
+    {
+      "activated_h_ids": [
+        "h-3ef3b43e4c09a8cb"
+      ],
+      "arm": "T",
+      "backbone": "qwen3.8-max",
+      "comparison_ids_after": [
+        "comparison-c69bec6a96ad0544",
+        "comparison-a4d3a30084d61ac4",
+        "comparison-8a5b75fcd09336dc"
+      ],
+      "comparison_ids_before": [
+        "comparison-c69bec6a96ad0544",
+        "comparison-a4d3a30084d61ac4",
+        "comparison-8a5b75fcd09336dc"
+      ],
+      "episode_key": "max_t",
+      "exploration_history_ids_after": [
+        "exploration-h-25331a9a4337e940",
+        "exploration-h-0e1c57e08374931a",
+        "exploration-h-3ef3b43e4c09a8cb"
+      ],
+      "exploration_history_ids_before": [
+        "exploration-h-25331a9a4337e940",
+        "exploration-h-0e1c57e08374931a"
+      ],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/initial_public_fingerprint.json",
+        "sha256": "83c9515aba4555aaa9cf581a97f05649448ec1652541dc698962e0a1f00c0864",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2793,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/pairing_proof.json",
+        "sha256": "1694bc5fb6960384249567a740da5e6fda0b7cf91af62d50d3a20140ea74269c",
+        "status": "available"
+      },
+      "public_target": "put a cool egg in sinkbasin.",
+      "registry_sha256": "d1dedf3037c5e7f052b584ae6217b9a1b37c9f03bc915a369631831b9f2af402",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1e_cross_model_registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1E Max",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221",
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_global_index": 11,
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+      "task_summary_source": {
+        "bytes": 9388,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+        "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+        "status": "available"
+      }
+    }
+  ],
+  "no_semantic_correctness_judgment": true,
+  "paired_models_or_arms": [
+    {
+      "episode_keys": [
+        "flash_t",
+        "max_t"
+      ],
+      "identity": {
+        "public_initial_fingerprint": "7662f7dd42e1b59c9f2f238bf30a56f2cb4a67f0c2ea667492e4c49fcbc113f7",
+        "requested_seed": 42,
+        "split": "valid_unseen",
+        "task_family": "pick_cool_then_place_in_recep",
+        "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+      },
+      "identity_fields_checked": [
+        "task_id",
+        "task_family",
+        "requested_seed",
+        "split",
+        "public_initial_fingerprint"
+      ],
+      "public_task_identity_equal": true
+    }
+  ],
+  "schema_version": "phase1f-semantic-review-case-v1",
+  "why_selected": "Both H-active paths use the same candidate sequence without acquisition; both A outputs mark contradiction but differ in comparison assessment."
+}

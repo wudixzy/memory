@@ -1,0 +1,33 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-08e26bc3ebfdd940",
+      "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+      "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+      "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+      "source_comparison_id": "comparison-cfd2fc58104a4c7a"
+    },
+    {
+      "exploration_id": "exploration-h-f7ef2de2a863dd66",
+      "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed spaces like bathrooms.",
+      "realization_pattern": "Select a closed storage receptacle from the visible list as the first navigation target instead of following strict observation order or prioritizing open surfaces; navigate to it, open it, inspect for the target object, acquire if present, otherwise close it and halt the local probe.",
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible at room center and closed storage receptacles are listed in the entry observation.",
+      "source_comparison_id": "comparison-87696a31524548de"
+    },
+    {
+      "exploration_id": "exploration-h-d9bc5cd426fefd5a",
+      "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed containers like mugs.",
+      "realization_pattern": "Navigate to a closed storage receptacle from the entry state, open it, inspect contents for the target object type, and take the object if present; otherwise halt the local probe.",
+      "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and closed storage receptacles are available in the admissible action list.",
+      "source_comparison_id": "comparison-baa8e1982268b35b"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2305,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "8bd473df26343c0bfae849c3272e054c875ffd320f39ca62218c5f19b4e90f3c",
+    "status": "available"
+  }
+}

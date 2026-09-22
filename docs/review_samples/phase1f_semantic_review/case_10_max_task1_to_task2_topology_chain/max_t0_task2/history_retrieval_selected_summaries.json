@@ -1,0 +1,19 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-9237af7e062ed4d8",
+      "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+      "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+      "source_comparison_id": "comparison-a4dd496faa0506d4"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 649,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "9e5061b909da31e6d6442355d2e367b608a1096c7bf9d4758959239823f04243",
+    "status": "available"
+  }
+}

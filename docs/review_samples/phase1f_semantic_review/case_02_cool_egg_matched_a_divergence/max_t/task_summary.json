@@ -1,0 +1,145 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 0,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "CONTRADICTING",
+        "still_unresolved": [
+          "Whether prioritizing the cooling appliance first reduces total navigation steps in pick-cool-then-place tasks when the target object is actually located inside the cooling appliance.",
+          "Whether the cooling-appliance-first heuristic outperforms strict listed-order traversal or generic semantic plausibility heuristics across varied room layouts and target placements."
+        ],
+        "updates": []
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 23,
+    "activated_h_id": "h-3ef3b43e4c09a8cb",
+    "arm": "T",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "No alternative search strategy (e.g., category-prioritized or early-termination heuristics) was tested; memory only prescribes listed-order search without comparative evidence closing its status as preferred.",
+          "feasibility_support": "The linear scan successfully located and acquired the egg after 23 steps, confirming feasibility under this seed.",
+          "policy_relevance": "Reducing the number of visited receptacles before acquisition directly lowers step cost across all non-visible-target tasks, making search ordering policy-relevant."
+        },
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target object not initially visible; inventory empty.",
+          "constraints": [
+            "Must not take non-target objects",
+            "Must open closed receptacles before inspection",
+            "Must preserve ability to navigate to cooling and placement receptacles after acquisition"
+          ],
+          "local_function": "Sequentially navigate to each receptacle in the listed order, open if closed, inspect for target, and acquire it upon first exposure.",
+          "required_downstream_state": "Target object held in agent inventory; agent positioned at the receptacle where target was found."
+        },
+        "incumbent_segment": "Exhaustive linear search of all visible receptacles in listed order until target is found",
+        "warrant": "The incumbent linear search is feasible but unchallenged by any prioritized or heuristic alternative in memory or trajectory. Because search efficiency materially affects step cost across the established scope, resolving whether a targeted ordering outperforms exhaustive listed-order scanning is worth asking C to instantiate."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "NONE"
+      },
+      "phase": "phase1c_c",
+      "status": "parsed"
+    },
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "fridge_1",
+      "countertop_1"
+    ],
+    "environment_action_count": 23,
+    "h_reconciliation_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "keep_candidate_h": false,
+        "operation": "NO_NEW_H",
+        "rationale": "C returned no candidate. Evidence contradicts the cooling-appliance-first heuristic in comparison-a4d3a30084d61ac4, but that comparison remains open with unresolved questions; no new H is proposed.",
+        "target_comparison_id": "NONE"
+      },
+      "phase": "phase1c_h_reconciliation",
+      "status": "parsed"
+    },
+    "reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    },
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-3ef3b43e4c09a8cb"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 9388,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+      "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+      "status": "available"
+    }
+  ]
+}

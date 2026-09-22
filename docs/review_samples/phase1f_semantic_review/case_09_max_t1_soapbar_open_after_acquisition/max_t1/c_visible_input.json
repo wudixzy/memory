@@ -1,0 +1,190 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Agent at room center with full list of visible receptacles from entry observation; target not yet visible; inventory empty.",
+        "constraints": [
+          "Must follow the exact listing order from the initial room observation",
+          "Must open closed receptacles before inspecting contents",
+          "Must pick up the target immediately upon first exposure",
+          "Must not perform actions outside the probe sequence until target is acquired"
+        ],
+        "local_function": "Navigate to and inspect receptacles sequentially in the order listed in the room observation until the target object is found and picked up.",
+        "required_downstream_state": "Agent holds the target object (soapbar) in inventory and knows its current location for subsequent navigation to cleaning/destination receptacles."
+      }
+    },
+    "current_task": {
+      "instruction": "clean some soapbar and put it in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214946_567644"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, countertop_1, garbagecan_1, handtowelholder_1, handtowelholder_2, sinkbasin_1, sinkbasin_2, toilet_1, toiletpaperhanger_1, towelholder_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-08e26bc3ebfdd940",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cfd2fc58104a4c7a"
+      },
+      {
+        "exploration_id": "exploration-h-f7ef2de2a863dd66",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed spaces like bathrooms.",
+        "realization_pattern": "Select a closed storage receptacle from the visible list as the first navigation target instead of following strict observation order or prioritizing open surfaces; navigate to it, open it, inspect for the target object, acquire if present, otherwise close it and halt the local probe.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible at room center and closed storage receptacles are listed in the entry observation.",
+        "source_comparison_id": "comparison-87696a31524548de"
+      },
+      {
+        "exploration_id": "exploration-h-d9bc5cd426fefd5a",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed containers like mugs.",
+        "realization_pattern": "Navigate to a closed storage receptacle from the entry state, open it, inspect contents for the target object type, and take the object if present; otherwise halt the local probe.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and closed storage receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-baa8e1982268b35b"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 9174,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/c/c_input.json",
+    "sha256": "6a35096fdf3b11329cedb7dd1585055b0cbd5361b57940ace9f69e22b4f7e04d",
+    "status": "available"
+  }
+}

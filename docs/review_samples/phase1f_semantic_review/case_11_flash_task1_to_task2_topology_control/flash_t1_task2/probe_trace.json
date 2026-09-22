@@ -1,0 +1,111 @@
+{
+  "content": {
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "cabinet_1"
+    ],
+    "environment_actions": [
+      "go to cabinet_1",
+      "take plate_1 from cabinet_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to cabinet_1",
+          "take plate_1 from cabinet_1"
+        ],
+        "candidate_id": "cabinet_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_12. On cabinet_1, you see plate_1.",
+          "You take plate_1 from cabinet_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine cabinet_1",
+            "examine plate_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put plate_1 in/on cabinet_1"
+          ],
+          "observation": "You take plate_1 from cabinet_1."
+        },
+        "selection": {
+          "candidate_index": 0,
+          "selected_candidate": "cabinet_1"
+        },
+        "step": 1,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 2002,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/probe_summary.json",
+      "sha256": "8c57dc5060cf19ff72041bf49c4decc5a30adafd63322701c54d41f91aae3f01",
+      "status": "available"
+    },
+    {
+      "bytes": 4686,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/selector_input.json",
+      "sha256": "9971051f9c094bad0d7eb889ac22ff51fa6ba3d4dd414f14f9bc845c0cadc973",
+      "status": "available"
+    },
+    {
+      "bytes": 73,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/raw_response.json",
+      "sha256": "894341a376b5f6846fb02f816a9d3caee5f001ec399c337f705a96817a656dea",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/parsed.json",
+      "sha256": "6505af28333fef5869fb06b2bcb67f71718b7e9a4773c86d62b95712c7006667",
+      "status": "available"
+    },
+    {
+      "bytes": 64,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/probe/steps/001/selector_validation.json",
+      "sha256": "95d84881743008208dd9d47d9da99817ae13cda88ad11cc12dd4df0fbd622d82",
+      "status": "available"
+    }
+  ]
+}

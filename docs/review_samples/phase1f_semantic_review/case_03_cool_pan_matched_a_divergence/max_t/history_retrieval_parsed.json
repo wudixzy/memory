@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/047-e291c26a89d5/T/exploration_history_retrieval/retrieval_parsed.json",
+  "reason": "No artifact for this optional history-retrieval stage was saved; the pre-task archive and B result are included, and no unrecorded model call is inferred.",
+  "status": "not_available"
+}

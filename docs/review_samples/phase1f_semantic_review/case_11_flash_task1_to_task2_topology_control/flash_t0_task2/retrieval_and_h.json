@@ -1,0 +1,90 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-8f8505695fa0c9df",
+    "archive_files": {
+      "after": {
+        "bytes": 1573,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/exploration_history_after.json",
+        "sha256": "a445b578744bff212ceae3dbed0f51f7a76153ca7e88c799721d812cfa20fd1a",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-b8150900bcd34087",
+        "exploration_id": "exploration-h-8f8505695fa0c9df",
+        "hypothesis": "Prioritizing inspection of closed storage receptacles (drawers/cabinets) over open surfaces (countertops/shelves) reduces total navigation steps by avoiding redundant visits to empty open areas, assuming the target is more likely to be hidden inside a container.",
+        "realization_pattern": "Filter candidate receptacles by type: prioritize 'closed storage' types (e.g., drawers, cabinets, fridges) over 'open surface' types (e.g., countertops, shelves). Within the prioritized group, select the nearest or first-listed instance.",
+        "related_post_test_memory_ids": [
+          "established-5e5d179b530da681"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "source_comparison_id": "comparison-16b9a7112350ec18",
+        "source_h_id": "h-8f8505695fa0c9df",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      }
+    ],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-16b9a7112350ec18",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-8f8505695fa0c9df",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-16b9a7112350ec18",
+        "consumed_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-8f8505695fa0c9df",
+        "status": "consumed"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-8f8505695fa0c9df"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 11499,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/task_summary.json",
+      "sha256": "8a16ea21551b5d406d69ab816cbf37b9b07a21b72566d1c92db4ef1440d051b2",
+      "status": "available"
+    },
+    {
+      "bytes": 50180,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/memory_before.json",
+      "sha256": "5f846bafa2a2b5ec58d536e8fe8b8626a42bb0b736e0a64b26840044be50d398",
+      "status": "available"
+    },
+    {
+      "bytes": 60474,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/memory_after.json",
+      "sha256": "c22948e28c1a5763637413fcb60e32597e69791f0e4bc356c11043db910f299f",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 1573,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/exploration_history_after.json",
+      "sha256": "a445b578744bff212ceae3dbed0f51f7a76153ca7e88c799721d812cfa20fd1a",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target object not yet observed; inventory empty.",
+          "constraints": [
+            "Must eventually find and acquire the target if present in any reachable receptacle",
+            "Must not interact with or pick up non-target objects during search",
+            "Must open closed receptacles before inspecting their contents"
+          ],
+          "local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+          "required_downstream_state": "Target object held in agent inventory; agent located at the receptacle where the target was found."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 747,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/b_c_handoff/projection.json",
+        "sha256": "d5f276ff5ce9b18bc5e3cf26b0dca5b6baa1e7f5116aed04baf92a192a9550be",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to fridge_1",
+              "entities": [
+                "fridge_1"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to fridge_1",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to fridge_1",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1195,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/c/mechanical_grounding.json",
+        "sha256": "84fbf020f3195c8a17c53e12bade91a0a616a20be9b1a21242442c48af50c2c2",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "INCONCLUSIVE",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether semantic plausibility filtering reduces total navigation steps compared to strict listed-order traversal or generic surface-priority heuristics for target acquisition.",
+          "Whether skipping structurally implausible fixtures (e.g., coffeemachine, garbagecan) during search improves efficiency without missing valid targets."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 500,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/epistemic_validation.json",
+        "sha256": "2190c2d98145746c204ac039fb5fcbc8c7a81f98a9d44934047a8438314577f9",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "inconclusive_evidence_refs",
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "evidence_id": "evidence-7d50799788495118",
+          "evidence_role": "INCONCLUSIVE",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 334,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/materialization.json",
+        "sha256": "83c55e6971801f72ef30c65634bd8273e03391699f3aa423a09f00edd0313d2c",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 500,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/epistemic_validation.json",
+      "sha256": "2190c2d98145746c204ac039fb5fcbc8c7a81f98a9d44934047a8438314577f9",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 334,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/a/materialization.json",
+      "sha256": "83c55e6971801f72ef30c65634bd8273e03391699f3aa423a09f00edd0313d2c",
+      "status": "available"
+    },
+    {
+      "bytes": 747,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/b_c_handoff/projection.json",
+      "sha256": "d5f276ff5ce9b18bc5e3cf26b0dca5b6baa1e7f5116aed04baf92a192a9550be",
+      "status": "available"
+    },
+    {
+      "bytes": 1195,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/c/mechanical_grounding.json",
+      "sha256": "84fbf020f3195c8a17c53e12bade91a0a616a20be9b1a21242442c48af50c2c2",
+      "status": "available"
+    }
+  ]
+}

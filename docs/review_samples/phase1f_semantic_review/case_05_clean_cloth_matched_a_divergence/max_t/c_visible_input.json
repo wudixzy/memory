@@ -1,0 +1,217 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Agent at room center with full list of visible receptacles; target cloth not visible; task requires clean-then-place to cabinet.",
+        "constraints": [
+          "Must not confuse towel objects with cloth target",
+          "Must open closed receptacles before taking contents",
+          "Must preserve ability to reach sinkbasin for downstream cleaning"
+        ],
+        "local_function": "Probe domain-semantically matched fabric holders first, then fall back to systematic traversal of closed receptacles to locate and acquire the cloth target.",
+        "required_downstream_state": "Cloth target held in inventory, agent positioned to proceed to cleaning phase."
+      }
+    },
+    "current_task": {
+      "instruction": "put a clean cloth in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: put a clean cloth in cabinet."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, countertop_1, garbagecan_1, handtowelholder_1, handtowelholder_2, sinkbasin_1, sinkbasin_2, toilet_1, toiletpaperhanger_1, towelholder_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. Additionally, for heat-then-place tasks involving egg targets, be aware that strict listed-order traversal can incur substantial overhead if the egg is staged on or near the destination receptacle (e.g., garbagecan); consider checking the destination receptacle early when it is an open container where food items may be staged. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in both heat-then-place and clean-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) or a beverage-associated appliance surface (e.g., coffeemachine) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes. For small dining condiment targets (e.g., saltshakers), be aware that navigating to open horizontal surfaces (e.g., countertops) first can add navigation overhead if the condiment is stored inside a closed receptacle (e.g., cabinet); rely on listed-order traversal as the default for condiment targets unless strong evidence indicates staging on open surfaces. Preliminary evidence also suggests that for leafy vegetable targets (e.g., lettuce) in cool-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the target without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/013-354ba16d246b/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/023-bc4ff2ea2b99/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/026-1ebd66e39251/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/030-c9c712e8da31/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/032-281ba9916f97/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/035-1b48423d1600/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/036-f6179e37f967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/044-8ead717078ff/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/047-e291c26a89d5/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/048-cbb06188aa8e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/049-cfba8f6fb27c/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/050-4cf78e471066/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a",
+          "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/056-f7b879447438/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": null,
+            "consumed_h_id": null,
+            "evidence_id": "evidence-b3685af0060903af",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113523_123938"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: put a clean cloth in cabinet."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-9354131b9c1fc01f",
+        "hypothesis": "Prioritizing receptacles whose type semantically suggests they hold fabric items (e.g., towel or handtowel holders) before inspecting generic closed storage reduces search steps for cloth targets, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Identify a receptacle whose type semantically matches the target object category; navigate to it first; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "scope": "ALFWorld clean-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including fabric-associated holders, and no prior exploration has tested domain-specific semantic prioritization for cloth-like targets.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-f9e349c7471f657e",
+        "hypothesis": "Navigating to a towelholder-type receptacle before inspecting generic closed storage or other fixtures reduces search steps for acquiring a cloth object in a clean-then-place task, because towelholders are semantically specialized for fabric items.",
+        "realization_pattern": "Identify a fabric-specialized holder receptacle; navigate to it; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "scope": "ALFWorld clean-then-place tasks where the target is a cloth, the entry observation lists multiple receptacles including fabric-associated holders and closed storage, and prior semantic-priority tests have not specifically targeted towelholder-type receptacles as the first probe for cloth objects.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions"
+  ],
+  "source_artifact": {
+    "bytes": 102234,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/c/c_input.json",
+    "sha256": "a15ed046301a1a260c3aee3116e750ecb7e27a8dd60a5568d3c81355cb1940d1",
+    "status": "available"
+  }
+}

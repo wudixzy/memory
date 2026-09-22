@@ -1,0 +1,90 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-4e270306c12d8eec",
+    "archive_files": {
+      "after": {
+        "bytes": 1385,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/exploration_history_after.json",
+        "sha256": "953edbf59d4b41411f012fa56febb0d78b0f382e7abac73084e4a4d73c3a80a3",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-b8150900bcd34087",
+        "exploration_id": "exploration-h-4e270306c12d8eec",
+        "hypothesis": "Prioritizing search of receptacles that match the destination type (e.g., drawers if placing on a drawer) reduces total steps compared to scanning all visible receptacles in arbitrary or listed order.",
+        "realization_pattern": "Filter visible receptacles by type matching the destination; iterate through filtered subset before unfiltered remainder.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "source_comparison_id": "comparison-90f0d8a92eb6059c",
+        "source_h_id": "h-4e270306c12d8eec",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      }
+    ],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-90f0d8a92eb6059c",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-4e270306c12d8eec",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-90f0d8a92eb6059c",
+        "consumed_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-4e270306c12d8eec",
+        "status": "consumed"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-4e270306c12d8eec"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 13784,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/task_summary.json",
+      "sha256": "aa36707e4cd18d734a96097d6cfeff0e2b36fdbcf2d4902e5846387b72127aa4",
+      "status": "available"
+    },
+    {
+      "bytes": 18378,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/memory_before.json",
+      "sha256": "f9cec9d79b5b5fea01fd187be069ed95b2e030e6f0a7d07c09712a67955a486c",
+      "status": "available"
+    },
+    {
+      "bytes": 28832,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/memory_after.json",
+      "sha256": "8b263d6c7503f025efa5fb43c7d452e822d15d14a0495358e17b406450a253b5",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 1385,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/exploration_history_after.json",
+      "sha256": "953edbf59d4b41411f012fa56febb0d78b0f382e7abac73084e4a4d73c3a80a3",
+      "status": "available"
+    }
+  ]
+}

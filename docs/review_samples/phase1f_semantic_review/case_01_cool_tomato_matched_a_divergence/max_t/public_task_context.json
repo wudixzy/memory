@@ -1,0 +1,86 @@
+{
+  "content": {
+    "public_affordance_structure": {
+      "action_families": [
+        "go",
+        "inventory",
+        "look"
+      ],
+      "visible_or_referenced_entities": [
+        "cabinet_1",
+        "cabinet_2",
+        "cabinet_3",
+        "cabinet_4",
+        "cabinet_5",
+        "cabinet_6",
+        "coffeemachine_1",
+        "countertop_1",
+        "countertop_2",
+        "countertop_3",
+        "drawer_1",
+        "drawer_2",
+        "drawer_3",
+        "fridge_1",
+        "garbagecan_1",
+        "microwave_1",
+        "shelf_1",
+        "shelf_2",
+        "shelf_3",
+        "sinkbasin_1",
+        "stoveburner_1",
+        "stoveburner_2",
+        "stoveburner_3",
+        "stoveburner_4",
+        "toaster_1"
+      ]
+    },
+    "public_candidate_count": 25,
+    "public_initial_admissible_actions": [
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to cabinet_5",
+      "go to cabinet_6",
+      "go to coffeemachine_1",
+      "go to countertop_1",
+      "go to countertop_2",
+      "go to countertop_3",
+      "go to drawer_1",
+      "go to drawer_2",
+      "go to drawer_3",
+      "go to fridge_1",
+      "go to garbagecan_1",
+      "go to microwave_1",
+      "go to shelf_1",
+      "go to shelf_2",
+      "go to shelf_3",
+      "go to sinkbasin_1",
+      "go to stoveburner_1",
+      "go to stoveburner_2",
+      "go to stoveburner_3",
+      "go to stoveburner_4",
+      "go to toaster_1",
+      "inventory",
+      "look"
+    ],
+    "public_initial_fingerprint": "72d81f530bb414ea4bb156d434fb79e4947d92b73e93184a6b40fd9123be271b",
+    "public_initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: cool some tomato and put it in microwave.",
+    "public_instruction": "cool some tomato and put it in microwave.",
+    "registry_replay_spec_omitted": "Frozen carrier replay metadata omitted; no PDDL content or oracle data was accessed.",
+    "requested_seed": 42,
+    "split": "valid_unseen",
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781"
+  },
+  "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 269433,
+      "path": "experiments/exploratory_memory_mvp/cases/phase1e_cross_model_registry.json",
+      "sha256": "d1dedf3037c5e7f052b584ae6217b9a1b37c9f03bc915a369631831b9f2af402",
+      "status": "available"
+    }
+  ]
+}

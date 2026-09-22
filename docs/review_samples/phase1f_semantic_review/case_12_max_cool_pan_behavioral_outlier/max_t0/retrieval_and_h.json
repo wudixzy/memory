@@ -1,0 +1,133 @@
+{
+  "content": {
+    "actually_activated_h_id": null,
+    "archive_files": {
+      "after": {
+        "bytes": 3046,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_after.json",
+        "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3046,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_before.json",
+        "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-edd0fa449e24460d",
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-9237af7e062ed4d8",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161853_945788",
+        "evidence_id": "evidence-24e0ebc43d79a85a",
+        "exploration_id": "exploration-h-492f4d237f36cd53",
+        "hypothesis": "For food items requiring downstream cooling, prioritizing navigation to food-preparation appliances (e.g., toasters, microwaves) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "realization_pattern": "visit a food-preparation appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a food item not immediately visible in the entry observation and the room contains both open surfaces, closed storage receptacles, and food-preparation appliances.",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-492f4d237f36cd53",
+        "source_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830"
+      }
+    ],
+    "exploration_history_before": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-edd0fa449e24460d",
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-9237af7e062ed4d8",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161853_945788",
+        "evidence_id": "evidence-24e0ebc43d79a85a",
+        "exploration_id": "exploration-h-492f4d237f36cd53",
+        "hypothesis": "For food items requiring downstream cooling, prioritizing navigation to food-preparation appliances (e.g., toasters, microwaves) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "realization_pattern": "visit a food-preparation appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a food item not immediately visible in the entry observation and the room contains both open surfaces, closed storage receptacles, and food-preparation appliances.",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-492f4d237f36cd53",
+        "source_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830"
+      }
+    ],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004404_604165",
+        "h_id": "h-b34dfbffa05d48ac",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+        "h_id": "h-adc5f270fff807b5",
+        "status": "active"
+      }
+    ],
+    "retrieval_decision": "NONE",
+    "retrieval_h_id": "NONE"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 13018,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+      "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+      "status": "available"
+    },
+    {
+      "bytes": 254449,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_before.json",
+      "sha256": "7ac1e41d66c3c55430e5d499d6a6c3402d7e2e9cfc72b42972e307eaaacc1ead",
+      "status": "available"
+    },
+    {
+      "bytes": 401886,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_after.json",
+      "sha256": "34c06e6ab90e131ecc66cb887284b4e9f2bda8fd7f96e878c41bd24dff16bc4b",
+      "status": "available"
+    },
+    {
+      "bytes": 3046,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_before.json",
+      "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+      "status": "available"
+    },
+    {
+      "bytes": 3046,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_after.json",
+      "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+      "status": "available"
+    }
+  ]
+}

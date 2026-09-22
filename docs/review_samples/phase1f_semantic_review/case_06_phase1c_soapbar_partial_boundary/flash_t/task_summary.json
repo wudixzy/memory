@@ -1,0 +1,152 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 1,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "still_unresolved": [
+          "The hypothesis claims reduced search steps compared to spatial listing order or generic type-grouping. While the semantic priority scan found the target in 2 steps, there is no direct counterfactual evidence from this specific episode showing what a spatial-order or type-grouping baseline would have cost (though prior memory suggests spatial order can be inefficient if the target is late in the list). The comparison remains partially open regarding global superiority across all layouts."
+        ],
+        "updates": [
+          {
+            "evidence_basis": "The agent successfully acquired soapbar_1 in 2 steps by prioritizing countertop_1 (an open surface) over closed cabinets, consistent with the exploratory hypothesis that semantic relevance of open surfaces reduces search time for toiletries.",
+            "guidance": "When searching for toiletries (soap, toothpaste, etc.) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping.",
+            "operation": "REFINE",
+            "scope": "ALFWorld bathroom tasks where the target object is a toiletry and multiple receptacle types are visible.",
+            "target_memory_ids": [
+              "established-search-listed-order-general"
+            ]
+          }
+        ]
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 2,
+    "activated_h_id": "h-557c586a16b7ecc2",
+    "arm": "T",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "The memory contains a refined heuristic prioritizing semantic likelihood over spatial order. The incumbent's choice of 'countertop' as the first probe is not explicitly justified by the current memory guidance (which suggests cabinets/drawers or semantic priors like fridges/stoves), nor was it compared against other potential first-probes (e.g., sinkbasin or cabinet).",
+          "feasibility_support": "The trajectory demonstrates that targeting a specific receptacle (countertop) can yield immediate success for this object type in this layout.",
+          "policy_relevance": "Determining whether 'countertop' should be a high-priority default probe for bathroom/kitchen cleaning tasks (like soapbars) versus relying on general semantic priors could significantly reduce search steps in future similar tasks."
+        },
+        "functional_contract": {
+          "available_state": "Initial room observation with multiple visible receptacles; target location unknown.",
+          "constraints": [
+            "Must preserve the ability to acquire the target upon visibility.",
+            "Comparison must evaluate step efficiency relative to alternative initial probes."
+          ],
+          "local_function": "Select and navigate to the first candidate receptacle for search.",
+          "required_downstream_state": "Target object is visible at the selected receptacle."
+        },
+        "incumbent_segment": "The agent navigated directly to countertop_1 as the first search probe, successfully locating and acquiring soapbar_1 in two steps.",
+        "warrant": "The incumbent achieved rapid acquisition via a direct probe to countertop_1, but the established memory does not codify why this specific receptacle was chosen first over others. Resolving whether 'countertop' is a superior default probe for soap-like objects compared to the current semantic/spatial heuristics is policy-relevant for optimizing search paths."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "NONE"
+      },
+      "phase": "phase1c_c",
+      "status": "parsed"
+    },
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "countertop_1"
+    ],
+    "environment_action_count": 2,
+    "h_reconciliation_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "keep_candidate_h": false,
+        "operation": "NO_NEW_H",
+        "rationale": "C returned no candidate (null). The current evidence supports the existing active hypothesis h-557c586a16b7ecc2 in comparison-04b3769e6328be11, but without a new proposal from C, no lifecycle operation is triggered.",
+        "target_comparison_id": "NONE"
+      },
+      "phase": "phase1c_h_reconciliation",
+      "status": "parsed"
+    },
+    "reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    },
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-557c586a16b7ecc2"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_clean_then_place_in_recep",
+    "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 11712,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/task_summary.json",
+      "sha256": "89afdf3d14fe077b135b31819a1c01076fca2bf33dcbea800564699a03e0dde8",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 1,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "CONTRADICTING",
+        "still_unresolved": [
+          "The global efficiency of semantic prioritization vs. spatial listing order across all object types and layouts.",
+          "The optimal fallback strategy when high-probability semantic containers are empty."
+        ],
+        "updates": [
+          {
+            "evidence_basis": "The agent followed the established memory's guidance to prioritize semantically likely containers (fridge) for a food item (egg). The fridge was empty, forcing a fallback to a spatial scan of cabinets, drawers, and countertops before finding the egg in a garbage can at step 23. This trajectory demonstrates that semantic prioritization can lead to longer search times if the high-probability container is empty and the actual location is not immediately next in the fallback sequence.",
+            "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts. Note that semantic prioritization may increase search time if the high-probability container is empty and the target is located in a less-likely but spatially earlier or later receptacle.",
+            "operation": "REFINE",
+            "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible.",
+            "target_memory_ids": [
+              "established-search-listed-order-general"
+            ]
+          }
+        ]
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 23,
+    "activated_h_id": "h-f8ba6a4abd04c9b1",
+    "arm": "T",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "No comparative evidence exists to show that this specific order was optimal; the memory notes semantic failures but does not establish if 'garbage-first' or 'open-surface-only' would have been faster in this instance.",
+          "feasibility_support": "The incumbent successfully located and acquired the target egg at step 23, proving the sequence is executable.",
+          "policy_relevance": "Determining whether to include low-probability containers like garbage cans early in the search, or to skip closed storage entirely when open surfaces are available, materially changes future search efficiency policies."
+        },
+        "functional_contract": {
+          "available_state": "Agent has an unknown target object location in a kitchen with mixed receptacles (fridge, cabinets, counters, drawers, garbage).",
+          "constraints": [
+            "Must preserve the ability to find the target regardless of its actual location.",
+            "Should minimize total action steps compared to alternative heuristics."
+          ],
+          "local_function": "Execute a search sequence to locate the target object.",
+          "required_downstream_state": "Target object is identified and taken into inventory."
+        },
+        "incumbent_segment": "The search strategy prioritized the fridge (semantic prior for food) and then executed a rigid spatial scan of cabinets, countertops, and drawers before checking the garbage can.",
+        "warrant": "The incumbent's reliance on a semantic prior (fridge) followed by exhaustive closed-storage scanning resulted in a long trajectory. It is unresolved whether a policy excluding closed storage or prioritizing 'trash' as a potential food source would yield better performance, making this comparison worth opening for C to test."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "CREATE",
+        "guidance": "Begin the search by navigating to and inspecting all visible open surfaces (countertops, shelves) in spatial order. Only if the target is not found on any open surface should you proceed to check closed storage units, prioritizing the fridge last among closed units if it requires opening.",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (fridge, cabinets) reduces total action steps for locating perishable food items compared to semantic-priority search (checking fridge first), by avoiding the overhead of opening/closing containers when the item is likely on an accessible surface.",
+        "probe_spec": {
+          "adaptive_policy": "At each step, select the next unvisited open surface from the current observation's admissible 'go to' actions. Inspect it. If the target is not present, move to the next open surface. Once all open surfaces are exhausted, switch to checking closed storage units (cabinets, drawers, fridge) using 'open' then 'look'.",
+          "capability_requirements": [
+            "go to",
+            "look"
+          ],
+          "evidence_goal": "Compare the number of steps taken to find the target against the baseline established memory (semantic priority/fridge-first). Success is defined by finding the target with fewer total actions than the incumbent heuristic would require in this specific layout.",
+          "local_function": "Execute a search sequence to locate the target object.",
+          "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+          "required_downstream_state": "Target object is identified and taken into inventory.",
+          "stop_conditions": [
+            "Target object is located and taken.",
+            "All open surfaces have been inspected without finding the target (trigger fallback to closed storage)."
+          ]
+        },
+        "provenance": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/08-059972eb9c84/T/a",
+          "established-search-listed-order-general"
+        ],
+        "reason": "The established memory suggests semantic prioritization (fridge first) but notes it can be inefficient if the fridge is empty. A previous exploration tested open-surface-first for tomatoes and found it successful but potentially high-step depending on layout. This probe tests the same open-surface-first hypothesis specifically for eggs in a mixed kitchen layout to determine if the avoidance of container-opening costs outweighs the potential distance penalty of checking multiple countertops/shelves first, providing a more granular comparison against the fridge-first incumbent for this object class.",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+        "source_grounding": {
+          "entry_action": "go to countertop_1",
+          "public_capability_evidence": [
+            "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1",
+            "The requested object is not exposed by an exact public take action at entry."
+          ],
+          "why_grounded": "The entry observation lists countertop_1 as a visible entity, and 'go to countertop_1' is an exact admissible action at the source probe-entry state."
+        },
+        "type": "exploratory"
+      },
+      "phase": "phase1c_c",
+      "status": "parsed"
+    },
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "fridge_1",
+      "countertop_1"
+    ],
+    "environment_action_count": 23,
+    "h_reconciliation_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-flash",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "keep_candidate_h": true,
+        "operation": "ADD",
+        "rationale": "The C candidate proposes a specific 'open-surface-first' heuristic for perishable food items (eggs) in kitchens. While similar to existing comparisons for tomatoes (comparison-e9007f0de961e2ea) and condiments (comparison-b1b7c37008df8834), the scope is distinct (perishable food vs. tomato/condiment). The current evidence contradicts the incumbent semantic-priority strategy (fridge-first) but does not yet validate the open-surface-first alternative for this specific object class. A new comparison is required to test this specific hypothesis against the established baseline.",
+        "target_comparison_id": "NEW"
+      },
+      "phase": "phase1c_h_reconciliation",
+      "status": "parsed"
+    },
+    "reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c",
+      "candidate_retained": true,
+      "comparison_id": "comparison-526718e3a6226baf",
+      "comparison_status": "OPEN",
+      "h_id": "h-8f5a9697b5472276",
+      "operation": "ADD"
+    },
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-f8ba6a4abd04c9b1"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 16471,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/task_summary.json",
+      "sha256": "48bbd5d43bcb48da096ff3f75bfca26315da8f2177e8c5e5dfba1a20e75b4210",
+      "status": "available"
+    }
+  ]
+}

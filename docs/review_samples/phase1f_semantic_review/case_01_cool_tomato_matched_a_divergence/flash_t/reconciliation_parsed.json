@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": true,
+  "operation": "ADD",
+  "rationale": "The C candidate proposes a new 'open-surface-first' strategy for food items. This is distinct from existing comparisons: comparison-c0ae98e34177afb9 tests semantic-prior (fridge) vs spatial; comparison-0e240389305dbecb tests general semantic likelihood vs spatial; comparison-04b3769e6328be11 is scoped to bathroom/toiletries. The current episode's evidence contradicts the semantic-prior hypothesis in c0ae98e34177afb9 but does not resolve the open-surface-first hypothesis, which requires its own dedicated comparison.",
+  "target_comparison_id": "NEW"
+}

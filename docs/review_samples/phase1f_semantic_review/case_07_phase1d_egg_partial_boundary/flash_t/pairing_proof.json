@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "9654bec8a3004c8beca3c44491c8cebdcf4c57af15eb64679febb0064542a1c7",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "9654bec8a3004c8beca3c44491c8cebdcf4c57af15eb64679febb0064542a1c7",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+      }
+    },
+    "e0_initial_fingerprint": "9654bec8a3004c8beca3c44491c8cebdcf4c57af15eb64679febb0064542a1c7",
+    "e1_initial_fingerprint": "9654bec8a3004c8beca3c44491c8cebdcf4c57af15eb64679febb0064542a1c7",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2799,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/pairing_proof.json",
+      "sha256": "3bff9f0ae2ca4d35ea92aa7ecc3913895e42fcdcbc869c2658149cfbb8ade3a8",
+      "status": "available"
+    }
+  ]
+}

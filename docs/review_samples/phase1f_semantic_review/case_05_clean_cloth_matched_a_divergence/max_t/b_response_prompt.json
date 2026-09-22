@@ -1,0 +1,20 @@
+{
+  "extraction": "exact non-user prompt messages; episode-specific user payload referenced",
+  "preserved_messages": [],
+  "referenced_user_messages": [
+    {
+      "content_bytes": 115168,
+      "content_sha256": "d8912c226704c0001c3410004806c3ee26a12a078ee98d3cddbfe77e21bd12f3",
+      "index": 0,
+      "reason": "Episode-specific user payload is represented by adjacent structured input/evidence projections; exact source prompt path and digest are retained.",
+      "role": "user",
+      "status": "referenced_not_copied"
+    }
+  ],
+  "source_artifact": {
+    "bytes": 115215,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/b/prompt.json",
+    "sha256": "50cd446a21c450c02788f9eb449ea0402e23449dc7318e582e602a09c01284c1",
+    "status": "available"
+  }
+}

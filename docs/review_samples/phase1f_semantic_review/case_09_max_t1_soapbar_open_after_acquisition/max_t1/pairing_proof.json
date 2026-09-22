@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214946_567644"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214946_567644"
+      }
+    },
+    "e0_initial_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+    "e1_initial_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214946_567644"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2817,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/pairing_proof.json",
+      "sha256": "5af3a4d28e21028adf3c7caa3bc3b95e5f0c98a6f3e978fda27e81e4d289b245",
+      "status": "available"
+    }
+  ]
+}

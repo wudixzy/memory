@@ -1,0 +1,20 @@
+{
+  "decision": "OPEN",
+  "evidence_status": {
+    "comparative_support": "Prior memory evidence-75b23b15ecb4a1bb showed semantic prioritization adding overhead for cloth targets on a CounterTop destination; this episode repeats the same 2-step semantic overhead on a Cabinet destination without any comparative test showing listed-order would be faster here.",
+    "feasibility_support": "The semantic probe failed to find the cloth but the subsequent fallback to cabinet_4 successfully acquired it, confirming the overall search strategy is feasible.",
+    "policy_relevance": "The established memory advises against semantic prioritization for cloth targets, yet the incumbent policy still executes it. Resolving whether strict listed-order traversal avoids this overhead in bathroom layouts could refine or reinforce the existing guidance."
+  },
+  "functional_contract": {
+    "available_state": "Agent at room center with full list of visible receptacles; target cloth not visible; task requires clean-then-place to cabinet.",
+    "constraints": [
+      "Must not confuse towel objects with cloth target",
+      "Must open closed receptacles before taking contents",
+      "Must preserve ability to reach sinkbasin for downstream cleaning"
+    ],
+    "local_function": "Probe domain-semantically matched fabric holders first, then fall back to systematic traversal of closed receptacles to locate and acquire the cloth target.",
+    "required_downstream_state": "Cloth target held in inventory, agent positioned to proceed to cleaning phase."
+  },
+  "incumbent_segment": "Semantic-first probe of fabric-associated receptacles (towelholder, handtowelholder) before falling back to closed-container search for a cloth target",
+  "warrant": "The trajectory repeats a known inefficient pattern (semantic probing for cloth targets) that the established memory already cautions against, yet no direct within-layout comparison has confirmed that strict listed-order traversal would avoid the 2-step overhead in this specific bathroom configuration. Opening this comparison could strengthen or refine the memory's guidance for cloth-target search ordering."
+}

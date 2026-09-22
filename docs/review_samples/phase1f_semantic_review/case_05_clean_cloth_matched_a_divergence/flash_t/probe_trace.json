@@ -1,0 +1,162 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "handtowelholder_1",
+      "handtowelholder_2"
+    ],
+    "environment_actions": [
+      "go to handtowelholder_1",
+      "go to handtowelholder_2"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to handtowelholder_1"
+        ],
+        "candidate_id": "handtowelholder_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_15. On handtowelholder_1, you see nothing."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine handtowelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing."
+        },
+        "selection": {
+          "candidate_index": 6,
+          "selected_candidate": "handtowelholder_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to handtowelholder_2"
+        ],
+        "candidate_id": "handtowelholder_2",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_14. On handtowelholder_2, you see handtowel_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine handtowelholder_2",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take handtowel_1 from handtowelholder_2"
+          ],
+          "observation": "You arrive at loc_14. On handtowelholder_2, you see handtowel_1."
+        },
+        "selection": {
+          "candidate_index": 6,
+          "selected_candidate": "handtowelholder_2"
+        },
+        "step": 2,
+        "target_acquired": false,
+        "target_visible": false
+      }
+    ],
+    "target_acquired_during_probe": false
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 2875,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/probe_summary.json",
+      "sha256": "cc7f7ebb36220e387291fd1cbb365575574d1a4ff7c74c7f8ccf69f427263a9d",
+      "status": "available"
+    },
+    {
+      "bytes": 68459,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_input.json",
+      "sha256": "8856dfe3d9f4e91910e48f2a088652be76c3e12134847cc337381dafa79ae067",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/raw_response.json",
+      "sha256": "3f990c52249d290ae0e296fb72e51a50fb861022fb7dbd432a5f562f9bb7011e",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/parsed.json",
+      "sha256": "3eec49822176525a4f6ae7bafc798b43c2e241b42af5142e4c36650749715eab",
+      "status": "available"
+    },
+    {
+      "bytes": 72,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_validation.json",
+      "sha256": "9bbeb10018815d14c8cff63e34c050fc4e93715894215a1ca236f61bebf02a6d",
+      "status": "available"
+    },
+    {
+      "bytes": 68386,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_input.json",
+      "sha256": "5f399f2b157e36fe05075e3293532ef65ec3cb119f3fb766ab78289270783c0b",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/raw_response.json",
+      "sha256": "3f990c52249d290ae0e296fb72e51a50fb861022fb7dbd432a5f562f9bb7011e",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/parsed.json",
+      "sha256": "3eec49822176525a4f6ae7bafc798b43c2e241b42af5142e4c36650749715eab",
+      "status": "available"
+    },
+    {
+      "bytes": 72,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_validation.json",
+      "sha256": "66c365ffff63edb5beaa06ca25d3831b67ba7bf6ede0d5209d96471d0aa6b6fd",
+      "status": "available"
+    }
+  ]
+}

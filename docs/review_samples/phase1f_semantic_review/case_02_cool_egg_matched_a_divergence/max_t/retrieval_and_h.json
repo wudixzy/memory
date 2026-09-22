@@ -1,0 +1,151 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-3ef3b43e4c09a8cb",
+    "archive_files": {
+      "after": {
+        "bytes": 4889,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_after.json",
+        "sha256": "ac8ed826f6088e91e31a58608653b1cfd2c00993b336a765ddae8eab2a64145b",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3216,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_before.json",
+        "sha256": "19b41619bfbc7681654327c77d65617a0da4299ff53ada15ef9e237d77267ae7",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "evidence_id": "evidence-ff278a07447c66ad",
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-25331a9a4337e940",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "evidence_id": "evidence-7d50799788495118",
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-0e1c57e08374931a",
+        "source_task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "evidence_id": "evidence-99be6f18276850c9",
+        "exploration_id": "exploration-h-3ef3b43e4c09a8cb",
+        "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+        "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4",
+        "source_h_id": "h-3ef3b43e4c09a8cb",
+        "source_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781"
+      }
+    ],
+    "exploration_history_before": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "evidence_id": "evidence-ff278a07447c66ad",
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-25331a9a4337e940",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "evidence_id": "evidence-7d50799788495118",
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-0e1c57e08374931a",
+        "source_task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+      }
+    ],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "h_id": "h-3ef3b43e4c09a8cb",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": null,
+        "created_at_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+        "h_id": "h-9ca77aa6b36d0b57",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-8a5b75fcd09336dc",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "h_id": "h-10f29a4d820ad738",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "consumed_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "h_id": "h-3ef3b43e4c09a8cb",
+        "status": "consumed"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-3ef3b43e4c09a8cb"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 9388,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+      "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+      "status": "available"
+    },
+    {
+      "bytes": 738751,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+      "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+      "status": "available"
+    },
+    {
+      "bytes": 844341,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_after.json",
+      "sha256": "1c1f79766a70887de341eff71b5015db098b4af5dca8d482e5730eb697bdda20",
+      "status": "available"
+    },
+    {
+      "bytes": 3216,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_before.json",
+      "sha256": "19b41619bfbc7681654327c77d65617a0da4299ff53ada15ef9e237d77267ae7",
+      "status": "available"
+    },
+    {
+      "bytes": 4889,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/exploration_history_after.json",
+      "sha256": "ac8ed826f6088e91e31a58608653b1cfd2c00993b336a765ddae8eab2a64145b",
+      "status": "available"
+    }
+  ]
+}

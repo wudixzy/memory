@@ -1,0 +1,191 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at the room center with the full list of visible receptacles from the entry observation; target object is not initially visible; inventory is empty.",
+          "constraints": [
+            "Must only visit receptacles present in the initial observation list",
+            "Must open closed receptacles before inspection",
+            "Must terminate search immediately upon successful target acquisition",
+            "Must not interact with non-target objects"
+          ],
+          "local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+          "required_downstream_state": "Target object (saltshaker) is held in agent inventory; agent is co-located with the receptacle where the target was found."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 880,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/b_c_handoff/projection.json",
+        "sha256": "feb895d167c986af1a12b72fbb37a098c1166a9d90e9665cfddd3a96e5741e1a",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to countertop_1",
+              "entities": [
+                "countertop_1"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to countertop_1",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1211,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/c/mechanical_grounding.json",
+        "sha256": "e1db5b47ae08d4b4c09131643c6b6e999d3d23289b54bbc0ae48efaa0292f38a",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "No exploratory hypothesis was activated or probed; no comparative claim can be assessed.",
+          "Task completion remains unfinished (target acquired but not yet placed on drawer).",
+          "Whether the listed-order search strategy is globally optimal compared to alternative search heuristics remains untested."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 472,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/epistemic_validation.json",
+        "sha256": "d810a94b7d18ebef8c9fa1ccc1e59bfafb1b260a62f768f635f886f20bb884f2",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "reason": "no_consumed_h",
+          "status": "not_applicable"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 139,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/materialization.json",
+        "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 472,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/epistemic_validation.json",
+      "sha256": "d810a94b7d18ebef8c9fa1ccc1e59bfafb1b260a62f768f635f886f20bb884f2",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    },
+    {
+      "bytes": 880,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/b_c_handoff/projection.json",
+      "sha256": "feb895d167c986af1a12b72fbb37a098c1166a9d90e9665cfddd3a96e5741e1a",
+      "status": "available"
+    },
+    {
+      "bytes": 1211,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/c/mechanical_grounding.json",
+      "sha256": "e1db5b47ae08d4b4c09131643c6b6e999d3d23289b54bbc0ae48efaa0292f38a",
+      "status": "available"
+    }
+  ]
+}

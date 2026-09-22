@@ -1,0 +1,95 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": "supporting_evidence_refs",
+      "comparison_assessment": "PARTIALLY_RESOLVED",
+      "comparison_id": "comparison-16b9a7112350ec18",
+      "evidence_id": "evidence-b8150900bcd34087",
+      "evidence_role": "SUPPORTING",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-16b9a7112350ec18",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iteratively navigate to a candidate receptacle, open if necessary, inspect contents, and repeat until target object is identified.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "linked_h_ids": [
+          "h-8f8505695fa0c9df"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-b8150900bcd34087"
+        ]
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-16b9a7112350ec18",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iteratively navigate to a candidate receptacle, open if necessary, inspect contents, and repeat until target object is identified.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "linked_h_ids": [
+          "h-8f8505695fa0c9df"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "NO_NEW_H",
+      "rationale": "C returned no candidate. A's assessment is PARTIALLY_RESOLVED with inconclusive evidence for the specific hypothesis (baseline not executed), so no new H can be grounded or added.",
+      "target_comparison_id": "NONE"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 50180,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/memory_before.json",
+      "sha256": "5f846bafa2a2b5ec58d536e8fe8b8626a42bb0b736e0a64b26840044be50d398",
+      "status": "available"
+    },
+    {
+      "bytes": 60474,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/memory_after.json",
+      "sha256": "c22948e28c1a5763637413fcb60e32597e69791f0e4bc356c11043db910f299f",
+      "status": "available"
+    },
+    {
+      "bytes": 11499,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/task_summary.json",
+      "sha256": "8a16ea21551b5d406d69ab816cbf37b9b07a21b72566d1c92db4ef1440d051b2",
+      "status": "available"
+    },
+    {
+      "bytes": 1501,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/materialization.json",
+      "sha256": "49809ced28696385d12bab556f8f8ae96e5c4030453f8c0931d1d5fb92a4d780",
+      "status": "available"
+    },
+    {
+      "bytes": 291,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "44eb0ba6093283915eb0acac8a469ef1865d15dafc05fca1f039a5fc34fe6bd8",
+      "status": "available"
+    }
+  ]
+}

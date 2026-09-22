@@ -1,0 +1,169 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-89d364dfc3dd11d1",
+        "hypothesis": "For lettuce specifically, prioritizing inspection of open surfaces (countertops/shelves) before closed storage units (fridge/cabinets) yields fewer total search steps than starting with the semantically most likely container (fridge), because lettuce is often stored on counters in these environments despite being a food item.",
+        "probe_summary": {
+          "evidence_goal": "The number of steps taken to locate and acquire the target object compared to a baseline semantic-prior-first strategy (checking fridge first).",
+          "local_function": "Select and navigate to a receptacle to locate the target object.",
+          "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+          "stop_conditions": [
+            "Target object acquired into inventory.",
+            "All visible receptacles have been inspected without finding the target."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (lettuce) where the target location is unknown and multiple receptacle types are visible."
+      },
+      {
+        "h_id": "h-d70515b60755f8b2",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units reduces total action steps for locating a knife compared to semantic-priority search (checking drawers/cabinets first), by avoiding the overhead of opening/closing containers when the item is likely on an accessible surface.",
+        "probe_summary": {
+          "evidence_goal": "Total number of actions taken to locate and take the knife. Compare this against the baseline established memory which suggests semantic prioritization or spatial order.",
+          "local_function": "Search for and acquire a knife instance from the environment.",
+          "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+          "stop_conditions": [
+            "Knife acquired",
+            "All receptacles inspected without finding knife"
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target is a non-food tool (knife) and the room contains both open surfaces and closed storage units."
+      },
+      {
+        "h_id": "h-3af3018e8cc84312",
+        "hypothesis": "For decorative objects in living rooms, prioritizing inspection of open display surfaces (shelves, sidetables) before navigating to and opening closed storage units yields fewer total search steps than spatial listing order or semantic-priority checks on closed containers.",
+        "probe_summary": {
+          "evidence_goal": "Compare the step count to acquire the target against baselines using spatial order or closed-storage-first heuristics. Specifically, determine if the target is found on an open surface within fewer steps than required to open/close multiple cabinets/drawers.",
+          "local_function": "Search for the target object by navigating to and inspecting receptacles.",
+          "realization_pattern": "Open-surface-first traversal: prioritize inspecting non-enclosed receptacles (shelves, tables) over enclosed ones (cabinets, drawers).",
+          "stop_conditions": [
+            "Target object is taken into inventory.",
+            "All visible open surfaces have been inspected without finding the target.",
+            "No further open surfaces are reachable via admissible go-to actions."
+          ]
+        },
+        "scope": "ALFWorld living room tasks where the target is a decorative object (e.g., vase) and the environment contains mixed open surfaces (shelves, tables) and closed storage (cabinets, drawers)."
+      },
+      {
+        "h_id": "h-3c3d8f55750eeb7f",
+        "hypothesis": "Prioritizing inspection of dedicated hanging receptacles (towelholders/handtowelholders) before general open surfaces (countertops/sinks) or closed storage yields faster acquisition for cloth items, as these are semantically specific carriers for towels in this domain.",
+        "probe_summary": {
+          "evidence_goal": "Determine if the cloth is located on a hanging receptacle within fewer steps than required by the established 'open-surface-first' or 'spatial-order' strategies.",
+          "local_function": "Select and navigate to a receptacle likely to contain a cloth, then acquire it.",
+          "realization_pattern": "Semantic-specific carrier priority: Check dedicated hanging spots for the object type before generic surfaces or containers.",
+          "stop_conditions": [
+            "Cloth acquired from a hanging receptacle.",
+            "All hanging receptacles inspected without finding the cloth (trigger fallback).",
+            "Step count exceeds threshold for alternative strategies (abort probe)."
+          ]
+        },
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains dedicated hanging receptacles (towelholders, handtowelholders) alongside open surfaces and closed storage."
+      },
+      {
+        "h_id": "h-feefb9b0e36056a7",
+        "hypothesis": "Prioritizing inspection of open horizontal work surfaces (desks) before checking closed storage units (drawers) or vertical display surfaces (shelves) yields faster acquisition for pencils than spatial listing order or generic open-surface-first heuristics that include beds/shelves.",
+        "probe_summary": {
+          "evidence_goal": "Compare step count to find the pencil against baselines using spatial order or generic open-surface-first (including shelves/beds). Success is defined by finding the pencil on a desk within fewer steps than the baseline average.",
+          "local_function": "Search strategy selection: prioritize specific semantic location types (work surfaces) over general open/closed binary or spatial order.",
+          "realization_pattern": "Semantic-priority traversal restricted to 'desk' type receptacles as the primary search group.",
+          "stop_conditions": [
+            "Target acquired",
+            "All visible desks inspected without success (fallback required)",
+            "Step limit exceeded"
+          ]
+        },
+        "scope": "ALFWorld office/bedroom tasks where the target is a small writing instrument (pencil) and the environment contains multiple desk surfaces, drawers, and shelves."
+      },
+      {
+        "h_id": "h-08bb46ef029f9004",
+        "hypothesis": "Prioritizing inspection of open cooking surfaces (stoveburners) before closed storage units or general countertops yields faster acquisition for pans than semantic prioritization of cabinets or spatial listing order, as pans are functionally associated with stoves and often left on them.",
+        "probe_summary": {
+          "evidence_goal": "Step count to acquire the target object compared to baseline strategies (spatial order or cabinet-first).",
+          "local_function": "Select and navigate to a specific receptacle type based on a search heuristic (semantic vs. spatial/open-surface).",
+          "realization_pattern": "Stove-first traversal: prioritize inspecting stoveburners over other receptacle types.",
+          "stop_conditions": [
+            "Target object acquired.",
+            "All stoveburners inspected without finding target (trigger fallback to general scan)."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a cooking utensil (e.g., pan, pot) and multiple receptacle types are visible at entry."
+      },
+      {
+        "h_id": "h-fa21be2a8f9e2284",
+        "hypothesis": "Prioritizing inspection of open surfaces before checking the semantically likely but costly-to-open fridge reduces total action steps for locating perishable food items compared to semantic-priority search.",
+        "probe_summary": {
+          "evidence_goal": "Total number of navigation and inspection actions required to locate the target object compared to baseline semantic-priority strategies.",
+          "local_function": "Search for and acquire the target egg object.",
+          "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+          "stop_conditions": [
+            "Target object acquired",
+            "All open surfaces inspected without finding target (fallback to closed storage)"
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets)."
+      },
+      {
+        "h_id": "h-d60bd781ee673bea",
+        "hypothesis": "For condiments in kitchens, prioritizing inspection of open surfaces before closed storage yields faster acquisition than semantic-priority search (checking cabinets first) or spatial listing order, because condiments are frequently left out on counters rather than stored away.",
+        "probe_summary": {
+          "evidence_goal": "The number of actions required to locate and acquire the target compared to baselines (spatial order or cabinet-first). Specifically, does finding the target on an open surface within the first few steps reduce total action count?",
+          "local_function": "Select and navigate to a receptacle likely to contain the target, then acquire the target if present.",
+          "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+          "stop_conditions": [
+            "Target object acquired.",
+            "All open surfaces inspected without finding target (fallback to closed storage begins).",
+            "Maximum exploration steps exceeded."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment (e.g., peppershaker, saltshaker) and both open surfaces (countertops/shelves) and closed storage (cabinets/drawers) are visible."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some egg and put it in microwave."
+    },
+    "current_task": {
+      "instruction": "clean some egg and put it in microwave.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 11465,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/retrieval/retrieval_input.json",
+    "sha256": "8da66a8719f3b584472a7c1dda340486e5786a9703e325d8a9e580129a45f563",
+    "status": "available"
+  }
+}

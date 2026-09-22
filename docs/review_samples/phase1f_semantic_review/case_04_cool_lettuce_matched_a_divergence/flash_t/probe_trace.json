@@ -1,0 +1,196 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "countertop_1",
+      "countertop_2"
+    ],
+    "environment_actions": [
+      "go to countertop_1",
+      "go to countertop_2",
+      "take lettuce_1 from countertop_2"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_11. On countertop_1, you see bowl_3, bowl_2, creditcard_2, creditcard_1, dishsponge_1, and glassbottle_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take bowl_2 from countertop_1",
+            "take bowl_3 from countertop_1",
+            "take creditcard_1 from countertop_1",
+            "take creditcard_2 from countertop_1",
+            "take dishsponge_1 from countertop_1",
+            "take glassbottle_1 from countertop_1"
+          ],
+          "observation": "You arrive at loc_11. On countertop_1, you see bowl_3, bowl_2, creditcard_2, creditcard_1, dishsponge_1, and glassbottle_1."
+        },
+        "selection": {
+          "candidate_index": 7,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to countertop_2",
+          "take lettuce_1 from countertop_2"
+        ],
+        "candidate_id": "countertop_2",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_21. On countertop_2, you see bread_1, cellphone_1, cup_2, cup_1, dishsponge_2, knife_2, knife_1, lettuce_2, lettuce_1, and plate_2.",
+          "You take lettuce_1 from countertop_2."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine countertop_2",
+            "examine lettuce_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put lettuce_1 in/on countertop_2"
+          ],
+          "observation": "You take lettuce_1 from countertop_2."
+        },
+        "selection": {
+          "candidate_index": 6,
+          "selected_candidate": "countertop_2"
+        },
+        "step": 2,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 4188,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/probe_summary.json",
+      "sha256": "6cbf7a6e9002b1b37c5c43ed991a94f8907a43e5872bbfd6483600f87fe692b6",
+      "status": "available"
+    },
+    {
+      "bytes": 62267,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/selector_input.json",
+      "sha256": "dbe4e6c5242bd522b1fb60a73d9ac95409b01223d66760ffab22edb590c2a10b",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/raw_response.json",
+      "sha256": "5ddc51269cc697e62192948eb41e2cb646620b98fdc4c31a075f2d0ccefb7cd1",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/parsed.json",
+      "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/001/selector_validation.json",
+      "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+      "status": "available"
+    },
+    {
+      "bytes": 62167,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/selector_input.json",
+      "sha256": "5afe4bf3321d03c040f4dfde02cf92c8ad1a273e10ad3a52baf8819752e128aa",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/raw_response.json",
+      "sha256": "3f990c52249d290ae0e296fb72e51a50fb861022fb7dbd432a5f562f9bb7011e",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/parsed.json",
+      "sha256": "3eec49822176525a4f6ae7bafc798b43c2e241b42af5142e4c36650749715eab",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/probe/steps/002/selector_validation.json",
+      "sha256": "e2b4740658109b2bbd307589159aaeb324a26b68b0cd86ae63d690e070d868a7",
+      "status": "available"
+    }
+  ]
+}

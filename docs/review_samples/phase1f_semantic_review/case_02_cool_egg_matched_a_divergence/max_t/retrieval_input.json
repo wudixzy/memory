@@ -1,0 +1,99 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-3ef3b43e4c09a8cb",
+        "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+        "probe_summary": {
+          "evidence_goal": "Whether navigating to the cooling appliance first successfully locates the target object or reduces total search steps compared to visiting receptacles in strict listed order or by generic surface priority.",
+          "local_function": "Initial receptacle selection during target object search",
+          "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+          "stop_conditions": [
+            "Target object is found and taken into inventory",
+            "Cooling appliance has been opened and inspected without finding the target object",
+            "An action fails or returns an error"
+          ]
+        },
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance."
+      },
+      {
+        "h_id": "h-9ca77aa6b36d0b57",
+        "hypothesis": "Prioritizing the single most semantically canonical storage receptacle for a perishable food target before inspecting generic surfaces reduces search steps compared to both strict listed-order traversal and broad surface-priority heuristics tested previously.",
+        "probe_summary": {
+          "evidence_goal": "Whether navigating to the cold-storage receptacle first yields the target object in fewer total navigation and inspection steps than visiting generic surfaces or cabinets first.",
+          "local_function": "Initial target-object search ordering from room center when the target is not immediately visible",
+          "realization_pattern": "Navigate to the single most semantically canonical storage receptacle for the target object type; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles in listed order.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "Cold-storage receptacle inspected and confirmed empty, with fallback search initiated",
+            "Action failure or invalid action error encountered at the cold-storage receptacle",
+            "Maximum of two navigation attempts completed without locating the target"
+          ]
+        },
+        "scope": "ALFWorld pick-heat-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and a cold-storage receptacle is present among many candidate locations."
+      },
+      {
+        "h_id": "h-10f29a4d820ad738",
+        "hypothesis": "Prioritizing receptacles that match the task-specified destination type (e.g., searching storage units of the same class as the final placement location) before other surfaces reduces total search steps compared to both strict listed-order traversal and generic semantic plausibility heuristics, because objects are often stored near or within their canonical destination furniture class.",
+        "probe_summary": {
+          "evidence_goal": "Whether navigating to a destination-matching storage receptacle first locates the target object in fewer total navigation and interaction steps than visiting receptacles strictly in the order listed in the entry observation.",
+          "local_function": "Initial search target selection from the visible receptacle list",
+          "realization_pattern": "Identify a storage receptacle whose type matches the task-specified destination category; navigate to it first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "All destination-matching receptacles inspected without finding the target and fallback traversal initiated",
+            "An action fails unexpectedly indicating the receptacle cannot be opened or reached"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool egg in sinkbasin."
+    },
+    "current_task": {
+      "instruction": "put a cool egg in sinkbasin.",
+      "seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 6150,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/retrieval/retrieval_input.json",
+    "sha256": "6a00c15f9718288e2a6569feb8b52a27b3aa447e8a11fdee43109dac5399edc3",
+    "status": "available"
+  }
+}

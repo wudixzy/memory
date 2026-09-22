@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": false,
+  "operation": "NO_NEW_H",
+  "rationale": "C returned no candidate (null). The current evidence supports the existing active hypothesis h-557c586a16b7ecc2 in comparison-04b3769e6328be11, but without a new proposal from C, no lifecycle operation is triggered.",
+  "target_comparison_id": "NONE"
+}

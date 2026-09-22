@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": true,\n  \"operation\": \"ADD\",\n  \"rationale\": \"C proposes a distinct cooling-appliance-first strategy scoped to pick-cool-then-place tasks, differing from the existing active semantic-filtering H and the superseded cooling H. A new comparison is warranted for this task-specific variant.\",\n  \"target_comparison_id\": \"NEW\"\n}",
+  "role": "assistant"
+}

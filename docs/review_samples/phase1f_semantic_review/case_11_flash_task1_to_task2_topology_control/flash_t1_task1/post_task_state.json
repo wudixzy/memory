@@ -1,0 +1,94 @@
+{
+  "content": {
+    "content": {
+      "comparison_ledger": [
+        {
+          "comparison_id": "comparison-90f0d8a92eb6059c",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+          "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+          "linked_h_ids": [
+            "h-4e270306c12d8eec"
+          ],
+          "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        }
+      ],
+      "established_memories": [
+        {
+          "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+          "memory_id": "established-search-listed-order-general",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+        },
+        {
+          "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+          "memory_id": "established-clean-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+          "memory_id": "established-heat-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring heating an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+          "memory_id": "established-cool-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cooling an object before final placement."
+        }
+      ],
+      "evidence_store_count_not_content": 1,
+      "exploratory_memories": [
+        {
+          "comparison_id": "comparison-90f0d8a92eb6059c",
+          "consumed_at_task": null,
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+          "h_id": "h-4e270306c12d8eec",
+          "status": "active"
+        }
+      ],
+      "omitted_fields": [
+        "evidence_store raw contents",
+        "Established Memory versions, verbose evidence_basis, and raw provenance detail (lineage kept)",
+        "H source_grounding",
+        "H raw provenance"
+      ],
+      "schema_version": "phase1b-longitudinal-memory-state-v2"
+    },
+    "exploration_history": [],
+    "exploration_history_source": {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/exploration_history_after.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    "source_artifact": {
+      "bytes": 18378,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/memory_after.json",
+      "sha256": "f9cec9d79b5b5fea01fd187be069ed95b2e030e6f0a7d07c09712a67955a486c",
+      "status": "available"
+    }
+  },
+  "extraction": "public persistent-state projection; raw evidence store omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 18378,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/memory_after.json",
+      "sha256": "f9cec9d79b5b5fea01fd187be069ed95b2e030e6f0a7d07c09712a67955a486c",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/exploration_history_after.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    }
+  ]
+}

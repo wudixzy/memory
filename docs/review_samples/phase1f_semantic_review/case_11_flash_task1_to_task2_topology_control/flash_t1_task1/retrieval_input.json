@@ -1,0 +1,52 @@
+{
+  "content": {
+    "active_exploratory_memories": [],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put some saltshaker on drawer."
+    },
+    "current_task": {
+      "instruction": "put some saltshaker on drawer.",
+      "seed": 42,
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 1495,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/retrieval/retrieval_input.json",
+    "sha256": "d66758c0ca3db7d8211219b5136649ce6fdaa72cdb3297279db88cd1c08eae7b",
+    "status": "available"
+  }
+}

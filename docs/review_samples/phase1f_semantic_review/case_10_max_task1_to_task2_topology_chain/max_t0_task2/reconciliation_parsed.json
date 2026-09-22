@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": false,
+  "operation": "NO_NEW_H",
+  "rationale": "C returned no candidate. Existing comparison remains OPEN with active H; A's refinement targets memory, not a new or refined H.",
+  "target_comparison_id": "NONE"
+}

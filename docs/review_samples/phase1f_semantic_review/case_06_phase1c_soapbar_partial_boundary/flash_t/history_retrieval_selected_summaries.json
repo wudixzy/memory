@@ -1,0 +1,26 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-0974fda62b083da2",
+      "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+      "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+      "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+      "source_comparison_id": "comparison-4332f3630f19e699"
+    },
+    {
+      "exploration_id": "exploration-h-557c586a16b7ecc2",
+      "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+      "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+      "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+      "source_comparison_id": "comparison-04b3769e6328be11"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1153,
+    "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "3821d5e97a229e7e2bfcd1b711858a497a2e87d93adaf8f5631ec72e6937e2b8",
+    "status": "available"
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Agent is at the starting location with no target object in inventory; target location is unknown but constrained to visible receptacles.",
+        "constraints": [
+          "Must not assume target visibility without inspection.",
+          "Must handle closed containers by opening them before inspection.",
+          "Must stop searching immediately upon finding the target."
+        ],
+        "local_function": "Iterate through receptacles in a defined order, navigate to each, inspect/open if necessary, and take the target upon discovery.",
+        "required_downstream_state": "Target object is in agent's inventory; agent is at the location where the target was found."
+      }
+    },
+    "current_task": {
+      "instruction": "clean some plate and put it in countertop.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some plate and put it in countertop."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some plate and put it in countertop."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-4e270306c12d8eec",
+        "hypothesis": "Prioritizing search of receptacles that match the destination type (e.g., drawers if placing on a drawer) reduces total steps compared to scanning all visible receptacles in arbitrary or listed order.",
+        "realization_pattern": "Filter visible receptacles by type matching the destination; iterate through filtered subset before unfiltered remainder.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "source_comparison_id": "comparison-90f0d8a92eb6059c"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 9143,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/c/c_input.json",
+    "sha256": "207ba2cabf679e264ceda5e9433dce6726d0a88a52f9094dc49c2a9e06a84f5a",
+    "status": "available"
+  }
+}

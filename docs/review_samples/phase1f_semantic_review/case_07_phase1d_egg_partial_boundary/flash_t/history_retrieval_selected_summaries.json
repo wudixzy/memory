@@ -1,0 +1,33 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-eb5b08ddf0ead2f7",
+      "hypothesis": "Navigating directly to the semantically most likely container for a perishable food item (the fridge) before scanning other receptacles reduces total search steps compared to following the arbitrary spatial order of the initial observation list.",
+      "realization_pattern": "Semantic-prior-first traversal: select the single most probable container type based on object properties, then fall back to standard scan.",
+      "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+      "source_comparison_id": "comparison-c0ae98e34177afb9"
+    },
+    {
+      "exploration_id": "exploration-h-8f5a9697b5472276",
+      "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (fridge, cabinets) reduces total action steps for locating perishable food items compared to semantic-priority search (checking fridge first), by avoiding the overhead of opening/closing containers when the item is likely on an accessible surface.",
+      "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+      "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+      "source_comparison_id": "comparison-526718e3a6226baf"
+    },
+    {
+      "exploration_id": "exploration-h-fa21be2a8f9e2284",
+      "hypothesis": "Prioritizing inspection of open surfaces before checking the semantically likely but costly-to-open fridge reduces total action steps for locating perishable food items compared to semantic-priority search.",
+      "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+      "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets).",
+      "source_comparison_id": "comparison-c137d39514515893"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2353,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "14c4e9ea23ddd5f8fdcd9ab794dde475626c0d76a6bf788a9659e76fb7a89e23",
+    "status": "available"
+  }
+}

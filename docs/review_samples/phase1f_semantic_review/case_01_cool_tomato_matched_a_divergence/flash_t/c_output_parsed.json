@@ -1,0 +1,37 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate to an available open surface (countertop or shelf) first. Inspect it. If the tomato is not found, proceed to another open surface. Only after exhausting open surfaces should you inspect closed storage units like cabinets, drawers, or the fridge.",
+  "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge) reduces search steps for tomatoes compared to semantic-prior-first (fridge) or arbitrary spatial order.",
+  "probe_spec": {
+    "adaptive_policy": "Select the nearest or first-listed open surface from the current observation. Navigate to it. Use 'look' to check for the tomato. If found, take it. If not, repeat for other open surfaces. If all open surfaces are exhausted without finding the tomato, switch to checking closed storage units (cabinets, drawers, fridge) by navigating to them and using 'open' then 'look'.",
+    "capability_requirements": [
+      "go to",
+      "look"
+    ],
+    "evidence_goal": "Count the number of navigation and inspection steps required to locate the tomato. Compare this count against the baseline established in memory (spatial order) and the prior experiment (semantic/fridge-first).",
+    "local_function": "Search for the target object by navigating to and inspecting candidate receptacles.",
+    "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+    "required_downstream_state": "Target object (tomato) is identified and taken into inventory.",
+    "stop_conditions": [
+      "Tomato is located and taken into inventory.",
+      "All open surfaces have been inspected without finding the tomato (trigger fallback to closed storage)."
+    ]
+  },
+  "provenance": [
+    "b_handoff.functional_contract",
+    "local_state_and_evidence.entry_state.admissible_actions",
+    "pre_update_established_memories[0].versions[2]",
+    "relevant_exploration_history[0]"
+  ],
+  "reason": "The established memory suggests semantic prioritization (fridge for food) but notes inefficiency in some layouts. The prior exploration tested fridge-first. This probe tests an alternative heuristic: open-surface-first. Tomatoes are often left on counters/shelves rather than stored immediately, and avoiding the 'open' action cost might reduce total steps. This is materially different from the previous fridge-first test and addresses the unresolved question of optimal search order for perishables in mixed-layout kitchens.",
+  "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (tomato) where the target is not visible at entry and multiple receptacle types are present.",
+  "source_grounding": {
+    "entry_action": "go to countertop_1",
+    "public_capability_evidence": [
+      "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1",
+      "historical_capability_vocabulary contains reusable carrier action schemas including 'go to' and 'look'."
+    ],
+    "why_grounded": "The entry observation lists countertop_1 as a visible entity, and 'go to countertop_1' is an admissible action. Countertops are open surfaces that can be inspected with 'look' without needing to 'open' them first, fitting the proposed realization pattern."
+  },
+  "type": "exploratory"
+}

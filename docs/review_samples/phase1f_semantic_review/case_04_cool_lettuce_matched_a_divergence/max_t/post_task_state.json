@@ -1,0 +1,862 @@
+{
+  "content": {
+    "content": {
+      "comparison_ledger": [
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+          "inconclusive_evidence_refs": [
+            "evidence-7d50799788495118"
+          ],
+          "incumbent_local_function": "Iterate through visible receptacles in listed order, navigating to and opening each, inspecting contents, until the target object is found and taken into inventory.",
+          "last_updated_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+          "linked_h_ids": [
+            "h-25331a9a4337e940",
+            "h-e52c3153638e77d3",
+            "h-0e359059a5b0a459",
+            "h-0e1c57e08374931a",
+            "h-9ca77aa6b36d0b57",
+            "h-9fffaf87415efc9e",
+            "h-bfb30d06f65a45af",
+            "h-9354131b9c1fc01f",
+            "h-f9e349c7471f657e"
+          ],
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-a4d3a30084d61ac4",
+          "contradicting_evidence_refs": [
+            "evidence-99be6f18276850c9"
+          ],
+          "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+          "inconclusive_evidence_refs": [
+            "evidence-1a26cd2069d7b438"
+          ],
+          "incumbent_local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+          "linked_h_ids": [
+            "h-3ef3b43e4c09a8cb",
+            "h-caa251953f322a75"
+          ],
+          "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-8a5b75fcd09336dc",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically visit and open each receptacle in the listed order, inspecting contents, until the target object is observed and picked up.",
+          "last_updated_task": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405",
+          "linked_h_ids": [
+            "h-10f29a4d820ad738",
+            "h-e6c23949f174b273"
+          ],
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-41cc2428ee53c66e",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161745_664033",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically navigate to and inspect receptacles until the target object is found and taken into inventory.",
+          "last_updated_task": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+          "linked_h_ids": [
+            "h-94cf7204d270c463"
+          ],
+          "scope": "ALFWorld pick-heat-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including a cold-storage appliance, and no prior exploration has tested prioritizing cold-storage appliances for food items that require subsequent heating.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-ae60f3483a2fdf49",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Navigate to the destination receptacle early in the search phase to check for and acquire the target object if present there.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+          "linked_h_ids": [
+            "h-059586dfc8012b41"
+          ],
+          "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible, the task instruction names a specific destination receptacle that can also hold the target type, and the functional contract requires acquiring the target at the destination if present before downstream cooling.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-58656d0d411cf276",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171933_349922",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Traverse receptacles systematically, opening closed ones, until the target object is observed and acquired into inventory.",
+          "last_updated_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171850_960211",
+          "linked_h_ids": [
+            "h-15fbc4c99c6b62aa",
+            "h-c63cb319e69ea08c"
+          ],
+          "scope": "ALFWorld pick-heat-then-place tasks where the target object is not immediately visible in the entry observation and a heating appliance is present among the admissible receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-2906d2e6deadadc3",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-Mug-None-Desk-308/trial_T20190908_125200_737896",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically navigate to each listed receptacle, open closed containers, inspect contents, and acquire the target object when found.",
+          "last_updated_task": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+          "linked_h_ids": [
+            "h-0861b5675e68b4f3"
+          ],
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists multiple receptacles of the same type as the task-specified destination, and no prior exploration has tested prioritizing a non-destination instance of the destination type before searching other receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-98d40199a1723ab6",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+          "inconclusive_evidence_refs": [
+            "evidence-2625d853672cb7e2",
+            "evidence-112d7d796d146f00"
+          ],
+          "incumbent_local_function": "Navigate to a domain-semantically matched receptacle (stoveburner) and acquire the target pan if present.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805",
+          "linked_h_ids": [
+            "h-513b9268f2d9e8ad",
+            "h-aaef157feb9532ff"
+          ],
+          "scope": "ALFWorld cool-then-place tasks where the target object is not immediately visible, the entry observation lists multiple domain-semantically matched cooking surfaces, and established memory warns against generic semantic prioritization that incurs overhead when targets reside in closed containers.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-39b7da7506c87073",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033157_424297",
+          "inconclusive_evidence_refs": [
+            "evidence-1f2b2ea98a58020d"
+          ],
+          "incumbent_local_function": "Search receptacles systematically until the target object is found and picked up.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091811_414150",
+          "linked_h_ids": [
+            "h-488efac368bb5d8f"
+          ],
+          "scope": "ALFWorld cool-then-place tasks targeting food items where the entry observation lists open cooking surfaces and closed storage receptacles, and prior tests of cooling-appliance-first and destination-first search have been explored.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-e43edfe833157f5a",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically navigate to and inspect receptacles until the target egg is found and taken into inventory.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102608_318800",
+          "linked_h_ids": [
+            "h-b025343afe42b875"
+          ],
+          "scope": "ALFWorld clean-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and both open cooking surfaces and cold-storage receptacles are available.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-fb6419f0cc942fc9",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021200_669381",
+          "inconclusive_evidence_refs": [
+            "evidence-b44cbe29c3eb38c6"
+          ],
+          "incumbent_local_function": "Systematically navigate to and open candidate receptacles in listed order until the target mug is found, then take it.",
+          "last_updated_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+          "linked_h_ids": [
+            "h-f98f1efb76abeeb5",
+            "h-9c5cdfaad8ecd2c0"
+          ],
+          "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-5281e4d71de307e6",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080825_222432",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically navigate to receptacles in listed order, opening closed ones, until a spatula is observed and taken into inventory.",
+          "last_updated_task": "pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080825_222432",
+          "linked_h_ids": [
+            "h-051400a842fd1df9"
+          ],
+          "scope": "ALFWorld clean-then-place tasks targeting cooking utensils (e.g., spatulas) where the target is not immediately visible in the entry observation and open cooking surfaces are available among listed receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-cb2e837d31c11478",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Execute one navigation action to an initial search location to expose the target mug for acquisition.",
+          "last_updated_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231",
+          "linked_h_ids": [
+            "h-1f77dd7c74d9e64d"
+          ],
+          "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-9ae1c3a0bff6b20f",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021728_339782",
+          "inconclusive_evidence_refs": [
+            "evidence-d6c074081d25b5d3"
+          ],
+          "incumbent_local_function": "Systematically navigate to and inspect receptacles in listed order, opening closed ones, until the target object is observed and acquired into inventory.",
+          "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021650_880235",
+          "linked_h_ids": [
+            "h-8fc4a41253abddd7"
+          ],
+          "scope": "ALFWorld pick-and-place tasks targeting small dining condiment objects where the entry observation lists multiple open horizontal surfaces and closed storage receptacles, and the target is not immediately visible.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-9f3f7d227e633698",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Navigate to candidate open horizontal surfaces to locate and acquire a mug target without opening closed receptacles.",
+          "last_updated_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+          "linked_h_ids": [
+            "h-9d024f4e3cb41f38"
+          ],
+          "scope": "ALFWorld clean-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a beverage-associated appliance, and multiple open horizontal surfaces are available among candidate receptacles.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-43a0d0e09425cdc1",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033228_194678",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically visit receptacles in listed order, opening closed ones, until the potato is found and taken into inventory.",
+          "last_updated_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703",
+          "linked_h_ids": [
+            "h-5afc3629f8404c59"
+          ],
+          "scope": "ALFWorld cool-then-place tasks targeting root vegetable food items where the entry observation lists open horizontal surfaces, closed storage receptacles, and a cold-storage appliance, and prior tests of cooking-surface-first and cold-storage-first search have been explored.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        },
+        {
+          "comparison_id": "comparison-62ec6e37a6ae3ec5",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Systematically navigate to and open closed receptacles in listed order until the target watch is found, then take it into inventory.",
+          "last_updated_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850",
+          "linked_h_ids": [
+            "h-89ff6e82325ec831"
+          ],
+          "scope": "ALFWorld pick-and-place tasks targeting small personal accessories (e.g., watches) where the entry observation lists many receptacles including closed storage furniture and open surfaces, and the target is not immediately visible.",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        }
+      ],
+      "established_memories": [
+        {
+          "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in both heat-then-place and clean-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) or a beverage-associated appliance surface (e.g., coffeemachine) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes. For small dining condiment targets (e.g., saltshakers), be aware that navigating to open horizontal surfaces (e.g., countertops) first can add navigation overhead if the condiment is stored inside a closed receptacle (e.g., cabinet); rely on listed-order traversal as the default for condiment targets unless strong evidence indicates staging on open surfaces. Preliminary evidence also suggests that for leafy vegetable targets (e.g., lettuce) in cool-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the target without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+          "lineage": [
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/013-354ba16d246b/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/023-bc4ff2ea2b99/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/026-1ebd66e39251/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/030-c9c712e8da31/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/032-281ba9916f97/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/035-1b48423d1600/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/036-f6179e37f967/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/044-8ead717078ff/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/047-e291c26a89d5/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/048-cbb06188aa8e/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/049-cfba8f6fb27c/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/050-4cf78e471066/T/a",
+            "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a"
+          ],
+          "memory_id": "established-search-listed-order-general",
+          "prior_comparison_evidence": {
+            "binding": {
+              "comparison_id": "comparison-43a0d0e09425cdc1",
+              "consumed_h_id": "h-5afc3629f8404c59",
+              "evidence_id": "evidence-20bb34af09e38fe2",
+              "source_memory_ids": [
+                "established-search-listed-order-general"
+              ],
+              "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+            },
+            "omitted_sections": [
+              "prior_comparison_evidence.evidence_basis",
+              "prior_comparison_evidence.binding.a_artifact_ref"
+            ],
+            "operation": "REFINE"
+          },
+          "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation."
+        },
+        {
+          "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+          "memory_id": "established-clean-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+          "memory_id": "established-heat-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring heating an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+          "memory_id": "established-cool-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cooling an object before final placement."
+        }
+      ],
+      "evidence_store_count_not_content": 55,
+      "exploratory_memories": [
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+          "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+          "h_id": "h-25331a9a4337e940",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": null,
+          "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+          "h_id": "h-e52c3153638e77d3",
+          "status": "superseded"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": null,
+          "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+          "h_id": "h-0e359059a5b0a459",
+          "status": "superseded"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+          "created_at_task": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+          "h_id": "h-0e1c57e08374931a",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-a4d3a30084d61ac4",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+          "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+          "h_id": "h-3ef3b43e4c09a8cb",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282",
+          "created_at_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+          "h_id": "h-9ca77aa6b36d0b57",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-8a5b75fcd09336dc",
+          "consumed_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+          "h_id": "h-10f29a4d820ad738",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-8a5b75fcd09336dc",
+          "consumed_at_task": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405",
+          "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+          "h_id": "h-e6c23949f174b273",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": null,
+          "created_at_task": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405",
+          "h_id": "h-9fffaf87415efc9e",
+          "status": "superseded"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": null,
+          "created_at_task": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+          "h_id": "h-bfb30d06f65a45af",
+          "status": "superseded"
+        },
+        {
+          "comparison_id": "comparison-a4d3a30084d61ac4",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+          "created_at_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974",
+          "h_id": "h-caa251953f322a75",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-41cc2428ee53c66e",
+          "consumed_at_task": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+          "created_at_task": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161745_664033",
+          "h_id": "h-94cf7204d270c463",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+          "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467",
+          "h_id": "h-9354131b9c1fc01f",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-ae60f3483a2fdf49",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+          "created_at_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+          "h_id": "h-059586dfc8012b41",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-58656d0d411cf276",
+          "consumed_at_task": null,
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171933_349922",
+          "h_id": "h-15fbc4c99c6b62aa",
+          "status": "superseded"
+        },
+        {
+          "comparison_id": "comparison-2906d2e6deadadc3",
+          "consumed_at_task": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+          "created_at_task": "pick_and_place_simple-Mug-None-Desk-308/trial_T20190908_125200_737896",
+          "h_id": "h-0861b5675e68b4f3",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "consumed_at_task": null,
+          "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+          "h_id": "h-f9e349c7471f657e",
+          "status": "active"
+        },
+        {
+          "comparison_id": "comparison-98d40199a1723ab6",
+          "consumed_at_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+          "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+          "h_id": "h-513b9268f2d9e8ad",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-58656d0d411cf276",
+          "consumed_at_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171850_960211",
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021247_306737",
+          "h_id": "h-c63cb319e69ea08c",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-98d40199a1723ab6",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805",
+          "created_at_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+          "h_id": "h-aaef157feb9532ff",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-39b7da7506c87073",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091811_414150",
+          "created_at_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033157_424297",
+          "h_id": "h-488efac368bb5d8f",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-e43edfe833157f5a",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102608_318800",
+          "created_at_task": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709",
+          "h_id": "h-b025343afe42b875",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-fb6419f0cc942fc9",
+          "consumed_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887",
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021200_669381",
+          "h_id": "h-f98f1efb76abeeb5",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-5281e4d71de307e6",
+          "consumed_at_task": null,
+          "created_at_task": "pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080825_222432",
+          "h_id": "h-051400a842fd1df9",
+          "status": "active"
+        },
+        {
+          "comparison_id": "comparison-cb2e837d31c11478",
+          "consumed_at_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231",
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887",
+          "h_id": "h-1f77dd7c74d9e64d",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-9ae1c3a0bff6b20f",
+          "consumed_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021650_880235",
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021728_339782",
+          "h_id": "h-8fc4a41253abddd7",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-fb6419f0cc942fc9",
+          "consumed_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+          "created_at_task": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231",
+          "h_id": "h-9c5cdfaad8ecd2c0",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-9f3f7d227e633698",
+          "consumed_at_task": null,
+          "created_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+          "h_id": "h-9d024f4e3cb41f38",
+          "status": "active"
+        },
+        {
+          "comparison_id": "comparison-43a0d0e09425cdc1",
+          "consumed_at_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703",
+          "created_at_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033228_194678",
+          "h_id": "h-5afc3629f8404c59",
+          "status": "consumed"
+        },
+        {
+          "comparison_id": "comparison-62ec6e37a6ae3ec5",
+          "consumed_at_task": null,
+          "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850",
+          "h_id": "h-89ff6e82325ec831",
+          "status": "active"
+        }
+      ],
+      "omitted_fields": [
+        "evidence_store raw contents",
+        "Established Memory versions, verbose evidence_basis, and raw provenance detail (lineage kept)",
+        "H source_grounding",
+        "H raw provenance",
+        "/established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/established_memories/*/provenance",
+        "/established_memories/*/versions"
+      ],
+      "schema_version": "phase1b-longitudinal-memory-state-v2"
+    },
+    "exploration_history": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "evidence_id": "evidence-ff278a07447c66ad",
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-25331a9a4337e940",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "evidence_id": "evidence-7d50799788495118",
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-0e1c57e08374931a",
+        "source_task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "evidence_id": "evidence-99be6f18276850c9",
+        "exploration_id": "exploration-h-3ef3b43e4c09a8cb",
+        "hypothesis": "Prioritizing the dedicated cooling appliance as the first search location—since it must be visited later in the task anyway—reduces total navigation steps compared to both strict listed-order traversal and generic semantic plausibility heuristics that do not account for downstream task requirements.",
+        "realization_pattern": "Navigate to the dedicated cooling appliance first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4",
+        "source_h_id": "h-3ef3b43e4c09a8cb",
+        "source_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282",
+        "evidence_id": "evidence-813d099bb5961854",
+        "exploration_id": "exploration-h-9ca77aa6b36d0b57",
+        "hypothesis": "Prioritizing the single most semantically canonical storage receptacle for a perishable food target before inspecting generic surfaces reduces search steps compared to both strict listed-order traversal and broad surface-priority heuristics tested previously.",
+        "realization_pattern": "Navigate to the single most semantically canonical storage receptacle for the target object type; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles in listed order.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-heat-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and a cold-storage receptacle is present among many candidate locations.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-9ca77aa6b36d0b57",
+        "source_task_id": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900"
+      },
+      {
+        "activation_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+        "evidence_id": "evidence-01db81b2b4ba9057",
+        "exploration_id": "exploration-h-10f29a4d820ad738",
+        "hypothesis": "Prioritizing receptacles that match the task-specified destination type (e.g., searching storage units of the same class as the final placement location) before other surfaces reduces total search steps compared to both strict listed-order traversal and generic semantic plausibility heuristics, because objects are often stored near or within their canonical destination furniture class.",
+        "realization_pattern": "Identify a storage receptacle whose type matches the task-specified destination category; navigate to it first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+        "source_comparison_id": "comparison-8a5b75fcd09336dc",
+        "source_h_id": "h-10f29a4d820ad738",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405",
+        "evidence_id": "evidence-b5bf7fb680e6afeb",
+        "exploration_id": "exploration-h-e6c23949f174b273",
+        "hypothesis": "Navigating to the task-specified destination receptacle first to probe its accessibility (e.g., whether it requires opening) before beginning the search for the target object reduces total task steps compared to searching all receptacles in listed order or by semantic plausibility, because it resolves destination constraints early without assuming the target is inside it.",
+        "realization_pattern": "Navigate to the task-named destination receptacle; open if it is a closed container; observe its state; then fall back to systematic traversal of remaining receptacles to find and acquire the target object.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the task instruction names a specific destination receptacle that is reachable from the entry state, and no prior exploration has tested probing that exact named destination before searching other receptacles.",
+        "source_comparison_id": "comparison-8a5b75fcd09336dc",
+        "source_h_id": "h-e6c23949f174b273",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+        "evidence_id": "evidence-1a26cd2069d7b438",
+        "exploration_id": "exploration-h-caa251953f322a75",
+        "hypothesis": "Navigating first to the task-relevant cooling appliance (a closed storage receptacle) to search for the target may locate it faster than systematically traversing all visible receptacles in listed order, because food items are commonly stored inside cooling appliances.",
+        "realization_pattern": "Navigate to a task-relevant closed storage receptacle first, open and inspect it for the target; if absent, revert to systematic traversal of remaining receptacles in listed order.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld tasks requiring cooling a target object before placement, where the target is not immediately visible and a known cooling appliance is present in the initial room observation.",
+        "source_comparison_id": "comparison-a4d3a30084d61ac4",
+        "source_h_id": "h-caa251953f322a75",
+        "source_task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "evidence_id": "evidence-75b23b15ecb4a1bb",
+        "exploration_id": "exploration-h-9354131b9c1fc01f",
+        "hypothesis": "Prioritizing receptacles whose type semantically suggests they hold fabric items (e.g., towel or handtowel holders) before inspecting generic closed storage reduces search steps for cloth targets, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Identify a receptacle whose type semantically matches the target object category; navigate to it first; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld clean-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including fabric-associated holders, and no prior exploration has tested domain-specific semantic prioritization for cloth-like targets.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544",
+        "source_h_id": "h-9354131b9c1fc01f",
+        "source_task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+        "evidence_id": "evidence-1b535d10f67c7fde",
+        "exploration_id": "exploration-h-059586dfc8012b41",
+        "hypothesis": "Navigating to the named destination receptacle first to check for and acquire the target object reduces total steps compared to listed-order traversal when the target is already staged at the destination, because it avoids unnecessary search of other receptacles and positions the agent directly for the subsequent cooling operation.",
+        "realization_pattern": "Navigate to the task-named destination receptacle; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible, the task instruction names a specific destination receptacle that can also hold the target type, and the functional contract requires acquiring the target at the destination if present before downstream cooling.",
+        "source_comparison_id": "comparison-ae60f3483a2fdf49",
+        "source_h_id": "h-059586dfc8012b41",
+        "source_task_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+        "evidence_id": "evidence-2625d853672cb7e2",
+        "exploration_id": "exploration-h-513b9268f2d9e8ad",
+        "hypothesis": "For cookware targets (e.g., pans), navigating first to a domain-matched open cooking surface may locate the target with fewer steps than strict listed-order traversal, because unlike fabric or small items, cookware is typically placed on open burners rather than inside closed cabinets, avoiding the overhead penalty observed for other object types.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles in listed order.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld cool-then-place tasks where the target object is not immediately visible, the entry observation lists multiple domain-semantically matched cooking surfaces, and established memory warns against generic semantic prioritization that incurs overhead when targets reside in closed containers.",
+        "source_comparison_id": "comparison-98d40199a1723ab6",
+        "source_h_id": "h-513b9268f2d9e8ad",
+        "source_task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+        "evidence_id": "evidence-ff61e136b429d88b",
+        "exploration_id": "exploration-h-94cf7204d270c463",
+        "hypothesis": "Prioritizing a cold-storage appliance over generic listed-order traversal or broad semantic plausibility reduces search steps for food objects in heat-then-place tasks, because raw food items are canonically stored in refrigeration units before heating.",
+        "realization_pattern": "Navigate to a cold-storage appliance; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-heat-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including a cold-storage appliance, and no prior exploration has tested prioritizing cold-storage appliances for food items that require subsequent heating.",
+        "source_comparison_id": "comparison-41cc2428ee53c66e",
+        "source_h_id": "h-94cf7204d270c463",
+        "source_task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161745_664033"
+      },
+      {
+        "activation_task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+        "evidence_id": "evidence-5e1e4340e9ca60d7",
+        "exploration_id": "exploration-h-0861b5675e68b4f3",
+        "hypothesis": "When multiple receptacles share the task-specified destination type, navigating to a non-destination instance of that type first reduces search steps compared to strict listed-order traversal or generic semantic plausibility, because objects are often stored on furniture matching the destination category even if not on the exact final placement surface.",
+        "realization_pattern": "Identify a receptacle whose type matches the task-specified destination category but is not the designated final placement target; navigate to it first; open if required; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists multiple receptacles of the same type as the task-specified destination, and no prior exploration has tested prioritizing a non-destination instance of the destination type before searching other receptacles.",
+        "source_comparison_id": "comparison-2906d2e6deadadc3",
+        "source_h_id": "h-0861b5675e68b4f3",
+        "source_task_id": "pick_and_place_simple-Mug-None-Desk-308/trial_T20190908_125200_737896"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091811_414150",
+        "evidence_id": "evidence-1f2b2ea98a58020d",
+        "exploration_id": "exploration-h-488efac368bb5d8f",
+        "hypothesis": "For food targets that require downstream cooling, prioritizing open cooking surfaces (where raw ingredients are commonly staged) before searching closed storage receptacles or the cooling appliance itself reduces total acquisition steps by avoiding unnecessary open/close actions on containers unlikely to hold uncooled food.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; acquire if present; otherwise fall back to listed-order traversal of remaining receptacles excluding the dedicated cooling appliance until target is held.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld cool-then-place tasks targeting food items where the entry observation lists open cooking surfaces and closed storage receptacles, and prior tests of cooling-appliance-first and destination-first search have been explored.",
+        "source_comparison_id": "comparison-39b7da7506c87073",
+        "source_h_id": "h-488efac368bb5d8f",
+        "source_task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033157_424297"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171850_960211",
+        "evidence_id": "evidence-8a8f1ab7a15335bc",
+        "exploration_id": "exploration-h-c63cb319e69ea08c",
+        "hypothesis": "Prioritizing the heating appliance (the task's intermediate processing station) as the first search location for a heat-target object reduces total search steps compared to strict listed-order traversal, because mugs are often placed on or near heating appliances in preparation for the heating step.",
+        "realization_pattern": "Navigate to a heating appliance receptacle first; inspect its surface for the target object; acquire if present; otherwise continue systematic search of remaining receptacles in listed order, opening closed receptacles before inspection.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-heat-then-place tasks where the target is a mug not immediately visible in the entry observation and a heating appliance is present among many candidate receptacles.",
+        "source_comparison_id": "comparison-58656d0d411cf276",
+        "source_h_id": "h-c63cb319e69ea08c",
+        "source_task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021247_306737"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102608_318800",
+        "evidence_id": "evidence-4e0ec024afb82c8f",
+        "exploration_id": "exploration-h-b025343afe42b875",
+        "hypothesis": "For clean-then-place tasks targeting perishable food items, prioritizing open cooking surfaces before cold-storage receptacles reduces search steps compared to listed-order traversal or cold-storage-first search, because raw food items awaiting cleaning may be staged on open preparation or cooking surfaces rather than stored inside refrigeration units.",
+        "realization_pattern": "Navigate to an open cooking surface first; inspect for the target object; if absent, navigate to a cold-storage receptacle, open it, and inspect; if still absent, continue systematic traversal of remaining receptacles.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld clean-then-place tasks where the target is a perishable food item not immediately visible in the entry observation and both open cooking surfaces and cold-storage receptacles are available.",
+        "source_comparison_id": "comparison-e43edfe833157f5a",
+        "source_h_id": "h-b025343afe42b875",
+        "source_task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887",
+        "evidence_id": "evidence-b44cbe29c3eb38c6",
+        "exploration_id": "exploration-h-f98f1efb76abeeb5",
+        "hypothesis": "Prioritizing open horizontal surfaces (e.g., countertops) as the first search locations for a mug target reduces total search steps compared to strict listed-order traversal, because mugs are frequently staged on open surfaces rather than inside closed cabinets or drawers, avoiding the overhead of opening multiple closed receptacles early in the search.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-fb6419f0cc942fc9",
+        "source_h_id": "h-f98f1efb76abeeb5",
+        "source_task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021200_669381"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805",
+        "evidence_id": "evidence-112d7d796d146f00",
+        "exploration_id": "exploration-h-aaef157feb9532ff",
+        "hypothesis": "For cookware targets like pans, navigating first to a domain-matched open cooking surface (e.g., a stove burner) may locate the target with fewer steps than strict listed-order traversal, because unlike fabric or small items previously tested, cookware is typically placed on open burners rather than inside closed cabinets, potentially avoiding the overhead penalty observed for other object types.",
+        "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles in listed order.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld clean-then-place tasks targeting cookware where the entry observation lists multiple open cooking surfaces and closed storage receptacles, and established memory warns against generic semantic prioritization that incurs overhead when targets reside in closed containers.",
+        "source_comparison_id": "comparison-98d40199a1723ab6",
+        "source_h_id": "h-aaef157feb9532ff",
+        "source_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058"
+      },
+      {
+        "activation_task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231",
+        "evidence_id": "evidence-61faa4e26e801215",
+        "exploration_id": "exploration-h-1f77dd7c74d9e64d",
+        "hypothesis": "Prioritizing an available beverage-associated appliance surface as the first search location for a mug target reduces total search steps compared to both strict listed-order traversal and generic open-surface prioritization, because mugs are frequently staged near beverage preparation appliances rather than on general countertops or inside closed cabinets.",
+        "realization_pattern": "Navigate to a beverage-associated appliance surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a closed storage receptacle type, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-cb2e837d31c11478",
+        "source_h_id": "h-1f77dd7c74d9e64d",
+        "source_task_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887"
+      },
+      {
+        "activation_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021650_880235",
+        "evidence_id": "evidence-d6c074081d25b5d3",
+        "exploration_id": "exploration-h-8fc4a41253abddd7",
+        "hypothesis": "For small dining condiment targets (e.g., saltshakers), navigating directly to an available open horizontal surface first can efficiently locate the target without the overhead of opening closed storage receptacles, outperforming strict listed-order traversal which may encounter closed cabinets early in the list.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones as needed.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks targeting small dining condiment objects where the entry observation lists multiple open horizontal surfaces and closed storage receptacles, and the target is not immediately visible.",
+        "source_comparison_id": "comparison-9ae1c3a0bff6b20f",
+        "source_h_id": "h-8fc4a41253abddd7",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021728_339782"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+        "evidence_id": "evidence-5c72b8eec69a55aa",
+        "exploration_id": "exploration-h-9c5cdfaad8ecd2c0",
+        "hypothesis": "Prioritizing an available open horizontal surface as the first search location for a mug target reduces total search steps compared to strict listed-order traversal when the destination is a beverage-associated appliance, because mugs are frequently staged on general countertops rather than inside closed cabinets or at the destination appliance itself.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld heat-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a beverage-associated appliance, and multiple open horizontal surfaces are available among candidate receptacles.",
+        "source_comparison_id": "comparison-fb6419f0cc942fc9",
+        "source_h_id": "h-9c5cdfaad8ecd2c0",
+        "source_task_id": "pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703",
+        "evidence_id": "evidence-20bb34af09e38fe2",
+        "exploration_id": "exploration-h-5afc3629f8404c59",
+        "hypothesis": "For root vegetable targets in cool-then-place tasks, prioritizing open horizontal preparation surfaces before closed storage receptacles reduces acquisition steps compared to strict listed-order traversal, because such food items are frequently staged on countertops for preparation rather than stored inside cabinets or drawers.",
+        "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object type; acquire if present; otherwise fall back to listed-order traversal of remaining receptacles excluding the dedicated cooling appliance until target is held.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld cool-then-place tasks targeting root vegetable food items where the entry observation lists open horizontal surfaces, closed storage receptacles, and a cold-storage appliance, and prior tests of cooking-surface-first and cold-storage-first search have been explored.",
+        "source_comparison_id": "comparison-43a0d0e09425cdc1",
+        "source_h_id": "h-5afc3629f8404c59",
+        "source_task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033228_194678"
+      }
+    ],
+    "exploration_history_source": {
+      "bytes": 37133,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/exploration_history_after.json",
+      "sha256": "3f90a44a20987a0ae699cf037a3d678ab59d8e69d33758e2e8d421393dcfdb1b",
+      "status": "available"
+    },
+    "source_artifact": {
+      "bytes": 2997621,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/memory_after.json",
+      "sha256": "ffb49421fa1d8405188c1f9967fed0fa8d08793eaac8d43ae02d479f35575962",
+      "status": "available"
+    }
+  },
+  "extraction": "public persistent-state projection; raw evidence store omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2997621,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/memory_after.json",
+      "sha256": "ffb49421fa1d8405188c1f9967fed0fa8d08793eaac8d43ae02d479f35575962",
+      "status": "available"
+    },
+    {
+      "bytes": 37133,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/exploration_history_after.json",
+      "sha256": "3f90a44a20987a0ae699cf037a3d678ab59d8e69d33758e2e8d421393dcfdb1b",
+      "status": "available"
+    }
+  ]
+}

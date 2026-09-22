@@ -1,0 +1,69 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "The search order efficiency (descending vs ascending) for saltshakers in cabinets.",
+          "The completion of the task (placing the saltshaker on a drawer)."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at start location with no target visible; list of candidate receptacles known from initial observation.",
+          "constraints": [
+            "Must not assume target visibility before inspection.",
+            "Must handle closed receptacles by opening them.",
+            "Must terminate search upon finding the specific target object."
+          ],
+          "local_function": "Iteratively navigate to a candidate receptacle, open if necessary, inspect contents, and repeat until target object is identified.",
+          "required_downstream_state": "Target object is in agent's inventory; agent knows the location of the target's source receptacle."
+        }
+      },
+      "c_candidate": {
+        "decision": "CREATE",
+        "guidance": "Navigate to a closed storage receptacle first. Open it if necessary. Inspect contents. If target is found, take it. If not, proceed to the next closed storage receptacle before checking any open surfaces.",
+        "hypothesis": "Prioritizing inspection of closed storage receptacles (drawers/cabinets) over open surfaces (countertops/shelves) reduces total navigation steps by avoiding redundant visits to empty open areas, assuming the target is more likely to be hidden inside a container.",
+        "probe_spec": {
+          "adaptive_policy": "At each step, check the current location's contents. If the target is present, take it and terminate search. If absent, identify the next unvisited receptacle that matches the 'closed storage' priority class. Navigate there. If no unvisited closed storage remains, fall back to visiting unvisited open surfaces.",
+          "capability_requirements": [
+            "Ability to distinguish between open and closed receptacle types from the initial observation list.",
+            "Ability to execute 'go to', 'open', and 'take' actions."
+          ],
+          "evidence_goal": "Compare the number of navigation steps taken to find the target against the baseline established memory (which uses simple listed order). Success is defined by finding the target with fewer or equal steps while maintaining correctness.",
+          "local_function": "Selecting the next receptacle to inspect during search.",
+          "realization_pattern": "Filter candidate receptacles by type: prioritize 'closed storage' types (e.g., drawers, cabinets, fridges) over 'open surface' types (e.g., countertops, shelves). Within the prioritized group, select the nearest or first-listed instance.",
+          "required_downstream_state": "Target object is in agent's inventory; agent knows the location of the target's source receptacle.",
+          "stop_conditions": [
+            "Target object is acquired.",
+            "All candidate receptacles have been inspected without finding the target.",
+            "Navigation error occurs."
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "type": "exploratory"
+      },
+      "current_evidence_id": "evidence-be8f7c268d7d0c54",
+      "history_retrieval": {
+        "decision": "NONE",
+        "exploration_ids": []
+      },
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+    },
+    "existing_comparison_ids": [],
+    "existing_comparison_summaries": [],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3897,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/h_reconciliation/reconciliation_input.json",
+    "sha256": "ae74311c21d3df98d90c3062208a8adfb350845ae86f05599550d2b52b3c66d9",
+    "status": "available"
+  }
+}

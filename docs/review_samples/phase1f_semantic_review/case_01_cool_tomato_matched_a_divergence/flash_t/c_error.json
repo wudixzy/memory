@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/c/error.json",
+  "reason": "The C stage has no saved artifact at this path; check B-to-C handoff/status records in validation_and_handoff.json.",
+  "status": "not_available"
+}

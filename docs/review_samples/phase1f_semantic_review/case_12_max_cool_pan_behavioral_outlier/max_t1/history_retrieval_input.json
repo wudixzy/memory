@@ -1,0 +1,39 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-08e26bc3ebfdd940",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cfd2fc58104a4c7a"
+      },
+      {
+        "exploration_id": "exploration-h-cf385d7dd455f0e8",
+        "hypothesis": "Prioritizing navigation to a cooling appliance receptacle first, rather than searching open surfaces or closed storage receptacles, yields faster target acquisition because bread is semantically likely to be stored inside a cooling appliance when the task requires cooling it.",
+        "realization_pattern": "Navigate to a cooling appliance receptacle from the room center, open it if closed, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not initially visible and a cooling appliance receptacle is available in the admissible action list from room center.",
+        "source_comparison_id": "comparison-895e7337d8d4381d"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles from entry observation; target object not yet visible; inventory empty.",
+      "constraints": [
+        "Must visit receptacles in the exact order presented in the initial room observation",
+        "Must open any closed receptacle before inspecting its contents",
+        "Must not take non-target objects",
+        "Must terminate search immediately upon successful target acquisition"
+      ],
+      "local_function": "Sequentially navigate to each receptacle in the listed order, open if closed, inspect contents, and take the target object when found.",
+      "required_downstream_state": "Target object held in agent inventory; agent positioned at the receptacle where the target was found."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2415,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "a0c8eec1a50fc96508baf5cb568bcb9fe2c6c1d3cc335e2fc8a4051b800e90ee",
+    "status": "available"
+  }
+}

@@ -1,0 +1,607 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": "supporting_evidence_refs",
+      "comparison_assessment": "PARTIALLY_RESOLVED",
+      "comparison_id": "comparison-c137d39514515893",
+      "evidence_id": "evidence-3af94b840f96aa3d",
+      "evidence_role": "SUPPORTING",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-4332f3630f19e699",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through receptacles based on a specific priority/ordering heuristic, navigate to each, open if necessary, and inspect contents.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "linked_h_ids": [
+          "h-0974fda62b083da2"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-076bbfe08998aeda"
+        ]
+      },
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "contradicting_evidence_refs": [
+          "evidence-7d50799788495118"
+        ],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect receptacles to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "linked_h_ids": [
+          "h-eb5b08ddf0ead2f7"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-0e240389305dbecb",
+        "contradicting_evidence_refs": [
+          "evidence-99be6f18276850c9"
+        ],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select next receptacle to inspect based on search policy.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "linked_h_ids": [
+          "h-f8ba6a4abd04c9b1"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry, specifically testing semantic priors for food items.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-04b3769e6328be11",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect a subset of candidate receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "linked_h_ids": [
+          "h-557c586a16b7ecc2"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-f7e7f17ac2bf4590"
+        ]
+      },
+      {
+        "comparison_id": "comparison-e9007f0de961e2ea",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object by navigating to and inspecting candidate receptacles.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282",
+        "linked_h_ids": [
+          "h-0ca06b77b7caeceb",
+          "h-c53b8a0910ab0f56"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (tomato) where the target is not visible at entry and multiple receptacle types are present.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-f242b14a69f0c197",
+          "evidence-af3d078842cc133c"
+        ]
+      },
+      {
+        "comparison_id": "comparison-b1b7c37008df8834",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object by visiting receptacles.",
+        "last_updated_task": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+        "linked_h_ids": [
+          "h-25626a5f4ca5e1ce",
+          "h-d60bd781ee673bea"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment (e.g., saltshaker) and both open surfaces and closed storage units are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-58431c04ca4a3e56"
+        ]
+      },
+      {
+        "comparison_id": "comparison-434be6bf5e301755",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221355_558505",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object (mug) by visiting receptacles.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+        "linked_h_ids": [
+          "h-7d6686692e319fd9"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a drinkware item (mug) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-eeefcde0205951bd"
+        ]
+      },
+      {
+        "comparison_id": "comparison-526718e3a6226baf",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Execute a search sequence to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "linked_h_ids": [
+          "h-8f5a9697b5472276"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-282c8940cd7bbb35"
+        ]
+      },
+      {
+        "comparison_id": "comparison-dd8b81323c9ba313",
+        "contradicting_evidence_refs": [
+          "evidence-fd3ba6ddda55cc40"
+        ],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for target object by navigating to and inspecting receptacles.",
+        "last_updated_task": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352",
+        "linked_h_ids": [
+          "h-39636a73fb019e1a",
+          "h-52a4ca921b17f694",
+          "h-3af3018e8cc84312"
+        ],
+        "scope": "ALFWorld living room tasks where the target is a small personal item (e.g., watch) and the environment contains mixed open surfaces (sofa, armchair, sidetable) and closed storage (cabinets, drawers).",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-79f4e38d16e6caa4"
+        ]
+      },
+      {
+        "comparison_id": "comparison-d248d653c210e41b",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select and navigate to a receptacle to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "linked_h_ids": [
+          "h-89d364dfc3dd11d1"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (lettuce) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-9df5f6013bc1bf17",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145143_820541",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire the target object (apple).",
+        "last_updated_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974",
+        "linked_h_ids": [
+          "h-5c1489daf1254b72"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a perishable food item (e.g., apple) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-0a4b10329b9cd519"
+        ]
+      },
+      {
+        "comparison_id": "comparison-ff98a0cc8b6e08de",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire a knife instance from the environment.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+        "linked_h_ids": [
+          "h-d70515b60755f8b2"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a non-food tool (knife) and the room contains both open surfaces and closed storage units.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-1970121bc63a20b7",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate and inspect receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "linked_h_ids": [
+          "h-459d231166988acf"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains mixed open surfaces (countertops, sinks) and closed storage units (cabinets).",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-25437cca79d2be37"
+        ]
+      },
+      {
+        "comparison_id": "comparison-d5906e1edf345f42",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select and navigate to a receptacle likely to contain a cloth, then acquire it.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "linked_h_ids": [
+          "h-3c3d8f55750eeb7f"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains dedicated hanging receptacles (towelholders, handtowelholders) alongside open surfaces and closed storage.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-978dc9a18a8b29f6",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Locate and acquire the target object from its hidden location.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+        "linked_h_ids": [
+          "h-32ec82c80990628e",
+          "h-08bb46ef029f9004"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot) and the environment contains mixed open surfaces (stoveburners, countertops) and closed storage units.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-2625d853672cb7e2"
+        ]
+      },
+      {
+        "comparison_id": "comparison-f58cc5f398688bde",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search strategy selection: choose between spatial-order traversal vs. semantic-prioritized traversal for office supplies.",
+        "last_updated_task": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763",
+        "linked_h_ids": [
+          "h-feefb9b0e36056a7"
+        ],
+        "scope": "ALFWorld office/bedroom tasks where the target is a small writing instrument (pencil) and the environment contains multiple desk surfaces, drawers, and shelves.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-c137d39514515893",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire the target egg object.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709",
+        "linked_h_ids": [
+          "h-fa21be2a8f9e2284"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets).",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-3af94b840f96aa3d"
+        ]
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-4332f3630f19e699",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through receptacles based on a specific priority/ordering heuristic, navigate to each, open if necessary, and inspect contents.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "linked_h_ids": [
+          "h-0974fda62b083da2"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-076bbfe08998aeda"
+        ]
+      },
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "contradicting_evidence_refs": [
+          "evidence-7d50799788495118"
+        ],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect receptacles to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "linked_h_ids": [
+          "h-eb5b08ddf0ead2f7"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-0e240389305dbecb",
+        "contradicting_evidence_refs": [
+          "evidence-99be6f18276850c9"
+        ],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select next receptacle to inspect based on search policy.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "linked_h_ids": [
+          "h-f8ba6a4abd04c9b1"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry, specifically testing semantic priors for food items.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-04b3769e6328be11",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect a subset of candidate receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "linked_h_ids": [
+          "h-557c586a16b7ecc2"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-f7e7f17ac2bf4590"
+        ]
+      },
+      {
+        "comparison_id": "comparison-e9007f0de961e2ea",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object by navigating to and inspecting candidate receptacles.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282",
+        "linked_h_ids": [
+          "h-0ca06b77b7caeceb",
+          "h-c53b8a0910ab0f56"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (tomato) where the target is not visible at entry and multiple receptacle types are present.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-f242b14a69f0c197",
+          "evidence-af3d078842cc133c"
+        ]
+      },
+      {
+        "comparison_id": "comparison-b1b7c37008df8834",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object by visiting receptacles.",
+        "last_updated_task": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+        "linked_h_ids": [
+          "h-25626a5f4ca5e1ce",
+          "h-d60bd781ee673bea"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment (e.g., saltshaker) and both open surfaces and closed storage units are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-58431c04ca4a3e56"
+        ]
+      },
+      {
+        "comparison_id": "comparison-434be6bf5e301755",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221355_558505",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for the target object (mug) by visiting receptacles.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+        "linked_h_ids": [
+          "h-7d6686692e319fd9"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a drinkware item (mug) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-eeefcde0205951bd"
+        ]
+      },
+      {
+        "comparison_id": "comparison-526718e3a6226baf",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Execute a search sequence to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "linked_h_ids": [
+          "h-8f5a9697b5472276"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-282c8940cd7bbb35"
+        ]
+      },
+      {
+        "comparison_id": "comparison-dd8b81323c9ba313",
+        "contradicting_evidence_refs": [
+          "evidence-fd3ba6ddda55cc40"
+        ],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for target object by navigating to and inspecting receptacles.",
+        "last_updated_task": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352",
+        "linked_h_ids": [
+          "h-39636a73fb019e1a",
+          "h-52a4ca921b17f694",
+          "h-3af3018e8cc84312"
+        ],
+        "scope": "ALFWorld living room tasks where the target is a small personal item (e.g., watch) and the environment contains mixed open surfaces (sofa, armchair, sidetable) and closed storage (cabinets, drawers).",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-79f4e38d16e6caa4"
+        ]
+      },
+      {
+        "comparison_id": "comparison-d248d653c210e41b",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select and navigate to a receptacle to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+        "linked_h_ids": [
+          "h-89d364dfc3dd11d1"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (lettuce) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-9df5f6013bc1bf17",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145143_820541",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire the target object (apple).",
+        "last_updated_task": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974",
+        "linked_h_ids": [
+          "h-5c1489daf1254b72"
+        ],
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a perishable food item (e.g., apple) where the target location is unknown and multiple receptacle types are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-0a4b10329b9cd519"
+        ]
+      },
+      {
+        "comparison_id": "comparison-ff98a0cc8b6e08de",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire a knife instance from the environment.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+        "linked_h_ids": [
+          "h-d70515b60755f8b2"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a non-food tool (knife) and the room contains both open surfaces and closed storage units.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-1970121bc63a20b7",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate and inspect receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "linked_h_ids": [
+          "h-459d231166988acf"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains mixed open surfaces (countertops, sinks) and closed storage units (cabinets).",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-25437cca79d2be37"
+        ]
+      },
+      {
+        "comparison_id": "comparison-d5906e1edf345f42",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select and navigate to a receptacle likely to contain a cloth, then acquire it.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+        "linked_h_ids": [
+          "h-3c3d8f55750eeb7f"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains dedicated hanging receptacles (towelholders, handtowelholders) alongside open surfaces and closed storage.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-978dc9a18a8b29f6",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Locate and acquire the target object from its hidden location.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+        "linked_h_ids": [
+          "h-32ec82c80990628e",
+          "h-08bb46ef029f9004"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot) and the environment contains mixed open surfaces (stoveburners, countertops) and closed storage units.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-2625d853672cb7e2"
+        ]
+      },
+      {
+        "comparison_id": "comparison-f58cc5f398688bde",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search strategy selection: choose between spatial-order traversal vs. semantic-prioritized traversal for office supplies.",
+        "last_updated_task": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763",
+        "linked_h_ids": [
+          "h-feefb9b0e36056a7"
+        ],
+        "scope": "ALFWorld office/bedroom tasks where the target is a small writing instrument (pencil) and the environment contains multiple desk surfaces, drawers, and shelves.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-c137d39514515893",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Search for and acquire the target egg object.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+        "linked_h_ids": [
+          "h-fa21be2a8f9e2284"
+        ],
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets).",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "NO_NEW_H",
+      "rationale": "C returned no candidate hypothesis. The current evidence supports the existing active H in comparison-c137d39514515893 (open-surface-first for eggs), but without a new proposal from C, no new H can be added or refined.",
+      "target_comparison_id": "NONE"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2022173,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_before.json",
+      "sha256": "f902460452ed8b38a1e19618630cb252f2f3092f7f9eeafa0ace044eb574cbb2",
+      "status": "available"
+    },
+    {
+      "bytes": 2034421,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_after.json",
+      "sha256": "00857752d6ee70a239e3abe324a8aa364fdf9f597d696ebba1e22458bf3906ce",
+      "status": "available"
+    },
+    {
+      "bytes": 12442,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+      "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+      "status": "available"
+    },
+    {
+      "bytes": 1692,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/materialization.json",
+      "sha256": "3ce4d746505dedadc36d4c69394778d2938fce4294bde53814598ac8b5d38a0d",
+      "status": "available"
+    },
+    {
+      "bytes": 330,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "cb21c097ce37c7bdd7a6d0c83baeeadb3dab2403500036d4b21cb610a9041f0e",
+      "status": "available"
+    }
+  ]
+}

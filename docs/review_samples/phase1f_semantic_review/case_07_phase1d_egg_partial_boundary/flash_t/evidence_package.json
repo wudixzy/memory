@@ -1,0 +1,189 @@
+{
+  "content": {
+    "acquisition": {
+      "final_public_state": {
+        "admissible_actions": [
+          "examine coffeemachine_1",
+          "examine countertop_1",
+          "examine egg_3",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look",
+          "put egg_3 in/on countertop_1"
+        ],
+        "observation": "You take egg_3 from countertop_1."
+      },
+      "target_acquired": true
+    },
+    "activated_h_id": "h-fa21be2a8f9e2284",
+    "candidate_inspections": 1,
+    "continuation_trace": {
+      "candidate_sequence": [],
+      "environment_action_count": 0,
+      "status": "target_acquired",
+      "target_acquired": true
+    },
+    "controlled_endpoint": {
+      "downstream_execution": "not_run_by_phase1b_dev_protocol",
+      "name": "target_acquisition",
+      "target_acquired": true
+    },
+    "environment_action_count": 2,
+    "evidence_id": "evidence-3af94b840f96aa3d",
+    "memory_before_sha256": "ae7d2ccda134381591f6b6557ba4463e85f6ab9aace3ed613cc66c0dc741a98b",
+    "probe_trace": {
+      "candidate_probe_count": 1,
+      "candidate_sequence": [
+        "countertop_1"
+      ],
+      "runtime_status": "EVIDENCE_OBTAINED",
+      "target_acquired": true
+    },
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-fa21be2a8f9e2284"
+    },
+    "schema_version": "phase1b-public-evidence-package-v1",
+    "task": {
+      "instruction": "clean some egg and put it in microwave.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    },
+    "temporal_facts": {
+      "acquisition_phase": "probe",
+      "continuation_events": [],
+      "entry_target_visible": false,
+      "environment_action_count": 2,
+      "first_target_exposure_event": "event-1c2209dd5dfed5a9",
+      "probe_events": [
+        {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take bowl_2 from countertop_1",
+            "take egg_3 from countertop_1",
+            "take fork_1 from countertop_1",
+            "take glassbottle_1 from countertop_1",
+            "take mug_2 from coffeemachine_1",
+            "take mug_2 from countertop_1"
+          ],
+          "event_id": "event-1c2209dd5dfed5a9",
+          "observation": "You arrive at loc_12. On countertop_1, you see bowl_2, egg_3, fork_1, glassbottle_1, and mug_2.",
+          "ordinal": 1,
+          "phase": "probe"
+        },
+        {
+          "action": "take egg_3 from countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "examine egg_3",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put egg_3 in/on countertop_1"
+          ],
+          "event_id": "event-0bf52cefeb7057ca",
+          "observation": "You take egg_3 from countertop_1.",
+          "ordinal": 2,
+          "phase": "probe"
+        }
+      ],
+      "target_acquired_event": "event-0bf52cefeb7057ca"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/acquisition/final_public_state/done",
+    "/acquisition/final_public_state/reward",
+    "/acquisition/final_public_state/won",
+    "/artifact_root",
+    "/continuation_trace/environment_actions",
+    "/continuation_trace/trace",
+    "/controlled_endpoint/environment_won",
+    "/probe_trace/condition",
+    "/probe_trace/environment_actions",
+    "/probe_trace/runtime_guidance_removed",
+    "/probe_trace/trace",
+    "/probe_trace/trace/*/result/final_state/won",
+    "/provenance",
+    "/temporal_facts/probe_events/*/done",
+    "/temporal_facts/probe_events/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 7430,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/evidence_package.json",
+    "sha256": "9a3417136861adf74b92cbb17f8a748a420e15c07d9908c856f0f8e84fb4700d",
+    "status": "available"
+  }
+}

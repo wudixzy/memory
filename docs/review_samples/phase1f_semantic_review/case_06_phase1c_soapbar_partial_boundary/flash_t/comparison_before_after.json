@@ -1,0 +1,183 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": "supporting_evidence_refs",
+      "comparison_assessment": "PARTIALLY_RESOLVED",
+      "comparison_id": "comparison-04b3769e6328be11",
+      "evidence_id": "evidence-f7e7f17ac2bf4590",
+      "evidence_role": "SUPPORTING",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-4332f3630f19e699",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through receptacles based on a specific priority/ordering heuristic, navigate to each, open if necessary, and inspect contents.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "linked_h_ids": [
+          "h-0974fda62b083da2"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-076bbfe08998aeda"
+        ]
+      },
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect receptacles to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "linked_h_ids": [
+          "h-eb5b08ddf0ead2f7"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-0e240389305dbecb",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select next receptacle to inspect based on search policy.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "linked_h_ids": [
+          "h-f8ba6a4abd04c9b1"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry, specifically testing semantic priors for food items.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-04b3769e6328be11",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect a subset of candidate receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "linked_h_ids": [
+          "h-557c586a16b7ecc2"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-f7e7f17ac2bf4590"
+        ]
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-4332f3630f19e699",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through receptacles based on a specific priority/ordering heuristic, navigate to each, open if necessary, and inspect contents.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "linked_h_ids": [
+          "h-0974fda62b083da2"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-076bbfe08998aeda"
+        ]
+      },
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect receptacles to locate the target object.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "linked_h_ids": [
+          "h-eb5b08ddf0ead2f7"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-0e240389305dbecb",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select next receptacle to inspect based on search policy.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "linked_h_ids": [
+          "h-f8ba6a4abd04c9b1"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry, specifically testing semantic priors for food items.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-04b3769e6328be11",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Navigate to and inspect a subset of candidate receptacles until the target object is found and taken.",
+        "last_updated_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+        "linked_h_ids": [
+          "h-557c586a16b7ecc2"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "NO_NEW_H",
+      "rationale": "C returned no candidate (null). The current evidence supports the existing active hypothesis h-557c586a16b7ecc2 in comparison-04b3769e6328be11, but without a new proposal from C, no lifecycle operation is triggered.",
+      "target_comparison_id": "NONE"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 486035,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/memory_before.json",
+      "sha256": "6e3940f57a47a40f31c335a5e86bb368881c53960cf47cc5d574fab2f10b31f2",
+      "status": "available"
+    },
+    {
+      "bytes": 495534,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/memory_after.json",
+      "sha256": "601f92cf23688c89319c1f180db8a4eed8e200ca2cae77004913f5fd18669afe",
+      "status": "available"
+    },
+    {
+      "bytes": 11712,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/task_summary.json",
+      "sha256": "89afdf3d14fe077b135b31819a1c01076fca2bf33dcbea800564699a03e0dde8",
+      "status": "available"
+    },
+    {
+      "bytes": 1385,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/materialization.json",
+      "sha256": "7e56cbf03c3ce84e85499472abe2cdda0a158cc0c5773580dc934f1db07ee80d",
+      "status": "available"
+    },
+    {
+      "bytes": 327,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "488912669e2f378aa630409ef0a39e99f6fae07b7f0afa4cbf6e61ceac3a965a",
+      "status": "available"
+    }
+  ]
+}

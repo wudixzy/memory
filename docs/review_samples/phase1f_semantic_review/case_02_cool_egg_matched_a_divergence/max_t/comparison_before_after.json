@@ -1,0 +1,163 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": "contradicting_evidence_refs",
+      "comparison_assessment": "REMAINS_OPEN",
+      "comparison_id": "comparison-a4d3a30084d61ac4",
+      "evidence_id": "evidence-99be6f18276850c9",
+      "evidence_role": "CONTRADICTING",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [
+          "evidence-7d50799788495118"
+        ],
+        "incumbent_local_function": "Iterate through visible receptacles in listed order, navigating to and opening each, inspecting contents, until the target object is found and taken into inventory.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+        "linked_h_ids": [
+          "h-25331a9a4337e940",
+          "h-e52c3153638e77d3",
+          "h-0e359059a5b0a459",
+          "h-0e1c57e08374931a",
+          "h-9ca77aa6b36d0b57"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "contradicting_evidence_refs": [
+          "evidence-99be6f18276850c9"
+        ],
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173149_648833",
+        "linked_h_ids": [
+          "h-3ef3b43e4c09a8cb"
+        ],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-8a5b75fcd09336dc",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically visit and open each receptacle in the listed order, inspecting contents, until the target object is observed and picked up.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "linked_h_ids": [
+          "h-10f29a4d820ad738"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [
+          "evidence-7d50799788495118"
+        ],
+        "incumbent_local_function": "Iterate through visible receptacles in listed order, navigating to and opening each, inspecting contents, until the target object is found and taken into inventory.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+        "linked_h_ids": [
+          "h-25331a9a4337e940",
+          "h-e52c3153638e77d3",
+          "h-0e359059a5b0a459",
+          "h-0e1c57e08374931a",
+          "h-9ca77aa6b36d0b57"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "linked_h_ids": [
+          "h-3ef3b43e4c09a8cb"
+        ],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-8a5b75fcd09336dc",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically visit and open each receptacle in the listed order, inspecting contents, until the target object is observed and picked up.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "linked_h_ids": [
+          "h-10f29a4d820ad738"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "NO_NEW_H",
+      "rationale": "C returned no candidate. Evidence contradicts the cooling-appliance-first heuristic in comparison-a4d3a30084d61ac4, but that comparison remains open with unresolved questions; no new H is proposed.",
+      "target_comparison_id": "NONE"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 738751,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+      "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+      "status": "available"
+    },
+    {
+      "bytes": 844341,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_after.json",
+      "sha256": "1c1f79766a70887de341eff71b5015db098b4af5dca8d482e5730eb697bdda20",
+      "status": "available"
+    },
+    {
+      "bytes": 9388,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/task_summary.json",
+      "sha256": "7a0febb4f987739bc499b2dee7cde2e6a7903df9cd1fb1083e4b889aa8dff30c",
+      "status": "available"
+    },
+    {
+      "bytes": 336,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/materialization.json",
+      "sha256": "c38e77d76333fe6a8b2a107a136d6041aac49b9e54ed32e1bc9dd110c9e58db4",
+      "status": "available"
+    },
+    {
+      "bytes": 309,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "4d6e462d606a1d7cc8ceab513886ffab72a378be053db1f3e981d6ee35715b15",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-f9e349c7471f657e",
+        "hypothesis": "Navigating to a towelholder-type receptacle before inspecting generic closed storage or other fixtures reduces search steps for acquiring a cloth object in a clean-then-place task, because towelholders are semantically specialized for fabric items.",
+        "probe_summary": {
+          "evidence_goal": "Whether a cloth object is found at the towelholder-type receptacle on the first navigation attempt, compared to the number of navigation and open actions required if searching closed storage receptacles first.",
+          "local_function": "Search for and acquire a cloth object by selecting receptacles to inspect, navigating to them, opening if closed, and taking the cloth when found.",
+          "realization_pattern": "Identify a fabric-specialized holder receptacle; navigate to it; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+          "stop_conditions": [
+            "Cloth object successfully taken into inventory",
+            "Towelholder-type receptacle inspected and confirmed empty with fallback traversal initiated",
+            "Inventory already contains a cloth object",
+            "No towelholder-type receptacle is reachable via admissible actions"
+          ]
+        },
+        "scope": "ALFWorld clean-then-place tasks where the target is a cloth, the entry observation lists multiple receptacles including fabric-associated holders and closed storage, and prior semantic-priority tests have not specifically targeted towelholder-type receptacles as the first probe for cloth objects."
+      },
+      {
+        "h_id": "h-051400a842fd1df9",
+        "hypothesis": "For cooking utensil targets like spatulas, navigating first to an available open cooking surface may locate the target with fewer steps than strict listed-order traversal, because such items are typically staged on burners rather than inside closed cabinets, avoiding the overhead penalty observed for other object types stored in closed containers.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target utensil is found on the open cooking surface in fewer total navigation and interaction actions than would be required by strict listed-order traversal starting from the first listed receptacle.",
+          "local_function": "Initial search target selection for a cooking utensil in a clean-then-place task",
+          "realization_pattern": "Navigate to an available open cooking surface; inspect for the target object type; take if present; otherwise fall back to systematic traversal of remaining receptacles in listed order.",
+          "stop_conditions": [
+            "Target utensil is successfully taken into inventory",
+            "Open cooking surface has been inspected and does not contain the target, triggering fallback to listed-order traversal",
+            "Navigation to the cooking surface fails or returns an error",
+            "Maximum of 3 actions spent without locating the target or confirming its absence at the cooking surface"
+          ]
+        },
+        "scope": "ALFWorld clean-then-place tasks targeting cooking utensils (e.g., spatulas) where the target is not immediately visible in the entry observation and open cooking surfaces are available among listed receptacles."
+      },
+      {
+        "h_id": "h-9d024f4e3cb41f38",
+        "hypothesis": "Prioritizing an available open horizontal surface as the first search location for a mug target reduces total search steps compared to strict listed-order traversal in clean-then-place tasks, because mugs are frequently staged on general countertops rather than inside closed cabinets, and this pattern may hold across task types beyond heat-then-place.",
+        "probe_summary": {
+          "evidence_goal": "Whether navigating to an open horizontal surface first locates the mug in fewer total actions than strict listed-order traversal starting from closed receptacles would have required.",
+          "local_function": "Navigate to candidate open horizontal surfaces to locate and acquire a mug target without opening closed receptacles.",
+          "realization_pattern": "Navigate to an available open horizontal surface; inspect for the target object; acquire if present; otherwise continue systematic listed-order traversal of remaining receptacles, opening closed receptacles before inspection.",
+          "stop_conditions": [
+            "Target object is acquired",
+            "Open horizontal surface inspected and does not contain the target, triggering fallback to listed-order traversal",
+            "Action fails or is not admissible"
+          ]
+        },
+        "scope": "ALFWorld clean-then-place tasks where the target is a mug not immediately visible in the entry observation, the final destination is a beverage-associated appliance, and multiple open horizontal surfaces are available among candidate receptacles."
+      },
+      {
+        "h_id": "h-89ff6e82325ec831",
+        "hypothesis": "Prioritizing a closed personal-storage furniture receptacle over both strict listed-order traversal and open-surface-first search reduces total steps for acquiring small personal accessory targets like watches, which are typically stored inside drawers or dressers rather than on open shelves or seating surfaces.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target watch is found inside the first closed personal-storage furniture receptacle checked, reducing total navigation and interaction steps compared to starting with open surfaces or arbitrary listed-order traversal",
+          "local_function": "Initial receptacle selection for target search",
+          "realization_pattern": "Navigate to a closed personal-storage furniture receptacle first; open it; inspect contents; acquire target if present; otherwise continue systematic listed-order traversal of remaining receptacles",
+          "stop_conditions": [
+            "Target watch is successfully taken into inventory",
+            "Closed personal-storage furniture receptacle is opened and confirmed empty of the target",
+            "No closed personal-storage furniture receptacle is available in the admissible actions"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks targeting small personal accessories (e.g., watches) where the entry observation lists many receptacles including closed storage furniture and open surfaces, and the target is not immediately visible."
+      },
+      {
+        "h_id": "h-acff931fb81be1fe",
+        "hypothesis": "For small office targets like pencils, navigating directly to an available open horizontal work surface first can efficiently locate the target without the overhead of opening multiple closed storage receptacles, contrasting with prior evidence for condiments where open-surface-first search incurred overhead.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target pencil is found on the first inspected open horizontal work surface, avoiding the need to navigate to and open multiple closed storage receptacles.",
+          "local_function": "Traverse receptacles in listed order, inspect each for the target pencil, and acquire it upon first exposure.",
+          "realization_pattern": "Navigate to an available open horizontal work surface; inspect for the target object; if present, acquire it; otherwise fall back to systematic traversal of remaining receptacles including closed storage units.",
+          "stop_conditions": [
+            "Target pencil acquired in inventory",
+            "First open horizontal work surface inspected and found empty of target",
+            "No open horizontal work surface available in admissible actions"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks targeting small office or writing instruments where the entry observation lists open horizontal work surfaces and closed storage receptacles, and the target is not immediately visible."
+      },
+      {
+        "h_id": "h-b2adfa9c5950ca4d",
+        "hypothesis": "For knife targets in clean-then-place tasks, navigating directly to an available open horizontal surface first can efficiently locate the target without the overhead of opening closed storage receptacles, outperforming strict listed-order traversal which may encounter closed cabinets early in the list.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is found on an open horizontal surface within fewer total navigation and interaction steps than would be required by strict listed-order traversal starting from the first listed receptacle.",
+          "local_function": "Systematically visit receptacles in listed order, opening closed ones, until the knife is found and taken into inventory.",
+          "realization_pattern": "Navigate to an available open horizontal surface; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones as needed.",
+          "stop_conditions": [
+            "Target object is successfully taken into inventory",
+            "All available open horizontal surfaces have been inspected without finding the target, triggering fallback to listed-order traversal",
+            "Inventory check confirms the target is already held"
+          ]
+        },
+        "scope": "ALFWorld clean-then-place tasks targeting a knife where the entry observation lists multiple open horizontal surfaces and closed storage receptacles, and the target is not immediately visible."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to countertop_1",
+        "go to garbagecan_1",
+        "go to handtowelholder_1",
+        "go to handtowelholder_2",
+        "go to sinkbasin_1",
+        "go to sinkbasin_2",
+        "go to toilet_1",
+        "go to toiletpaperhanger_1",
+        "go to towelholder_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: put a clean cloth in cabinet."
+    },
+    "current_task": {
+      "instruction": "put a clean cloth in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 10608,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/retrieval/retrieval_input.json",
+    "sha256": "85043def3b79387ac123cad3eddc3b028ffbf47641189c3ca4f1c207ddc823cd",
+    "status": "available"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "content": {
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "countertop_1"
+    ],
+    "environment_actions": [
+      "go to countertop_1",
+      "take tomato_1 from countertop_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to countertop_1",
+          "take tomato_1 from countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_11. On countertop_1, you see dishsponge_1, and tomato_1.",
+          "You take tomato_1 from countertop_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "examine tomato_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put tomato_1 in/on countertop_1"
+          ],
+          "observation": "You take tomato_1 from countertop_1."
+        },
+        "selection": {
+          "candidate_index": 7,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 1,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 2062,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/probe_summary.json",
+      "sha256": "fbe3d3ef01d8dd3b4fabe6fb4f406ba1d11bf832d76b658f8743919aea99130d",
+      "status": "available"
+    },
+    {
+      "bytes": 22636,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/selector_input.json",
+      "sha256": "8e7b031331010dae8e69a6987f0d0a8bf8f0170b87f6957dda5c28d521cb7afd",
+      "status": "available"
+    },
+    {
+      "bytes": 71,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/raw_response.json",
+      "sha256": "ef046bcd4eea0f54fcac60c0c0ad9813bd5717d240489da3f2686b82d684a6e2",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/parsed.json",
+      "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/probe/steps/001/selector_validation.json",
+      "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+      "status": "available"
+    }
+  ]
+}

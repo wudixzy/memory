@@ -1,0 +1,175 @@
+{
+  "content": {
+    "candidate_sequence": [
+      "cabinet_4"
+    ],
+    "environment_action_count": 3,
+    "status": "target_acquired",
+    "target_acquired": true,
+    "trace": [
+      {
+        "actions": [
+          {
+            "action": "go to cabinet_4",
+            "before": {
+              "admissible_actions": [
+                "examine handtowelholder_1",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to cabinet_4",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look"
+              ],
+              "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing."
+            },
+            "result": {
+              "admissible_actions": [
+                "examine cabinet_4",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look",
+                "open cabinet_4"
+              ],
+              "observation": "You arrive at loc_7. cabinet_4 is closed."
+            }
+          },
+          {
+            "action": "open cabinet_4",
+            "before": {
+              "admissible_actions": [
+                "examine cabinet_4",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look",
+                "open cabinet_4"
+              ],
+              "observation": "You arrive at loc_7. cabinet_4 is closed."
+            },
+            "result": {
+              "admissible_actions": [
+                "close cabinet_4",
+                "examine cabinet_4",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look",
+                "take cloth_1 from cabinet_4"
+              ],
+              "observation": "You open cabinet_4. In cabinet_4, you see cloth_1."
+            }
+          },
+          {
+            "action": "take cloth_1 from cabinet_4",
+            "before": {
+              "admissible_actions": [
+                "close cabinet_4",
+                "examine cabinet_4",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look",
+                "take cloth_1 from cabinet_4"
+              ],
+              "observation": "You open cabinet_4. In cabinet_4, you see cloth_1."
+            },
+            "result": {
+              "admissible_actions": [
+                "close cabinet_4",
+                "examine cabinet_4",
+                "examine cloth_1",
+                "go to cabinet_1",
+                "go to cabinet_2",
+                "go to cabinet_3",
+                "go to countertop_1",
+                "go to garbagecan_1",
+                "go to handtowelholder_1",
+                "go to handtowelholder_2",
+                "go to sinkbasin_1",
+                "go to sinkbasin_2",
+                "go to toilet_1",
+                "go to toiletpaperhanger_1",
+                "go to towelholder_1",
+                "inventory",
+                "look",
+                "put cloth_1 in/on cabinet_4"
+              ],
+              "observation": "You take cloth_1 from cabinet_4."
+            }
+          }
+        ],
+        "candidate_id": "cabinet_4",
+        "kind": "canonical_candidate_inspection",
+        "target_acquired_here": true
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/environment_actions",
+    "/trace/*/actions/*/before/done",
+    "/trace/*/actions/*/before/won",
+    "/trace/*/actions/*/result/action",
+    "/trace/*/actions/*/result/done",
+    "/trace/*/actions/*/result/executed",
+    "/trace/*/actions/*/result/reward",
+    "/trace/*/actions/*/result/step",
+    "/trace/*/actions/*/result/won"
+  ],
+  "source_artifact": {
+    "bytes": 5716,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/continuation_search/continuation_trace.json",
+    "sha256": "952774eafa5820efdd487f5cfca69be363699acada1591b7f10c0aa4cb3dc0b7",
+    "status": "available"
+  }
+}

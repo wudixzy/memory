@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": true,
+  "operation": "ADD",
+  "rationale": "No existing comparisons available. C proposed a new exploratory hypothesis regarding open-surface-first search priority; creating a new OPEN comparison to track its lifecycle.",
+  "target_comparison_id": "NEW"
+}

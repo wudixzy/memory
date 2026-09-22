@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/c/error.json",
+  "reason": "The C stage has no saved artifact at this path; check B-to-C handoff/status records in validation_and_handoff.json.",
+  "status": "not_available"
+}

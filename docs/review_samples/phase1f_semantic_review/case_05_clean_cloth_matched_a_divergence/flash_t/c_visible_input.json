@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/c/c_input.json",
+  "reason": "C was not reached after B-to-C handoff validation failed; see validation_and_handoff.json for the preserved validator artifact.",
+  "status": "not_available"
+}

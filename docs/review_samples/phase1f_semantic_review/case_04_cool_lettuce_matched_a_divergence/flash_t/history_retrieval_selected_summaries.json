@@ -1,0 +1,33 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-89d364dfc3dd11d1",
+      "hypothesis": "For lettuce specifically, prioritizing inspection of open surfaces (countertops/shelves) before closed storage units (fridge/cabinets) yields fewer total search steps than starting with the semantically most likely container (fridge), because lettuce is often stored on counters in these environments despite being a food item.",
+      "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+      "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (lettuce) where the target location is unknown and multiple receptacle types are visible.",
+      "source_comparison_id": "comparison-d248d653c210e41b"
+    },
+    {
+      "exploration_id": "exploration-h-c53b8a0910ab0f56",
+      "hypothesis": "For perishable food items in mixed-layout kitchens, prioritizing inspection of open surfaces (countertops/shelves) before closed high-probability containers (fridge) yields fewer total search steps than starting with the semantically most likely container.",
+      "realization_pattern": "Open-surface-first scan: traverse all visible open surfaces (countertops, shelves) before any closed storage units (fridges, cabinets, drawers).",
+      "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., tomato) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces (countertops), testing if checking open surfaces first outperforms direct fridge inspection.",
+      "source_comparison_id": "comparison-e9007f0de961e2ea"
+    },
+    {
+      "exploration_id": "exploration-h-0ca06b77b7caeceb",
+      "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge) reduces search steps for tomatoes compared to semantic-prior-first (fridge) or arbitrary spatial order.",
+      "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+      "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (tomato) where the target is not visible at entry and multiple receptacle types are present.",
+      "source_comparison_id": "comparison-e9007f0de961e2ea"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2441,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "c6084869a26263df2eb2df841cff3528214e832d03c677f39dca7a4a1adfa8ab",
+    "status": "available"
+  }
+}

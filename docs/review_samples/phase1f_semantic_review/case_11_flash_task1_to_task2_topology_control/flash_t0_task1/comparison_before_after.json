@@ -1,0 +1,74 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "reason": "no_consumed_h",
+      "status": "not_applicable"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-16b9a7112350ec18",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iteratively navigate to a candidate receptacle, open if necessary, inspect contents, and repeat until target object is identified.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "linked_h_ids": [
+          "h-8f8505695fa0c9df"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "comparison_ledger_before": [],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": true,
+      "operation": "ADD",
+      "rationale": "No existing comparisons provided. C proposed a new exploratory hypothesis regarding search order efficiency (closed vs open receptacles) for the current task context. A indicates the comparison remains open with no prior evidence to reconcile.",
+      "target_comparison_id": "NEW"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/c",
+      "candidate_retained": true,
+      "comparison_id": "comparison-16b9a7112350ec18",
+      "comparison_status": "OPEN",
+      "h_id": "h-8f8505695fa0c9df",
+      "operation": "ADD"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 1944,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/memory_before.json",
+      "sha256": "b58be6a2be9cc8567c302a1338357a4606c883486547f26ecb49a145d79b1123",
+      "status": "available"
+    },
+    {
+      "bytes": 50180,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/memory_after.json",
+      "sha256": "5f846bafa2a2b5ec58d536e8fe8b8626a42bb0b736e0a64b26840044be50d398",
+      "status": "available"
+    },
+    {
+      "bytes": 10420,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/task_summary.json",
+      "sha256": "dd9645a9931630a4b1cdf6f394b45a838cb660221b93bbd1730983046cac3fed",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    },
+    {
+      "bytes": 348,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "0fdd99957ea60614893b063a1cc058f5f882e2deb8f72a7ca3b797e2453924cf",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,460 @@
+{
+  "content": {
+    "controlled_endpoint": {
+      "downstream_execution": "not_run_by_phase1b_dev_protocol",
+      "name": "target_acquisition",
+      "target_acquired": true
+    },
+    "current_initial_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some egg and put it in microwave."
+    },
+    "current_task": {
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    },
+    "current_trajectory": {
+      "completed_requested_sequence": false,
+      "executed_actions": [
+        "go to countertop_1",
+        "take egg_3 from countertop_1"
+      ],
+      "final": {
+        "admissible_actions": [
+          "examine coffeemachine_1",
+          "examine countertop_1",
+          "examine egg_3",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look",
+          "put egg_3 in/on countertop_1"
+        ],
+        "observation": "You take egg_3 from countertop_1."
+      },
+      "initial": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "initial_public_state_fingerprint": "9654bec8a3004c8beca3c44491c8cebdcf4c57af15eb64679febb0064542a1c7",
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some egg and put it in microwave."
+      },
+      "seed": 42,
+      "steps": [
+        {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take bowl_2 from countertop_1",
+            "take egg_3 from countertop_1",
+            "take fork_1 from countertop_1",
+            "take glassbottle_1 from countertop_1",
+            "take mug_2 from coffeemachine_1",
+            "take mug_2 from countertop_1"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_12. On countertop_1, you see bowl_2, egg_3, fork_1, glassbottle_1, and mug_2.",
+          "step": 1
+        },
+        {
+          "action": "take egg_3 from countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "examine egg_3",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put egg_3 in/on countertop_1"
+          ],
+          "executed": true,
+          "observation": "You take egg_3 from countertop_1.",
+          "step": 2
+        }
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When searching for cloth items (towel, handtowel, cloth) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping, as it avoids the action cost of opening/closing containers when the item is likely on a surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/02-e5fbb2d17967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/04-9b58f11df123/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/26-1ebd66e39251/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-1970121bc63a20b7",
+            "consumed_h_id": "h-459d231166988acf",
+            "evidence_id": "evidence-25437cca79d2be37",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item and multiple receptacle types are visible."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      },
+      {
+        "guidance": "When searching for perishable food items like tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/08-059972eb9c84/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/15-c6b8fdfddbd0/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/19-8bbd1c1dad4e/T/a"
+        ],
+        "memory_id": "established-3134b2ab1f0a162d",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-9df5f6013bc1bf17",
+            "consumed_h_id": "h-5c1489daf1254b72",
+            "evidence_id": "evidence-0a4b10329b9cd519",
+            "source_memory_ids": [
+              "established-3134b2ab1f0a162d"
+            ],
+            "task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, etc.) where the target location is unknown."
+      },
+      {
+        "guidance": "For decorative objects in living rooms, prioritize inspection of open display surfaces (shelves, sidetables, dressers, armchairs) before navigating to and opening closed storage units (cabinets, drawers). If the target is not found on initial open surfaces, proceed to systematically inspect remaining open surfaces (like dressers) before exhausting closed storage options, as decorative items are more likely to be displayed openly than stored away.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/21-10cb7cc8f0ce/T/a"
+        ],
+        "memory_id": "established-ea32a436454c1c0a",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-dd8b81323c9ba313",
+            "consumed_h_id": "h-52a4ca921b17f694",
+            "evidence_id": "evidence-79f4e38d16e6caa4",
+            "source_memory_ids": [],
+            "task_id": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld living room tasks where the target is a decorative object (e.g., vase, statue) and the environment contains mixed open surfaces (shelves, tables, dressers) and closed storage (cabinets, drawers)."
+      },
+      {
+        "guidance": "When searching for cookware items (pans, pots) in kitchen environments, prioritize inspecting stoveburners before other open surfaces (countertops/shelves) or closed storage. If the target is not found on stoveburners, proceed to other open surfaces, then closed storage.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/30-c9c712e8da31/T/a"
+        ],
+        "memory_id": "established-87d1cd11cd066c18",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-978dc9a18a8b29f6",
+            "consumed_h_id": "h-32ec82c80990628e",
+            "evidence_id": "evidence-2625d853672cb7e2",
+            "source_memory_ids": [],
+            "task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot)."
+      },
+      {
+        "guidance": "When searching for condiments (e.g., saltshakers, peppershakers) in kitchen environments, prioritize inspecting open surfaces like countertops and shelves before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping, as it avoids the action cost of opening/closing containers when the item is likely on a surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/033-1b5cbde4290e/T/a"
+        ],
+        "memory_id": "established-3e752a4011c8686b",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-b1b7c37008df8834",
+            "consumed_h_id": "h-25626a5f4ca5e1ce",
+            "evidence_id": "evidence-58431c04ca4a3e56",
+            "source_memory_ids": [],
+            "task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment and both open surfaces and closed storage units are visible."
+      }
+    ],
+    "temporal_facts": {
+      "acquisition_phase": "probe",
+      "continuation_events": [],
+      "entry_target_visible": false,
+      "environment_action_count": 2,
+      "first_target_exposure_event": "event-1c2209dd5dfed5a9",
+      "probe_events": [
+        {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take bowl_2 from countertop_1",
+            "take egg_3 from countertop_1",
+            "take fork_1 from countertop_1",
+            "take glassbottle_1 from countertop_1",
+            "take mug_2 from coffeemachine_1",
+            "take mug_2 from countertop_1"
+          ],
+          "event_id": "event-1c2209dd5dfed5a9",
+          "observation": "You arrive at loc_12. On countertop_1, you see bowl_2, egg_3, fork_1, glassbottle_1, and mug_2.",
+          "ordinal": 1,
+          "phase": "probe"
+        },
+        {
+          "action": "take egg_3 from countertop_1",
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "examine egg_3",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put egg_3 in/on countertop_1"
+          ],
+          "event_id": "event-0bf52cefeb7057ca",
+          "observation": "You take egg_3 from countertop_1.",
+          "ordinal": 2,
+          "phase": "probe"
+        }
+      ],
+      "target_acquired_event": "event-0bf52cefeb7057ca"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/controlled_endpoint/environment_won",
+    "/current_initial_state/won",
+    "/current_trajectory/final/done",
+    "/current_trajectory/final/reward",
+    "/current_trajectory/final/won",
+    "/current_trajectory/initial/done",
+    "/current_trajectory/initial/won",
+    "/current_trajectory/steps/*/done",
+    "/current_trajectory/steps/*/reward",
+    "/current_trajectory/steps/*/won",
+    "/pre_update_established_memories/*/created_at_task",
+    "/pre_update_established_memories/*/lifecycle_status",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions",
+    "/temporal_facts/probe_events/*/done",
+    "/temporal_facts/probe_events/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 47844,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b/b_input.json",
+    "sha256": "4589a166412345d9d59fc714113fa229b4f33b77d6699cdc12bfe32a027161b1",
+    "status": "available"
+  }
+}

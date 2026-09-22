@@ -1,0 +1,68 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is acquired in fewer navigation steps than a strict listed-order traversal or a generic surface-first heuristic, without visiting any implausible fixture.",
+          "local_function": "Systematically visit and open listed receptacles until the target object is found, then take it into inventory.",
+          "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+          "stop_conditions": [
+            "Target object is successfully taken into inventory",
+            "All semantically plausible receptacles have been visited and inspected without finding the target",
+            "An action fails or returns an unexpected error"
+          ]
+        },
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: cool some tomato and put it in microwave."
+    },
+    "current_task": {
+      "instruction": "cool some tomato and put it in microwave.",
+      "seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 3071,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/retrieval/retrieval_input.json",
+    "sha256": "12c32a31a2cfa7b3f6bf2e229a901acc3c0ba0ebf94d2ccd458dd10ca0d3462d",
+    "status": "available"
+  }
+}

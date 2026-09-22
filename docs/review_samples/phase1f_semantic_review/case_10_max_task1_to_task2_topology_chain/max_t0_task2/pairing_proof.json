@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "978351e7e498cda8157a0b7c2097f198548a9a3a95a58e103796af1c34be447b",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "978351e7e498cda8157a0b7c2097f198548a9a3a95a58e103796af1c34be447b",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+      }
+    },
+    "e0_initial_fingerprint": "978351e7e498cda8157a0b7c2097f198548a9a3a95a58e103796af1c34be447b",
+    "e1_initial_fingerprint": "978351e7e498cda8157a0b7c2097f198548a9a3a95a58e103796af1c34be447b",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2817,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/pairing_proof.json",
+      "sha256": "015cec5c81dfae61ecb97d5c59c5e3b93b507d02a17d953688aed31e291f5e9b",
+      "status": "available"
+    }
+  ]
+}

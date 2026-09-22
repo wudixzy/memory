@@ -1,0 +1,117 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 1,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "UPDATE",
+        "evidence_role": "INCONCLUSIVE",
+        "still_unresolved": [
+          "Whether navigating to open cooking surfaces first for cookware targets consistently uses fewer steps than strict listed-order traversal across multiple episodes and room layouts.",
+          "Whether the overhead of checking an empty open cooking surface (stoveburner_1) before finding the target on another (stoveburner_2) is generally less than the overhead of opening closed receptacles in listed order."
+        ],
+        "updates": [
+          {
+            "evidence_basis": "In a cool-then-place task targeting a pan, the agent navigated to stoveburner_1 (finding only pot_1), then to stoveburner_2 where pan_1 was found and taken, acquiring the target in 3 actions without opening any closed receptacles. This supports the established memory's guidance that cookware targets are typically staged on open cooking surfaces, though the first checked burner did not contain the target, demonstrating that even within the domain-matched category, multiple surfaces may need inspection. No formal comparison against listed-order traversal was executed in this episode.",
+            "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in heat-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+            "operation": "REFINE",
+            "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation.",
+            "target_memory_ids": [
+              "established-search-listed-order-general"
+            ]
+          }
+        ]
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 3,
+    "activated_h_id": "h-aaef157feb9532ff",
+    "arm": "T",
+    "b_status": {
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "decision": "OPEN",
+        "evidence_status": {
+          "comparative_support": "No comparison against listed-order traversal or direct navigation to a specific known stoveburner has been executed; the overhead of checking an empty stoveburner first is unmeasured relative to alternatives.",
+          "feasibility_support": "The trajectory demonstrates that probing stoveburners sequentially successfully locates and acquires the pan target in 3 actions.",
+          "policy_relevance": "The established memory explicitly endorses domain-matched open-surface-first search for cookware. Determining whether sequential probing within that surface category adds unnecessary steps could refine the guidance to specify more targeted stoveburner selection."
+        },
+        "functional_contract": {
+          "available_state": "Agent at room center, target pan not visible, task requires cool-then-place of pan on countertop, admissible actions include all receptacle navigations.",
+          "constraints": [
+            "Must acquire a pan object",
+            "Must not interact with closed receptacles during this phase",
+            "Must remain within the kitchen's stoveburner set for domain-matched search"
+          ],
+          "local_function": "Navigate to domain-matched open cooking surfaces (stoveburners), inspect each for the target pan, and acquire it when found.",
+          "required_downstream_state": "Agent holds pan_1 in inventory, positioned at the stoveburner where it was found, ready for downstream cooling routine."
+        },
+        "incumbent_segment": "Sequential stoveburner probe: navigate to stoveburner_1, then stoveburner_2, locating and acquiring pan_1",
+        "warrant": "The incumbent applies the memory's cookware-specific semantic prioritization but probes stoveburner_1 before finding the pan on stoveburner_2, adding one navigation step. Whether a more targeted selection within the domain-matched category (or strict listed-order traversal) would be more efficient remains unresolved and directly relevant to refining the established search policy."
+      },
+      "phase": "phase1c_b",
+      "status": "parsed"
+    },
+    "c_status": {
+      "error": {
+        "message": "B-to-C handoff contains a source entity id",
+        "type": "SchemaError"
+      },
+      "status": "b_to_c_handoff_invalid"
+    },
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "stoveburner_1",
+      "stoveburner_2"
+    ],
+    "environment_action_count": 3,
+    "h_reconciliation_status": {
+      "status": "skipped_b_to_c_handoff_invalid"
+    },
+    "reconciliation_effect": null,
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-aaef157feb9532ff"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 14289,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/047-e291c26a89d5/T/task_summary.json",
+      "sha256": "40eb5fa54c25fb8e120f65870dd6cf666e0a2d75383e63e644cfc734b97e9d99",
+      "status": "available"
+    }
+  ]
+}

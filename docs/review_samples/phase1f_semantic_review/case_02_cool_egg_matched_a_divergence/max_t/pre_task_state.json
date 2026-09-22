@@ -1,0 +1,145 @@
+{
+  "content": {
+    "comparison_ledger": [
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "inconclusive_evidence_refs": [
+          "evidence-7d50799788495118"
+        ],
+        "incumbent_local_function": "Iterate through visible receptacles in listed order, navigating to and opening each, inspecting contents, until the target object is found and taken into inventory.",
+        "last_updated_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+        "linked_h_ids": [
+          "h-25331a9a4337e940",
+          "h-e52c3153638e77d3",
+          "h-0e359059a5b0a459",
+          "h-0e1c57e08374931a",
+          "h-9ca77aa6b36d0b57"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "linked_h_ids": [
+          "h-3ef3b43e4c09a8cb"
+        ],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including a known cooling appliance.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      },
+      {
+        "comparison_id": "comparison-8a5b75fcd09336dc",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Systematically visit and open each receptacle in the listed order, inspecting contents, until the target object is observed and picked up.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "linked_h_ids": [
+          "h-10f29a4d820ad738"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including the task-specified destination type, and no prior exploration has tested destination-type-first search ordering.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "established_memories": [
+      {
+        "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle.",
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "evidence_store_count_not_content": 10,
+    "exploratory_memories": [
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "created_at_task": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+        "h_id": "h-25331a9a4337e940",
+        "status": "consumed"
+      },
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "h_id": "h-e52c3153638e77d3",
+        "status": "superseded"
+      },
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": null,
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "h_id": "h-0e359059a5b0a459",
+        "status": "superseded"
+      },
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "created_at_task": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "h_id": "h-0e1c57e08374931a",
+        "status": "consumed"
+      },
+      {
+        "comparison_id": "comparison-a4d3a30084d61ac4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "h_id": "h-3ef3b43e4c09a8cb",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-c69bec6a96ad0544",
+        "consumed_at_task": null,
+        "created_at_task": "pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+        "h_id": "h-9ca77aa6b36d0b57",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-8a5b75fcd09336dc",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+        "h_id": "h-10f29a4d820ad738",
+        "status": "active"
+      }
+    ],
+    "omitted_fields": [
+      "evidence_store raw contents",
+      "Established Memory versions, verbose evidence_basis, and raw provenance detail (lineage kept)",
+      "H source_grounding",
+      "H raw provenance"
+    ],
+    "schema_version": "phase1b-longitudinal-memory-state-v2"
+  },
+  "source_artifact": {
+    "bytes": 738751,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/memory_before.json",
+    "sha256": "0fab954363ef05321e81b0191b8f645fdd1924eab62beb70d900420ce9173d52",
+    "status": "available"
+  }
+}

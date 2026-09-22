@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/c/error.json",
+  "reason": "The C stage has no saved artifact at this path; check B-to-C handoff/status records in validation_and_handoff.json.",
+  "status": "not_available"
+}

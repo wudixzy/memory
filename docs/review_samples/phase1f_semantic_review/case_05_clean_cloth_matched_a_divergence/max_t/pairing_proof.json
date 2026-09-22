@@ -1,0 +1,37 @@
+{
+  "content": {
+    "actual_execution_episodes": {
+      "e0": {
+        "initial_public_state_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+      },
+      "e1": {
+        "initial_public_state_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+        "requested_seed": 42,
+        "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+      }
+    },
+    "e0_initial_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+    "e1_initial_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+    "omitted_sections": [
+      "carrier-internal game/file identity paths and hashes"
+    ],
+    "pairing_mode": "replayable_episode_spec",
+    "pairing_valid": true,
+    "public_initial_match": true,
+    "requested_seed": 42,
+    "schema_version": "0.1",
+    "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+  },
+  "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2805,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/pairing_proof.json",
+      "sha256": "8bc392427cfded5e5f92eebc87f985554ebe7e1cb9fd9bbcb75d6145bd20cda9",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": true,\n  \"operation\": \"REFINE_EXISTING\",\n  \"rationale\": \"C candidate proposes strict listing-order search to avoid type-prioritization overhead, directly refining the active listed-order comparison. Scope extends from pick-and-place to pick-clean-then-place tasks.\",\n  \"target_comparison_id\": \"comparison-4096100e5b10af04\"\n}",
+  "role": "assistant"
+}

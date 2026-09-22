@@ -1,0 +1,39 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate directly to an available open surface receptacle. Inspect its contents for the target object type. If present, take it. If absent, terminate this local probe to allow fallback search strategies.",
+  "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+  "probe_spec": {
+    "adaptive_policy": "From the current observation, select any admissible navigation action targeting an open surface receptacle. Upon arrival, inspect the returned observation for the target object type. If the target is listed as present, issue a take action for it. If the target is not present or the receptacle is empty, stop the probe immediately without attempting further receptacles.",
+    "capability_requirements": [
+      "go to",
+      "take"
+    ],
+    "evidence_goal": "Observation confirming the target object was successfully taken from the open surface receptacle, or confirmation that the open surface did not contain the target, discriminating whether open-surface-first search is more efficient than closed-receptacle-first search.",
+    "local_function": "Select and navigate to a receptacle, expose its contents, and acquire the target object if present.",
+    "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+    "required_downstream_state": "Target object held in inventory; agent located at the receptacle where the object was found.",
+    "stop_conditions": [
+      "Target object successfully taken into inventory",
+      "Open surface receptacle reached and target object confirmed absent",
+      "Navigation action fails or returns error",
+      "Inventory is no longer empty"
+    ]
+  },
+  "provenance": [
+    "entry_state admissible_actions",
+    "historical_capability_vocabulary",
+    "pre_update_established_memories: established-search-listed-order-general"
+  ],
+  "reason": "Established memory prescribes searching in listed order starting with closed cabinets. Testing an open-surface-first strategy provides a discriminative comparison for initial receptacle selection without assuming target visibility, using only legal entry actions.",
+  "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+  "source_grounding": {
+    "entry_action": "go to countertop_1",
+    "public_capability_evidence": [
+      "go to countertop_1 is in currently_admissible_actions",
+      "countertop_1 is in currently_visible_or_referenced_entities",
+      "historical_capability_vocabulary includes go to action schema"
+    ],
+    "why_grounded": "Listed exactly in the entry-state admissible actions and references a currently visible entity representing an open surface receptacle."
+  },
+  "type": "exploratory"
+}

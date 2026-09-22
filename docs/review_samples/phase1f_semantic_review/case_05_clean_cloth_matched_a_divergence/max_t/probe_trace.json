@@ -1,0 +1,162 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "towelholder_1",
+      "handtowelholder_1"
+    ],
+    "environment_actions": [
+      "go to towelholder_1",
+      "go to handtowelholder_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to towelholder_1"
+        ],
+        "candidate_id": "towelholder_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_9. On towelholder_1, you see towel_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine towelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "inventory",
+            "look",
+            "take towel_1 from towelholder_1"
+          ],
+          "observation": "You arrive at loc_9. On towelholder_1, you see towel_1."
+        },
+        "selection": {
+          "candidate_index": 12,
+          "selected_candidate": "towelholder_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to handtowelholder_1"
+        ],
+        "candidate_id": "handtowelholder_1",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_15. On handtowelholder_1, you see nothing."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine handtowelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing."
+        },
+        "selection": {
+          "candidate_index": 6,
+          "selected_candidate": "handtowelholder_1"
+        },
+        "step": 2,
+        "target_acquired": false,
+        "target_visible": false
+      }
+    ],
+    "target_acquired_during_probe": false
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 2830,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/probe_summary.json",
+      "sha256": "0264533913d3bd0c5c8a0afaf42bed8afe709f6f2fc7e5e30055050fe6312c42",
+      "status": "available"
+    },
+    {
+      "bytes": 100334,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_input.json",
+      "sha256": "dfc29a869e092803e1a438cb79f4ac7aabffc587ea69ef0c1a744c0278f3e351",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/raw_response.json",
+      "sha256": "a6c192026da96c112227cce31424a48723704c0d306ac01086964f6ca496fee2",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/parsed.json",
+      "sha256": "2820b575bf8d8630e1afc3b9b23f5902749da66470c69093b4be26d987a8b041",
+      "status": "available"
+    },
+    {
+      "bytes": 69,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/001/selector_validation.json",
+      "sha256": "6c421d4f524c622d7b2ffda9996c8c40cd2ba754baa54955d68b40f9f5c6ca57",
+      "status": "available"
+    },
+    {
+      "bytes": 100247,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_input.json",
+      "sha256": "1f70d9e54f6447562a5fe5d90b0c418ce381276c8167151e4d50c9295689ca89",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/raw_response.json",
+      "sha256": "3f990c52249d290ae0e296fb72e51a50fb861022fb7dbd432a5f562f9bb7011e",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/parsed.json",
+      "sha256": "3eec49822176525a4f6ae7bafc798b43c2e241b42af5142e4c36650749715eab",
+      "status": "available"
+    },
+    {
+      "bytes": 72,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/probe/steps/002/selector_validation.json",
+      "sha256": "9bbeb10018815d14c8cff63e34c050fc4e93715894215a1ca236f61bebf02a6d",
+      "status": "available"
+    }
+  ]
+}

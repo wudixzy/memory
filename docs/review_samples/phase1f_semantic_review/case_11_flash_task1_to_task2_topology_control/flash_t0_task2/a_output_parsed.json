@@ -1,0 +1,18 @@
+{
+  "comparison_assessment": "PARTIALLY_RESOLVED",
+  "decision": "UPDATE",
+  "evidence_role": "SUPPORTING",
+  "still_unresolved": [
+    "The hypothesis that prioritizing closed storage reduces total navigation steps compared to listed order is not fully resolved because the baseline (listed order) was not executed in this probe, and the target was found on the first attempt regardless of strategy.",
+    "The downstream execution phases (cleaning and placing) were not run, so the impact of search efficiency on total task completion time or success rate remains unknown."
+  ],
+  "updates": [
+    {
+      "evidence_basis": "Probe evidence shows that navigating directly to a closed storage receptacle (cabinet_1) resulted in immediate target acquisition (plate_1) in 2 steps. The initial observation did not show the target, requiring inspection. This supports the exploratory memory's guidance to prioritize closed storage for hidden targets.",
+      "guidance": "When the target object is not immediately visible in the room observation, prioritize navigating to and inspecting closed storage receptacles (such as cabinets, drawers, and fridges) before checking open surfaces (countertops, shelves). Open closed receptacles if necessary to inspect contents. If the target is found, take it. Only proceed to open surfaces if all closed storage options have been exhausted without finding the target.",
+      "operation": "ADD",
+      "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple candidate receptacles are present.",
+      "target_memory_ids": []
+    }
+  ]
+}

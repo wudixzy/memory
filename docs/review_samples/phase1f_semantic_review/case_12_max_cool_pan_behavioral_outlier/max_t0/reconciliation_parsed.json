@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": true,
+  "operation": "REFINE_EXISTING",
+  "rationale": "Candidate H extends the existing comparison's search-ordering theme to cooking vessels and cooking appliances. Linked consumed H h-492f4d237f36cd53 addressed food items and food-preparation appliances; this candidate is a distinct refinement for cookware, not a duplicate.",
+  "target_comparison_id": "comparison-a4dd496faa0506d4"
+}

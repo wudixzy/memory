@@ -1,0 +1,189 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at start location with knowledge of all visible receptacles; target object hidden in one of them.",
+          "constraints": [
+            "Must only visit admissible locations.",
+            "Must open closed containers before inspection.",
+            "Must stop searching once target is acquired."
+          ],
+          "local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+          "required_downstream_state": "Agent holding the target object, ready for transport/placement phase."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 616,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/b_c_handoff/projection.json",
+        "sha256": "718a2ce9c566359b8e1fc7f6439c3ff06ba85d843ed9edbf1e821309375c649c",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to drawer_1",
+              "entities": [
+                "drawer_1"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to drawer_1",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to drawer_1",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1195,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/c/mechanical_grounding.json",
+        "sha256": "3f6e649e25979ea652f1e861197de428c5c83ff9ea59dfe563eb82b2f570e358",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "The downstream execution of the pick-and-place task (transporting saltshaker to drawer) was not run by the Phase 1B dev protocol, so the full task completion and final placement success remain unverified.",
+          "No exploratory hypothesis was activated or probed; therefore, no comparison between strategies can be assessed."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 489,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/epistemic_validation.json",
+        "sha256": "1ecd8cd048b6a319407a0d0c1c924baa69beb4494c39abd3388dab08c7fe4982",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "reason": "no_consumed_h",
+          "status": "not_applicable"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 139,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/materialization.json",
+        "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 489,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/epistemic_validation.json",
+      "sha256": "1ecd8cd048b6a319407a0d0c1c924baa69beb4494c39abd3388dab08c7fe4982",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    },
+    {
+      "bytes": 616,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/b_c_handoff/projection.json",
+      "sha256": "718a2ce9c566359b8e1fc7f6439c3ff06ba85d843ed9edbf1e821309375c649c",
+      "status": "available"
+    },
+    {
+      "bytes": 1195,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/c/mechanical_grounding.json",
+      "sha256": "3f6e649e25979ea652f1e861197de428c5c83ff9ea59dfe563eb82b2f570e358",
+      "status": "available"
+    }
+  ]
+}

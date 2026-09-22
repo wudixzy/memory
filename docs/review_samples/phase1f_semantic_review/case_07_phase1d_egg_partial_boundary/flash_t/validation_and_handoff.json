@@ -1,0 +1,172 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at start location; target (egg) not visible in initial observation; multiple receptacle types (cabinets, drawers, countertops, fridge) available.",
+          "constraints": [
+            "Must minimize total action count to acquisition.",
+            "Must correctly identify the target object among distractors if present."
+          ],
+          "local_function": "Select and navigate to a receptacle to locate and take the target egg.",
+          "required_downstream_state": "Agent holding the target egg."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 562,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b_c_handoff/projection.json",
+        "sha256": "55af2282e0f15e5c49d4d90056fe433c6a88d250c83b37133fc0ce23e72bb73b",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "status": "not_applicable",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 50,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/mechanical_grounding.json",
+        "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The hypothesis claims a reduction in total action steps compared to semantic-priority search. While the open-surface-first strategy achieved acquisition in 2 steps, no direct comparison data from a semantic-priority baseline (e.g., checking fridge first) was provided in this specific probe to definitively quantify the step reduction or prove superiority over that specific alternative in this instance."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 573,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/epistemic_validation.json",
+        "sha256": "29ae10a5848142610a365ac1b85b1a0016be5a019247fbfb95fb7e44919c2d26",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "supporting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-c137d39514515893",
+          "evidence_id": "evidence-3af94b840f96aa3d",
+          "evidence_role": "SUPPORTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-3134b2ab1f0a162d"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired egg_3 in 2 steps by navigating to countertop_1 (an open surface) first, consistent with the exploratory hypothesis that prioritizing open surfaces avoids container opening costs and yields fast acquisition for perishable food items when present on surfaces.",
+              "guidance": "When searching for perishable food items like eggs, tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+              "operation": "REFINE",
+              "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, egg, etc.) where the target location is unknown.",
+              "target_memory_ids": [
+                "established-3134b2ab1f0a162d"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1692,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/materialization.json",
+        "sha256": "3ce4d746505dedadc36d4c69394778d2938fce4294bde53814598ac8b5d38a0d",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired egg_3 in 2 steps by navigating to countertop_1 (an open surface) first, consistent with the exploratory hypothesis that prioritizing open surfaces avoids container opening costs and yields fast acquisition for perishable food items when present on surfaces.",
+              "guidance": "When searching for perishable food items like eggs, tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+              "operation": "REFINE",
+              "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, egg, etc.) where the target location is unknown.",
+              "target_memory_ids": [
+                "established-3134b2ab1f0a162d"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1368,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/updates_validation.json",
+        "sha256": "36a6d928d6f16ad5ee3caade06f5dd57534d8e5dd0a6f41d58171d92830afb2f",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 573,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/epistemic_validation.json",
+      "sha256": "29ae10a5848142610a365ac1b85b1a0016be5a019247fbfb95fb7e44919c2d26",
+      "status": "available"
+    },
+    {
+      "bytes": 1368,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/updates_validation.json",
+      "sha256": "36a6d928d6f16ad5ee3caade06f5dd57534d8e5dd0a6f41d58171d92830afb2f",
+      "status": "available"
+    },
+    {
+      "bytes": 1692,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/materialization.json",
+      "sha256": "3ce4d746505dedadc36d4c69394778d2938fce4294bde53814598ac8b5d38a0d",
+      "status": "available"
+    },
+    {
+      "bytes": 562,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b_c_handoff/projection.json",
+      "sha256": "55af2282e0f15e5c49d4d90056fe433c6a88d250c83b37133fc0ce23e72bb73b",
+      "status": "available"
+    },
+    {
+      "bytes": 50,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/mechanical_grounding.json",
+      "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+      "status": "available"
+    }
+  ]
+}

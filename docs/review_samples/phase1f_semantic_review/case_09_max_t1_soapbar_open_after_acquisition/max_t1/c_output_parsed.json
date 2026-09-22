@@ -1,0 +1,42 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate to the first receptacle exactly as it appears in the initial room observation text. If it is a closed storage receptacle, open it and inspect for the target object. If it is an open surface, inspect directly. Take the target if found; otherwise halt the local probe after this single inspection.",
+  "hypothesis": "Strictly following the textual listing order from the initial room observation, rather than prioritizing receptacles by type (open vs. closed), provides a reliable baseline search strategy that avoids heuristic mispredictions about object placement.",
+  "probe_spec": {
+    "adaptive_policy": "Identify the first receptacle named in the entry observation text. Issue a navigation action to that receptacle. Upon arrival, if the observation indicates it is closed, issue an open action. Inspect the resulting observation for the target object type. If present, issue a take action. If absent or if any action fails, halt the probe immediately without proceeding to subsequent receptacles.",
+    "capability_requirements": [
+      "go to",
+      "open",
+      "take",
+      "look"
+    ],
+    "evidence_goal": "Whether the target object is found at the first textually listed receptacle, establishing if strict listing-order search succeeds on the first attempt compared to type-prioritized heuristics tested previously.",
+    "local_function": "Navigate to and inspect the first receptacle in the exact textual listing order from the room observation.",
+    "realization_pattern": "Select the first receptacle mentioned in the initial room description regardless of its type, navigate to it, open it if it is a closed storage receptacle, inspect for the target object, and take it if present; otherwise halt the local probe.",
+    "required_downstream_state": "Agent holds the target object in inventory if found, or remains at room center with empty inventory if not found, preserving the ability to continue searching other receptacles.",
+    "stop_conditions": [
+      "Target object is successfully taken into inventory.",
+      "Navigation to the first listed receptacle fails.",
+      "The first listed receptacle is inspected and does not contain the target object.",
+      "An open action fails on a closed storage receptacle."
+    ]
+  },
+  "provenance": [
+    "entry_state.observation",
+    "entry_state.admissible_actions",
+    "historical_capability_vocabulary.action_names",
+    "relevant_exploration_history"
+  ],
+  "reason": "Previous explorations tested type-based prioritization (open surfaces first or closed storage first). This probe tests the incumbent's strict textual-listing-order constraint by inspecting only the very first mentioned receptacle, providing a discriminative baseline comparison against those earlier type-heuristic experiments.",
+  "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible at room center and both open surface and closed storage receptacles are listed in the entry observation.",
+  "source_grounding": {
+    "entry_action": "go to cabinet_4",
+    "public_capability_evidence": [
+      "Entry observation lists cabinet_4 first among visible receptacles.",
+      "Admissible actions include 'go to cabinet_4'.",
+      "Historical capability vocabulary includes 'go to', 'open', and 'take' action schemas."
+    ],
+    "why_grounded": "cabinet_4 is the first receptacle explicitly listed in the entry observation text ('you see cabinet_4, cabinet_3, ...') and 'go to cabinet_4' is present in the admissible actions list."
+  },
+  "type": "exploratory"
+}

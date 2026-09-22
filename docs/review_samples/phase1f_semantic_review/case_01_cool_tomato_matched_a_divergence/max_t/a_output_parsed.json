@@ -1,0 +1,10 @@
+{
+  "comparison_assessment": "REMAINS_OPEN",
+  "decision": "NO_CHANGE",
+  "evidence_role": "INCONCLUSIVE",
+  "still_unresolved": [
+    "Whether semantic plausibility filtering reduces total navigation steps compared to strict listed-order traversal or generic surface-priority heuristics for target acquisition.",
+    "Whether skipping structurally implausible fixtures (e.g., coffeemachine, garbagecan) during search improves efficiency without missing valid targets."
+  ],
+  "updates": []
+}

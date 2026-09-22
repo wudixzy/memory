@@ -1,0 +1,70 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "Whether searching receptacles in the listed order is globally optimal for target acquisition when the target is not initially visible.",
+          "The complete execution and success of the clean-then-place routine, as only target acquisition was performed."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target object type known but not yet located; inventory empty.",
+          "constraints": [
+            "Must not assume target visibility at entry",
+            "Must use only admissible navigation and take actions",
+            "Must terminate local function upon successful acquisition"
+          ],
+          "local_function": "Select and navigate to a receptacle, expose its contents, and acquire the target object if present.",
+          "required_downstream_state": "Target object held in inventory; agent located at the receptacle where the object was found."
+        }
+      },
+      "c_candidate": {
+        "decision": "CREATE",
+        "guidance": "Navigate directly to an available open surface receptacle. Inspect its contents for the target object type. If present, take it. If absent, terminate this local probe to allow fallback search strategies.",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "probe_spec": {
+          "adaptive_policy": "From the current observation, select any admissible navigation action targeting an open surface receptacle. Upon arrival, inspect the returned observation for the target object type. If the target is listed as present, issue a take action for it. If the target is not present or the receptacle is empty, stop the probe immediately without attempting further receptacles.",
+          "capability_requirements": [
+            "go to",
+            "take"
+          ],
+          "evidence_goal": "Observation confirming the target object was successfully taken from the open surface receptacle, or confirmation that the open surface did not contain the target, discriminating whether open-surface-first search is more efficient than closed-receptacle-first search.",
+          "local_function": "Select and navigate to a receptacle, expose its contents, and acquire the target object if present.",
+          "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+          "required_downstream_state": "Target object held in inventory; agent located at the receptacle where the object was found.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "Open surface receptacle reached and target object confirmed absent",
+            "Navigation action fails or returns error",
+            "Inventory is no longer empty"
+          ]
+        },
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "type": "exploratory"
+      },
+      "current_evidence_id": "evidence-e2591ab7f9c9d536",
+      "history_retrieval": {
+        "decision": "NONE",
+        "exploration_ids": []
+      },
+      "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+    },
+    "existing_comparison_ids": [],
+    "existing_comparison_summaries": [],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3903,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/h_reconciliation/reconciliation_input.json",
+    "sha256": "53395b91a9a93ee48355edc17c602390a2bfbf2f79ffa00b1ebc93c2f7235ace",
+    "status": "available"
+  }
+}

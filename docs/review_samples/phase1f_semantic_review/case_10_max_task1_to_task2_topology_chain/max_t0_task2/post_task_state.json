@@ -1,0 +1,131 @@
+{
+  "content": {
+    "content": {
+      "comparison_ledger": [
+        {
+          "comparison_id": "comparison-a4dd496faa0506d4",
+          "contradicting_evidence_refs": [],
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+          "inconclusive_evidence_refs": [],
+          "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+          "last_updated_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+          "linked_h_ids": [
+            "h-9237af7e062ed4d8"
+          ],
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+          "status": "OPEN",
+          "supporting_evidence_refs": []
+        }
+      ],
+      "established_memories": [
+        {
+          "guidance": "When the target object is not immediately visible, prioritize navigating to and inspecting available open horizontal surfaces (e.g., countertops, shelves) before attempting to open closed storage receptacles (e.g., cabinets, drawers, fridge). Stop searching as soon as the target is observed and take it.",
+          "lineage": [
+            "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a"
+          ],
+          "memory_id": "established-search-listed-order-general",
+          "prior_comparison_evidence": {
+            "binding": {
+              "comparison_id": "comparison-a4dd496faa0506d4",
+              "consumed_h_id": "h-9237af7e062ed4d8",
+              "evidence_id": "evidence-edd0fa449e24460d",
+              "source_memory_ids": [
+                "established-search-listed-order-general"
+              ],
+              "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+            },
+            "omitted_sections": [
+              "prior_comparison_evidence.evidence_basis",
+              "prior_comparison_evidence.binding.a_artifact_ref"
+            ],
+            "operation": "REFINE"
+          },
+          "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation and the room contains both open surfaces and closed storage receptacles."
+        },
+        {
+          "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+          "memory_id": "established-clean-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+          "memory_id": "established-heat-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring heating an object before final placement."
+        },
+        {
+          "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+          "memory_id": "established-cool-then-place-routine",
+          "prior_comparison_evidence": null,
+          "scope": "ALFWorld tasks requiring cooling an object before final placement."
+        }
+      ],
+      "evidence_store_count_not_content": 2,
+      "exploratory_memories": [
+        {
+          "comparison_id": "comparison-a4dd496faa0506d4",
+          "consumed_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+          "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+          "h_id": "h-9237af7e062ed4d8",
+          "status": "consumed"
+        }
+      ],
+      "omitted_fields": [
+        "evidence_store raw contents",
+        "Established Memory versions, verbose evidence_basis, and raw provenance detail (lineage kept)",
+        "H source_grounding",
+        "H raw provenance",
+        "/established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/established_memories/*/provenance",
+        "/established_memories/*/versions"
+      ],
+      "schema_version": "phase1b-longitudinal-memory-state-v2"
+    },
+    "exploration_history": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-edd0fa449e24460d",
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-9237af7e062ed4d8",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      }
+    ],
+    "exploration_history_source": {
+      "bytes": 1365,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_after.json",
+      "sha256": "27d86ef569fdfbc913e66c685372506584663f68bdeb2e3b138a042e9bef9975",
+      "status": "available"
+    },
+    "source_artifact": {
+      "bytes": 64375,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_after.json",
+      "sha256": "d97944270da72195f976d0fcd243c8ca162df3693d9735a1544c2d3c34456b99",
+      "status": "available"
+    }
+  },
+  "extraction": "public persistent-state projection; raw evidence store omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 64375,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_after.json",
+      "sha256": "d97944270da72195f976d0fcd243c8ca162df3693d9735a1544c2d3c34456b99",
+      "status": "available"
+    },
+    {
+      "bytes": 1365,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_after.json",
+      "sha256": "27d86ef569fdfbc913e66c685372506584663f68bdeb2e3b138a042e9bef9975",
+      "status": "available"
+    }
+  ]
+}

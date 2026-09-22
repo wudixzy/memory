@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T1/retrieval/raw_response.json",
+  "reason": "The frozen retrieval status records a deterministic empty active-H pool; no model response was expected.",
+  "status": "not_available"
+}

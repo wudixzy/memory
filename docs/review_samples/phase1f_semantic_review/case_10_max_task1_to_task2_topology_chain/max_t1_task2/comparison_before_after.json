@@ -1,0 +1,74 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "reason": "no_consumed_h",
+      "status": "not_applicable"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-cfd2fc58104a4c7a",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Select and navigate to a receptacle, expose its contents, and acquire the target object if present.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "linked_h_ids": [
+          "h-08e26bc3ebfdd940"
+        ],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "comparison_ledger_before": [],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": true,
+      "operation": "ADD",
+      "rationale": "No existing comparisons available. C proposed a new exploratory hypothesis regarding open-surface-first search priority; creating a new OPEN comparison to track its lifecycle.",
+      "target_comparison_id": "NEW"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/c",
+      "candidate_retained": true,
+      "comparison_id": "comparison-cfd2fc58104a4c7a",
+      "comparison_status": "OPEN",
+      "h_id": "h-08e26bc3ebfdd940",
+      "operation": "ADD"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 53151,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/memory_before.json",
+      "sha256": "900de50eb3d2fe11d9066fb67d92fe45a0aa3db689d0f2864a86ad1f6990e42e",
+      "status": "available"
+    },
+    {
+      "bytes": 65072,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/memory_after.json",
+      "sha256": "653bd959b430c2544599849f3caf4dc0a394478e1b4b3a94a6f89dd9cad02fed",
+      "status": "available"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/task_summary.json",
+      "sha256": "94c87073baa12ff1e8a18fed53c160fe2bb72694ef3ec847dac2d8337fc6e30e",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    },
+    {
+      "bytes": 280,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T1/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "aa9b890d408d4a3328d52f4429ea9cac7aac31b9480565e1cfc6cf5a6fac166c",
+      "status": "available"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1F-MA-v2 complete — researcher review pending**.
+Current cycle: **Phase 1F-MA-v2 complete — semantic review bundle prepared; researcher case review pending**.
 
 Frozen Phase 1B baseline:
 
@@ -53,6 +53,12 @@ automatically. Do not rerun, tune, create another development stream, freeze
 Method/Evaluation v1, or begin formal evaluation without researcher review.
 Formal evaluation requires separate admission of a new untouched
 population/split; the current residual is not a formal reserve.
+
+A compact, source-digested human review bundle is prepared at
+`docs/review_samples/phase1f_semantic_review/`; see
+`docs/127_semantic_review_bundle_handoff.md`. It assembles existing public
+artifacts only and makes no semantic correctness judgment. The next action is
+researcher case-by-case review. No model/API call is authorized.
 
 ## Historical Phase 1F attribution status
 

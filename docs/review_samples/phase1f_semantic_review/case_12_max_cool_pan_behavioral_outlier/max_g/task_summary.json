@@ -1,0 +1,70 @@
+{
+  "content": {
+    "a_status": {
+      "accepted_update_count": 0,
+      "model_config": {
+        "a_prompt_version": "phase1b-evidence-owned-output-v2",
+        "b_prompt_version": "phase1b-contract-only-handoff-v2",
+        "c_prompt_version": "phase1c-contract-plus-history-v1",
+        "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+        "model_name": "qwen3.8-max",
+        "provider": "dashscope",
+        "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+        "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+        "temperature": 0.0,
+        "thinking": false
+      },
+      "parsed": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "No exploratory hypothesis was activated or tested in this episode.",
+          "The full cool-then-place routine (navigating to fridge, cooling the pan, and placing it on a countertop) remains unexecuted and unresolved."
+        ],
+        "updates": []
+      },
+      "phase": "phase1c_a",
+      "rejected_update_count": 0,
+      "status": "assessment_accepted"
+    },
+    "actions_to_target_acquisition": 3,
+    "activated_h_id": null,
+    "arm": "G",
+    "b_status": {
+      "status": "not_applicable_generic_arm"
+    },
+    "c_status": {
+      "status": "not_applicable_generic_arm"
+    },
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "stoveburner_1",
+      "stoveburner_2"
+    ],
+    "environment_action_count": 3,
+    "h_reconciliation_status": {
+      "status": "not_applicable_generic_arm"
+    },
+    "reconciliation_effect": null,
+    "requested_seed": 42,
+    "retrieval": {
+      "decision": "GENERIC_C2",
+      "h_id": "NONE"
+    },
+    "status": "completed",
+    "target_acquired": true,
+    "task_family": "pick_cool_then_place_in_recep",
+    "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+  },
+  "extraction": "task-summary public/mechanical field allowlist",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 2668,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+      "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+      "status": "available"
+    }
+  ]
+}

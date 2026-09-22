@@ -1,0 +1,172 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Initial room observation with multiple visible receptacles; target location unknown.",
+          "constraints": [
+            "Must preserve the ability to acquire the target upon visibility.",
+            "Comparison must evaluate step efficiency relative to alternative initial probes."
+          ],
+          "local_function": "Select and navigate to the first candidate receptacle for search.",
+          "required_downstream_state": "Target object is visible at the selected receptacle."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 538,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/b_c_handoff/projection.json",
+        "sha256": "73f5de51b1e68a610786a185aff8153fa4f5d2e4f389397922bf961e648c96d2",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "status": "not_applicable",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 50,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c/mechanical_grounding.json",
+        "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The hypothesis claims reduced search steps compared to spatial listing order or generic type-grouping. While the semantic priority scan found the target in 2 steps, there is no direct counterfactual evidence from this specific episode showing what a spatial-order or type-grouping baseline would have cost (though prior memory suggests spatial order can be inefficient if the target is late in the list). The comparison remains partially open regarding global superiority across all layouts."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 660,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/epistemic_validation.json",
+        "sha256": "ec311c712c5559522f06ae4c643b5e8a2a0862d4e2a1491df08f6f5bcfbf8ffe",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "supporting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-04b3769e6328be11",
+          "evidence_id": "evidence-f7e7f17ac2bf4590",
+          "evidence_role": "SUPPORTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired soapbar_1 in 2 steps by prioritizing countertop_1 (an open surface) over closed cabinets, consistent with the exploratory hypothesis that semantic relevance of open surfaces reduces search time for toiletries.",
+              "guidance": "When searching for toiletries (soap, toothpaste, etc.) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping.",
+              "operation": "REFINE",
+              "scope": "ALFWorld bathroom tasks where the target object is a toiletry and multiple receptacle types are visible.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1385,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/materialization.json",
+        "sha256": "7e56cbf03c3ce84e85499472abe2cdda0a158cc0c5773580dc934f1db07ee80d",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent successfully acquired soapbar_1 in 2 steps by prioritizing countertop_1 (an open surface) over closed cabinets, consistent with the exploratory hypothesis that semantic relevance of open surfaces reduces search time for toiletries.",
+              "guidance": "When searching for toiletries (soap, toothpaste, etc.) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping.",
+              "operation": "REFINE",
+              "scope": "ALFWorld bathroom tasks where the target object is a toiletry and multiple receptacle types are visible.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1050,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/updates_validation.json",
+        "sha256": "e31187c3826a9faec9996c8c01f8327e6cb3850a3e709726c58a6c80cd3e65bb",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 660,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/epistemic_validation.json",
+      "sha256": "ec311c712c5559522f06ae4c643b5e8a2a0862d4e2a1491df08f6f5bcfbf8ffe",
+      "status": "available"
+    },
+    {
+      "bytes": 1050,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/updates_validation.json",
+      "sha256": "e31187c3826a9faec9996c8c01f8327e6cb3850a3e709726c58a6c80cd3e65bb",
+      "status": "available"
+    },
+    {
+      "bytes": 1385,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/materialization.json",
+      "sha256": "7e56cbf03c3ce84e85499472abe2cdda0a158cc0c5773580dc934f1db07ee80d",
+      "status": "available"
+    },
+    {
+      "bytes": 538,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/b_c_handoff/projection.json",
+      "sha256": "73f5de51b1e68a610786a185aff8153fa4f5d2e4f389397922bf961e648c96d2",
+      "status": "available"
+    },
+    {
+      "bytes": 50,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c/mechanical_grounding.json",
+      "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+      "status": "available"
+    }
+  ]
+}

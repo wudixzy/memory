@@ -1,0 +1,168 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/b_c_handoff/projection.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "b_c_handoff_validation_error": {
+      "content": {
+        "message": "B-to-C handoff contains a source entity id",
+        "type": "SchemaError"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 87,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/b_c_handoff/validation_error.json",
+        "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+        "status": "available"
+      }
+    },
+    "c_mechanical_grounding": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/c/mechanical_grounding.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_status": {
+      "content": {
+        "error": {
+          "message": "B-to-C handoff contains a source entity id",
+          "type": "SchemaError"
+        },
+        "status": "b_to_c_handoff_invalid"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 146,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/c/status.json",
+        "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+        "status": "available"
+      }
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "UPDATE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether prioritizing open horizontal surfaces before closed storage receptacles reduces acquisition steps compared to strict listed-order traversal for root vegetable targets in cool-then-place tasks, as no activated hypothesis was probed or formally compared.",
+          "Whether the open-horizontal-surface-first heuristic generalizes efficiently to leafy vegetable targets (e.g., lettuce) in cool-then-place tasks without adding navigation overhead."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 610,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/epistemic_validation.json",
+        "sha256": "86ed68da74597c3c9a5056435451e78d31c7f91c2fc756c36b4a082f4eccee8f",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": null,
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-43a0d0e09425cdc1",
+          "evidence_id": "evidence-20bb34af09e38fe2",
+          "evidence_role": "IRRELEVANT",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "In a cool-then-place task targeting lettuce, navigating directly to open horizontal surfaces (countertop_1 then countertop_2) located and acquired lettuce_1 in 3 actions without opening any closed receptacles. This extends prior preliminary evidence from mug targets, demonstrating that leafy vegetables like lettuce are also frequently staged on open countertops in cool-then-place scenarios, though no formal comparison against listed-order traversal was executed.",
+              "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in both heat-then-place and clean-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) or a beverage-associated appliance surface (e.g., coffeemachine) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes. For small dining condiment targets (e.g., saltshakers), be aware that navigating to open horizontal surfaces (e.g., countertops) first can add navigation overhead if the condiment is stored inside a closed receptacle (e.g., cabinet); rely on listed-order traversal as the default for condiment targets unless strong evidence indicates staging on open surfaces. Preliminary evidence also suggests that for leafy vegetable targets (e.g., lettuce) in cool-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the target without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 5267,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/materialization.json",
+        "sha256": "72e4071b4dea3ba1693f82ae32519011103bad26ac138726029508f9bef68438",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "In a cool-then-place task targeting lettuce, navigating directly to open horizontal surfaces (countertop_1 then countertop_2) located and acquired lettuce_1 in 3 actions without opening any closed receptacles. This extends prior preliminary evidence from mug targets, demonstrating that leafy vegetables like lettuce are also frequently staged on open countertops in cool-then-place scenarios, though no formal comparison against listed-order traversal was executed.",
+              "guidance": "Search visible receptacles in the order presented in the room observation. At each location, navigate to the receptacle, open it if closed, and inspect for the requested object. Once the target object is located, take it and carry it directly to the specified destination receptacle. Note: Navigating to the destination receptacle first to search for the target may add unnecessary steps if the target is not typically stored there; prefer systematic listed-order traversal unless prior knowledge strongly suggests the target resides at the destination. For cool-then-place tasks, be aware that navigating to the cooling appliance (e.g., fridge) first to search for the target can also add unnecessary steps if the target is actually located at or near the destination receptacle rather than inside the cooling appliance. Additionally, prioritizing domain-semantically matched receptacles (e.g., towelholders for cloth targets) before systematic traversal may add navigation overhead if the target is stored in a generic closed container; rely on listed-order traversal as the default unless strong evidence supports semantic prioritization for the specific task type. However, for cookware targets (e.g., pans, pots) that are typically placed on open cooking surfaces (e.g., stoveburners), navigating directly to a domain-matched open surface first can efficiently locate the target without the overhead of opening closed receptacles, making semantic prioritization advantageous for these specific object types. Be aware that multiple open cooking surfaces may need to be inspected if the first one does not hold the target, but this still avoids the interaction cost of opening closed cabinets. For heat-then-place tasks involving food items (e.g., eggs), be aware that navigating to a cold-storage appliance (e.g., fridge) first can similarly add unnecessary steps if the target food item is located on an open surface such as a countertop rather than inside the refrigeration unit. For cool-then-place tasks involving food items, note that prioritizing open cooking surfaces (e.g., stoveburners) may add overhead if the food is located on a general countertop rather than a dedicated cooking surface; restrict cooking-surface-first search to food types with strong evidence of staging on burners, and otherwise rely on listed-order traversal. For heat-then-place tasks involving mug targets, be aware that navigating to the heating appliance (e.g., microwave) first to search for the mug can add unnecessary steps if the mug is located on a general surface such as a countertop rather than inside the heating appliance; rely on listed-order traversal as the default for mug targets unless strong evidence indicates staging inside the heating appliance. Preliminary evidence suggests that for mug targets in both heat-then-place and clean-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) or a beverage-associated appliance surface (e.g., coffeemachine) first can efficiently locate the mug without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes. For small dining condiment targets (e.g., saltshakers), be aware that navigating to open horizontal surfaces (e.g., countertops) first can add navigation overhead if the condiment is stored inside a closed receptacle (e.g., cabinet); rely on listed-order traversal as the default for condiment targets unless strong evidence indicates staging on open surfaces. Preliminary evidence also suggests that for leafy vegetable targets (e.g., lettuce) in cool-then-place tasks, navigating directly to an available open horizontal surface (e.g., countertop) first can efficiently locate the target without the overhead of opening closed receptacles, though this has not yet been formally compared against strict listed-order traversal across multiple episodes.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place, cool-then-place, clean-then-place, and heat-then-place tasks where the target object is not immediately visible in the entry observation.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 4960,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/updates_validation.json",
+        "sha256": "279ddaecdb8cb3fe89a7466133354eb603499809d2a68edbf44767ae71a15674",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 610,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/epistemic_validation.json",
+      "sha256": "86ed68da74597c3c9a5056435451e78d31c7f91c2fc756c36b4a082f4eccee8f",
+      "status": "available"
+    },
+    {
+      "bytes": 4960,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/updates_validation.json",
+      "sha256": "279ddaecdb8cb3fe89a7466133354eb603499809d2a68edbf44767ae71a15674",
+      "status": "available"
+    },
+    {
+      "bytes": 5267,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/a/materialization.json",
+      "sha256": "72e4071b4dea3ba1693f82ae32519011103bad26ac138726029508f9bef68438",
+      "status": "available"
+    },
+    {
+      "bytes": 87,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/b_c_handoff/validation_error.json",
+      "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+      "status": "available"
+    },
+    {
+      "bytes": 146,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/055-2763e0c4f901/T/c/status.json",
+      "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+      "status": "available"
+    }
+  ]
+}

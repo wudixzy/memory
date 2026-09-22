@@ -1,0 +1,126 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-89d364dfc3dd11d1",
+        "hypothesis": "For lettuce specifically, prioritizing inspection of open surfaces (countertops/shelves) before closed storage units (fridge/cabinets) yields fewer total search steps than starting with the semantically most likely container (fridge), because lettuce is often stored on counters in these environments despite being a food item.",
+        "probe_summary": {
+          "evidence_goal": "The number of steps taken to locate and acquire the target object compared to a baseline semantic-prior-first strategy (checking fridge first).",
+          "local_function": "Select and navigate to a receptacle to locate the target object.",
+          "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+          "stop_conditions": [
+            "Target object acquired into inventory.",
+            "All visible receptacles have been inspected without finding the target."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (lettuce) where the target location is unknown and multiple receptacle types are visible."
+      },
+      {
+        "h_id": "h-3c3d8f55750eeb7f",
+        "hypothesis": "Prioritizing inspection of dedicated hanging receptacles (towelholders/handtowelholders) before general open surfaces (countertops/sinks) or closed storage yields faster acquisition for cloth items, as these are semantically specific carriers for towels in this domain.",
+        "probe_summary": {
+          "evidence_goal": "Determine if the cloth is located on a hanging receptacle within fewer steps than required by the established 'open-surface-first' or 'spatial-order' strategies.",
+          "local_function": "Select and navigate to a receptacle likely to contain a cloth, then acquire it.",
+          "realization_pattern": "Semantic-specific carrier priority: Check dedicated hanging spots for the object type before generic surfaces or containers.",
+          "stop_conditions": [
+            "Cloth acquired from a hanging receptacle.",
+            "All hanging receptacles inspected without finding the cloth (trigger fallback).",
+            "Step count exceeds threshold for alternative strategies (abort probe)."
+          ]
+        },
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains dedicated hanging receptacles (towelholders, handtowelholders) alongside open surfaces and closed storage."
+      },
+      {
+        "h_id": "h-feefb9b0e36056a7",
+        "hypothesis": "Prioritizing inspection of open horizontal work surfaces (desks) before checking closed storage units (drawers) or vertical display surfaces (shelves) yields faster acquisition for pencils than spatial listing order or generic open-surface-first heuristics that include beds/shelves.",
+        "probe_summary": {
+          "evidence_goal": "Compare step count to find the pencil against baselines using spatial order or generic open-surface-first (including shelves/beds). Success is defined by finding the pencil on a desk within fewer steps than the baseline average.",
+          "local_function": "Search strategy selection: prioritize specific semantic location types (work surfaces) over general open/closed binary or spatial order.",
+          "realization_pattern": "Semantic-priority traversal restricted to 'desk' type receptacles as the primary search group.",
+          "stop_conditions": [
+            "Target acquired",
+            "All visible desks inspected without success (fallback required)",
+            "Step limit exceeded"
+          ]
+        },
+        "scope": "ALFWorld office/bedroom tasks where the target is a small writing instrument (pencil) and the environment contains multiple desk surfaces, drawers, and shelves."
+      },
+      {
+        "h_id": "h-a50ca02ce53a0f41",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers) reduces search steps for plates compared to semantic-prior-first (e.g., checking cabinets/drawers as 'dish storage') or arbitrary spatial order.",
+        "probe_summary": {
+          "evidence_goal": "Compare the number of steps taken to locate the plate against baselines using semantic priors (checking cabinets first) or spatial listing order. Success is defined by finding the plate with fewer navigation/opening actions than the incumbent strategies.",
+          "local_function": "Search for a plate object when its location is unknown in a mixed-receptacle kitchen environment.",
+          "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action over those that do.",
+          "stop_conditions": [
+            "Plate object is located and taken.",
+            "All open surfaces have been inspected without finding the plate (trigger fallback to closed storage).",
+            "Maximum step limit reached."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a plate and multiple receptacle types (open surfaces, closed storage) are visible."
+      },
+      {
+        "h_id": "h-1a5ac7410491d088",
+        "hypothesis": "Prioritizing inspection of generic open surfaces (countertops, shelves) before checking semantically associated appliances (stoveburners) or closed storage yields faster acquisition for non-cookware utensils like spatulas, as they are often stored on counters rather than left on active burners.",
+        "probe_summary": {
+          "evidence_goal": "Determine if the spatula is located on a generic open surface within the first few steps, contrasting with the established memory that prioritizes stoveburners for cookware.",
+          "local_function": "Search for and acquire a spatula.",
+          "realization_pattern": "Generic open-surface-first traversal: prioritize countertops and shelves over appliance-specific locations (stoveburners) and closed storage.",
+          "stop_conditions": [
+            "Target object acquired.",
+            "All visible open surfaces inspected without finding target."
+          ]
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a cooking utensil (e.g., spatula) and the environment contains both open surfaces and closed storage units."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool lettuce in countertop."
+    },
+    "current_task": {
+      "instruction": "put a cool lettuce in countertop.",
+      "seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 7871,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/retrieval/retrieval_input.json",
+    "sha256": "61f0044e76f7119aefd662c1ff79f5489f386ab207f1f90fb11bbd5ab7e9761f",
+    "status": "available"
+  }
+}

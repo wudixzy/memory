@@ -6,6 +6,8 @@
 > Its primary interpretation is `MEMORY_EVOLUTION_REGIME_REMAINS`: T1−T0 was
 > modestly negative for both models, but a residual Max T1−G gap and
 > model/trajectory-dependent memory-state evolution remain. See docs/125–126.
+> A compact no-model semantic review bundle is at
+> `docs/review_samples/phase1f_semantic_review/`; handoff: `docs/127`.
 > No model/API call is authorized automatically. Formal evaluation remains
 > unauthorized; this residual is not a formal reserve.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
@@ -26,7 +28,8 @@ segment were mechanically reconstructed and validated as one registered
 completed after its immutable transition. Do not rerun or replace its tasks.
 The authorization for its six streams (72 episodes) is spent. No additional
 model/API call, tuning, development stream, Method/Evaluation v1 freeze, or
-formal evaluation is authorized automatically. Await researcher review.
+formal evaluation is authorized automatically. Await researcher case-by-case
+review of the saved semantic evidence bundle.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced

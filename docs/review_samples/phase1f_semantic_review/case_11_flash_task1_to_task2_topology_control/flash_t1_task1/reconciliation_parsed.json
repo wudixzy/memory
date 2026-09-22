@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": true,
+  "operation": "ADD",
+  "rationale": "No existing comparisons are present. C proposed a new exploratory hypothesis regarding destination-type prioritized search. A indicates the comparison remains open with no evidence to resolve it yet. Therefore, a new OPEN comparison is created.",
+  "target_comparison_id": "NEW"
+}

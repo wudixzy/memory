@@ -1,0 +1,21 @@
+{
+  "content": {
+    "candidate_probe_count": 0,
+    "candidate_sequence": [],
+    "environment_actions": [],
+    "runtime_status": "NOT_ACTIVE",
+    "source_step_selector_artifacts": [],
+    "steps": [],
+    "target_acquired_during_probe": false
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 223,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/probe/probe_summary.json",
+      "sha256": "b96417a7eeba29e790f6396fac3984adc59b84e2677d8efa97d8ad7754163685",
+      "status": "available"
+    }
+  ]
+}

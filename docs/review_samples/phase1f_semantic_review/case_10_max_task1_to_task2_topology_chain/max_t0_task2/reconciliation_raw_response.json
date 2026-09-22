@@ -1,0 +1,4 @@
+{
+  "content": "{\n  \"keep_candidate_h\": false,\n  \"operation\": \"NO_NEW_H\",\n  \"rationale\": \"C returned no candidate. Existing comparison remains OPEN with active H; A's refinement targets memory, not a new or refined H.\",\n  \"target_comparison_id\": \"NONE\"\n}",
+  "role": "assistant"
+}

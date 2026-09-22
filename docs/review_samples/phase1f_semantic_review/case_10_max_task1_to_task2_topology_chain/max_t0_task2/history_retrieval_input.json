@@ -1,0 +1,31 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles; target object type known but not yet visible; inventory empty.",
+      "constraints": [
+        "Must not take non-target objects",
+        "Must follow a deterministic ordering over visible receptacles",
+        "Must terminate search immediately upon successful target acquisition"
+      ],
+      "local_function": "Navigate through visible receptacles sequentially, inspecting each for the target object, and acquire the target upon first exposure.",
+      "required_downstream_state": "Target object held in inventory; agent positioned at the receptacle where target was found; ready to proceed to cleaning phase."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1425,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "e1b408b22e25ae05a1f6b8d0fe35719899bc9ee46d18947545d1cea1a7501f86",
+    "status": "available"
+  }
+}

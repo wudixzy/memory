@@ -1,0 +1,30 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-8f8505695fa0c9df",
+        "hypothesis": "Prioritizing inspection of closed storage receptacles (drawers/cabinets) over open surfaces (countertops/shelves) reduces total navigation steps by avoiding redundant visits to empty open areas, assuming the target is more likely to be hidden inside a container.",
+        "realization_pattern": "Filter candidate receptacles by type: prioritize 'closed storage' types (e.g., drawers, cabinets, fridges) over 'open surface' types (e.g., countertops, shelves). Within the prioritized group, select the nearest or first-listed instance.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+        "source_comparison_id": "comparison-16b9a7112350ec18"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent is at start location with no target object held; target location unknown.",
+      "constraints": [
+        "Must not assume target visibility without inspection.",
+        "Must handle closed containers by opening them before inspection."
+      ],
+      "local_function": "Iterate through receptacles in a specific order, navigate to each, inspect/open if necessary, and acquire the target upon discovery.",
+      "required_downstream_state": "Agent holds the target object."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1431,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "407d4b33d3c93d1fb72dab36b94cd7c2a8a1b043dd510302cf0f7209fe80af56",
+    "status": "available"
+  }
+}

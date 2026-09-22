@@ -1,0 +1,159 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target object type known but not yet visible; inventory empty.",
+          "constraints": [
+            "Must not take non-target objects",
+            "Must follow a deterministic ordering over visible receptacles",
+            "Must terminate search immediately upon successful target acquisition"
+          ],
+          "local_function": "Navigate through visible receptacles sequentially, inspecting each for the target object, and acquire the target upon first exposure.",
+          "required_downstream_state": "Target object held in inventory; agent positioned at the receptacle where target was found; ready to proceed to cleaning phase."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 746,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/b_c_handoff/projection.json",
+        "sha256": "54b43165b8f4d1bbad2c187b3e3240b42e3c4345a4f5f39abd2ac73d806c0df8",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/c/mechanical_grounding.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "UPDATE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether prioritizing open horizontal surfaces before closed storage receptacles reduces total search actions compared to strictly following the listed observation order across varied room configurations and target placements."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 388,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/epistemic_validation.json",
+        "sha256": "8c17be496d63288283ac1cc5e22ce8190e7f2e636fa493c599f79b34960a8c74",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": null,
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-a4dd496faa0506d4",
+          "evidence_id": "evidence-edd0fa449e24460d",
+          "evidence_role": "IRRELEVANT",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe successfully acquired the target plate from an open surface (countertop_2) in 3 actions without needing to open any closed receptacle, demonstrating that open-surface-first navigation is viable when the target is not immediately visible at entry.",
+              "guidance": "When the target object is not immediately visible, prioritize navigating to and inspecting available open horizontal surfaces (e.g., countertops, shelves) before attempting to open closed storage receptacles (e.g., cabinets, drawers, fridge). Stop searching as soon as the target is observed and take it.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation and the room contains both open surfaces and closed storage receptacles.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1417,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/materialization.json",
+        "sha256": "4b8a3ebc9abbe1b78b1ab482d51b9763fcb84d2bca8085ed3f14d38dabc1294c",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe successfully acquired the target plate from an open surface (countertop_2) in 3 actions without needing to open any closed receptacle, demonstrating that open-surface-first navigation is viable when the target is not immediately visible at entry.",
+              "guidance": "When the target object is not immediately visible, prioritize navigating to and inspecting available open horizontal surfaces (e.g., countertops, shelves) before attempting to open closed storage receptacles (e.g., cabinets, drawers, fridge). Stop searching as soon as the target is observed and take it.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation and the room contains both open surfaces and closed storage receptacles.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1110,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/updates_validation.json",
+        "sha256": "8e39352ff717bcc6f47c13a8981998eec86f07e0480982337066b8756b27f179",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 388,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/epistemic_validation.json",
+      "sha256": "8c17be496d63288283ac1cc5e22ce8190e7f2e636fa493c599f79b34960a8c74",
+      "status": "available"
+    },
+    {
+      "bytes": 1110,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/updates_validation.json",
+      "sha256": "8e39352ff717bcc6f47c13a8981998eec86f07e0480982337066b8756b27f179",
+      "status": "available"
+    },
+    {
+      "bytes": 1417,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/materialization.json",
+      "sha256": "4b8a3ebc9abbe1b78b1ab482d51b9763fcb84d2bca8085ed3f14d38dabc1294c",
+      "status": "available"
+    },
+    {
+      "bytes": 746,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/b_c_handoff/projection.json",
+      "sha256": "54b43165b8f4d1bbad2c187b3e3240b42e3c4345a4f5f39abd2ac73d806c0df8",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,370 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Agent at start location; target (egg) not visible in initial observation; multiple receptacle types (cabinets, drawers, countertops, fridge) available.",
+        "constraints": [
+          "Must minimize total action count to acquisition.",
+          "Must correctly identify the target object among distractors if present."
+        ],
+        "local_function": "Select and navigate to a receptacle to locate and take the target egg.",
+        "required_downstream_state": "Agent holding the target egg."
+      }
+    },
+    "current_task": {
+      "instruction": "clean some egg and put it in microwave.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some egg and put it in microwave."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When searching for cloth items (towel, handtowel, cloth) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping, as it avoids the action cost of opening/closing containers when the item is likely on a surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/02-e5fbb2d17967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/04-9b58f11df123/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/26-1ebd66e39251/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-1970121bc63a20b7",
+            "consumed_h_id": "h-459d231166988acf",
+            "evidence_id": "evidence-25437cca79d2be37",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item and multiple receptacle types are visible."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      },
+      {
+        "guidance": "When searching for perishable food items like tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/08-059972eb9c84/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/15-c6b8fdfddbd0/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/19-8bbd1c1dad4e/T/a"
+        ],
+        "memory_id": "established-3134b2ab1f0a162d",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-9df5f6013bc1bf17",
+            "consumed_h_id": "h-5c1489daf1254b72",
+            "evidence_id": "evidence-0a4b10329b9cd519",
+            "source_memory_ids": [
+              "established-3134b2ab1f0a162d"
+            ],
+            "task_id": "pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, etc.) where the target location is unknown."
+      },
+      {
+        "guidance": "For decorative objects in living rooms, prioritize inspection of open display surfaces (shelves, sidetables, dressers, armchairs) before navigating to and opening closed storage units (cabinets, drawers). If the target is not found on initial open surfaces, proceed to systematically inspect remaining open surfaces (like dressers) before exhausting closed storage options, as decorative items are more likely to be displayed openly than stored away.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/21-10cb7cc8f0ce/T/a"
+        ],
+        "memory_id": "established-ea32a436454c1c0a",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-dd8b81323c9ba313",
+            "consumed_h_id": "h-52a4ca921b17f694",
+            "evidence_id": "evidence-79f4e38d16e6caa4",
+            "source_memory_ids": [],
+            "task_id": "pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld living room tasks where the target is a decorative object (e.g., vase, statue) and the environment contains mixed open surfaces (shelves, tables, dressers) and closed storage (cabinets, drawers)."
+      },
+      {
+        "guidance": "When searching for cookware items (pans, pots) in kitchen environments, prioritize inspecting stoveburners before other open surfaces (countertops/shelves) or closed storage. If the target is not found on stoveburners, proceed to other open surfaces, then closed storage.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/30-c9c712e8da31/T/a"
+        ],
+        "memory_id": "established-87d1cd11cd066c18",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-978dc9a18a8b29f6",
+            "consumed_h_id": "h-32ec82c80990628e",
+            "evidence_id": "evidence-2625d853672cb7e2",
+            "source_memory_ids": [],
+            "task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot)."
+      },
+      {
+        "guidance": "When searching for condiments (e.g., saltshakers, peppershakers) in kitchen environments, prioritize inspecting open surfaces like countertops and shelves before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping, as it avoids the action cost of opening/closing containers when the item is likely on a surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/033-1b5cbde4290e/T/a"
+        ],
+        "memory_id": "established-3e752a4011c8686b",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-b1b7c37008df8834",
+            "consumed_h_id": "h-25626a5f4ca5e1ce",
+            "evidence_id": "evidence-58431c04ca4a3e56",
+            "source_memory_ids": [],
+            "task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment and both open surfaces and closed storage units are visible."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: clean some egg and put it in microwave."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-eb5b08ddf0ead2f7",
+        "hypothesis": "Navigating directly to the semantically most likely container for a perishable food item (the fridge) before scanning other receptacles reduces total search steps compared to following the arbitrary spatial order of the initial observation list.",
+        "realization_pattern": "Semantic-prior-first traversal: select the single most probable container type based on object properties, then fall back to standard scan.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "source_comparison_id": "comparison-c0ae98e34177afb9"
+      },
+      {
+        "exploration_id": "exploration-h-8f5a9697b5472276",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (fridge, cabinets) reduces total action steps for locating perishable food items compared to semantic-priority search (checking fridge first), by avoiding the overhead of opening/closing containers when the item is likely on an accessible surface.",
+        "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+        "source_comparison_id": "comparison-526718e3a6226baf"
+      },
+      {
+        "exploration_id": "exploration-h-fa21be2a8f9e2284",
+        "hypothesis": "Prioritizing inspection of open surfaces before checking the semantically likely but costly-to-open fridge reduces total action steps for locating perishable food items compared to semantic-priority search.",
+        "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets).",
+        "source_comparison_id": "comparison-c137d39514515893"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won",
+    "/pre_update_established_memories/*/created_at_task",
+    "/pre_update_established_memories/*/lifecycle_status",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions"
+  ],
+  "source_artifact": {
+    "bytes": 46919,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/c_input.json",
+    "sha256": "58cc5e248c6b8ee5e8a73feb4ba748b0958b985538050b0f13e233dd72027760",
+    "status": "available"
+  }
+}

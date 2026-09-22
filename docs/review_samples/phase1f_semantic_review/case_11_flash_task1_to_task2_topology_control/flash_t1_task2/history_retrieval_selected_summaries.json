@@ -1,0 +1,19 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-4e270306c12d8eec",
+      "hypothesis": "Prioritizing search of receptacles that match the destination type (e.g., drawers if placing on a drawer) reduces total steps compared to scanning all visible receptacles in arbitrary or listed order.",
+      "realization_pattern": "Filter visible receptacles by type matching the destination; iterate through filtered subset before unfiltered remainder.",
+      "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+      "source_comparison_id": "comparison-90f0d8a92eb6059c"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 663,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "3d873c547aebbd69d88eebf2df603634c53e0dc4e604af1738261d0ff4286483",
+    "status": "available"
+  }
+}

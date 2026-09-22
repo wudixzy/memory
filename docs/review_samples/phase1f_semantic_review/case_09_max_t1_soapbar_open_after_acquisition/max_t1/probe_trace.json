@@ -1,0 +1,172 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "cabinet_1",
+      "countertop_1"
+    ],
+    "environment_actions": [
+      "go to cabinet_1",
+      "open cabinet_1",
+      "go to countertop_1",
+      "take soapbar_1 from countertop_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to cabinet_1",
+          "open cabinet_1"
+        ],
+        "candidate_id": "cabinet_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_8. cabinet_1 is closed.",
+          "You open cabinet_1. In cabinet_1, you see soapbottle_2, and spraybottle_2."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "close cabinet_1",
+            "examine cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take soapbottle_2 from cabinet_1",
+            "take spraybottle_2 from cabinet_1"
+          ],
+          "observation": "You open cabinet_1. In cabinet_1, you see soapbottle_2, and spraybottle_2."
+        },
+        "selection": {
+          "candidate_index": 0,
+          "selected_candidate": "cabinet_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to countertop_1",
+          "take soapbar_1 from countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_12. On countertop_1, you see candle_1, cloth_2, and soapbar_1.",
+          "You take soapbar_1 from countertop_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine countertop_1",
+            "examine soapbar_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put soapbar_1 in/on countertop_1"
+          ],
+          "observation": "You take soapbar_1 from countertop_1."
+        },
+        "selection": {
+          "candidate_index": 3,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 2,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 3220,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/probe_summary.json",
+      "sha256": "d4ce53094421b56ef68a0af83555ca7c928020dde3f9ab640ee9b738fe0e90ce",
+      "status": "available"
+    },
+    {
+      "bytes": 4691,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/selector_input.json",
+      "sha256": "cd9a252b763cba196118e7118fe8a6fb196cf3e2b382cd612168056280f4a64f",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/raw_response.json",
+      "sha256": "d58dd970b422f42b73a0e858845654c90d3ef10dedad67d307a4a6b5edcc4636",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/parsed.json",
+      "sha256": "6505af28333fef5869fb06b2bcb67f71718b7e9a4773c86d62b95712c7006667",
+      "status": "available"
+    },
+    {
+      "bytes": 64,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/001/selector_validation.json",
+      "sha256": "95d84881743008208dd9d47d9da99817ae13cda88ad11cc12dd4df0fbd622d82",
+      "status": "available"
+    },
+    {
+      "bytes": 4705,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/selector_input.json",
+      "sha256": "df7d89652c47decaf66073b1390484b92ac2e70b2e40785f624401c56ec19b20",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/raw_response.json",
+      "sha256": "aadbcb5430804362210e36595fd0b9e3dc4829eafe39c4cbbbe5db5c56d4d246",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/parsed.json",
+      "sha256": "674b9c53401ea56c1c2e2e7ecc574106c10750311bf299cfd3b39fb16fc81337",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/probe/steps/002/selector_validation.json",
+      "sha256": "34930ae29c80c61947d08f40f9b09bc44a5536b069817695dc80001552af6fb6",
+      "status": "available"
+    }
+  ]
+}

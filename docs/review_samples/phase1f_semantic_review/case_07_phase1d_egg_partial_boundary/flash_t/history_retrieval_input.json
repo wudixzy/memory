@@ -1,0 +1,128 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-0974fda62b083da2",
+        "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "source_comparison_id": "comparison-4332f3630f19e699"
+      },
+      {
+        "exploration_id": "exploration-h-557c586a16b7ecc2",
+        "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "source_comparison_id": "comparison-04b3769e6328be11"
+      },
+      {
+        "exploration_id": "exploration-h-eb5b08ddf0ead2f7",
+        "hypothesis": "Navigating directly to the semantically most likely container for a perishable food item (the fridge) before scanning other receptacles reduces total search steps compared to following the arbitrary spatial order of the initial observation list.",
+        "realization_pattern": "Semantic-prior-first traversal: select the single most probable container type based on object properties, then fall back to standard scan.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "source_comparison_id": "comparison-c0ae98e34177afb9"
+      },
+      {
+        "exploration_id": "exploration-h-0ca06b77b7caeceb",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge) reduces search steps for tomatoes compared to semantic-prior-first (fridge) or arbitrary spatial order.",
+        "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+        "scope": "ALFWorld kitchen tasks requiring cooling a perishable food item (tomato) where the target is not visible at entry and multiple receptacle types are present.",
+        "source_comparison_id": "comparison-e9007f0de961e2ea"
+      },
+      {
+        "exploration_id": "exploration-h-f8ba6a4abd04c9b1",
+        "hypothesis": "Prioritizing search by semantic likelihood (e.g., checking refrigerators and cabinets before drawers or shelves) yields a shorter path to finding a food item than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Semantic-priority traversal: check likely containers for the specific object type first.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry, specifically testing semantic priors for food items.",
+        "source_comparison_id": "comparison-0e240389305dbecb"
+      },
+      {
+        "exploration_id": "exploration-h-c53b8a0910ab0f56",
+        "hypothesis": "For perishable food items in mixed-layout kitchens, prioritizing inspection of open surfaces (countertops/shelves) before closed high-probability containers (fridge) yields fewer total search steps than starting with the semantically most likely container.",
+        "realization_pattern": "Open-surface-first scan: traverse all visible open surfaces (countertops, shelves) before any closed storage units (fridges, cabinets, drawers).",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., tomato) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces (countertops), testing if checking open surfaces first outperforms direct fridge inspection.",
+        "source_comparison_id": "comparison-e9007f0de961e2ea"
+      },
+      {
+        "exploration_id": "exploration-h-8f5a9697b5472276",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (fridge, cabinets) reduces total action steps for locating perishable food items compared to semantic-priority search (checking fridge first), by avoiding the overhead of opening/closing containers when the item is likely on an accessible surface.",
+        "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the room contains both open surfaces and closed storage units.",
+        "source_comparison_id": "comparison-526718e3a6226baf"
+      },
+      {
+        "exploration_id": "exploration-h-39636a73fb019e1a",
+        "hypothesis": "For small personal items in living rooms, prioritizing inspection of open seating/surface furniture (sofas, armchairs, sidetables) before navigating to and opening closed storage units (cabinets, drawers) yields fewer total search steps than spatial listing order or semantic-priority checks on closed containers.",
+        "realization_pattern": "Open-surface-first traversal: visit all visible open furniture types (seating, tables) before any closed container types (cabinets, drawers).",
+        "scope": "ALFWorld living room tasks where the target is a small personal item (e.g., watch) and the environment contains mixed open surfaces (sofa, armchair, sidetable) and closed storage (cabinets, drawers).",
+        "source_comparison_id": "comparison-dd8b81323c9ba313"
+      },
+      {
+        "exploration_id": "exploration-h-5c1489daf1254b72",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge) yields faster acquisition for apples than semantic prioritization (fridge-first) or spatial listing order, by avoiding the action cost of opening/closing containers when the item is likely on a surface.",
+        "realization_pattern": "Open-surface-first traversal: prioritize inspecting non-enclosed receptacles over enclosed ones.",
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a perishable food item (e.g., apple) where the target location is unknown and multiple receptacle types are visible.",
+        "source_comparison_id": "comparison-9df5f6013bc1bf17"
+      },
+      {
+        "exploration_id": "exploration-h-52a4ca921b17f694",
+        "hypothesis": "For decorative objects in living rooms, prioritizing inspection of open display surfaces (shelves, sidetables) before navigating to and opening closed storage units yields fewer total search steps than spatial listing order or semantic-priority checks on closed containers.",
+        "realization_pattern": "Open-display-first traversal: visit all visible open furniture types (shelves, tables) before any closed container types (cabinets, drawers).",
+        "scope": "ALFWorld living room tasks where the target is a decorative object (e.g., vase) and the environment contains mixed open surfaces (shelves, sidetables) and closed storage (cabinets, drawers).",
+        "source_comparison_id": "comparison-dd8b81323c9ba313"
+      },
+      {
+        "exploration_id": "exploration-h-7d6686692e319fd9",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed storage units (cabinets, drawers) reduces search steps for mugs compared to semantic-prior-first (coffeemachine/fridge) or arbitrary spatial order.",
+        "realization_pattern": "Open-surface-first traversal: prioritize receptacles that do not require an 'open' action (countertops, shelves) over those that do (cabinets, drawers, fridge).",
+        "scope": "ALFWorld kitchen tasks requiring acquisition of a drinkware item (mug) where the target location is unknown and multiple receptacle types are visible.",
+        "source_comparison_id": "comparison-434be6bf5e301755"
+      },
+      {
+        "exploration_id": "exploration-h-459d231166988acf",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, sink basins) before closed storage units (cabinets) yields faster acquisition for cloth items than semantic prioritization (cabinet-first) or spatial listing order, by avoiding the action cost of opening/closing containers when the item is likely on a surface.",
+        "realization_pattern": "Open-surface-first traversal: prioritize inspecting non-enclosed receptacles over enclosed ones.",
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains mixed open surfaces (countertops, sinks) and closed storage units (cabinets).",
+        "source_comparison_id": "comparison-1970121bc63a20b7"
+      },
+      {
+        "exploration_id": "exploration-h-32ec82c80990628e",
+        "hypothesis": "Prioritizing inspection of stoveburners before other open surfaces or closed storage yields faster acquisition for pans than general open-surface-first heuristics, as pans are semantically bound to cooking appliances rather than generic counters.",
+        "realization_pattern": "Appliance-specific open surface traversal: prioritize cooking appliances over generic open surfaces.",
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot) and the environment contains mixed open surfaces (stoveburners, countertops) and closed storage units.",
+        "source_comparison_id": "comparison-978dc9a18a8b29f6"
+      },
+      {
+        "exploration_id": "exploration-h-25626a5f4ca5e1ce",
+        "hypothesis": "Prioritizing inspection of open surfaces (countertops, shelves) before closed cabinets reduces search steps for condiments compared to spatial listing order or generic type-grouping, as condiments are frequently left out on counters rather than stored in drawers/cabinets.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment (e.g., saltshaker) and both open surfaces and closed storage units are visible.",
+        "source_comparison_id": "comparison-b1b7c37008df8834"
+      },
+      {
+        "exploration_id": "exploration-h-fa21be2a8f9e2284",
+        "hypothesis": "Prioritizing inspection of open surfaces before checking the semantically likely but costly-to-open fridge reduces total action steps for locating perishable food items compared to semantic-priority search.",
+        "realization_pattern": "Open-surface-first traversal: exhaustively check all non-container receptacles before initiating container-opening actions.",
+        "scope": "ALFWorld kitchen tasks where the target is a perishable food item (e.g., egg) and the environment contains mixed open surfaces (countertops, shelves) and closed storage units (fridge, cabinets).",
+        "source_comparison_id": "comparison-c137d39514515893"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at start location; target (egg) not visible in initial observation; multiple receptacle types (cabinets, drawers, countertops, fridge) available.",
+      "constraints": [
+        "Must minimize total action count to acquisition.",
+        "Must correctly identify the target object among distractors if present."
+      ],
+      "local_function": "Select and navigate to a receptacle to locate and take the target egg.",
+      "required_downstream_state": "Agent holding the target egg."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 11910,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "769a7994288fe30bebe28a921cbdbd418c151a9738e37861a529b495d493cab6",
+    "status": "available"
+  }
+}

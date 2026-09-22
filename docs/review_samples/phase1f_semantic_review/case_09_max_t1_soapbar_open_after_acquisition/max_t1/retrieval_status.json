@@ -1,0 +1,20 @@
+{
+  "model_config": {
+    "a_prompt_version": "phase1b-evidence-owned-output-v2",
+    "b_prompt_version": "phase1b-contract-only-handoff-v2",
+    "c_prompt_version": "phase1c-contract-plus-history-v1",
+    "history_retrieval_prompt_version": "phase1c-exploration-history-retrieval-v1",
+    "model_name": "qwen3.8-max",
+    "provider": "dashscope",
+    "reconciliation_prompt_version": "phase1b-h-comparison-reconciliation-v3-compact",
+    "retrieval_prompt_version": "phase1b-h-retrieval-v1",
+    "temperature": 0.0,
+    "thinking": false
+  },
+  "parsed": {
+    "decision": "ACTIVATE",
+    "h_id": "h-d9bc5cd426fefd5a"
+  },
+  "phase": "phase1c_h_retrieval",
+  "status": "parsed"
+}

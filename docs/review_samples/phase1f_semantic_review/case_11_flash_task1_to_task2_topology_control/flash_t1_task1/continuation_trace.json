@@ -1,0 +1,19 @@
+{
+  "content": {
+    "candidate_sequence": [],
+    "environment_action_count": 0,
+    "status": "target_acquired",
+    "target_acquired": true,
+    "trace": []
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/environment_actions"
+  ],
+  "source_artifact": {
+    "bytes": 166,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/flash/T1/continuation_search/continuation_trace.json",
+    "sha256": "fc83518337ab84756a452bdb2facf45c2584cb53e551f685489cce660452cfc9",
+    "status": "available"
+  }
+}

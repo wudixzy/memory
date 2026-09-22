@@ -1,0 +1,265 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Agent at room center with full list of admissible receptacles; target (pan) not visible in entry observation; task requires acquiring a pan for downstream cooling.",
+        "constraints": [
+          "Must not modify or interact with non-target objects",
+          "Must terminate search immediately upon first target observation",
+          "Must remain within admissible navigation actions"
+        ],
+        "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+        "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine."
+      }
+    },
+    "current_task": {
+      "instruction": "put a cool pan in countertop.",
+      "seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool pan in countertop."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When the target object is not immediately visible, prioritize navigating to and inspecting available open horizontal surfaces (e.g., countertops, shelves) before attempting to open closed storage receptacles (e.g., cabinets, drawers, fridge). For food items requiring downstream heating or cooling, optionally check food-preparation appliances (e.g., microwave, toaster) early if they are nearby, but do not exhaustively search all appliances before checking open surfaces, as food targets frequently spawn on countertops. Stop searching as soon as the target is observed and take it.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a",
+          "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/004-0870c0d6a863/max/T0_component/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-a4dd496faa0506d4",
+            "consumed_h_id": "h-492f4d237f36cd53",
+            "evidence_id": "evidence-24e0ebc43d79a85a",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161853_945788"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation and the room contains both open surfaces and closed storage receptacles. For food items, includes optional early appliance checks without delaying open-surface inspection."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool pan in countertop."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "cabinet_5",
+          "cabinet_6",
+          "coffeemachine_1",
+          "countertop_1",
+          "countertop_2",
+          "countertop_3",
+          "drawer_1",
+          "drawer_2",
+          "drawer_3",
+          "fridge_1",
+          "garbagecan_1",
+          "microwave_1",
+          "shelf_1",
+          "shelf_2",
+          "shelf_3",
+          "sinkbasin_1",
+          "stoveburner_1",
+          "stoveburner_2",
+          "stoveburner_3",
+          "stoveburner_4",
+          "toaster_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to cabinet_5",
+          "go to cabinet_6",
+          "go to coffeemachine_1",
+          "go to countertop_1",
+          "go to countertop_2",
+          "go to countertop_3",
+          "go to drawer_1",
+          "go to drawer_2",
+          "go to drawer_3",
+          "go to fridge_1",
+          "go to garbagecan_1",
+          "go to microwave_1",
+          "go to shelf_1",
+          "go to shelf_2",
+          "go to shelf_3",
+          "go to sinkbasin_1",
+          "go to stoveburner_1",
+          "go to stoveburner_2",
+          "go to stoveburner_3",
+          "go to stoveburner_4",
+          "go to toaster_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4"
+      },
+      {
+        "exploration_id": "exploration-h-492f4d237f36cd53",
+        "hypothesis": "For food items requiring downstream cooling, prioritizing navigation to food-preparation appliances (e.g., toasters, microwaves) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "realization_pattern": "visit a food-preparation appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a food item not immediately visible in the entry observation and the room contains both open surfaces, closed storage receptacles, and food-preparation appliances.",
+        "source_comparison_id": "comparison-a4dd496faa0506d4"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions"
+  ],
+  "source_artifact": {
+    "bytes": 14937,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/c_input.json",
+    "sha256": "f8dc7686dbcd0f54e169b785c83f95b2c3df9f18f1e1e460d0426e6999a95160",
+    "status": "available"
+  }
+}

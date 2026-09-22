@@ -1,0 +1,37 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate first to an available open surface. Inspect it for the target object. If not found, proceed to a closed storage receptacle, open it, and inspect. Stop immediately upon finding the target.",
+  "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+  "probe_spec": {
+    "adaptive_policy": "From the current observation, select an available open surface as the first navigation target. Upon arrival, inspect contents. If the target object is not present, select a closed storage receptacle from the admissible actions, navigate to it, issue an open command, then inspect. Terminate search immediately if the target object is observed.",
+    "capability_requirements": [
+      "go to",
+      "look",
+      "open"
+    ],
+    "evidence_goal": "Whether the target object is found on the first visited open surface or requires opening a closed receptacle, and the total action count to acquisition compared to strict list-order traversal.",
+    "local_function": "candidate receptacle selection order during initial search",
+    "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+    "required_downstream_state": "Target object is held in agent inventory; agent is co-located with the receptacle where the target was found.",
+    "stop_conditions": [
+      "target object is successfully taken into inventory",
+      "all prioritized open surfaces and one closed storage receptacle have been inspected without success",
+      "an action fails or returns an error"
+    ]
+  },
+  "provenance": [
+    "entry_state admissible actions",
+    "historical capability vocabulary: go to, look, open"
+  ],
+  "reason": "Established memory prescribes searching in the exact listed order. Testing an alternative heuristic that prioritizes open surfaces over closed receptacles provides a concrete local comparison for search efficiency without violating task constraints.",
+  "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+  "source_grounding": {
+    "entry_action": "go to countertop_1",
+    "public_capability_evidence": [
+      "go to countertop_1 is in currently_admissible_actions",
+      "countertop_1 is in currently_visible_or_referenced_entities"
+    ],
+    "why_grounded": "countertop_1 is an available open surface listed in the entry-state admissible actions, suitable for testing the open-surface-first hypothesis."
+  },
+  "type": "exploratory"
+}

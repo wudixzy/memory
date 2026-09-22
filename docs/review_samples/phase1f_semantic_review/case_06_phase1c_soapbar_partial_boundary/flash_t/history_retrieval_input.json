@@ -1,0 +1,37 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-0974fda62b083da2",
+        "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "source_comparison_id": "comparison-4332f3630f19e699"
+      },
+      {
+        "exploration_id": "exploration-h-557c586a16b7ecc2",
+        "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "source_comparison_id": "comparison-04b3769e6328be11"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Initial room observation with multiple visible receptacles; target location unknown.",
+      "constraints": [
+        "Must preserve the ability to acquire the target upon visibility.",
+        "Comparison must evaluate step efficiency relative to alternative initial probes."
+      ],
+      "local_function": "Select and navigate to the first candidate receptacle for search.",
+      "required_downstream_state": "Target object is visible at the selected receptacle."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1735,
+    "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "ddd8a9d2238f31997ff333c8645fd987a36a67a0cf876d3a1024ad1c0623c0c8",
+    "status": "available"
+  }
+}

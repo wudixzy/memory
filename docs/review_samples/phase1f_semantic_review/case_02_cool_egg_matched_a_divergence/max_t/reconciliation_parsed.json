@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": false,
+  "operation": "NO_NEW_H",
+  "rationale": "C returned no candidate. Evidence contradicts the cooling-appliance-first heuristic in comparison-a4d3a30084d61ac4, but that comparison remains open with unresolved questions; no new H is proposed.",
+  "target_comparison_id": "NONE"
+}

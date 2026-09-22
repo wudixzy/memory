@@ -1,0 +1,204 @@
+{
+  "content": {
+    "b_handoff": {
+      "decision": "OPEN",
+      "functional_contract": {
+        "available_state": "Initial room observation with multiple visible receptacles; target location unknown.",
+        "constraints": [
+          "Must preserve the ability to acquire the target upon visibility.",
+          "Comparison must evaluate step efficiency relative to alternative initial probes."
+        ],
+        "local_function": "Select and navigate to the first candidate receptacle for search.",
+        "required_downstream_state": "Target object is visible at the selected receptacle."
+      }
+    },
+    "current_task": {
+      "instruction": "clean some soapbar and put it in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+    },
+    "local_state_and_evidence": {
+      "entry_state": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet."
+      },
+      "public_evidence": [
+        "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, countertop_1, garbagecan_1, handtowelholder_1, handtowelholder_2, sinkbasin_1, sinkbasin_2, toilet_1, toiletpaperhanger_1, towelholder_1",
+        "The requested object is not exposed by an exact public take action at entry.",
+        "The local public packet contains only entry facts; later source observations are not provided to C."
+      ]
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/02-e5fbb2d17967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/04-9b58f11df123/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": null,
+            "consumed_h_id": null,
+            "evidence_id": "evidence-f642d37d8ce03198",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "real_capabilities": {
+      "carrier": "ALFWorld TextWorld",
+      "entry_state_capabilities": {
+        "currently_admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "currently_visible_or_referenced_entities": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet."
+      },
+      "historical_capability_vocabulary": {
+        "action_names": [
+          "look",
+          "inventory",
+          "go to",
+          "open",
+          "take"
+        ],
+        "action_schema": [],
+        "observed_entity_ids": [
+          "cabinet_1",
+          "cabinet_2",
+          "cabinet_3",
+          "cabinet_4",
+          "countertop_1",
+          "garbagecan_1",
+          "handtowelholder_1",
+          "handtowelholder_2",
+          "sinkbasin_1",
+          "sinkbasin_2",
+          "toilet_1",
+          "toiletpaperhanger_1",
+          "towelholder_1"
+        ],
+        "observed_exact_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ]
+      },
+      "source": "pinned public ALFWorld action schema"
+    },
+    "relevant_exploration_history": [
+      {
+        "exploration_id": "exploration-h-0974fda62b083da2",
+        "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "source_comparison_id": "comparison-4332f3630f19e699"
+      },
+      {
+        "exploration_id": "exploration-h-557c586a16b7ecc2",
+        "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "source_comparison_id": "comparison-04b3769e6328be11"
+      }
+    ]
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/local_state_and_evidence/entry_state/won",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions"
+  ],
+  "source_artifact": {
+    "bytes": 12335,
+    "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/c/c_input.json",
+    "sha256": "4c45f92ea91b718ab4113d288d95f62d8d698444cd0c80b051849f9b0125201a",
+    "status": "available"
+  }
+}

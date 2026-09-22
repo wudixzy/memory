@@ -1,0 +1,111 @@
+{
+  "content": {
+    "candidate_probe_count": 1,
+    "candidate_sequence": [
+      "countertop_1"
+    ],
+    "environment_actions": [
+      "go to countertop_1",
+      "take egg_3 from countertop_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to countertop_1",
+          "take egg_3 from countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_12. On countertop_1, you see bowl_2, egg_3, fork_1, glassbottle_1, and mug_2.",
+          "You take egg_3 from countertop_1."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "examine egg_3",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "put egg_3 in/on countertop_1"
+          ],
+          "observation": "You take egg_3 from countertop_1."
+        },
+        "selection": {
+          "candidate_index": 7,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 1,
+        "target_acquired": true,
+        "target_visible": true
+      }
+    ],
+    "target_acquired_during_probe": true
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 2065,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/probe_summary.json",
+      "sha256": "df72e43494875d6221e32712c6ef6271e745f4ffe43298eaa923468df185e6f4",
+      "status": "available"
+    },
+    {
+      "bytes": 41850,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_input.json",
+      "sha256": "320ba1777aef6bcaf4c38276fa5f4f7582aacba5d6dd18005ddda9bd3a7a909b",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/raw_response.json",
+      "sha256": "5ddc51269cc697e62192948eb41e2cb646620b98fdc4c31a075f2d0ccefb7cd1",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/parsed.json",
+      "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_validation.json",
+      "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+      "status": "available"
+    }
+  ]
+}

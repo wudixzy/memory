@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": false,
+  "operation": "NO_NEW_H",
+  "rationale": "C returned no candidate hypothesis. The current evidence supports the existing active H in comparison-c137d39514515893 (open-surface-first for eggs), but without a new proposal from C, no new H can be added or refined.",
+  "target_comparison_id": "NONE"
+}

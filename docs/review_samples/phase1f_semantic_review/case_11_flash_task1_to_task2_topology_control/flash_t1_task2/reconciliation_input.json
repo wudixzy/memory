@@ -1,0 +1,78 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "still_unresolved": [
+          "The hypothesis claims reduced total steps compared to baseline. This probe only measured target acquisition (2 actions). The full task requires cleaning and placing, which were not executed in this controlled endpoint. Therefore, the comparison of *total* task steps remains open.",
+          "The destination type is 'countertop', but the target was found in a 'cabinet'. The hypothesis prioritizes searching receptacles matching the *destination* type first. Since cabinets are not countertops, the agent did not follow the specific 'match destination type' rule strictly, or the rule implies checking destination-type containers for storage? No, the hypothesis says 'Identify the destination receptacle type... Navigate to and inspect only those receptacles matching that type first.' If destination is countertop, it should check countertops first. It checked cabinet_1. This suggests either the hypothesis implementation varied from the text, or the evidence supports finding targets quickly regardless of strict destination-type matching if the first candidate works. However, looking at the trace: `selected_candidate: cabinet_1`. The instruction was `clean some plate and put it in countertop`. Destination type: Countertop. Hypothesis: Search Countertops first. Evidence: Searched Cabinet first. Found target. This actually contradicts the specific mechanism of the hypothesis (searching destination type first) unless 'cabinet' was considered a valid proxy or the policy failed to filter correctly. Wait, let's re-read carefully. `consumed_exploratory_memory` guidance: "
+        ],
+        "updates": [
+          {
+            "evidence_basis": "Probe acquired target in 2 actions by selecting cabinet_1. Task destination was countertop. Hypothesis predicted searching destination-type (countertop) first. Agent searched cabinet first. Target found immediately. This indicates that while fast acquisition occurred, it may not have followed the specific 'destination-type-first' filtering logic, or that non-destination types can contain targets efficiently. More importantly, the controlled endpoint stopped at acquisition, so total step reduction vs baseline for the full task is unverified.",
+            "guidance": "Refine established-search-listed-order-general to note that target acquisition speed varies significantly based on object placement distribution, not just search order. Controlled probes stopping at acquisition do not validate end-to-end efficiency gains for multi-step tasks (like clean/place).",
+            "operation": "REFINE",
+            "scope": "ALFWorld pick-and-place tasks where target acquisition is isolated from downstream execution.",
+            "target_memory_ids": [
+              "established-search-listed-order-general"
+            ]
+          }
+        ]
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at the starting location with no target object in inventory; target location is unknown but constrained to visible receptacles.",
+          "constraints": [
+            "Must not assume target visibility without inspection.",
+            "Must handle closed containers by opening them before inspection.",
+            "Must stop searching immediately upon finding the target."
+          ],
+          "local_function": "Iterate through receptacles in a defined order, navigate to each, inspect/open if necessary, and take the target upon discovery.",
+          "required_downstream_state": "Target object is in agent's inventory; agent is at the location where the target was found."
+        }
+      },
+      "c_candidate": null,
+      "current_evidence_id": "evidence-b8150900bcd34087",
+      "history_retrieval": {
+        "decision": "SELECT",
+        "exploration_ids": [
+          "exploration-h-4e270306c12d8eec"
+        ]
+      },
+      "task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+    },
+    "existing_comparison_ids": [
+      "comparison-90f0d8a92eb6059c"
+    ],
+    "existing_comparison_summaries": [
+      {
+        "comparison_id": "comparison-90f0d8a92eb6059c",
+        "incumbent_local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+        "linked_h_summaries": [
+          {
+            "comparison_id": "comparison-90f0d8a92eb6059c",
+            "h_id": "h-4e270306c12d8eec",
+            "hypothesis": "Prioritizing search of receptacles that match the destination type (e.g., drawers if placing on a drawer) reduces total steps compared to scanning all visible receptacles in arbitrary or listed order.",
+            "realization_pattern": "Filter visible receptacles by type matching the destination; iterate through filtered subset before unfiltered remainder.",
+            "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+            "status": "active"
+          }
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "status": "OPEN"
+      }
+    ],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 5460,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/h_reconciliation/reconciliation_input.json",
+    "sha256": "f96b61095089f7aa931e88c1b2a6b5dd9ba61971d9be7af6b832707be1db57d9",
+    "status": "available"
+  }
+}

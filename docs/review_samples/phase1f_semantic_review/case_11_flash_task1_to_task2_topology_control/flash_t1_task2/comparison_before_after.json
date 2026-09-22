@@ -1,0 +1,95 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": "supporting_evidence_refs",
+      "comparison_assessment": "PARTIALLY_RESOLVED",
+      "comparison_id": "comparison-90f0d8a92eb6059c",
+      "evidence_id": "evidence-b8150900bcd34087",
+      "evidence_role": "SUPPORTING",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-90f0d8a92eb6059c",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "linked_h_ids": [
+          "h-4e270306c12d8eec"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "status": "PARTIALLY_RESOLVED",
+        "supporting_evidence_refs": [
+          "evidence-b8150900bcd34087"
+        ]
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-90f0d8a92eb6059c",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through candidate receptacles according to a specific ordering policy until the target is found and taken.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "linked_h_ids": [
+          "h-4e270306c12d8eec"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden in a receptacle and the destination is also a receptacle type present in the room.",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "REFINE_EXISTING",
+      "rationale": "C returned no candidate. A assessed the evidence as supporting but identified a discrepancy in mechanism (searched cabinet vs destination countertop) and scope limitation (acquisition only, not total steps). This requires refining the existing hypothesis 'established-search-listed-order-general' to account for object placement distribution and controlled endpoint limitations, rather than adding new H or discarding.",
+      "target_comparison_id": "comparison-90f0d8a92eb6059c"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/c",
+      "candidate_retained": false,
+      "comparison_id": "comparison-90f0d8a92eb6059c",
+      "comparison_status": "PARTIALLY_RESOLVED",
+      "h_id": null,
+      "operation": "REFINE_EXISTING"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 18378,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/memory_before.json",
+      "sha256": "f9cec9d79b5b5fea01fd187be069ed95b2e030e6f0a7d07c09712a67955a486c",
+      "status": "available"
+    },
+    {
+      "bytes": 28832,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/memory_after.json",
+      "sha256": "8b263d6c7503f025efa5fb43c7d452e822d15d14a0495358e17b406450a253b5",
+      "status": "available"
+    },
+    {
+      "bytes": 13784,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/task_summary.json",
+      "sha256": "aa36707e4cd18d734a96097d6cfeff0e2b36fdbcf2d4902e5846387b72127aa4",
+      "status": "available"
+    },
+    {
+      "bytes": 1645,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/materialization.json",
+      "sha256": "ec3c4ce884cb32a49cb017704d4bf56b817b42e963f50d89d85b6263e0601bc8",
+      "status": "available"
+    },
+    {
+      "bytes": 560,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "690e4de13b7e77fa2b55e956f73b62adab5cc5214fd3357888f4bed7f3d80d2b",
+      "status": "available"
+    }
+  ]
+}

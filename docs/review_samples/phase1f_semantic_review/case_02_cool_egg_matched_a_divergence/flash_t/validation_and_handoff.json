@@ -1,0 +1,223 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent has an unknown target object location in a kitchen with mixed receptacles (fridge, cabinets, counters, drawers, garbage).",
+          "constraints": [
+            "Must preserve the ability to find the target regardless of its actual location.",
+            "Should minimize total action steps compared to alternative heuristics."
+          ],
+          "local_function": "Execute a search sequence to locate the target object.",
+          "required_downstream_state": "Target object is identified and taken into inventory."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 576,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b_c_handoff/projection.json",
+        "sha256": "7ab193643de16c2cf740b8150a2c500d85fdc5dc3185222332e8b9001dfe62ab",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to countertop_1",
+              "entities": [
+                "countertop_1"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to countertop_1",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1211,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/mechanical_grounding.json",
+        "sha256": "e1db5b47ae08d4b4c09131643c6b6e999d3d23289b54bbc0ae48efaa0292f38a",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "CONTRADICTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The global efficiency of semantic prioritization vs. spatial listing order across all object types and layouts.",
+          "The optimal fallback strategy when high-probability semantic containers are empty."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 373,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/epistemic_validation.json",
+        "sha256": "fafb812e40ebc1a892c22a2034b73fec9eb5967570953b894663937f96c4ae05",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "contradicting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-0e240389305dbecb",
+          "evidence_id": "evidence-99be6f18276850c9",
+          "evidence_role": "CONTRADICTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent followed the established memory's guidance to prioritize semantically likely containers (fridge) for a food item (egg). The fridge was empty, forcing a fallback to a spatial scan of cabinets, drawers, and countertops before finding the egg in a garbage can at step 23. This trajectory demonstrates that semantic prioritization can lead to longer search times if the high-probability container is empty and the actual location is not immediately next in the fallback sequence.",
+              "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts. Note that semantic prioritization may increase search time if the high-probability container is empty and the target is located in a less-likely but spatially earlier or later receptacle.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1899,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/materialization.json",
+        "sha256": "1f398f7bd3ba21442ddf516f7bb0c28a3e658672bde3d0df09def47a40e65f9d",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent followed the established memory's guidance to prioritize semantically likely containers (fridge) for a food item (egg). The fridge was empty, forcing a fallback to a spatial scan of cabinets, drawers, and countertops before finding the egg in a garbage can at step 23. This trajectory demonstrates that semantic prioritization can lead to longer search times if the high-probability container is empty and the actual location is not immediately next in the fallback sequence.",
+              "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts. Note that semantic prioritization may increase search time if the high-probability container is empty and the target is located in a less-likely but spatially earlier or later receptacle.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1558,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/updates_validation.json",
+        "sha256": "c7dff316be13b6073cb33210994c696382e2bb72ae061f722af52bcb06685322",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 373,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/epistemic_validation.json",
+      "sha256": "fafb812e40ebc1a892c22a2034b73fec9eb5967570953b894663937f96c4ae05",
+      "status": "available"
+    },
+    {
+      "bytes": 1558,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/updates_validation.json",
+      "sha256": "c7dff316be13b6073cb33210994c696382e2bb72ae061f722af52bcb06685322",
+      "status": "available"
+    },
+    {
+      "bytes": 1899,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a/materialization.json",
+      "sha256": "1f398f7bd3ba21442ddf516f7bb0c28a3e658672bde3d0df09def47a40e65f9d",
+      "status": "available"
+    },
+    {
+      "bytes": 576,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/b_c_handoff/projection.json",
+      "sha256": "7ab193643de16c2cf740b8150a2c500d85fdc5dc3185222332e8b9001dfe62ab",
+      "status": "available"
+    },
+    {
+      "bytes": 1211,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/c/mechanical_grounding.json",
+      "sha256": "e1db5b47ae08d4b4c09131643c6b6e999d3d23289b54bbc0ae48efaa0292f38a",
+      "status": "available"
+    }
+  ]
+}

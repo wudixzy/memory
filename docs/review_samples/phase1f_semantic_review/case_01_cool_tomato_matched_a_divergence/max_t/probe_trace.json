@@ -1,0 +1,196 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "fridge_1",
+      "countertop_1"
+    ],
+    "environment_actions": [
+      "go to fridge_1",
+      "open fridge_1",
+      "go to countertop_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to fridge_1",
+          "open fridge_1"
+        ],
+        "candidate_id": "fridge_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_30. fridge_1 is closed.",
+          "You open fridge_1. In fridge_1, you see bread_1, mug_3, pan_1, and plate_3."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "close fridge_1",
+            "examine fridge_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take bread_1 from fridge_1",
+            "take mug_3 from fridge_1",
+            "take pan_1 from fridge_1",
+            "take plate_3 from fridge_1"
+          ],
+          "observation": "You open fridge_1. In fridge_1, you see bread_1, mug_3, pan_1, and plate_3."
+        },
+        "selection": {
+          "candidate_index": 13,
+          "selected_candidate": "fridge_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to countertop_1"
+        ],
+        "candidate_id": "countertop_1",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_11. On countertop_1, you see dishsponge_1, and mug_2."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "examine coffeemachine_1",
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look",
+            "take dishsponge_1 from countertop_1",
+            "take mug_2 from coffeemachine_1",
+            "take mug_2 from countertop_1"
+          ],
+          "observation": "You arrive at loc_11. On countertop_1, you see dishsponge_1, and mug_2."
+        },
+        "selection": {
+          "candidate_index": 7,
+          "selected_candidate": "countertop_1"
+        },
+        "step": 2,
+        "target_acquired": false,
+        "target_visible": false
+      }
+    ],
+    "target_acquired_during_probe": false
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 3958,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/probe_summary.json",
+      "sha256": "07944b269df0ec1b02ebd6fce24f6dd80e8be0302c17fc85fce36bf3dd632d50",
+      "status": "available"
+    },
+    {
+      "bytes": 5607,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/selector_input.json",
+      "sha256": "f16e1e0d5ab0c18c22297c8aecaa63e094bee8ff8a6c1aa7d15cd6f1a28420d2",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/raw_response.json",
+      "sha256": "c218b6573d6001cdf975c69823cd8a9954454c26bd01678f2a3ad4713ee8ccff",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/parsed.json",
+      "sha256": "f9e94a6ae6721a83d4068459c7106ccf64b8fc7cbeae7ddf06e10167a6b4e196",
+      "status": "available"
+    },
+    {
+      "bytes": 64,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/001/selector_validation.json",
+      "sha256": "6bbf400a481c656237dc95d79a86ef07356623bc94dcf8ffc414ab350e6043fe",
+      "status": "available"
+    },
+    {
+      "bytes": 5500,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/selector_input.json",
+      "sha256": "6fff2720f1333f13841bcea4a87b22a2d634adb39b2b283e59aa80804be6e2eb",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/raw_response.json",
+      "sha256": "5ddc51269cc697e62192948eb41e2cb646620b98fdc4c31a075f2d0ccefb7cd1",
+      "status": "available"
+    },
+    {
+      "bytes": 27,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/parsed.json",
+      "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/probe/steps/002/selector_validation.json",
+      "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+      "status": "available"
+    }
+  ]
+}

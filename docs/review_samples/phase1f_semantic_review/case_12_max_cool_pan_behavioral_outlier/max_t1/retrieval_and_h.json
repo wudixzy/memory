@@ -1,0 +1,141 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-cf385d7dd455f0e8",
+    "archive_files": {
+      "after": {
+        "bytes": 2975,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_after.json",
+        "sha256": "8ddbad430a5bdcc0f0029e818804d5a0e83a23e29afe323dc8d943716cef0c01",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 1450,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_before.json",
+        "sha256": "c5adca8d66bb79b54b9d823274e23b7dc264dde4e8ed0f06f05842e78ab5cc55",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830",
+        "evidence_id": "evidence-f61ac543fa00d9b0",
+        "exploration_id": "exploration-h-08e26bc3ebfdd940",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cfd2fc58104a4c7a",
+        "source_h_id": "h-08e26bc3ebfdd940",
+        "source_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+        "evidence_id": "evidence-6e0637be2dfe20f0",
+        "exploration_id": "exploration-h-cf385d7dd455f0e8",
+        "hypothesis": "Prioritizing navigation to a cooling appliance receptacle first, rather than searching open surfaces or closed storage receptacles, yields faster target acquisition because bread is semantically likely to be stored inside a cooling appliance when the task requires cooling it.",
+        "realization_pattern": "Navigate to a cooling appliance receptacle from the room center, open it if closed, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not initially visible and a cooling appliance receptacle is available in the admissible action list from room center.",
+        "source_comparison_id": "comparison-895e7337d8d4381d",
+        "source_h_id": "h-cf385d7dd455f0e8",
+        "source_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830"
+      }
+    ],
+    "exploration_history_before": [
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830",
+        "evidence_id": "evidence-f61ac543fa00d9b0",
+        "exploration_id": "exploration-h-08e26bc3ebfdd940",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "related_post_test_memory_ids": [],
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cfd2fc58104a4c7a",
+        "source_h_id": "h-08e26bc3ebfdd940",
+        "source_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917"
+      }
+    ],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-895e7337d8d4381d",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830",
+        "h_id": "h-cf385d7dd455f0e8",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-cae6581e97ea5547",
+        "consumed_at_task": null,
+        "created_at_task": "pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161853_945788",
+        "h_id": "h-58fd7373754f8b6e",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-87696a31524548de",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004404_604165",
+        "h_id": "h-f7ef2de2a863dd66",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-baa8e1982268b35b",
+        "consumed_at_task": null,
+        "created_at_task": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221208_560499",
+        "h_id": "h-d9bc5cd426fefd5a",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-895e7337d8d4381d",
+        "consumed_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+        "created_at_task": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830",
+        "h_id": "h-cf385d7dd455f0e8",
+        "status": "consumed"
+      },
+      {
+        "comparison_id": "comparison-a5ac4d9544686f20",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+        "h_id": "h-1d7a160f11a8a876",
+        "status": "active"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-cf385d7dd455f0e8"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 13505,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/task_summary.json",
+      "sha256": "79e6f457a0269ba7b24eec190f4a6ef5e3a13822e578330e5b86f51abe6a2ce5",
+      "status": "available"
+    },
+    {
+      "bytes": 249813,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_before.json",
+      "sha256": "b13672952fce557418df2a08a7bfcec3ce25eed1bc71c09a8d77a959b9381dc1",
+      "status": "available"
+    },
+    {
+      "bytes": 389829,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_after.json",
+      "sha256": "b976d002919279c0d72a4f15328723398e276c9718a7ac2ad537f0d5951f6754",
+      "status": "available"
+    },
+    {
+      "bytes": 1450,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_before.json",
+      "sha256": "c5adca8d66bb79b54b9d823274e23b7dc264dde4e8ed0f06f05842e78ab5cc55",
+      "status": "available"
+    },
+    {
+      "bytes": 2975,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_after.json",
+      "sha256": "8ddbad430a5bdcc0f0029e818804d5a0e83a23e29afe323dc8d943716cef0c01",
+      "status": "available"
+    }
+  ]
+}

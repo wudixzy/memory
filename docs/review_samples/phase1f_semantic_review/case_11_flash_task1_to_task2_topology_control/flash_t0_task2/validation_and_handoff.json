@@ -1,0 +1,169 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at start location with no target object held; target location unknown.",
+          "constraints": [
+            "Must not assume target visibility without inspection.",
+            "Must handle closed containers by opening them before inspection."
+          ],
+          "local_function": "Iterate through receptacles in a specific order, navigate to each, inspect/open if necessary, and acquire the target upon discovery.",
+          "required_downstream_state": "Agent holds the target object."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 551,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/b_c_handoff/projection.json",
+        "sha256": "b553f70a537087a54ace4d3bce7f2299bd07b5dab03ac0d3a146b0733e73e9f0",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "status": "not_applicable",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 50,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/c/mechanical_grounding.json",
+        "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The hypothesis that prioritizing closed storage reduces total navigation steps compared to listed order is not fully resolved because the baseline (listed order) was not executed in this probe, and the target was found on the first attempt regardless of strategy.",
+          "The downstream execution phases (cleaning and placing) were not run, so the impact of search efficiency on total task completion time or success rate remains unknown."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 606,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/epistemic_validation.json",
+        "sha256": "37688c4c43cd9d4dd6aa75bbc304d9bbc9139a45932999d2a0582fda61c3dec7",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "supporting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-16b9a7112350ec18",
+          "evidence_id": "evidence-b8150900bcd34087",
+          "evidence_role": "SUPPORTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-5e5d179b530da681"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe evidence shows that navigating directly to a closed storage receptacle (cabinet_1) resulted in immediate target acquisition (plate_1) in 2 steps. The initial observation did not show the target, requiring inspection. This supports the exploratory memory's guidance to prioritize closed storage for hidden targets.",
+              "guidance": "When the target object is not immediately visible in the room observation, prioritize navigating to and inspecting closed storage receptacles (such as cabinets, drawers, and fridges) before checking open surfaces (countertops, shelves). Open closed receptacles if necessary to inspect contents. If the target is found, take it. Only proceed to open surfaces if all closed storage options have been exhausted without finding the target.",
+              "operation": "ADD",
+              "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple candidate receptacles are present.",
+              "target_memory_ids": []
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1501,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/materialization.json",
+        "sha256": "49809ced28696385d12bab556f8f8ae96e5c4030453f8c0931d1d5fb92a4d780",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe evidence shows that navigating directly to a closed storage receptacle (cabinet_1) resulted in immediate target acquisition (plate_1) in 2 steps. The initial observation did not show the target, requiring inspection. This supports the exploratory memory's guidance to prioritize closed storage for hidden targets.",
+              "guidance": "When the target object is not immediately visible in the room observation, prioritize navigating to and inspecting closed storage receptacles (such as cabinets, drawers, and fridges) before checking open surfaces (countertops, shelves). Open closed receptacles if necessary to inspect contents. If the target is found, take it. Only proceed to open surfaces if all closed storage options have been exhausted without finding the target.",
+              "operation": "ADD",
+              "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple candidate receptacles are present.",
+              "target_memory_ids": []
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1177,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/updates_validation.json",
+        "sha256": "22e414a622338ec1d614485d4d3b020705df432c6383601128fcf9524d8550ba",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 606,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/epistemic_validation.json",
+      "sha256": "37688c4c43cd9d4dd6aa75bbc304d9bbc9139a45932999d2a0582fda61c3dec7",
+      "status": "available"
+    },
+    {
+      "bytes": 1177,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/updates_validation.json",
+      "sha256": "22e414a622338ec1d614485d4d3b020705df432c6383601128fcf9524d8550ba",
+      "status": "available"
+    },
+    {
+      "bytes": 1501,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/a/materialization.json",
+      "sha256": "49809ced28696385d12bab556f8f8ae96e5c4030453f8c0931d1d5fb92a4d780",
+      "status": "available"
+    },
+    {
+      "bytes": 551,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/b_c_handoff/projection.json",
+      "sha256": "b553f70a537087a54ace4d3bce7f2299bd07b5dab03ac0d3a146b0733e73e9f0",
+      "status": "available"
+    },
+    {
+      "bytes": 50,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T0_component/T/c/mechanical_grounding.json",
+      "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+      "status": "available"
+    }
+  ]
+}

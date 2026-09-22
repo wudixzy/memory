@@ -1,0 +1,93 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "bound_bucket": null,
+      "comparison_assessment": "REMAINS_OPEN",
+      "comparison_id": "comparison-a4dd496faa0506d4",
+      "evidence_id": "evidence-edd0fa449e24460d",
+      "evidence_role": "IRRELEVANT",
+      "status": "accepted"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+        "last_updated_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "linked_h_ids": [
+          "h-9237af7e062ed4d8"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [],
+        "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+        "last_updated_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "linked_h_ids": [
+          "h-9237af7e062ed4d8"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": false,
+      "operation": "NO_NEW_H",
+      "rationale": "C returned no candidate. Existing comparison remains OPEN with active H; A's refinement targets memory, not a new or refined H.",
+      "target_comparison_id": "NONE"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/c",
+      "candidate_retained": false,
+      "comparison_id": null,
+      "comparison_status": null,
+      "h_id": null,
+      "operation": "NO_NEW_H"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 49918,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_before.json",
+      "sha256": "4ce282c88e4085c4aa20c4e16de1eb00a6f37d4cc35445392677ff8311021b76",
+      "status": "available"
+    },
+    {
+      "bytes": 64375,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_after.json",
+      "sha256": "d97944270da72195f976d0fcd243c8ca162df3693d9735a1544c2d3c34456b99",
+      "status": "available"
+    },
+    {
+      "bytes": 11449,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/task_summary.json",
+      "sha256": "a2afb0aaea29baa7ff504d59cc7ec73af06c8732a3f9818354f0e684446d0e89",
+      "status": "available"
+    },
+    {
+      "bytes": 1417,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/a/materialization.json",
+      "sha256": "4b8a3ebc9abbe1b78b1ab482d51b9763fcb84d2bca8085ed3f14d38dabc1294c",
+      "status": "available"
+    },
+    {
+      "bytes": 239,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "af74f1ca3b41849669fea32845f93cd20c22d43b2b95602289469c6fa73ee726",
+      "status": "available"
+    }
+  ]
+}

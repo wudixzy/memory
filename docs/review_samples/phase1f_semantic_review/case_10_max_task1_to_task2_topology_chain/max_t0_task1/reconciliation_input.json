@@ -1,0 +1,72 @@
+{
+  "content": {
+    "current_episode": {
+      "a_semantic_assessment": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "still_unresolved": [
+          "No exploratory hypothesis was activated or probed; no comparative claim can be assessed.",
+          "Task completion remains unfinished (target acquired but not yet placed on drawer).",
+          "Whether the listed-order search strategy is globally optimal compared to alternative search heuristics remains untested."
+        ],
+        "updates": []
+      },
+      "b_to_c_handoff": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at the room center with the full list of visible receptacles from the entry observation; target object is not initially visible; inventory is empty.",
+          "constraints": [
+            "Must only visit receptacles present in the initial observation list",
+            "Must open closed receptacles before inspection",
+            "Must terminate search immediately upon successful target acquisition",
+            "Must not interact with non-target objects"
+          ],
+          "local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+          "required_downstream_state": "Target object (saltshaker) is held in agent inventory; agent is co-located with the receptacle where the target was found."
+        }
+      },
+      "c_candidate": {
+        "decision": "CREATE",
+        "guidance": "Navigate first to an available open surface. Inspect it for the target object. If not found, proceed to a closed storage receptacle, open it, and inspect. Stop immediately upon finding the target.",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "probe_spec": {
+          "adaptive_policy": "From the current observation, select an available open surface as the first navigation target. Upon arrival, inspect contents. If the target object is not present, select a closed storage receptacle from the admissible actions, navigate to it, issue an open command, then inspect. Terminate search immediately if the target object is observed.",
+          "capability_requirements": [
+            "go to",
+            "look",
+            "open"
+          ],
+          "evidence_goal": "Whether the target object is found on the first visited open surface or requires opening a closed receptacle, and the total action count to acquisition compared to strict list-order traversal.",
+          "local_function": "candidate receptacle selection order during initial search",
+          "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+          "required_downstream_state": "Target object is held in agent inventory; agent is co-located with the receptacle where the target was found.",
+          "stop_conditions": [
+            "target object is successfully taken into inventory",
+            "all prioritized open surfaces and one closed storage receptacle have been inspected without success",
+            "an action fails or returns an error"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "type": "exploratory"
+      },
+      "current_evidence_id": "evidence-be8f7c268d7d0c54",
+      "history_retrieval": {
+        "decision": "NONE",
+        "exploration_ids": []
+      },
+      "task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+    },
+    "existing_comparison_ids": [],
+    "existing_comparison_summaries": [],
+    "schema_version": "phase1b-h-comparison-reconciliation-v3-compact"
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 3965,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/001-b03ad3ed0df4/max/T0_component/T/h_reconciliation/reconciliation_input.json",
+    "sha256": "4f5dc1b1371f39ac14f9bbc2a47611ecf7cdb6eed41f26b13a5bf3751a855516",
+    "status": "available"
+  }
+}

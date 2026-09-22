@@ -1,0 +1,20 @@
+{
+  "extraction": "exact non-user prompt messages; episode-specific user payload referenced",
+  "preserved_messages": [],
+  "referenced_user_messages": [
+    {
+      "content_bytes": 56593,
+      "content_sha256": "03af65ce8affe61086605e9355f3feb2bc67cc3d381a7ae522656ff536f7b0c7",
+      "index": 0,
+      "reason": "Episode-specific user payload is represented by adjacent structured input/evidence projections; exact source prompt path and digest are retained.",
+      "role": "user",
+      "status": "referenced_not_copied"
+    }
+  ],
+  "source_artifact": {
+    "bytes": 56640,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/prompt.json",
+    "sha256": "ed25c308844637a8ecbbf028d3609ab8eaa823ae8a8c14751d2f3819c0d05eef",
+    "status": "available"
+  }
+}

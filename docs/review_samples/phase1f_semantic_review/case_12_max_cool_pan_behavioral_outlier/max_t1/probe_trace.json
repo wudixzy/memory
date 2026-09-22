@@ -1,0 +1,193 @@
+{
+  "content": {
+    "candidate_probe_count": 2,
+    "candidate_sequence": [
+      "fridge_1",
+      "microwave_1"
+    ],
+    "environment_actions": [
+      "go to fridge_1",
+      "open fridge_1",
+      "go to microwave_1",
+      "open microwave_1"
+    ],
+    "runtime_status": "EVIDENCE_OBTAINED",
+    "source_step_selector_artifacts": [
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_validation.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_input.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/raw_response.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/parsed.json",
+      "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_validation.json"
+    ],
+    "steps": [
+      {
+        "actions": [
+          "go to fridge_1",
+          "open fridge_1"
+        ],
+        "candidate_id": "fridge_1",
+        "candidate_probe_count": 1,
+        "observations": [
+          "You arrive at loc_30. fridge_1 is closed.",
+          "You open fridge_1. In fridge_1, you see nothing."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "close fridge_1",
+            "examine fridge_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to garbagecan_1",
+            "go to microwave_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "observation": "You open fridge_1. In fridge_1, you see nothing."
+        },
+        "selection": {
+          "candidate_index": 13,
+          "selected_candidate": "fridge_1"
+        },
+        "step": 1,
+        "target_acquired": false,
+        "target_visible": false
+      },
+      {
+        "actions": [
+          "go to microwave_1",
+          "open microwave_1"
+        ],
+        "candidate_id": "microwave_1",
+        "candidate_probe_count": 2,
+        "observations": [
+          "You arrive at loc_17. microwave_1 is closed.",
+          "You open microwave_1. In microwave_1, you see nothing."
+        ],
+        "public_state_after": {
+          "admissible_actions": [
+            "close microwave_1",
+            "examine microwave_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to cabinet_5",
+            "go to cabinet_6",
+            "go to coffeemachine_1",
+            "go to countertop_1",
+            "go to countertop_2",
+            "go to countertop_3",
+            "go to drawer_1",
+            "go to drawer_2",
+            "go to drawer_3",
+            "go to fridge_1",
+            "go to garbagecan_1",
+            "go to shelf_1",
+            "go to shelf_2",
+            "go to shelf_3",
+            "go to sinkbasin_1",
+            "go to stoveburner_1",
+            "go to stoveburner_2",
+            "go to stoveburner_3",
+            "go to stoveburner_4",
+            "go to toaster_1",
+            "inventory",
+            "look"
+          ],
+          "observation": "You open microwave_1. In microwave_1, you see nothing."
+        },
+        "selection": {
+          "candidate_index": 14,
+          "selected_candidate": "microwave_1"
+        },
+        "step": 2,
+        "target_acquired": false,
+        "target_visible": false
+      }
+    ],
+    "target_acquired_during_probe": false
+  },
+  "extraction": "public action/observation trace; evaluator fields removed",
+  "removed_json_pointers": [
+    "/trace/*/result/final_state/won"
+  ],
+  "source_artifacts": [
+    {
+      "bytes": 3703,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/probe_summary.json",
+      "sha256": "d6b872b43d53747d533369797f5fb44572079f18b0f0d77926b282480d90b527",
+      "status": "available"
+    },
+    {
+      "bytes": 5167,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_input.json",
+      "sha256": "58c691a1164e1d31507e2a265ce162ca11a0e118869ca64169214d196f9738a9",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/raw_response.json",
+      "sha256": "c218b6573d6001cdf975c69823cd8a9954454c26bd01678f2a3ad4713ee8ccff",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/parsed.json",
+      "sha256": "f9e94a6ae6721a83d4068459c7106ccf64b8fc7cbeae7ddf06e10167a6b4e196",
+      "status": "available"
+    },
+    {
+      "bytes": 64,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_validation.json",
+      "sha256": "6bbf400a481c656237dc95d79a86ef07356623bc94dcf8ffc414ab350e6043fe",
+      "status": "available"
+    },
+    {
+      "bytes": 5018,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_input.json",
+      "sha256": "742b75261bf6ff3aabc6a925fea9777f12ad424fb1dcc027e676b89959c16e3f",
+      "status": "available"
+    },
+    {
+      "bytes": 68,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/raw_response.json",
+      "sha256": "cff6227e5a1e97ab67200e9048a053b67f1974dbf0c284d4085108a309340693",
+      "status": "available"
+    },
+    {
+      "bytes": 28,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/parsed.json",
+      "sha256": "f0d1425f7871b9a5de6f98dfb3cb8105f9edd896ae24322933f89ed51a524382",
+      "status": "available"
+    },
+    {
+      "bytes": 67,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_validation.json",
+      "sha256": "c08eceb63c652f8d24ff73b1e982796c5bc25f9762c732454ef968f110c110d8",
+      "status": "available"
+    }
+  ]
+}

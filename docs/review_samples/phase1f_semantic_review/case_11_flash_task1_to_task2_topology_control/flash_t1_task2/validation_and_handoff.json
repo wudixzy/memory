@@ -1,0 +1,174 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent is at the starting location with no target object in inventory; target location is unknown but constrained to visible receptacles.",
+          "constraints": [
+            "Must not assume target visibility without inspection.",
+            "Must handle closed containers by opening them before inspection.",
+            "Must stop searching immediately upon finding the target."
+          ],
+          "local_function": "Iterate through receptacles in a defined order, navigate to each, inspect/open if necessary, and take the target upon discovery.",
+          "required_downstream_state": "Target object is in agent's inventory; agent is at the location where the target was found."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 731,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/b_c_handoff/projection.json",
+        "sha256": "d834e05f47df8b24d75d07876180c10909014d36260a647333375917649a29b9",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "status": "not_applicable",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 50,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/c/mechanical_grounding.json",
+        "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "SUPPORTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The hypothesis claims reduced total steps compared to baseline. This probe only measured target acquisition (2 actions). The full task requires cleaning and placing, which were not executed in this controlled endpoint. Therefore, the comparison of *total* task steps remains open.",
+          "The destination type is 'countertop', but the target was found in a 'cabinet'. The hypothesis prioritizes searching receptacles matching the *destination* type first. Since cabinets are not countertops, the agent did not follow the specific 'match destination type' rule strictly, or the rule implies checking destination-type containers for storage? No, the hypothesis says 'Identify the destination receptacle type... Navigate to and inspect only those receptacles matching that type first.' If destination is countertop, it should check countertops first. It checked cabinet_1. This suggests either the hypothesis implementation varied from the text, or the evidence supports finding targets quickly regardless of strict destination-type matching if the first candidate works. However, looking at the trace: `selected_candidate: cabinet_1`. The instruction was `clean some plate and put it in countertop`. Destination type: Countertop. Hypothesis: Search Countertops first. Evidence: Searched Cabinet first. Found target. This actually contradicts the specific mechanism of the hypothesis (searching destination type first) unless 'cabinet' was considered a valid proxy or the policy failed to filter correctly. Wait, let's re-read carefully. `consumed_exploratory_memory` guidance: "
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1743,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/epistemic_validation.json",
+        "sha256": "209cf9f0947e0df8c8de20a305d785453fd54394a81496a097d6aadcf7909093",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "supporting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-90f0d8a92eb6059c",
+          "evidence_id": "evidence-b8150900bcd34087",
+          "evidence_role": "SUPPORTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe acquired target in 2 actions by selecting cabinet_1. Task destination was countertop. Hypothesis predicted searching destination-type (countertop) first. Agent searched cabinet first. Target found immediately. This indicates that while fast acquisition occurred, it may not have followed the specific 'destination-type-first' filtering logic, or that non-destination types can contain targets efficiently. More importantly, the controlled endpoint stopped at acquisition, so total step reduction vs baseline for the full task is unverified.",
+              "guidance": "Refine established-search-listed-order-general to note that target acquisition speed varies significantly based on object placement distribution, not just search order. Controlled probes stopping at acquisition do not validate end-to-end efficiency gains for multi-step tasks (like clean/place).",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where target acquisition is isolated from downstream execution.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1645,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/materialization.json",
+        "sha256": "ec3c4ce884cb32a49cb017704d4bf56b817b42e963f50d89d85b6263e0601bc8",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe acquired target in 2 actions by selecting cabinet_1. Task destination was countertop. Hypothesis predicted searching destination-type (countertop) first. Agent searched cabinet first. Target found immediately. This indicates that while fast acquisition occurred, it may not have followed the specific 'destination-type-first' filtering logic, or that non-destination types can contain targets efficiently. More importantly, the controlled endpoint stopped at acquisition, so total step reduction vs baseline for the full task is unverified.",
+              "guidance": "Refine established-search-listed-order-general to note that target acquisition speed varies significantly based on object placement distribution, not just search order. Controlled probes stopping at acquisition do not validate end-to-end efficiency gains for multi-step tasks (like clean/place).",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-and-place tasks where target acquisition is isolated from downstream execution.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1310,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/updates_validation.json",
+        "sha256": "d958f7d1a6fe9a0214055722f5a9bfd00cfdd5fae9579b517700a7fbb90e903a",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 1743,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/epistemic_validation.json",
+      "sha256": "209cf9f0947e0df8c8de20a305d785453fd54394a81496a097d6aadcf7909093",
+      "status": "available"
+    },
+    {
+      "bytes": 1310,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/updates_validation.json",
+      "sha256": "d958f7d1a6fe9a0214055722f5a9bfd00cfdd5fae9579b517700a7fbb90e903a",
+      "status": "available"
+    },
+    {
+      "bytes": 1645,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/a/materialization.json",
+      "sha256": "ec3c4ce884cb32a49cb017704d4bf56b817b42e963f50d89d85b6263e0601bc8",
+      "status": "available"
+    },
+    {
+      "bytes": 731,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/b_c_handoff/projection.json",
+      "sha256": "d834e05f47df8b24d75d07876180c10909014d36260a647333375917649a29b9",
+      "status": "available"
+    },
+    {
+      "bytes": 50,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/flash/T1/c/mechanical_grounding.json",
+      "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+      "status": "available"
+    }
+  ]
+}

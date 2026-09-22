@@ -1,0 +1,19 @@
+{
+  "comparison_assessment": "REMAINS_OPEN",
+  "decision": "UPDATE",
+  "evidence_role": "IRRELEVANT",
+  "still_unresolved": [
+    "Whether prioritizing open horizontal surfaces before closed storage receptacles reduces total search actions compared to strictly following the listed observation order across varied room configurations and target placements."
+  ],
+  "updates": [
+    {
+      "evidence_basis": "Probe successfully acquired the target plate from an open surface (countertop_2) in 3 actions without needing to open any closed receptacle, demonstrating that open-surface-first navigation is viable when the target is not immediately visible at entry.",
+      "guidance": "When the target object is not immediately visible, prioritize navigating to and inspecting available open horizontal surfaces (e.g., countertops, shelves) before attempting to open closed storage receptacles (e.g., cabinets, drawers, fridge). Stop searching as soon as the target is observed and take it.",
+      "operation": "REFINE",
+      "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible in the entry observation and the room contains both open surfaces and closed storage receptacles.",
+      "target_memory_ids": [
+        "established-search-listed-order-general"
+      ]
+    }
+  ]
+}

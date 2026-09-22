@@ -1,0 +1,62 @@
+{
+  "content": {
+    "public_affordance_structure": {
+      "action_families": [
+        "go",
+        "inventory",
+        "look"
+      ],
+      "visible_or_referenced_entities": [
+        "cabinet_1",
+        "cabinet_2",
+        "cabinet_3",
+        "cabinet_4",
+        "countertop_1",
+        "garbagecan_1",
+        "handtowelholder_1",
+        "handtowelholder_2",
+        "sinkbasin_1",
+        "sinkbasin_2",
+        "toilet_1",
+        "toiletpaperhanger_1",
+        "towelholder_1"
+      ]
+    },
+    "public_candidate_count": 13,
+    "public_initial_admissible_actions": [
+      "go to cabinet_1",
+      "go to cabinet_2",
+      "go to cabinet_3",
+      "go to cabinet_4",
+      "go to countertop_1",
+      "go to garbagecan_1",
+      "go to handtowelholder_1",
+      "go to handtowelholder_2",
+      "go to sinkbasin_1",
+      "go to sinkbasin_2",
+      "go to toilet_1",
+      "go to toiletpaperhanger_1",
+      "go to towelholder_1",
+      "inventory",
+      "look"
+    ],
+    "public_initial_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+    "public_initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet.",
+    "public_instruction": "clean some soapbar and put it in cabinet.",
+    "registry_replay_spec_omitted": "Frozen carrier replay metadata omitted; no PDDL content or oracle data was accessed.",
+    "requested_seed": 42,
+    "split": "valid_unseen",
+    "task_family": "pick_clean_then_place_in_recep",
+    "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+  },
+  "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 715373,
+      "path": "experiments/exploratory_memory_mvp/cases/phase1c_scale_pilot_registry.json",
+      "sha256": "ac2b4522ef184aeb468b370ae42517f6dda3ab052d9b82a21047220e405206f8",
+      "status": "available"
+    }
+  ]
+}

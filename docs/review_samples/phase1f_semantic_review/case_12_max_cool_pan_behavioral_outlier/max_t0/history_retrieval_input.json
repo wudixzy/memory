@@ -1,0 +1,38 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4"
+      },
+      {
+        "exploration_id": "exploration-h-492f4d237f36cd53",
+        "hypothesis": "For food items requiring downstream cooling, prioritizing navigation to food-preparation appliances (e.g., toasters, microwaves) before inspecting general open horizontal surfaces or closed storage receptacles reduces total search actions by targeting semantically likely spawn locations first.",
+        "realization_pattern": "visit a food-preparation appliance first; if empty, visit an open horizontal surface next; if still empty, visit a closed storage receptacle, opening it before inspection",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is a food item not immediately visible in the entry observation and the room contains both open surfaces, closed storage receptacles, and food-preparation appliances.",
+        "source_comparison_id": "comparison-a4dd496faa0506d4"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of admissible receptacles; target (pan) not visible in entry observation; task requires acquiring a pan for downstream cooling.",
+      "constraints": [
+        "Must not modify or interact with non-target objects",
+        "Must terminate search immediately upon first target observation",
+        "Must remain within admissible navigation actions"
+      ],
+      "local_function": "Search environment receptacles to locate and acquire the target pan object.",
+      "required_downstream_state": "Pan held in agent inventory, ready for downstream cooling routine."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2245,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "03d1173ff5bbbacb1572ba4d8dcdadd57c9afe641510360ceb5c7452a9e87ac6",
+    "status": "available"
+  }
+}

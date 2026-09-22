@@ -1,0 +1,213 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles from entry observation; target not yet visible; inventory empty.",
+          "constraints": [
+            "Must follow the exact listing order from the initial room observation",
+            "Must open closed receptacles before inspecting contents",
+            "Must pick up the target immediately upon first exposure",
+            "Must not perform actions outside the probe sequence until target is acquired"
+          ],
+          "local_function": "Navigate to and inspect receptacles sequentially in the order listed in the room observation until the target object is found and picked up.",
+          "required_downstream_state": "Agent holds the target object (soapbar) in inventory and knows its current location for subsequent navigation to cleaning/destination receptacles."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 877,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/b_c_handoff/projection.json",
+        "sha256": "d68988c524f66f3b7975f66630942b2f76e05f973eacca9dccbea0a7c400fa52",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to cabinet_4",
+              "entities": [
+                "cabinet_4"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to cabinet_4",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to cabinet_4",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 910,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/c/mechanical_grounding.json",
+        "sha256": "a49c250f92f19483029dac682ad372b092fdbc3e5598307ec1b61d75f779746b",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "UPDATE",
+        "evidence_role": "INCONCLUSIVE",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether prioritizing closed storage receptacles over open surfaces yields faster target acquisition for objects typically stored inside enclosed containers.",
+          "Whether the general listed-order search strategy should be refined to incorporate object-type heuristics for initial receptacle selection."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 467,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/epistemic_validation.json",
+        "sha256": "d998e44bea3a557b44a0d6c8ef1e12064e36e32377d018bba101bfb0b6d7c2b3",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "inconclusive_evidence_refs",
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-baa8e1982268b35b",
+          "evidence_id": "evidence-52c2450ea63ed80b",
+          "evidence_role": "INCONCLUSIVE",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe navigated to and opened cabinet_1 first per hypothesis guidance, found no soapbar, then successfully acquired soapbar_1 from countertop_1. Target was on an open surface, not in a closed receptacle, costing 2 additional actions (go to + open) before finding it.",
+              "guidance": "When searching for a target object not visible at room center, recognize that some object types (e.g., soapbar) may frequently appear on open surfaces like countertops even when closed storage receptacles are available. Blindly prioritizing closed receptacles first can incur unnecessary navigation and opening costs if the target is actually on an open surface. Consider inspecting open surfaces early in the search order, or use object-type priors to decide whether to check closed or open receptacles first.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and both closed storage receptacles and open surfaces are available in the admissible action list.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1690,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/materialization.json",
+        "sha256": "853db0c6cf639a32657dd940e51563139f649e0bd9b22f834cd3a2c3d0373a4b",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "Probe navigated to and opened cabinet_1 first per hypothesis guidance, found no soapbar, then successfully acquired soapbar_1 from countertop_1. Target was on an open surface, not in a closed receptacle, costing 2 additional actions (go to + open) before finding it.",
+              "guidance": "When searching for a target object not visible at room center, recognize that some object types (e.g., soapbar) may frequently appear on open surfaces like countertops even when closed storage receptacles are available. Blindly prioritizing closed receptacles first can incur unnecessary navigation and opening costs if the target is actually on an open surface. Consider inspecting open surfaces early in the search order, or use object-type priors to decide whether to check closed or open receptacles first.",
+              "operation": "REFINE",
+              "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and both closed storage receptacles and open surfaces are available in the admissible action list.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1357,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/updates_validation.json",
+        "sha256": "69dc24ccd299dd964e40cf4130b6240a96a46bc47d4921db4d8d6374aa7726dc",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 467,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/epistemic_validation.json",
+      "sha256": "d998e44bea3a557b44a0d6c8ef1e12064e36e32377d018bba101bfb0b6d7c2b3",
+      "status": "available"
+    },
+    {
+      "bytes": 1357,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/updates_validation.json",
+      "sha256": "69dc24ccd299dd964e40cf4130b6240a96a46bc47d4921db4d8d6374aa7726dc",
+      "status": "available"
+    },
+    {
+      "bytes": 1690,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/a/materialization.json",
+      "sha256": "853db0c6cf639a32657dd940e51563139f649e0bd9b22f834cd3a2c3d0373a4b",
+      "status": "available"
+    },
+    {
+      "bytes": 877,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/b_c_handoff/projection.json",
+      "sha256": "d68988c524f66f3b7975f66630942b2f76e05f973eacca9dccbea0a7c400fa52",
+      "status": "available"
+    },
+    {
+      "bytes": 910,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/c/mechanical_grounding.json",
+      "sha256": "a49c250f92f19483029dac682ad372b092fdbc3e5598307ec1b61d75f779746b",
+      "status": "available"
+    }
+  ]
+}

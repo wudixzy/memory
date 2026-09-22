@@ -1,0 +1,44 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate to an available closed storage receptacle of the same type as the task destination. Open it if closed and inspect for the cloth target. If found, take it and proceed to the cleaning phase. If not found, fall back to systematic listed-order traversal of remaining receptacles, opening closed ones before inspection.",
+  "hypothesis": "Navigating directly to a closed storage receptacle matching the task destination type before checking fabric-associated holders or performing full listed-order traversal may locate the cloth target with fewer total actions when the object is staged inside destination-type storage rather than on open fabric holders.",
+  "probe_spec": {
+    "adaptive_policy": "Select an available closed storage receptacle matching the destination type from the current observation. Navigate to it, open it if required, and inspect contents. If the target cloth is visible, take it. If not, immediately fall back to traversing remaining receptacles in listed order, opening any closed ones before inspection. Do not confuse towel objects with the cloth target.",
+    "capability_requirements": [
+      "go to",
+      "open",
+      "take",
+      "look"
+    ],
+    "evidence_goal": "Whether the cloth target is found inside the first inspected destination-type closed storage receptacle, reducing total navigation and interaction steps compared to prior semantic-holder-first probes that incurred overhead before falling back to cabinets.",
+    "local_function": "Initial search target selection for cloth acquisition in clean-then-place tasks",
+    "realization_pattern": "Navigate to a closed storage receptacle matching the destination type; open it; inspect for the target fabric object; acquire if present; otherwise resume systematic traversal of remaining visible receptacles",
+    "required_downstream_state": "Cloth target held in inventory, agent positioned to proceed to cleaning phase at a sinkbasin",
+    "stop_conditions": [
+      "Target cloth acquired in inventory",
+      "Destination-type closed storage receptacle opened and confirmed empty of cloth target",
+      "All available destination-type closed storage receptacles inspected without finding cloth target",
+      "Action failure or invalid action returned"
+    ]
+  },
+  "provenance": [
+    "entry_state admissible_actions",
+    "historical_capability_vocabulary action_names",
+    "b_handoff functional_contract",
+    "pre_update_established_memories established-search-listed-order-general"
+  ],
+  "reason": "Prior exploration history tested semantic-priority (fabric-holder-first) for cloth targets and found overhead when the cloth was in a cabinet. The established memory cautions against semantic prioritization for cloth but has not tested destination-type-first search specifically for cloth-in-cabinet scenarios. This probe tests whether going directly to a destination-matching closed storage receptacle avoids both the semantic-holder overhead and the full listed-order traversal cost, representing a materially different realization pattern from previously explored hypotheses.",
+  "scope": "ALFWorld clean-then-place tasks targeting a cloth where the entry observation lists closed storage receptacles and the destination is a cabinet, testing whether inspecting the destination-type receptacle first can locate the target without semantic-holder overhead.",
+  "source_grounding": {
+    "entry_action": "go to cabinet_1",
+    "public_capability_evidence": [
+      "cabinet_1 is present in currently_admissible_actions",
+      "cabinet_1 is present in currently_visible_or_referenced_entities",
+      "go to is present in historical_capability_vocabulary action_names",
+      "open is present in historical_capability_vocabulary action_names",
+      "take is present in historical_capability_vocabulary action_names"
+    ],
+    "why_grounded": "cabinet_1 is listed in the entry-state admissible actions and matches the destination receptacle type specified in the task instruction, making it a legal first step for the destination-type-first probe."
+  },
+  "type": "exploratory"
+}

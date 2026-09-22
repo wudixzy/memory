@@ -1,0 +1,181 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target cloth not visible; task requires clean-then-place to cabinet.",
+          "constraints": [
+            "Must not confuse towel objects with cloth target",
+            "Must open closed receptacles before taking contents",
+            "Must preserve ability to reach sinkbasin for downstream cleaning"
+          ],
+          "local_function": "Probe domain-semantically matched fabric holders first, then fall back to systematic traversal of closed receptacles to locate and acquire the cloth target.",
+          "required_downstream_state": "Cloth target held in inventory, agent positioned to proceed to cleaning phase."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 728,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/b_c_handoff/projection.json",
+        "sha256": "235e92984febbeaf6b0e54d4adc0cd4444530c5788a6da2240675b493011ef3b",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "action_grounding_check": {
+          "checked_actions": [
+            {
+              "action": "go to cabinet_1",
+              "entities": [
+                "cabinet_1"
+              ],
+              "syntactically_valid": true
+            }
+          ],
+          "issues": [],
+          "valid": true
+        },
+        "entry_action": "go to cabinet_1",
+        "entry_action_admissible": true,
+        "entry_action_check": {
+          "action": "go to cabinet_1",
+          "admissible_actions": [
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "issue": null,
+          "valid": true
+        },
+        "issues": [],
+        "status": "checked",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 910,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/c/mechanical_grounding.json",
+        "sha256": "98f65be3291604b866212b884d16fb9787feb37d008945bf0c0c335350094427",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "IRRELEVANT",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether navigating to towelholder-type receptacles before inspecting generic closed storage reduces search steps for acquiring a cloth object in clean-then-place tasks, compared to strict listed-order traversal.",
+          "The relative efficiency of semantic prioritization versus listed-order traversal for cloth targets across multiple episodes and room configurations."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 533,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/epistemic_validation.json",
+        "sha256": "6bea9981cae4943073299dc1dc7be9ad22c5444159f475192048903af4cd8150",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": null,
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-c69bec6a96ad0544",
+          "evidence_id": "evidence-d2a497aaf2d7beb9",
+          "evidence_role": "IRRELEVANT",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 308,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/materialization.json",
+        "sha256": "846a520de0b510af89d723b42a9bb17e22952775807447902f1c05ffb4c0e2e6",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 533,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/epistemic_validation.json",
+      "sha256": "6bea9981cae4943073299dc1dc7be9ad22c5444159f475192048903af4cd8150",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 308,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/a/materialization.json",
+      "sha256": "846a520de0b510af89d723b42a9bb17e22952775807447902f1c05ffb4c0e2e6",
+      "status": "available"
+    },
+    {
+      "bytes": 728,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/b_c_handoff/projection.json",
+      "sha256": "235e92984febbeaf6b0e54d4adc0cd4444530c5788a6da2240675b493011ef3b",
+      "status": "available"
+    },
+    {
+      "bytes": 910,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/c/mechanical_grounding.json",
+      "sha256": "98f65be3291604b866212b884d16fb9787feb37d008945bf0c0c335350094427",
+      "status": "available"
+    }
+  ]
+}

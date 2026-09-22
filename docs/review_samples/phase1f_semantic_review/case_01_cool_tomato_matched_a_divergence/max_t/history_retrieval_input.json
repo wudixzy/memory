@@ -1,0 +1,38 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-25331a9a4337e940",
+        "hypothesis": "Prioritizing receptacles that are semantically likely to hold the target object (e.g., furniture surfaces) over a strict listed-order traversal reduces search steps, while still respecting the constraint to open closed receptacles before inspection.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle first; open if required; inspect contents; acquire target if present; otherwise continue systematic search of remaining receptacles.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the entry observation lists many receptacles including the task-specified destination receptacle.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      },
+      {
+        "exploration_id": "exploration-h-0e1c57e08374931a",
+        "hypothesis": "Filtering the search order by semantic plausibility—prioritizing open surfaces and storage receptacles likely to hold a small hygiene item while skipping fixtures that cannot contain it—reduces total navigation steps compared to both strict listed-order traversal and generic surface-priority heuristics.",
+        "realization_pattern": "Navigate to a semantically plausible surface or storage receptacle; open if required; inspect contents; acquire target if present; otherwise continue to the next plausible receptacle, explicitly skipping implausible fixture types.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object is not immediately visible and the entry observation lists multiple receptacles including surfaces, closed storage units, and fixtures unlikely to hold the target.",
+        "source_comparison_id": "comparison-c69bec6a96ad0544"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles; target object not yet observed; inventory empty.",
+      "constraints": [
+        "Must eventually find and acquire the target if present in any reachable receptacle",
+        "Must not interact with or pick up non-target objects during search",
+        "Must open closed receptacles before inspecting their contents"
+      ],
+      "local_function": "Systematically navigate to and inspect receptacles in listed order until the target object is found, then take it into inventory.",
+      "required_downstream_state": "Target object held in agent inventory; agent located at the receptacle where the target was found."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 2572,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/007-5582b1da75fa/T/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "3bc6253055622a1e5db2e35229e92cdeedf35b5191437733d805a3515235aa9c",
+    "status": "available"
+  }
+}

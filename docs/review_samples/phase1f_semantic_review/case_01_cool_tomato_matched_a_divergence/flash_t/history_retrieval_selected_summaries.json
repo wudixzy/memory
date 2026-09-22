@@ -1,0 +1,19 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-eb5b08ddf0ead2f7",
+      "hypothesis": "Navigating directly to the semantically most likely container for a perishable food item (the fridge) before scanning other receptacles reduces total search steps compared to following the arbitrary spatial order of the initial observation list.",
+      "realization_pattern": "Semantic-prior-first traversal: select the single most probable container type based on object properties, then fall back to standard scan.",
+      "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+      "source_comparison_id": "comparison-c0ae98e34177afb9"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 838,
+    "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "3db96230c21533734aeddd9a640ed9ac8c9eabe61a0fb8a26f3623547a364f84",
+    "status": "available"
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "content": {
+    "consumed_exploratory_memory": {
+      "guidance": "Navigate to an open surface first (e.g., countertop or sink basin). If the target is not there, proceed to closed storage units. Do not assume visibility; inspect each location sequentially.",
+      "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+      "probe_policy": {
+        "adaptive_policy": "Select the next navigation target based on semantic likelihood: prioritize 'countertop' or 'sinkbasin' types over 'cabinet' or 'garbagecan'. Upon arrival, check for the target. If absent, move to the next highest-priority unvisited receptacle. Stop when the target is acquired.",
+        "capability_requirements": [
+          "Navigation to visible entities",
+          "Opening closed containers if necessary",
+          "Taking objects from inspected locations"
+        ],
+        "evidence_goal": "Compare the number of navigation/inspection steps required to find the target against the baseline established by spatial-order or generic-type-grouping searches.",
+        "local_function": "Navigate to and inspect a subset of candidate receptacles until the target object is found and taken.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "required_downstream_state": "Agent holds the target object; target location is known.",
+        "stop_conditions": [
+          "Target object is successfully taken",
+          "All visible receptacles have been inspected without finding the target"
+        ]
+      },
+      "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+      "type": "exploratory"
+    },
+    "environment_outcome": {
+      "e1": {
+        "controlled_endpoint": {
+          "downstream_execution": "not_run_by_phase1b_dev_protocol",
+          "name": "target_acquisition",
+          "target_acquired": true
+        },
+        "environment_action_count": 2,
+        "steps": 2
+      }
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/02-e5fbb2d17967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/04-9b58f11df123/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": null,
+            "consumed_h_id": null,
+            "evidence_id": "evidence-f642d37d8ce03198",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      }
+    ],
+    "probe_evidence": {
+      "activated_h_id": null,
+      "evidence_package_id": "evidence-f7e7f17ac2bf4590",
+      "runtime_status": "EVIDENCE_OBTAINED",
+      "temporal_facts": {
+        "acquisition_phase": "probe",
+        "continuation_events": [],
+        "entry_target_visible": false,
+        "environment_action_count": 2,
+        "first_target_exposure_event": "event-8391215a8e39ad6b",
+        "probe_events": [
+          {
+            "action": "go to countertop_1",
+            "admissible_actions": [
+              "examine countertop_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "take soapbar_1 from countertop_1",
+              "take soapbottle_1 from countertop_1"
+            ],
+            "event_id": "event-8391215a8e39ad6b",
+            "observation": "You arrive at loc_11. On countertop_1, you see soapbar_1, and soapbottle_1.",
+            "ordinal": 1,
+            "phase": "probe"
+          },
+          {
+            "action": "take soapbar_1 from countertop_1",
+            "admissible_actions": [
+              "examine countertop_1",
+              "examine soapbar_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "put soapbar_1 in/on countertop_1"
+            ],
+            "event_id": "event-a9451991997412a5",
+            "observation": "You take soapbar_1 from countertop_1.",
+            "ordinal": 2,
+            "phase": "probe"
+          }
+        ],
+        "target_acquired_event": "event-a9451991997412a5"
+      }
+    },
+    "target_task": {
+      "instruction": "clean some soapbar and put it in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+    },
+    "target_trajectory": {
+      "completed_requested_sequence": false,
+      "executed_actions": [
+        "go to countertop_1",
+        "take soapbar_1 from countertop_1"
+      ],
+      "final": {
+        "admissible_actions": [
+          "examine countertop_1",
+          "examine soapbar_1",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look",
+          "put soapbar_1 in/on countertop_1"
+        ],
+        "observation": "You take soapbar_1 from countertop_1."
+      },
+      "initial": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "initial_public_state_fingerprint": "0e04b301144a796fc3522a5ba28dc13e23dbaba3720e26db7c08d7ebbc36a88f",
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: clean some soapbar and put it in cabinet."
+      },
+      "seed": 42,
+      "steps": [
+        {
+          "action": "go to countertop_1",
+          "admissible_actions": [
+            "examine countertop_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take soapbar_1 from countertop_1",
+            "take soapbottle_1 from countertop_1"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_11. On countertop_1, you see soapbar_1, and soapbottle_1.",
+          "step": 1
+        },
+        {
+          "action": "take soapbar_1 from countertop_1",
+          "admissible_actions": [
+            "examine countertop_1",
+            "examine soapbar_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put soapbar_1 in/on countertop_1"
+          ],
+          "executed": true,
+          "observation": "You take soapbar_1 from countertop_1.",
+          "step": 2
+        }
+      ],
+      "task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/environment_outcome/e1/controlled_endpoint/environment_won",
+    "/environment_outcome/e1/done",
+    "/environment_outcome/e1/reward",
+    "/environment_outcome/e1/won",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions",
+    "/probe_evidence/temporal_facts/probe_events/*/done",
+    "/probe_evidence/temporal_facts/probe_events/*/won",
+    "/probe_evidence/trace",
+    "/provenance",
+    "/target_trajectory/final/done",
+    "/target_trajectory/final/reward",
+    "/target_trajectory/final/won",
+    "/target_trajectory/initial/done",
+    "/target_trajectory/initial/won",
+    "/target_trajectory/steps/*/done",
+    "/target_trajectory/steps/*/reward",
+    "/target_trajectory/steps/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 16603,
+    "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a/a_input.json",
+    "sha256": "492c6983b19631574ddf651379054e8ceb1f81380647421d6cd1c4462eb2470d",
+    "status": "available"
+  }
+}

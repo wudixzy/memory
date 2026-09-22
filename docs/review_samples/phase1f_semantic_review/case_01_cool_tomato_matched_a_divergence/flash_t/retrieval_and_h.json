@@ -1,0 +1,161 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-eb5b08ddf0ead2f7",
+    "archive_files": {
+      "after": {
+        "bytes": 4261,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/exploration_history_after.json",
+        "sha256": "14fbe67417e31b35886e2c16184faafbec66552739d05e4c39f98e88561fa537",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 2695,
+        "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/exploration_history_before.json",
+        "sha256": "c24b584c2bcbd41af4550d4fe8bb5c11a3db1675d5bf84db92c21377e075fcd4",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "evidence_id": "evidence-076bbfe08998aeda",
+        "exploration_id": "exploration-h-0974fda62b083da2",
+        "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "source_comparison_id": "comparison-4332f3630f19e699",
+        "source_h_id": "h-0974fda62b083da2",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "evidence_id": "evidence-f7e7f17ac2bf4590",
+        "exploration_id": "exploration-h-557c586a16b7ecc2",
+        "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "source_comparison_id": "comparison-04b3769e6328be11",
+        "source_h_id": "h-557c586a16b7ecc2",
+        "source_task_id": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868"
+      },
+      {
+        "activation_task_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "evidence_id": "evidence-7d50799788495118",
+        "exploration_id": "exploration-h-eb5b08ddf0ead2f7",
+        "hypothesis": "Navigating directly to the semantically most likely container for a perishable food item (the fridge) before scanning other receptacles reduces total search steps compared to following the arbitrary spatial order of the initial observation list.",
+        "realization_pattern": "Semantic-prior-first traversal: select the single most probable container type based on object properties, then fall back to standard scan.",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is a food item (e.g., egg) and the room contains both high-probability semantic containers (fridge) and low-probability open surfaces, testing if semantic prioritization outperforms spatial listing order.",
+        "source_comparison_id": "comparison-c0ae98e34177afb9",
+        "source_h_id": "h-eb5b08ddf0ead2f7",
+        "source_task_id": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825"
+      }
+    ],
+    "exploration_history_before": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+        "evidence_id": "evidence-076bbfe08998aeda",
+        "exploration_id": "exploration-h-0974fda62b083da2",
+        "hypothesis": "Prioritizing search by receptacle type (e.g., checking all drawers before cabinets) yields a shorter path to the target than strictly following the spatial listing order in the initial observation.",
+        "realization_pattern": "Type-based grouping followed by intra-group sequential traversal",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is hidden and multiple receptacle types are visible at entry.",
+        "source_comparison_id": "comparison-4332f3630f19e699",
+        "source_h_id": "h-0974fda62b083da2",
+        "source_task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052"
+      },
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+        "evidence_id": "evidence-f7e7f17ac2bf4590",
+        "exploration_id": "exploration-h-557c586a16b7ecc2",
+        "hypothesis": "Prioritizing semantically relevant open surfaces (countertops, sink basins) before closed cabinets reduces search steps for toiletries compared to spatial listing order or generic type-grouping.",
+        "realization_pattern": "Semantic priority scan: Open surfaces -> Closed storage",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld bathroom tasks where the target object is a toiletry (e.g., soap, toothpaste) and multiple closed storage receptacles are visible.",
+        "source_comparison_id": "comparison-04b3769e6328be11",
+        "source_h_id": "h-557c586a16b7ecc2",
+        "source_task_id": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868"
+      }
+    ],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "h_id": "h-eb5b08ddf0ead2f7",
+        "status": "active"
+      },
+      {
+        "comparison_id": "comparison-0e240389305dbecb",
+        "consumed_at_task": null,
+        "created_at_task": "pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+        "h_id": "h-f8ba6a4abd04c9b1",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-c0ae98e34177afb9",
+        "consumed_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "created_at_task": "pick_cool_then_place_in_recep-Egg-None-SinkBasin-10/trial_T20190907_173215_875825",
+        "h_id": "h-eb5b08ddf0ead2f7",
+        "status": "consumed"
+      },
+      {
+        "comparison_id": "comparison-e9007f0de961e2ea",
+        "consumed_at_task": null,
+        "created_at_task": "pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+        "h_id": "h-0ca06b77b7caeceb",
+        "status": "active"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-eb5b08ddf0ead2f7"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 16923,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/task_summary.json",
+      "sha256": "13f9863a3df6156bc45091e2ed0acabb577c4a761e13a7a3c13e20425b5a3234",
+      "status": "available"
+    },
+    {
+      "bytes": 495534,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/memory_before.json",
+      "sha256": "601f92cf23688c89319c1f180db8a4eed8e200ca2cae77004913f5fd18669afe",
+      "status": "available"
+    },
+    {
+      "bytes": 577521,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/memory_after.json",
+      "sha256": "c681576fd31d6a8856bed7ff4da5ace0403ff136d00ec62fc067bed58b22eb41",
+      "status": "available"
+    },
+    {
+      "bytes": 2695,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/exploration_history_before.json",
+      "sha256": "c24b584c2bcbd41af4550d4fe8bb5c11a3db1675d5bf84db92c21377e075fcd4",
+      "status": "available"
+    },
+    {
+      "bytes": 4261,
+      "path": "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/exploration_history_after.json",
+      "sha256": "14fbe67417e31b35886e2c16184faafbec66552739d05e4c39f98e88561fa537",
+      "status": "available"
+    }
+  ]
+}

@@ -1,0 +1,835 @@
+{
+  "artifact_records": [
+    {
+      "extraction": "public_projection",
+      "output_bytes": 21860,
+      "output_path": "flash_t/a_input.json",
+      "output_sha256": "9fcbebe814e69f9c920370307895b67e850837c5b797cb91a6ada99ea6d6feef",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/probe_evidence/temporal_facts/probe_events/*/done",
+        "/probe_evidence/temporal_facts/probe_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 50994,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/a_input.json",
+          "sha256": "af265cf70243df784ae0533e3184aa3f223768064aa511b00a726c490e25ac01",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1758,
+      "output_path": "flash_t/a_output_parsed.json",
+      "output_sha256": "8907ccf79e51a3b9f5d05e60b9d4ef09c2d01d46d3be75bb312c9db0a5df319e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1758,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/a_parsed.json",
+          "sha256": "8907ccf79e51a3b9f5d05e60b9d4ef09c2d01d46d3be75bb312c9db0a5df319e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1804,
+      "output_path": "flash_t/a_output_raw.json",
+      "output_sha256": "089c098d28f3a817e8b141852d44d61ddc7af253e28461086ad9e76c160765f9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1804,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/raw_response.json",
+          "sha256": "089c098d28f3a817e8b141852d44d61ddc7af253e28461086ad9e76c160765f9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 823,
+      "output_path": "flash_t/a_response_prompt.json",
+      "output_sha256": "fc35bbf3195b5804a06b5012283de130e69b51d7a55a1e2ac205a6e23cb6e7e5",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 56640,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/prompt.json",
+          "sha256": "ed25c308844637a8ecbbf028d3609ab8eaa823ae8a8c14751d2f3819c0d05eef",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 20642,
+      "output_path": "flash_t/b_input.json",
+      "output_sha256": "9afe97d666e1511999dcfbc3472ef021dd933b31ec32a5643ba1cd4459a3e218",
+      "removed_json_pointers": [
+        "/controlled_endpoint/environment_won",
+        "/current_initial_state/won",
+        "/current_trajectory/final/done",
+        "/current_trajectory/final/reward",
+        "/current_trajectory/final/won",
+        "/current_trajectory/initial/done",
+        "/current_trajectory/initial/won",
+        "/current_trajectory/steps/*/done",
+        "/current_trajectory/steps/*/reward",
+        "/current_trajectory/steps/*/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 47844,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b/b_input.json",
+          "sha256": "4589a166412345d9d59fc714113fa229b4f33b77d6699cdc12bfe32a027161b1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 2099,
+      "output_path": "flash_t/b_output_parsed.json",
+      "output_sha256": "3f33808641202782c6fd96c7eb010f2c945b849f0594afd8b2fa9645db4d35b8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2099,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b/b_parsed.json",
+          "sha256": "3f33808641202782c6fd96c7eb010f2c945b849f0594afd8b2fa9645db4d35b8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 2205,
+      "output_path": "flash_t/b_output_raw.json",
+      "output_sha256": "901870e31ffeb7893d53e8969b3967b09f4dd92d96d97243f611a49ea8284cb7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2205,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b/raw_response.json",
+          "sha256": "901870e31ffeb7893d53e8969b3967b09f4dd92d96d97243f611a49ea8284cb7",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 823,
+      "output_path": "flash_t/b_response_prompt.json",
+      "output_sha256": "d0a8dd0603376dbb3a04fd94f9f9d0a8d81bd4cd24a96bfdcfa3ed7a934d6326",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 54804,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b/prompt.json",
+          "sha256": "d79c8411e625cc6a48ca6a8af7010ba48b1989f7ab5a6bfd2e0e9505778fa4bb",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 304,
+      "output_path": "flash_t/c_error.json",
+      "output_sha256": "ed949960f9fd85a3c047f7273f1b1f26c825779c69e936b1ca2c3da1fb45a19c",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 25,
+      "output_path": "flash_t/c_output_parsed.json",
+      "output_sha256": "abb554bed493c7cdb773f88ad85f7f04f808cda1c918c15f39f5d62e54c237bc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 25,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/c_parsed.json",
+          "sha256": "abb554bed493c7cdb773f88ad85f7f04f808cda1c918c15f39f5d62e54c237bc",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 73,
+      "output_path": "flash_t/c_output_raw.json",
+      "output_sha256": "be2d3f86bc7f22d854ec163a5a84c4f93958d02251025071fc7ae02bfe868e1e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 73,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/raw_response.json",
+          "sha256": "be2d3f86bc7f22d854ec163a5a84c4f93958d02251025071fc7ae02bfe868e1e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 823,
+      "output_path": "flash_t/c_response_prompt.json",
+      "output_sha256": "3f363cce783fc862a3adfe5cfde83ae5be8767d1b5cf5acb017f1fa55215bf78",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 53961,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/prompt.json",
+          "sha256": "2431da082dce418d0a23732a3317e28dfd68cbc13b9bb436893aab1514fef9d9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 19487,
+      "output_path": "flash_t/c_visible_input.json",
+      "output_sha256": "63cfaea6146d6024992b9cbfd284ebd71e4ca596553373ce3faec655d9adc700",
+      "removed_json_pointers": [
+        "/local_state_and_evidence/entry_state/won",
+        "/pre_update_established_memories/*/created_at_task",
+        "/pre_update_established_memories/*/lifecycle_status",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 46919,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/c_input.json",
+          "sha256": "58cc5e248c6b8ee5e8a73feb4ba748b0958b985538050b0f13e233dd72027760",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 32681,
+      "output_path": "flash_t/comparison_before_after.json",
+      "output_sha256": "6735126fa16cb8978d416d918f8be616314f0a5cec1af65e9d89cc0b4d141e1c",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2022173,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_before.json",
+          "sha256": "f902460452ed8b38a1e19618630cb252f2f3092f7f9eeafa0ace044eb574cbb2",
+          "status": "available"
+        },
+        {
+          "bytes": 2034421,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_after.json",
+          "sha256": "00857752d6ee70a239e3abe324a8aa364fdf9f597d696ebba1e22458bf3906ce",
+          "status": "available"
+        },
+        {
+          "bytes": 12442,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+          "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+          "status": "available"
+        },
+        {
+          "bytes": 1692,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/materialization.json",
+          "sha256": "3ce4d746505dedadc36d4c69394778d2938fce4294bde53814598ac8b5d38a0d",
+          "status": "available"
+        },
+        {
+          "bytes": 330,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "cb21c097ce37c7bdd7a6d0c83baeeadb3dab2403500036d4b21cb610a9041f0e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 604,
+      "output_path": "flash_t/continuation_trace.json",
+      "output_sha256": "4fec9f7775cdd0fc34958fb8873028462d6aa6d90770841ce893079bd3422554",
+      "removed_json_pointers": [
+        "/environment_actions"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 166,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/continuation_search/continuation_trace.json",
+          "sha256": "fc83518337ab84756a452bdb2facf45c2584cb53e551f685489cce660452cfc9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 6188,
+      "output_path": "flash_t/evidence_package.json",
+      "output_sha256": "1dfce7a2bc5c059595b8bbca0eca51d83b4c831c4af66df0c4f04de99da915c5",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/probe_trace/trace/*/result/final_state/won",
+        "/provenance",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 7430,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/evidence_package.json",
+          "sha256": "9a3417136861adf74b92cbb17f8a748a420e15c07d9908c856f0f8e84fb4700d",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 12578,
+      "output_path": "flash_t/history_retrieval_input.json",
+      "output_sha256": "d69a1277f933a28ee4f583bb53a4c6eb8274a73236dfe093c0bb818c2e0b4982",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 11910,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/retrieval_input.json",
+          "sha256": "769a7994288fe30bebe28a921cbdbd418c151a9738e37861a529b495d493cab6",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 168,
+      "output_path": "flash_t/history_retrieval_parsed.json",
+      "output_sha256": "97b36035f256fd9fe445e032297f6e40e8516913e505bc679cbfa58eb6aa7ec1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 168,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/retrieval_parsed.json",
+          "sha256": "97b36035f256fd9fe445e032297f6e40e8516913e505bc679cbfa58eb6aa7ec1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 226,
+      "output_path": "flash_t/history_retrieval_raw_response.json",
+      "output_sha256": "29f38863d79fb5058fb34a6ca639a1404db73b597f91330f0b1ac3377028f49b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 226,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/raw_response.json",
+          "sha256": "29f38863d79fb5058fb34a6ca639a1404db73b597f91330f0b1ac3377028f49b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 2833,
+      "output_path": "flash_t/history_retrieval_selected_summaries.json",
+      "output_sha256": "3fb59b769ccf70b3afdf2614acd9c1b943e981fa751658d672e241075dd8dfba",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2353,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_retrieval/selected_summaries.json",
+          "sha256": "14c4e9ea23ddd5f8fdcd9ab794dde475626c0d76a6bf788a9659e76fb7a89e23",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1585,
+      "output_path": "flash_t/pairing_proof.json",
+      "output_sha256": "d2a547d6afe273073baadd614fffecf35e1068a62cd6df36bc336691ed02a3a5",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2799,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/pairing_proof.json",
+          "sha256": "3bff9f0ae2ca4d35ea92aa7ecc3913895e42fcdcbc869c2658149cfbb8ade3a8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 53027,
+      "output_path": "flash_t/post_task_state.json",
+      "output_sha256": "d8a6db7e3fdafbe5167e87b09a51b7834fac58bfa5f19b8e52d1ff324470680d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2034421,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_after.json",
+          "sha256": "00857752d6ee70a239e3abe324a8aa364fdf9f597d696ebba1e22458bf3906ce",
+          "status": "available"
+        },
+        {
+          "bytes": 22803,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_after.json",
+          "sha256": "a42325f0921c09db7d2a3e73af12b56989ad25b37e649828edbd2d21d0bb0cf4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 32730,
+      "output_path": "flash_t/pre_task_state.json",
+      "output_sha256": "539cc2b86fcd2f3e273b975c3a5e8a20a2d5c9ca0654567a819c943ab1b8c3dc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2022173,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_before.json",
+          "sha256": "f902460452ed8b38a1e19618630cb252f2f3092f7f9eeafa0ace044eb574cbb2",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 4241,
+      "output_path": "flash_t/probe_trace.json",
+      "output_sha256": "fd95489486152b28e1cc26e89d050378fa9096d511e63d3b086a13c2b2f77069",
+      "removed_json_pointers": [
+        "/trace/*/result/final_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 2065,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/probe_summary.json",
+          "sha256": "df72e43494875d6221e32712c6ef6271e745f4ffe43298eaa923468df185e6f4",
+          "status": "available"
+        },
+        {
+          "bytes": 41850,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_input.json",
+          "sha256": "320ba1777aef6bcaf4c38276fa5f4f7582aacba5d6dd18005ddda9bd3a7a909b",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/raw_response.json",
+          "sha256": "5ddc51269cc697e62192948eb41e2cb646620b98fdc4c31a075f2d0ccefb7cd1",
+          "status": "available"
+        },
+        {
+          "bytes": 27,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/parsed.json",
+          "sha256": "5fb576aca23afe39e85e59364acd9b229fe037643c870a2056577bc8af15f994",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/probe/steps/001/selector_validation.json",
+          "sha256": "4688b0dfd996be212002280fe4fcc8cc5006900e7e47793223641926ca6ba2f8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2924,
+      "output_path": "flash_t/public_task_context.json",
+      "output_sha256": "4d2901d46e5320342f7d807ba8c01983d1a4c933870b59c5d2f3e0d04183335d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 659022,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1d_long_horizon_registry.json",
+          "sha256": "7e278919083e5b929e32f2955def7a055b181f31cf4b895bf58e8b366f32d8c8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 29707,
+      "output_path": "flash_t/reconciliation_input.json",
+      "output_sha256": "d62bd0b74d910e0b50cf61e580b57e8c0c25105e643e2d5ef8b3f98e141de7cb",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 28523,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/reconciliation_input.json",
+          "sha256": "cd15193ad1654aafe90c4c0db4478f1f03224c235024b00633f66dd1188e763a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 330,
+      "output_path": "flash_t/reconciliation_parsed.json",
+      "output_sha256": "cb21c097ce37c7bdd7a6d0c83baeeadb3dab2403500036d4b21cb610a9041f0e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 330,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "cb21c097ce37c7bdd7a6d0c83baeeadb3dab2403500036d4b21cb610a9041f0e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 838,
+      "output_path": "flash_t/reconciliation_prompt.json",
+      "output_sha256": "181bf0aee29309e3e74a16fd3feb4fad8f4030c697b7c5d4f86dab455b61104b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 32147,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/prompt.json",
+          "sha256": "7d0f57d2e281330933337f67299d060c6c09faae8b9cf62e0d3be80804dc919e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 391,
+      "output_path": "flash_t/reconciliation_raw_response.json",
+      "output_sha256": "96c5701a898e1b3d98264f7458a540b1352cb88d7e6112b786ffaa3637883213",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 391,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/h_reconciliation/raw_response.json",
+          "sha256": "96c5701a898e1b3d98264f7458a540b1352cb88d7e6112b786ffaa3637883213",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 39550,
+      "output_path": "flash_t/retrieval_and_h.json",
+      "output_sha256": "40a9105248246e9989e2bdc307762c3a06b48f3a9e76dd0196371b45265c8ad1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 12442,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+          "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+          "status": "available"
+        },
+        {
+          "bytes": 2022173,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_before.json",
+          "sha256": "f902460452ed8b38a1e19618630cb252f2f3092f7f9eeafa0ace044eb574cbb2",
+          "status": "available"
+        },
+        {
+          "bytes": 2034421,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/memory_after.json",
+          "sha256": "00857752d6ee70a239e3abe324a8aa364fdf9f597d696ebba1e22458bf3906ce",
+          "status": "available"
+        },
+        {
+          "bytes": 21314,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_before.json",
+          "sha256": "0e261a5277d74b70b4b61e4caeebb9d922cd0d71e050cc4e75be5de25391af8a",
+          "status": "available"
+        },
+        {
+          "bytes": 22803,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/exploration_history_after.json",
+          "sha256": "a42325f0921c09db7d2a3e73af12b56989ad25b37e649828edbd2d21d0bb0cf4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 12216,
+      "output_path": "flash_t/retrieval_input.json",
+      "output_sha256": "1a207dce5a377864cfe68cd8d95f5cddc781ac1d65bc38cdbd43849d3ef25ea0",
+      "removed_json_pointers": [
+        "/current_initial_public_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 11465,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/retrieval/retrieval_input.json",
+          "sha256": "8da66a8719f3b584472a7c1dda340486e5786a9703e325d8a9e580129a45f563",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 61,
+      "output_path": "flash_t/retrieval_parsed.json",
+      "output_sha256": "66f17afbb66406c93bbd04e07dd099f966bbeb0ae07fbce0eef8e0f0e8282b29",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 61,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/retrieval/retrieval_parsed.json",
+          "sha256": "66f17afbb66406c93bbd04e07dd099f966bbeb0ae07fbce0eef8e0f0e8282b29",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 102,
+      "output_path": "flash_t/retrieval_raw_response.json",
+      "output_sha256": "9dd652ddb8af27ea6856be03790fb514f6db68328f52efd4bc57bed346da83a8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 102,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/retrieval/raw_response.json",
+          "sha256": "9dd652ddb8af27ea6856be03790fb514f6db68328f52efd4bc57bed346da83a8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 683,
+      "output_path": "flash_t/retrieval_status.json",
+      "output_sha256": "e8b6df72d35a68d783a4d778a155fbbcaf7a9ae742fae1e021155af1c8da05b2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 683,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/retrieval/status.json",
+          "sha256": "e8b6df72d35a68d783a4d778a155fbbcaf7a9ae742fae1e021155af1c8da05b2",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 8618,
+      "output_path": "flash_t/task_summary.json",
+      "output_sha256": "e0fde0af5208378d3cfdf3e2fbdb2cd9e1594f58552ee9109e1cd3ee8098419d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 12442,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+          "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 9126,
+      "output_path": "flash_t/validation_and_handoff.json",
+      "output_sha256": "cb6fe9121431c4f30fb85966b136910976e0f255be633e96d9d6a361fb52e45d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 573,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/epistemic_validation.json",
+          "sha256": "29ae10a5848142610a365ac1b85b1a0016be5a019247fbfb95fb7e44919c2d26",
+          "status": "available"
+        },
+        {
+          "bytes": 1368,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/updates_validation.json",
+          "sha256": "36a6d928d6f16ad5ee3caade06f5dd57534d8e5dd0a6f41d58171d92830afb2f",
+          "status": "available"
+        },
+        {
+          "bytes": 1692,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a/materialization.json",
+          "sha256": "3ce4d746505dedadc36d4c69394778d2938fce4294bde53814598ac8b5d38a0d",
+          "status": "available"
+        },
+        {
+          "bytes": 562,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/b_c_handoff/projection.json",
+          "sha256": "55af2282e0f15e5c49d4d90056fe433c6a88d250c83b37133fc0ce23e72bb73b",
+          "status": "available"
+        },
+        {
+          "bytes": 50,
+          "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/c/mechanical_grounding.json",
+          "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+          "status": "available"
+        }
+      ]
+    }
+  ],
+  "case_categories": [
+    "FLASH_FEASIBILITY_COMPARATIVE_BOUNDARY"
+  ],
+  "case_id": "case_07_phase1d_egg_partial_boundary",
+  "episodes": [
+    {
+      "activated_h_ids": [
+        "h-fa21be2a8f9e2284"
+      ],
+      "arm": "T",
+      "backbone": "qwen3.8-flash",
+      "comparison_ids_after": [
+        "comparison-4332f3630f19e699",
+        "comparison-c0ae98e34177afb9",
+        "comparison-0e240389305dbecb",
+        "comparison-04b3769e6328be11",
+        "comparison-e9007f0de961e2ea",
+        "comparison-b1b7c37008df8834",
+        "comparison-434be6bf5e301755",
+        "comparison-526718e3a6226baf",
+        "comparison-dd8b81323c9ba313",
+        "comparison-d248d653c210e41b",
+        "comparison-9df5f6013bc1bf17",
+        "comparison-ff98a0cc8b6e08de",
+        "comparison-1970121bc63a20b7",
+        "comparison-d5906e1edf345f42",
+        "comparison-978dc9a18a8b29f6",
+        "comparison-f58cc5f398688bde",
+        "comparison-c137d39514515893"
+      ],
+      "comparison_ids_before": [
+        "comparison-4332f3630f19e699",
+        "comparison-c0ae98e34177afb9",
+        "comparison-0e240389305dbecb",
+        "comparison-04b3769e6328be11",
+        "comparison-e9007f0de961e2ea",
+        "comparison-b1b7c37008df8834",
+        "comparison-434be6bf5e301755",
+        "comparison-526718e3a6226baf",
+        "comparison-dd8b81323c9ba313",
+        "comparison-d248d653c210e41b",
+        "comparison-9df5f6013bc1bf17",
+        "comparison-ff98a0cc8b6e08de",
+        "comparison-1970121bc63a20b7",
+        "comparison-d5906e1edf345f42",
+        "comparison-978dc9a18a8b29f6",
+        "comparison-f58cc5f398688bde",
+        "comparison-c137d39514515893"
+      ],
+      "episode_key": "flash_t",
+      "exploration_history_ids_after": [
+        "exploration-h-0974fda62b083da2",
+        "exploration-h-557c586a16b7ecc2",
+        "exploration-h-eb5b08ddf0ead2f7",
+        "exploration-h-0ca06b77b7caeceb",
+        "exploration-h-f8ba6a4abd04c9b1",
+        "exploration-h-c53b8a0910ab0f56",
+        "exploration-h-8f5a9697b5472276",
+        "exploration-h-39636a73fb019e1a",
+        "exploration-h-5c1489daf1254b72",
+        "exploration-h-52a4ca921b17f694",
+        "exploration-h-7d6686692e319fd9",
+        "exploration-h-459d231166988acf",
+        "exploration-h-32ec82c80990628e",
+        "exploration-h-25626a5f4ca5e1ce",
+        "exploration-h-fa21be2a8f9e2284"
+      ],
+      "exploration_history_ids_before": [
+        "exploration-h-0974fda62b083da2",
+        "exploration-h-557c586a16b7ecc2",
+        "exploration-h-eb5b08ddf0ead2f7",
+        "exploration-h-0ca06b77b7caeceb",
+        "exploration-h-f8ba6a4abd04c9b1",
+        "exploration-h-c53b8a0910ab0f56",
+        "exploration-h-8f5a9697b5472276",
+        "exploration-h-39636a73fb019e1a",
+        "exploration-h-5c1489daf1254b72",
+        "exploration-h-52a4ca921b17f694",
+        "exploration-h-7d6686692e319fd9",
+        "exploration-h-459d231166988acf",
+        "exploration-h-32ec82c80990628e",
+        "exploration-h-25626a5f4ca5e1ce"
+      ],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/initial_public_fingerprint.json",
+        "sha256": "868d4af8583a1e46fc4cd5c3376087c83f688eef4a887c80d669b019b2a73020",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2799,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/pairing_proof.json",
+        "sha256": "3bff9f0ae2ca4d35ea92aa7ecc3913895e42fcdcbc869c2658149cfbb8ade3a8",
+        "status": "available"
+      },
+      "public_target": "clean some egg and put it in microwave.",
+      "registry_sha256": "7e278919083e5b929e32f2955def7a055b181f31cf4b895bf58e8b366f32d8c8",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1d_long_horizon_registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1D Flash",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b",
+      "task_family": "pick_clean_then_place_in_recep",
+      "task_global_index": 34,
+      "task_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709",
+      "task_summary_source": {
+        "bytes": 12442,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/task_summary.json",
+        "sha256": "72771775efcc38d1999fac593c9f185cb03666d6b5e882fcaf7f27d249b0f71f",
+        "status": "available"
+      }
+    }
+  ],
+  "no_semantic_correctness_judgment": true,
+  "paired_models_or_arms": [],
+  "schema_version": "phase1f-semantic-review-case-v1",
+  "why_selected": "Accepted Flash A PARTIALLY_RESOLVED after one candidate probe publicly acquired Egg; a distinct task family and Phase 1D point."
+}

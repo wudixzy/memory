@@ -1,0 +1,90 @@
+{
+  "content": {
+    "actually_activated_h_id": "h-9237af7e062ed4d8",
+    "archive_files": {
+      "after": {
+        "bytes": 1365,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_after.json",
+        "sha256": "27d86ef569fdfbc913e66c685372506584663f68bdeb2e3b138a042e9bef9975",
+        "status": "available"
+      },
+      "before": {
+        "bytes": 3,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_before.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "status": "available"
+      }
+    },
+    "exploration_history_after": [
+      {
+        "activation_task_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "evidence_id": "evidence-edd0fa449e24460d",
+        "exploration_id": "exploration-h-9237af7e062ed4d8",
+        "hypothesis": "Prioritizing inspection of open horizontal surfaces before opening closed storage receptacles reduces total search actions compared to strictly following the listed observation order.",
+        "realization_pattern": "visit an open horizontal surface first; if empty, visit a closed storage receptacle next, opening it before inspection",
+        "related_post_test_memory_ids": [
+          "established-search-listed-order-general"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "source_comparison_id": "comparison-a4dd496faa0506d4",
+        "source_h_id": "h-9237af7e062ed4d8",
+        "source_task_id": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537"
+      }
+    ],
+    "exploration_history_before": [],
+    "h_candidates_from_pre_task_state": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "consumed_at_task": null,
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-9237af7e062ed4d8",
+        "status": "active"
+      }
+    ],
+    "h_state_after_episode": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "consumed_at_task": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "h_id": "h-9237af7e062ed4d8",
+        "status": "consumed"
+      }
+    ],
+    "retrieval_decision": "ACTIVATE",
+    "retrieval_h_id": "h-9237af7e062ed4d8"
+  },
+  "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 11449,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/task_summary.json",
+      "sha256": "a2afb0aaea29baa7ff504d59cc7ec73af06c8732a3f9818354f0e684446d0e89",
+      "status": "available"
+    },
+    {
+      "bytes": 49918,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_before.json",
+      "sha256": "4ce282c88e4085c4aa20c4e16de1eb00a6f37d4cc35445392677ff8311021b76",
+      "status": "available"
+    },
+    {
+      "bytes": 64375,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/memory_after.json",
+      "sha256": "d97944270da72195f976d0fcd243c8ca162df3693d9735a1544c2d3c34456b99",
+      "status": "available"
+    },
+    {
+      "bytes": 3,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_before.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "status": "available"
+    },
+    {
+      "bytes": 1365,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/002-de042ffbf96b/max/T0_component/T/exploration_history_after.json",
+      "sha256": "27d86ef569fdfbc913e66c685372506584663f68bdeb2e3b138a042e9bef9975",
+      "status": "available"
+    }
+  ]
+}

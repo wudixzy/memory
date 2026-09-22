@@ -1,0 +1,26 @@
+{
+  "content": [
+    {
+      "exploration_id": "exploration-h-9354131b9c1fc01f",
+      "hypothesis": "Prioritizing receptacles whose type semantically suggests they hold fabric items (e.g., towel or handtowel holders) before inspecting generic closed storage reduces search steps for cloth targets, while still respecting the constraint to open closed receptacles before inspection.",
+      "realization_pattern": "Identify a receptacle whose type semantically matches the target object category; navigate to it first; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+      "scope": "ALFWorld clean-then-place tasks where the target object is not immediately visible, the entry observation lists many receptacles including fabric-associated holders, and no prior exploration has tested domain-specific semantic prioritization for cloth-like targets.",
+      "source_comparison_id": "comparison-c69bec6a96ad0544"
+    },
+    {
+      "exploration_id": "exploration-h-f9e349c7471f657e",
+      "hypothesis": "Navigating to a towelholder-type receptacle before inspecting generic closed storage or other fixtures reduces search steps for acquiring a cloth object in a clean-then-place task, because towelholders are semantically specialized for fabric items.",
+      "realization_pattern": "Identify a fabric-specialized holder receptacle; navigate to it; inspect contents; acquire target if present; otherwise fall back to systematic traversal of remaining receptacles, opening closed ones before inspection.",
+      "scope": "ALFWorld clean-then-place tasks where the target is a cloth, the entry observation lists multiple receptacles including fabric-associated holders and closed storage, and prior semantic-priority tests have not specifically targeted towelholder-type receptacles as the first probe for cloth objects.",
+      "source_comparison_id": "comparison-c69bec6a96ad0544"
+    }
+  ],
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 1954,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/exploration_history_retrieval/selected_summaries.json",
+    "sha256": "715ef057afbf08433c6aee871e7e1af257b7aebc00e8e2f7c0853e1ee2179e78",
+    "status": "available"
+  }
+}

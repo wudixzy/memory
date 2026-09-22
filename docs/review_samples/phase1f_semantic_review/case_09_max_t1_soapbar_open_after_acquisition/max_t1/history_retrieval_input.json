@@ -1,0 +1,60 @@
+{
+  "content": {
+    "available_exploration_history": [
+      {
+        "exploration_id": "exploration-h-08e26bc3ebfdd940",
+        "hypothesis": "Prioritizing navigation to an open surface receptacle first avoids the overhead of opening closed storage receptacles, yielding faster target acquisition when the object may be resting on a visible surface.",
+        "realization_pattern": "Navigate to an open surface receptacle from the room center, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and open surface receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cfd2fc58104a4c7a"
+      },
+      {
+        "exploration_id": "exploration-h-cf385d7dd455f0e8",
+        "hypothesis": "Prioritizing navigation to a cooling appliance receptacle first, rather than searching open surfaces or closed storage receptacles, yields faster target acquisition because bread is semantically likely to be stored inside a cooling appliance when the task requires cooling it.",
+        "realization_pattern": "Navigate to a cooling appliance receptacle from the room center, open it if closed, inspect for the target object type, and take it if found; otherwise abort local probe.",
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not initially visible and a cooling appliance receptacle is available in the admissible action list from room center.",
+        "source_comparison_id": "comparison-895e7337d8d4381d"
+      },
+      {
+        "exploration_id": "exploration-h-58fd7373754f8b6e",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle that also serves as a heating appliance (e.g., a microwave) tests whether the target object can be found and immediately heated at the same location, reducing total traversal steps compared to searching open surfaces first.",
+        "realization_pattern": "Navigate from room center to a closed heating-capable storage receptacle, open it, inspect contents, and acquire the target object if found; otherwise terminate the local probe.",
+        "scope": "ALFWorld pick-heat-then-place tasks where the target object is not visible at room center and closed cold-storage or heating receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-cae6581e97ea5547"
+      },
+      {
+        "exploration_id": "exploration-h-f7ef2de2a863dd66",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed spaces like bathrooms.",
+        "realization_pattern": "Select a closed storage receptacle from the visible list as the first navigation target instead of following strict observation order or prioritizing open surfaces; navigate to it, open it, inspect for the target object, acquire if present, otherwise close it and halt the local probe.",
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible at room center and closed storage receptacles are listed in the entry observation.",
+        "source_comparison_id": "comparison-87696a31524548de"
+      },
+      {
+        "exploration_id": "exploration-h-d9bc5cd426fefd5a",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed containers like mugs.",
+        "realization_pattern": "Navigate to a closed storage receptacle from the entry state, open it, inspect contents for the target object type, and take the object if present; otherwise halt the local probe.",
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and closed storage receptacles are available in the admissible action list.",
+        "source_comparison_id": "comparison-baa8e1982268b35b"
+      }
+    ],
+    "functional_contract": {
+      "available_state": "Agent at room center with full list of visible receptacles from entry observation; target not yet visible; inventory empty.",
+      "constraints": [
+        "Must follow the exact listing order from the initial room observation",
+        "Must open closed receptacles before inspecting contents",
+        "Must pick up the target immediately upon first exposure",
+        "Must not perform actions outside the probe sequence until target is acquired"
+      ],
+      "local_function": "Navigate to and inspect receptacles sequentially in the order listed in the room observation until the target object is found and picked up.",
+      "required_downstream_state": "Agent holds the target object (soapbar) in inventory and knows its current location for subsequent navigation to cleaning/destination receptacles."
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [],
+  "source_artifact": {
+    "bytes": 4916,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/010-fc13541d1d9d/max/T1/exploration_history_retrieval/retrieval_input.json",
+    "sha256": "5f179f7eb0f82c5127b478402ea499cd9675335ed79653962c5602da77924776",
+    "status": "available"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "content": {
+        "decision": "OPEN",
+        "functional_contract": {
+          "available_state": "Agent at room center with full list of visible receptacles; target object not initially visible; inventory empty.",
+          "constraints": [
+            "Must not take non-target objects",
+            "Must open closed receptacles before inspection",
+            "Must preserve ability to navigate to cooling and placement receptacles after acquisition"
+          ],
+          "local_function": "Sequentially navigate to each receptacle in the listed order, open if closed, inspect for target, and acquire it upon first exposure.",
+          "required_downstream_state": "Target object held in agent inventory; agent positioned at the receptacle where target was found."
+        }
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 712,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b_c_handoff/projection.json",
+        "sha256": "507b7fc47e4ac487666e90c033b351d35da4cc9e451bf5c43d18315554b105a7",
+        "status": "available"
+      }
+    },
+    "b_c_handoff_validation_error": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b_c_handoff/validation_error.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_mechanical_grounding": {
+      "content": {
+        "status": "not_applicable",
+        "valid": true
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 50,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/mechanical_grounding.json",
+        "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+        "status": "available"
+      }
+    },
+    "c_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "REMAINS_OPEN",
+        "decision": "NO_CHANGE",
+        "evidence_role": "CONTRADICTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "Whether prioritizing the cooling appliance first reduces total navigation steps in pick-cool-then-place tasks when the target object is actually located inside the cooling appliance.",
+          "Whether the cooling-appliance-first heuristic outperforms strict listed-order traversal or generic semantic plausibility heuristics across varied room layouts and target placements."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 540,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/epistemic_validation.json",
+        "sha256": "ef83af6a735f2a07b47a03e071fe4d3f05c42b1e0f086d064f6c3a22342b411d",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "contradicting_evidence_refs",
+          "comparison_assessment": "REMAINS_OPEN",
+          "comparison_id": "comparison-a4d3a30084d61ac4",
+          "evidence_id": "evidence-99be6f18276850c9",
+          "evidence_role": "CONTRADICTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 336,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/materialization.json",
+        "sha256": "c38e77d76333fe6a8b2a107a136d6041aac49b9e54ed32e1bc9dd110c9e58db4",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 0,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": []
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 90,
+        "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/updates_validation.json",
+        "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 540,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/epistemic_validation.json",
+      "sha256": "ef83af6a735f2a07b47a03e071fe4d3f05c42b1e0f086d064f6c3a22342b411d",
+      "status": "available"
+    },
+    {
+      "bytes": 90,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/updates_validation.json",
+      "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+      "status": "available"
+    },
+    {
+      "bytes": 336,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/a/materialization.json",
+      "sha256": "c38e77d76333fe6a8b2a107a136d6041aac49b9e54ed32e1bc9dd110c9e58db4",
+      "status": "available"
+    },
+    {
+      "bytes": 712,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/b_c_handoff/projection.json",
+      "sha256": "507b7fc47e4ac487666e90c033b351d35da4cc9e451bf5c43d18315554b105a7",
+      "status": "available"
+    },
+    {
+      "bytes": 50,
+      "path": "artifacts/exploratory_memory_mvp/phase1e-cross-model-max-v1-20260922-0ada221/tasks/011-4895b5983421/T/c/mechanical_grounding.json",
+      "sha256": "a5c1f84a368527376bdbbd331cd6eb8b57c0da6f1004e84b6e376c04a3d496b9",
+      "status": "available"
+    }
+  ]
+}

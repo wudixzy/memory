@@ -1,0 +1,6 @@
+{
+  "keep_candidate_h": false,
+  "operation": "NO_NEW_H",
+  "rationale": "C returned no candidate and A assessed evidence as irrelevant with no hypothesis activated; insufficient grounds to create or refine a comparison.",
+  "target_comparison_id": "NONE"
+}

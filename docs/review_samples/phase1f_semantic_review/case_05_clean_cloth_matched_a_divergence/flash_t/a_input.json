@@ -1,0 +1,575 @@
+{
+  "content": {
+    "consumed_exploratory_memory": {
+      "guidance": "Navigate to an available hanging receptacle (towelholder or handtowelholder) first. If the cloth is not present, proceed to inspect other hanging receptacles, then open surfaces, then closed storage.",
+      "hypothesis": "Prioritizing inspection of dedicated hanging receptacles (towelholders/handtowelholders) before general open surfaces (countertops/sinks) or closed storage yields faster acquisition for cloth items, as these are semantically specific carriers for towels in this domain.",
+      "probe_policy": {
+        "adaptive_policy": "Identify all visible hanging receptacles (towelholders, handtowelholders). Navigate to the first one. Inspect for the target cloth. If found, take it. If not, repeat for remaining hanging receptacles. If none contain the cloth, fall back to checking open surfaces (countertops, sinks), then closed storage (cabinets).",
+        "capability_requirements": [
+          "go to <receptacle>",
+          "take <object>"
+        ],
+        "evidence_goal": "Determine if the cloth is located on a hanging receptacle within fewer steps than required by the established 'open-surface-first' or 'spatial-order' strategies.",
+        "local_function": "Select and navigate to a receptacle likely to contain a cloth, then acquire it.",
+        "realization_pattern": "Semantic-specific carrier priority: Check dedicated hanging spots for the object type before generic surfaces or containers.",
+        "required_downstream_state": "Agent holds the cloth object.",
+        "stop_conditions": [
+          "Cloth acquired from a hanging receptacle.",
+          "All hanging receptacles inspected without finding the cloth (trigger fallback).",
+          "Step count exceeds threshold for alternative strategies (abort probe)."
+        ]
+      },
+      "scope": "ALFWorld bathroom tasks where the target object is a cloth item (e.g., towel, handtowel) and the environment contains dedicated hanging receptacles (towelholders, handtowelholders) alongside open surfaces and closed storage.",
+      "type": "exploratory"
+    },
+    "environment_outcome": {
+      "e1": {
+        "controlled_endpoint": {
+          "downstream_execution": "not_run_by_phase1b_dev_protocol",
+          "name": "target_acquisition",
+          "target_acquired": true
+        },
+        "environment_action_count": 5,
+        "steps": 5
+      }
+    },
+    "pre_update_established_memories": [
+      {
+        "guidance": "When searching for cloth items (towel, handtowel, cloth) in bathroom environments, prioritize inspecting open surfaces like countertops and sink basins before checking closed storage units (cabinets, drawers). This semantic prioritization often yields faster acquisition than arbitrary spatial ordering or exhaustive type grouping, as it avoids the action cost of opening/closing containers when the item is likely on a surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/02-e5fbb2d17967/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/04-9b58f11df123/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/06-370500a098b6/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/07-5582b1da75fa/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/11-4895b5983421/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/26-1ebd66e39251/T/a"
+        ],
+        "memory_id": "established-search-listed-order-general",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-1970121bc63a20b7",
+            "consumed_h_id": "h-459d231166988acf",
+            "evidence_id": "evidence-25437cca79d2be37",
+            "source_memory_ids": [
+              "established-search-listed-order-general"
+            ],
+            "task_id": "pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld bathroom tasks where the target object is a cloth item and multiple receptacle types are visible."
+      },
+      {
+        "guidance": "After acquiring the target object, locate a sinkbasin, navigate to it, and clean the carried object using an available sinkbasin. Then carry the clean object to the requested destination and place it.",
+        "memory_id": "established-clean-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cleaning an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a microwave, open it if closed, put the object inside, close it, and execute heating. Then retrieve the heated object and place it on the final receptacle.",
+        "memory_id": "established-heat-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring heating an object before final placement."
+      },
+      {
+        "guidance": "After acquiring the target object, navigate to a fridge, open it if closed, place the object inside to cool it, then retrieve it and transport it to the destination.",
+        "memory_id": "established-cool-then-place-routine",
+        "prior_comparison_evidence": null,
+        "scope": "ALFWorld tasks requiring cooling an object before final placement."
+      },
+      {
+        "guidance": "When searching for perishable food items like tomatoes, lettuce, or potatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available. Additionally, be aware that targets may occasionally appear in non-standard locations such as garbage cans, which should be checked if standard open surfaces and primary storage are empty.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/08-059972eb9c84/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/12-4612230d216e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/15-c6b8fdfddbd0/T/a",
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/19-8bbd1c1dad4e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/034-96138b52c513/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/043-2077d9ed59d9/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/a"
+        ],
+        "memory_id": "established-3134b2ab1f0a162d",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-d248d653c210e41b",
+            "consumed_h_id": "h-89d364dfc3dd11d1",
+            "evidence_id": "evidence-20bb34af09e38fe2",
+            "source_memory_ids": [
+              "established-3134b2ab1f0a162d"
+            ],
+            "task_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, lettuce, potato, egg, etc.) where the target location is unknown."
+      },
+      {
+        "guidance": "For decorative objects in living rooms, prioritize inspection of open display surfaces (shelves, sidetables, dressers, armchairs) before navigating to and opening closed storage units (cabinets, drawers). However, be aware that small personal accessories (e.g., watches, keys) may be more likely to be found in closed storage (drawers) than on open display surfaces; consider integrating object-specific priors or checking drawers earlier if the item is not immediately visible on primary display surfaces.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/21-10cb7cc8f0ce/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/053-f68a95e1cf12/T/a"
+        ],
+        "memory_id": "established-ea32a436454c1c0a",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-dd8b81323c9ba313",
+            "consumed_h_id": "h-3af3018e8cc84312",
+            "evidence_id": "evidence-985a639ef5361a93",
+            "source_memory_ids": [
+              "established-ea32a436454c1c0a"
+            ],
+            "task_id": "pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld living room tasks where the target is a decorative object or small accessory (e.g., vase, statue, watch) and the environment contains mixed open surfaces (shelves, tables, dressers) and closed storage (cabinets, drawers)."
+      },
+      {
+        "guidance": "When searching for cookware items (pans, pots) in kitchen environments, prioritize inspecting stoveburners before other open surfaces (countertops/shelves) or closed storage. If the target is not found on stoveburners, proceed to other open surfaces, then closed storage.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1c-scale-pilot-v1-20260921-60c2474/tasks/30-c9c712e8da31/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/047-e291c26a89d5/T/a"
+        ],
+        "memory_id": "established-87d1cd11cd066c18",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-978dc9a18a8b29f6",
+            "consumed_h_id": "h-08bb46ef029f9004",
+            "evidence_id": "evidence-112d7d796d146f00",
+            "source_memory_ids": [
+              "established-87d1cd11cd066c18"
+            ],
+            "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a cookware item (e.g., pan, pot)."
+      },
+      {
+        "guidance": "When searching for condiments (e.g., saltshakers, peppershakers) in kitchen environments, prioritize inspecting open surfaces like countertops AND shelves before checking closed storage units (cabinets, drawers). Ensure the traversal of open surfaces includes all types (countertops, shelves, tables) systematically to avoid missing targets located on less-frequently-checked open surfaces like shelves. Note that if the target is not on the first few open surfaces checked, the fallback to closed storage may still incur significant action costs; consider integrating spatial proximity or visual cues into the open-surface traversal order if available.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/033-1b5cbde4290e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/037-ae8d6504429e/T/a",
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/041-9697b5784132/T/a"
+        ],
+        "memory_id": "established-3e752a4011c8686b",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-ff98a0cc8b6e08de",
+            "consumed_h_id": "h-d70515b60755f8b2",
+            "evidence_id": "evidence-5a638917ba9abe82",
+            "source_memory_ids": [
+              "established-3e752a4011c8686b"
+            ],
+            "task_id": "pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190906_184021_215264"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "REFINE"
+        },
+        "scope": "ALFWorld kitchen tasks where the target object is a condiment and both open surfaces and closed storage units are visible."
+      },
+      {
+        "guidance": "When searching for small writing instruments (pencils, pens) in office or bedroom environments, prioritize inspecting desk surfaces before checking other open surfaces (shelves, beds) or closed storage units (drawers). Desks are semantically likely locations for these items, and targeting them first can yield very fast acquisition if the item is present on a visible desk surface.",
+        "lineage": [
+          "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/057-7536f079a25c/T/a"
+        ],
+        "memory_id": "established-daf551775986f639",
+        "prior_comparison_evidence": {
+          "binding": {
+            "comparison_id": "comparison-f58cc5f398688bde",
+            "consumed_h_id": "h-feefb9b0e36056a7",
+            "evidence_id": "evidence-8230c17036fca91d",
+            "source_memory_ids": [],
+            "task_id": "pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122024_052056"
+          },
+          "omitted_sections": [
+            "prior_comparison_evidence.evidence_basis",
+            "prior_comparison_evidence.binding.a_artifact_ref"
+          ],
+          "operation": "ADD"
+        },
+        "scope": "ALFWorld office/bedroom tasks where the target object is a small writing instrument (e.g., pencil, pen) and the environment contains multiple desk surfaces alongside other receptacle types."
+      }
+    ],
+    "probe_evidence": {
+      "activated_h_id": null,
+      "evidence_package_id": "evidence-057ffa726a20d8ec",
+      "runtime_status": "EVIDENCE_OBTAINED",
+      "temporal_facts": {
+        "acquisition_phase": "continuation",
+        "continuation_events": [
+          {
+            "action": "go to cabinet_4",
+            "admissible_actions": [
+              "examine cabinet_4",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "open cabinet_4"
+            ],
+            "event_id": "event-7bcdd72a7b08e242",
+            "observation": "You arrive at loc_7. cabinet_4 is closed.",
+            "ordinal": 3,
+            "phase": "continuation"
+          },
+          {
+            "action": "open cabinet_4",
+            "admissible_actions": [
+              "close cabinet_4",
+              "examine cabinet_4",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "take cloth_1 from cabinet_4"
+            ],
+            "event_id": "event-5554d9efa05c6758",
+            "observation": "You open cabinet_4. In cabinet_4, you see cloth_1.",
+            "ordinal": 4,
+            "phase": "continuation"
+          },
+          {
+            "action": "take cloth_1 from cabinet_4",
+            "admissible_actions": [
+              "close cabinet_4",
+              "examine cabinet_4",
+              "examine cloth_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "put cloth_1 in/on cabinet_4"
+            ],
+            "event_id": "event-b804a643937878bc",
+            "observation": "You take cloth_1 from cabinet_4.",
+            "ordinal": 5,
+            "phase": "continuation"
+          }
+        ],
+        "entry_target_visible": false,
+        "environment_action_count": 5,
+        "first_target_exposure_event": "event-5554d9efa05c6758",
+        "probe_events": [
+          {
+            "action": "go to handtowelholder_1",
+            "admissible_actions": [
+              "examine handtowelholder_1",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_2",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look"
+            ],
+            "event_id": "event-a2abe706c5bfd602",
+            "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing.",
+            "ordinal": 1,
+            "phase": "probe"
+          },
+          {
+            "action": "go to handtowelholder_2",
+            "admissible_actions": [
+              "examine handtowelholder_2",
+              "go to cabinet_1",
+              "go to cabinet_2",
+              "go to cabinet_3",
+              "go to cabinet_4",
+              "go to countertop_1",
+              "go to garbagecan_1",
+              "go to handtowelholder_1",
+              "go to sinkbasin_1",
+              "go to sinkbasin_2",
+              "go to toilet_1",
+              "go to toiletpaperhanger_1",
+              "go to towelholder_1",
+              "inventory",
+              "look",
+              "take handtowel_1 from handtowelholder_2"
+            ],
+            "event_id": "event-e84bc27f1627225d",
+            "observation": "You arrive at loc_14. On handtowelholder_2, you see handtowel_1.",
+            "ordinal": 2,
+            "phase": "probe"
+          }
+        ],
+        "target_acquired_event": "event-b804a643937878bc"
+      }
+    },
+    "target_task": {
+      "instruction": "put a clean cloth in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    },
+    "target_trajectory": {
+      "completed_requested_sequence": false,
+      "executed_actions": [
+        "go to handtowelholder_1",
+        "go to handtowelholder_2",
+        "go to cabinet_4",
+        "open cabinet_4",
+        "take cloth_1 from cabinet_4"
+      ],
+      "final": {
+        "admissible_actions": [
+          "close cabinet_4",
+          "examine cabinet_4",
+          "examine cloth_1",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look",
+          "put cloth_1 in/on cabinet_4"
+        ],
+        "observation": "You take cloth_1 from cabinet_4."
+      },
+      "initial": {
+        "admissible_actions": [
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to cabinet_4",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look"
+        ],
+        "initial_public_state_fingerprint": "0441de0b519b0ae8f916ee287fa24d25ee8a3d3449de9d45486634057b8c2f1c",
+        "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_4, cabinet_3, cabinet_2, cabinet_1, countertop_1, garbagecan_1, handtowelholder_2, handtowelholder_1, sinkbasin_2, sinkbasin_1, toilet_1, toiletpaperhanger_1, and towelholder_1.\n\nYour task is to: put a clean cloth in cabinet."
+      },
+      "seed": 42,
+      "steps": [
+        {
+          "action": "go to handtowelholder_1",
+          "admissible_actions": [
+            "examine handtowelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing.",
+          "step": 1
+        },
+        {
+          "action": "go to handtowelholder_2",
+          "admissible_actions": [
+            "examine handtowelholder_2",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take handtowel_1 from handtowelholder_2"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_14. On handtowelholder_2, you see handtowel_1.",
+          "step": 2
+        },
+        {
+          "action": "go to cabinet_4",
+          "admissible_actions": [
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "open cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You arrive at loc_7. cabinet_4 is closed.",
+          "step": 3
+        },
+        {
+          "action": "open cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take cloth_1 from cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You open cabinet_4. In cabinet_4, you see cloth_1.",
+          "step": 4
+        },
+        {
+          "action": "take cloth_1 from cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "examine cloth_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put cloth_1 in/on cabinet_4"
+          ],
+          "executed": true,
+          "observation": "You take cloth_1 from cabinet_4.",
+          "step": 5
+        }
+      ],
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/environment_outcome/e1/controlled_endpoint/environment_won",
+    "/environment_outcome/e1/done",
+    "/environment_outcome/e1/reward",
+    "/environment_outcome/e1/won",
+    "/pre_update_established_memories/*/created_at_task",
+    "/pre_update_established_memories/*/lifecycle_status",
+    "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+    "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+    "/pre_update_established_memories/*/provenance",
+    "/pre_update_established_memories/*/versions",
+    "/probe_evidence/temporal_facts/continuation_events/*/done",
+    "/probe_evidence/temporal_facts/continuation_events/*/won",
+    "/probe_evidence/temporal_facts/probe_events/*/done",
+    "/probe_evidence/temporal_facts/probe_events/*/won",
+    "/probe_evidence/trace",
+    "/provenance",
+    "/target_trajectory/final/done",
+    "/target_trajectory/final/reward",
+    "/target_trajectory/final/won",
+    "/target_trajectory/initial/done",
+    "/target_trajectory/initial/won",
+    "/target_trajectory/steps/*/done",
+    "/target_trajectory/steps/*/reward",
+    "/target_trajectory/steps/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 80592,
+    "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/a_input.json",
+    "sha256": "67b9d17e47eb0ba24b56bd0186907e8a68628b19da5219d95e0d2a0a878d3631",
+    "status": "available"
+  }
+}

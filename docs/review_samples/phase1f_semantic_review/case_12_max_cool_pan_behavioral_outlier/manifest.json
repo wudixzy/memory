@@ -1,0 +1,2314 @@
+{
+  "artifact_records": [
+    {
+      "extraction": "public_projection",
+      "output_bytes": 14375,
+      "output_path": "max_g/a_input.json",
+      "output_sha256": "15c5b43edb1d6ab95858a0c9cbd99d8ffe25666c9c68e5e3909a751ae43de89d",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/probe_evidence/temporal_facts/probe_events/*/done",
+        "/probe_evidence/temporal_facts/probe_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 16977,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/a_input.json",
+          "sha256": "a88f3a93cbca9ad8f39615a444e161187c816ffde961e54157151517eae27ae7",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 372,
+      "output_path": "max_g/a_output_parsed.json",
+      "output_sha256": "54ad028459477ae77e745303a08610143e33027a3eb9121871ba46a92a9d3d4e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 372,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/a_parsed.json",
+          "sha256": "54ad028459477ae77e745303a08610143e33027a3eb9121871ba46a92a9d3d4e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 443,
+      "output_path": "max_g/a_output_raw.json",
+      "output_sha256": "69b9148f20ea3772e3c8ecfdf3b71f84ed7c6523468f1fc27bc8a5e90cbde2f8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 443,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/raw_response.json",
+          "sha256": "69b9148f20ea3772e3c8ecfdf3b71f84ed7c6523468f1fc27bc8a5e90cbde2f8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 817,
+      "output_path": "max_g/a_response_prompt.json",
+      "output_sha256": "9d0ef157e955660094c1d1e47b5ece9a69d8c5ef0918d1ea8878deaa1cbdfba0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 21485,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/prompt.json",
+          "sha256": "5794b15c33a9d8c36704a91904223fc755738584669807712cb19e79f2a3af32",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 275,
+      "output_path": "max_g/b_input.json",
+      "output_sha256": "b69a94ec07df03786b2d435cfbbff6efe45f479ed9533c4d9925bead796a2817",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b/b_input.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 276,
+      "output_path": "max_g/b_output_parsed.json",
+      "output_sha256": "f2955f1a446ba0ca5672b6343f24ad91401fa982ba431069a513ae6d83e0e05d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b/b_parsed.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 280,
+      "output_path": "max_g/b_output_raw.json",
+      "output_sha256": "6c5e14af3a7f7294a2f4670799611be0a396852a5942bbfa7a15c2540543051e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b/raw_response.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 274,
+      "output_path": "max_g/b_response_prompt.json",
+      "output_sha256": "1005c65e757530b2877bc4a30c28cfc531c7cff7d4df8d49517abca2cb0bd26a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/b/prompt.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 298,
+      "output_path": "max_g/c_error.json",
+      "output_sha256": "651d19e34b65bf86ae2cd9357cf263e0a536be70c364ec51513b9243ebabe959",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 301,
+      "output_path": "max_g/c_output_parsed.json",
+      "output_sha256": "bd2f4d520ae2a6bfdf0c77875cd01f6446dc762e3ecad6335c0353c051128232",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/c_parsed.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 305,
+      "output_path": "max_g/c_output_raw.json",
+      "output_sha256": "d22526209490f5c9dc8f610585087c5da5641050e825e2abc606d583dea69f89",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/raw_response.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 299,
+      "output_path": "max_g/c_response_prompt.json",
+      "output_sha256": "b1ba3713b5fa066a5ac3eb004099f69dc4a620754a20942422d9e586689a9537",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/prompt.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 300,
+      "output_path": "max_g/c_visible_input.json",
+      "output_sha256": "9537f7badd094ccf3e2f4a67acfa2fae6365cd681593c3a7167da225228a4d01",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/c/c_input.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 1678,
+      "output_path": "max_g/comparison_before_after.json",
+      "output_sha256": "7e78ae691c0f01ce342308ca7f0db944b4da6563b78015a7d2820ed6bca3d5b6",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 224957,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_before.json",
+          "sha256": "5296516a3aea35cd5c39a855fb4f69f1e9a2d1827c3e015c44ae2b0b161b8c89",
+          "status": "available"
+        },
+        {
+          "bytes": 236618,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_after.json",
+          "sha256": "5fde9f0a052fa9e2458cad71e8e574866ede40a4fa31382250d642bbc3331974",
+          "status": "available"
+        },
+        {
+          "bytes": 2668,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+          "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+          "status": "available"
+        },
+        {
+          "bytes": 139,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/materialization.json",
+          "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 598,
+      "output_path": "max_g/continuation_trace.json",
+      "output_sha256": "7bc4ed52f738b18b5a4eff9d9298ed270b5a8d7c85fdeb9f655252cc12879707",
+      "removed_json_pointers": [
+        "/environment_actions"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 166,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/continuation_search/continuation_trace.json",
+          "sha256": "fc83518337ab84756a452bdb2facf45c2584cb53e551f685489cce660452cfc9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 7271,
+      "output_path": "max_g/evidence_package.json",
+      "output_sha256": "33fa02e31d93ae881407c005418220ac417b2eddc13a6e6e668c930055929e45",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/probe_trace/trace/*/result/final_state/won",
+        "/provenance",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 10296,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/evidence_package.json",
+          "sha256": "841d72e00af4997f0fd7d9522fbb4f433a8e633529e6941b58134428665bac72",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 308,
+      "output_path": "max_g/history_retrieval_input.json",
+      "output_sha256": "7f6d30ab93f05d8669a0f95cb6f34be070f73755bc373a887d94026b680a31e3",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_retrieval/retrieval_input.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 309,
+      "output_path": "max_g/history_retrieval_parsed.json",
+      "output_sha256": "0108117d89c179c22eac1ade0c59933be27fd8a8e778fd39c78a8622a3f5e7ad",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_retrieval/retrieval_parsed.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 305,
+      "output_path": "max_g/history_retrieval_raw_response.json",
+      "output_sha256": "336cd21bdbe03f69a2e363a5b564337a84df9d3556169a3c4b2e5a580d8dbcd8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_retrieval/raw_response.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 311,
+      "output_path": "max_g/history_retrieval_selected_summaries.json",
+      "output_sha256": "63667c94f1ecbf2b52414aaaaccbe065cef4d98a7194fb3c88d525684c265129",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_retrieval/selected_summaries.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1579,
+      "output_path": "max_g/pairing_proof.json",
+      "output_sha256": "21b5cc29ee6234054b626089d0720d967307d4adaeba7eec41654ace28bf9a17",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2799,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/pairing_proof.json",
+          "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 3700,
+      "output_path": "max_g/post_task_state.json",
+      "output_sha256": "af93db7518209b3cd4524bed6497f7b04868538ff580f48575a903ec96bbb35f",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 236618,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_after.json",
+          "sha256": "5fde9f0a052fa9e2458cad71e8e574866ede40a4fa31382250d642bbc3331974",
+          "status": "available"
+        },
+        {
+          "bytes": 3,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_after.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 2548,
+      "output_path": "max_g/pre_task_state.json",
+      "output_sha256": "bb1d971040536e880099ba13e4e00b7bb45e3acf15ab574a0690ff0fb131878e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 224957,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_before.json",
+          "sha256": "5296516a3aea35cd5c39a855fb4f69f1e9a2d1827c3e015c44ae2b0b161b8c89",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 7532,
+      "output_path": "max_g/probe_trace.json",
+      "output_sha256": "96b5b2a51bd24553058851b0c26adb7639f8ffec46c1376154b7dc31b5e1bda1",
+      "removed_json_pointers": [
+        "/trace/*/result/final_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 3790,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/probe_summary.json",
+          "sha256": "d80bc6dbd71d44ff577aedce8078359a4abdbe61bbb5cd1c1297481d3d8af1e8",
+          "status": "available"
+        },
+        {
+          "bytes": 4978,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/001/selector_input.json",
+          "sha256": "dc91c6371d2ddda49564c5611d0cd581390983afd34cfaed24fb602ff1e55aa8",
+          "status": "available"
+        },
+        {
+          "bytes": 68,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/001/raw_response.json",
+          "sha256": "7578c7ffea1565e186b74b2b8e7dddc44d2bc23d120c024b3158324a09fabe03",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/001/parsed.json",
+          "sha256": "9fa4205956d180445bafe9ebc91ec5a8c865d9e40feeabc84a65a7b7b138f8e0",
+          "status": "available"
+        },
+        {
+          "bytes": 69,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/001/selector_validation.json",
+          "sha256": "7ae7126bbc1cab74c0e0f498820eaac4cd28559f715e4a61d67a12444f267ffd",
+          "status": "available"
+        },
+        {
+          "bytes": 4747,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/002/selector_input.json",
+          "sha256": "fdd77e8058a255bf797b7e6e2a09384db6aa9b4246f9f2bcfbb1c51376ec0e8e",
+          "status": "available"
+        },
+        {
+          "bytes": 68,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/002/raw_response.json",
+          "sha256": "7578c7ffea1565e186b74b2b8e7dddc44d2bc23d120c024b3158324a09fabe03",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/002/parsed.json",
+          "sha256": "9fa4205956d180445bafe9ebc91ec5a8c865d9e40feeabc84a65a7b7b138f8e0",
+          "status": "available"
+        },
+        {
+          "bytes": 69,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/probe/steps/002/selector_validation.json",
+          "sha256": "f3fda1aa39b15fbe64fc776bd21406ccb0e79fb37eb880a9ad4d979636a2f611",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2895,
+      "output_path": "max_g/public_task_context.json",
+      "output_sha256": "a59f6995364ce43cfce67ebf7f5a0a9e4107597ac7ce50242cdabd32b7f503ed",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 44867,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+          "sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 308,
+      "output_path": "max_g/reconciliation_input.json",
+      "output_sha256": "2924a5294cf77519a50b6d7873a2aca4dc458c15ff9113e247ccb4d562b2c4b0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/h_reconciliation/reconciliation_input.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 309,
+      "output_path": "max_g/reconciliation_parsed.json",
+      "output_sha256": "941f25e78fb54975fe1dfca771e89a1e19dc6a03550c67fb086519ef5a4abed5",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/h_reconciliation/reconciliation_parsed.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 294,
+      "output_path": "max_g/reconciliation_prompt.json",
+      "output_sha256": "7ba346581039e3e7b1d3fce684867facb72730594065d20b9e2d50050bbfbbad",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/h_reconciliation/prompt.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 300,
+      "output_path": "max_g/reconciliation_raw_response.json",
+      "output_sha256": "ee986f29e4e48ce14f3df31a3f5abc134f6447d5dbf3c416b5433891d8450ad2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/h_reconciliation/raw_response.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 2481,
+      "output_path": "max_g/retrieval_and_h.json",
+      "output_sha256": "44fb01e612f5a8688f039b446e4a726eeafb388948cc10f3317569edfea58716",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2668,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+          "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+          "status": "available"
+        },
+        {
+          "bytes": 224957,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_before.json",
+          "sha256": "5296516a3aea35cd5c39a855fb4f69f1e9a2d1827c3e015c44ae2b0b161b8c89",
+          "status": "available"
+        },
+        {
+          "bytes": 236618,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_after.json",
+          "sha256": "5fde9f0a052fa9e2458cad71e8e574866ede40a4fa31382250d642bbc3331974",
+          "status": "available"
+        },
+        {
+          "bytes": 3,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_before.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "status": "available"
+        },
+        {
+          "bytes": 3,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/exploration_history_after.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 283,
+      "output_path": "max_g/retrieval_input.json",
+      "output_sha256": "bc853605798038efcc8ec9de7782e8e0e9a4e13d4341296027a1b314de6b1732",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/retrieval/retrieval_input.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 49,
+      "output_path": "max_g/retrieval_parsed.json",
+      "output_sha256": "9a3be1ca685e480e48c58270a40fb26cc74c53994da51802390a053eedeff348",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 49,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/retrieval/retrieval_parsed.json",
+          "sha256": "9a3be1ca685e480e48c58270a40fb26cc74c53994da51802390a053eedeff348",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 280,
+      "output_path": "max_g/retrieval_raw_response.json",
+      "output_sha256": "ef1b8983850407647cc5d9acf397193e818c6a3435c558712ddc9310ca177928",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/retrieval/raw_response.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 274,
+      "output_path": "max_g/retrieval_status.json",
+      "output_sha256": "a144b310fc4788fdc9380a693017e5c25a79861b6c97f64fb1c92a2aeac2e983",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/retrieval/status.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 2418,
+      "output_path": "max_g/task_summary.json",
+      "output_sha256": "de2c768771eafbfd63c3ac215371d3712bb6b7503512c7ec3fbefc564a44318b",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2668,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+          "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 4313,
+      "output_path": "max_g/validation_and_handoff.json",
+      "output_sha256": "01fb605d872d57f17b4249e2585332e26806c9bf30e23122780301cf10ee1d07",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 379,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/epistemic_validation.json",
+          "sha256": "9ad8404799da25110f9f66c5ecbfb2d1ab88601c104feab583087594836c6cf4",
+          "status": "available"
+        },
+        {
+          "bytes": 90,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/updates_validation.json",
+          "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+          "status": "available"
+        },
+        {
+          "bytes": 139,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/materialization.json",
+          "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 84563,
+      "output_path": "max_t0/a_input.json",
+      "output_sha256": "b2870a11171df0bf7d314791ec162a49ee535183c7354ee1e57547bb008371bb",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/probe_evidence/temporal_facts/continuation_events/*/done",
+        "/probe_evidence/temporal_facts/continuation_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 85899,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/a_input.json",
+          "sha256": "1f9290a8c85278fe0fabbd0a7c38d37c90d1d58eb87a8d3dae3a1270e5f1e1e3",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 502,
+      "output_path": "max_t0/a_output_parsed.json",
+      "output_sha256": "3bdba0a13870091b646d7826c797b632b0a4f63106cada08c21927c12fc6f0d4",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 502,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/a_parsed.json",
+          "sha256": "3bdba0a13870091b646d7826c797b632b0a4f63106cada08c21927c12fc6f0d4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 573,
+      "output_path": "max_t0/a_output_raw.json",
+      "output_sha256": "e56cd39e4e2feca2fc517681961640028efaad32aa27f14cbb18833ff62b81d1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 573,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/raw_response.json",
+          "sha256": "e56cd39e4e2feca2fc517681961640028efaad32aa27f14cbb18833ff62b81d1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 830,
+      "output_path": "max_t0/a_response_prompt.json",
+      "output_sha256": "247f2a95bbaa5807248de004f79b710891d428d6edeeb098dcadf005a97694ec",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 96868,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/prompt.json",
+          "sha256": "82bb87fe1858597941f2c6d98f87c899518dd7f36d877ef8c08d78f886a58879",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 82974,
+      "output_path": "max_t0/b_input.json",
+      "output_sha256": "476c8312a22146cac8423fb9f51e47a6113386ce22350c08a843795f696a5228",
+      "removed_json_pointers": [
+        "/controlled_endpoint/environment_won",
+        "/current_initial_state/won",
+        "/current_trajectory/final/done",
+        "/current_trajectory/final/reward",
+        "/current_trajectory/final/won",
+        "/current_trajectory/initial/done",
+        "/current_trajectory/initial/won",
+        "/current_trajectory/steps/*/done",
+        "/current_trajectory/steps/*/reward",
+        "/current_trajectory/steps/*/won",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 84091,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/b/b_input.json",
+          "sha256": "f03b162eab4e935c1f71244e3784449af486913fe9eee6b994dfa0f493e7757a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1954,
+      "output_path": "max_t0/b_output_parsed.json",
+      "output_sha256": "9b85562375111b63de636f86c17dfd2ddb9bc4c0930a22be6c53711dc4e4fe40",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1954,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/b/b_parsed.json",
+          "sha256": "9b85562375111b63de636f86c17dfd2ddb9bc4c0930a22be6c53711dc4e4fe40",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1949,
+      "output_path": "max_t0/b_output_raw.json",
+      "output_sha256": "5ac0ce412023730d128ba1bb0e2dddc7ca0aadbea4ef77da392695d3409c4094",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1949,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/b/raw_response.json",
+          "sha256": "5ac0ce412023730d128ba1bb0e2dddc7ca0aadbea4ef77da392695d3409c4094",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 830,
+      "output_path": "max_t0/b_response_prompt.json",
+      "output_sha256": "923c4c8722b5dd6e6c10e62aaa732494f43fb6c6ceae60af9c1f19480cc0b507",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 96605,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/b/prompt.json",
+          "sha256": "58e58389635eecef07b71a441cc07ea11a2d032b0bb1f2eb80ce7c33a8a752d0",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 311,
+      "output_path": "max_t0/c_error.json",
+      "output_sha256": "6dc43903471df86b8eb3e39d1bbb3318b865b2b53fa470d3162fc2ac9f45f4f9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3410,
+      "output_path": "max_t0/c_output_parsed.json",
+      "output_sha256": "d4167ca34193707ca83f29b7fe728467c95afefafea582b1d692889890ad30b8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3410,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/c_parsed.json",
+          "sha256": "d4167ca34193707ca83f29b7fe728467c95afefafea582b1d692889890ad30b8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3336,
+      "output_path": "max_t0/c_output_raw.json",
+      "output_sha256": "7f85e20b529ade05de764117e70216da806ed89565568692cf628d4222dab385",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3336,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/raw_response.json",
+          "sha256": "7f85e20b529ade05de764117e70216da806ed89565568692cf628d4222dab385",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 830,
+      "output_path": "max_t0/c_response_prompt.json",
+      "output_sha256": "0e868578f24bf632b7db6aa4ce94a2df29f2485c0dfdaf2ca0e440c624ebb2c8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 20690,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/prompt.json",
+          "sha256": "39080a54e09fe17fa737764e5d26b19fcf37ebf1f6575bf9259f9a7d96ac004a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 12462,
+      "output_path": "max_t0/c_visible_input.json",
+      "output_sha256": "9eea8b1712ecb471f67520eaa37f3dbfe22bfe412f969c5fb42502364fd98960",
+      "removed_json_pointers": [
+        "/local_state_and_evidence/entry_state/won",
+        "/pre_update_established_memories/*/prior_comparison_evidence/binding/a_artifact_ref",
+        "/pre_update_established_memories/*/prior_comparison_evidence/evidence_basis",
+        "/pre_update_established_memories/*/provenance",
+        "/pre_update_established_memories/*/versions"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 14937,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/c_input.json",
+          "sha256": "f8dc7686dbcd0f54e169b785c83f95b2c3df9f18f1e1e460d0426e6999a95160",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 4812,
+      "output_path": "max_t0/comparison_before_after.json",
+      "output_sha256": "110db7cee128d45d5b2fe35b68676ee27d7a8794294e115179f8ae19bc0abb69",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 254449,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_before.json",
+          "sha256": "7ac1e41d66c3c55430e5d499d6a6c3402d7e2e9cfc72b42972e307eaaacc1ead",
+          "status": "available"
+        },
+        {
+          "bytes": 401886,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_after.json",
+          "sha256": "34c06e6ab90e131ecc66cb887284b4e9f2bda8fd7f96e878c41bd24dff16bc4b",
+          "status": "available"
+        },
+        {
+          "bytes": 13018,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+          "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+          "status": "available"
+        },
+        {
+          "bytes": 139,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/materialization.json",
+          "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+          "status": "available"
+        },
+        {
+          "bytes": 413,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "b015ae306862126bc9e1e3bddc4b4ad9ccb4e6168d6554da71ba38d13d1cb681",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 81978,
+      "output_path": "max_t0/continuation_trace.json",
+      "output_sha256": "edca0d707fd7dc668ce343ea4eefaba37b3a6df091a7806edcedc3017f3d1dfc",
+      "removed_json_pointers": [
+        "/environment_actions",
+        "/trace/*/actions/*/before/done",
+        "/trace/*/actions/*/before/won",
+        "/trace/*/actions/*/result/action",
+        "/trace/*/actions/*/result/done",
+        "/trace/*/actions/*/result/executed",
+        "/trace/*/actions/*/result/reward",
+        "/trace/*/actions/*/result/step",
+        "/trace/*/actions/*/result/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 84166,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/continuation_search/continuation_trace.json",
+          "sha256": "46c35a532693761805ab0cb4b451c8790384c3e937c7cb4ed8f358d7a8f2ddf1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 41480,
+      "output_path": "max_t0/evidence_package.json",
+      "output_sha256": "ef9c8226442ee55afbdc5f574c77811346a2c5903120b8df9285674821502dd5",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/continuation_trace/trace/*/actions/*/before/won",
+        "/continuation_trace/trace/*/actions/*/result/reward",
+        "/continuation_trace/trace/*/actions/*/result/won",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/provenance",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 128481,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/evidence_package.json",
+          "sha256": "47501e11a5c78611699d3c5e07e3ad657f8f6848d063fbad0dd13514e04f23e3",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 2739,
+      "output_path": "max_t0/history_retrieval_input.json",
+      "output_sha256": "1d08ae8b75bff80e523293e94fd090d57b683fa9421e9f804a7678301f6067ac",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2245,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_retrieval/retrieval_input.json",
+          "sha256": "03d1173ff5bbbacb1572ba4d8dcdadd57c9afe641510360ceb5c7452a9e87ac6",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 130,
+      "output_path": "max_t0/history_retrieval_parsed.json",
+      "output_sha256": "76a08c73e7227bf80c5fca3bc94cf1bacfac72186c669240664b21a4b5f11bb2",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 130,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_retrieval/retrieval_parsed.json",
+          "sha256": "76a08c73e7227bf80c5fca3bc94cf1bacfac72186c669240664b21a4b5f11bb2",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 160,
+      "output_path": "max_t0/history_retrieval_raw_response.json",
+      "output_sha256": "d13dc7c0ef28f16ab3967b63af056d94aaf3a768ecc6abbc78205c0c96533a16",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 160,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_retrieval/raw_response.json",
+          "sha256": "d13dc7c0ef28f16ab3967b63af056d94aaf3a768ecc6abbc78205c0c96533a16",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 2005,
+      "output_path": "max_t0/history_retrieval_selected_summaries.json",
+      "output_sha256": "c8e7f55734ffa3bdf06f5d4a7ac3921a1e76a1be6fc0ccecac151b12c3dcc449",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1532,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_retrieval/selected_summaries.json",
+          "sha256": "9b788a6ba10d3a3f92024c82ae248ad0a070b016415aac28fd92bcbdbd8a4d4b",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1592,
+      "output_path": "max_t0/pairing_proof.json",
+      "output_sha256": "0d006baa6295d1db23da9167e622c5d6a37a7750eb1183857bb1fedbba99287a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2799,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/pairing_proof.json",
+          "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 10655,
+      "output_path": "max_t0/post_task_state.json",
+      "output_sha256": "6448b8d57a05fe79c29a86e9a178a78066d66276e4ab2eb72352b87291cf490c",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 401886,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_after.json",
+          "sha256": "34c06e6ab90e131ecc66cb887284b4e9f2bda8fd7f96e878c41bd24dff16bc4b",
+          "status": "available"
+        },
+        {
+          "bytes": 3046,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_after.json",
+          "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 6521,
+      "output_path": "max_t0/pre_task_state.json",
+      "output_sha256": "40a3198651f4e5142091d545818b72092d8241e61f2df16e91974d74bb81fb7a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 254449,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_before.json",
+          "sha256": "7ac1e41d66c3c55430e5d499d6a6c3402d7e2e9cfc72b42972e307eaaacc1ead",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 682,
+      "output_path": "max_t0/probe_trace.json",
+      "output_sha256": "5ece6dd9285364426f5dd3fedf32a127dd2257f24b0a78fff51079527d81a6d1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 223,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/probe/probe_summary.json",
+          "sha256": "b96417a7eeba29e790f6396fac3984adc59b84e2677d8efa97d8ad7754163685",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2895,
+      "output_path": "max_t0/public_task_context.json",
+      "output_sha256": "a59f6995364ce43cfce67ebf7f5a0a9e4107597ac7ce50242cdabd32b7f503ed",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 44867,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+          "sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 8868,
+      "output_path": "max_t0/reconciliation_input.json",
+      "output_sha256": "577c6a4b5aa1a41edd7400da4de834faf0212e137c2b2c5b83411e3322c61ac1",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 8222,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/reconciliation_input.json",
+          "sha256": "9adf27f7f3d99bd4c78882568e399daa4b8d2a1728cce3ba15f3e82568d453dc",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 413,
+      "output_path": "max_t0/reconciliation_parsed.json",
+      "output_sha256": "b015ae306862126bc9e1e3bddc4b4ad9ccb4e6168d6554da71ba38d13d1cb681",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 413,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "b015ae306862126bc9e1e3bddc4b4ad9ccb4e6168d6554da71ba38d13d1cb681",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 845,
+      "output_path": "max_t0/reconciliation_prompt.json",
+      "output_sha256": "8e4c1f4599829f5e83df867deb96b0b26bc679aa6657677e55e744ad9406a23a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 10866,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/prompt.json",
+          "sha256": "a1c3386c4dbf6252f12b81aa70c0c734faa727dabe18c1d58e317cac7381ea45",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 474,
+      "output_path": "max_t0/reconciliation_raw_response.json",
+      "output_sha256": "40ed5cd9705e830f0fd4bc68c1a18fbd21bd0e6766d19c682b568e63ff5389a9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 474,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/raw_response.json",
+          "sha256": "40ed5cd9705e830f0fd4bc68c1a18fbd21bd0e6766d19c682b568e63ff5389a9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 8057,
+      "output_path": "max_t0/retrieval_and_h.json",
+      "output_sha256": "03f76171886361fc6a545af52ac79872840648d7fe3008f30a836880c25afcfc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 13018,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+          "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+          "status": "available"
+        },
+        {
+          "bytes": 254449,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_before.json",
+          "sha256": "7ac1e41d66c3c55430e5d499d6a6c3402d7e2e9cfc72b42972e307eaaacc1ead",
+          "status": "available"
+        },
+        {
+          "bytes": 401886,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_after.json",
+          "sha256": "34c06e6ab90e131ecc66cb887284b4e9f2bda8fd7f96e878c41bd24dff16bc4b",
+          "status": "available"
+        },
+        {
+          "bytes": 3046,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_before.json",
+          "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+          "status": "available"
+        },
+        {
+          "bytes": 3046,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/exploration_history_after.json",
+          "sha256": "25e2859216a4f884b1c0ba9410085ac76d9c2ec63bf7bcb9ebec2e53af884c19",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 3516,
+      "output_path": "max_t0/retrieval_input.json",
+      "output_sha256": "cc3bc29b0668d3632931c123d0d5293f969382278b9c60f03982dc50a04e8a46",
+      "removed_json_pointers": [
+        "/current_initial_public_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 2959,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/retrieval/retrieval_input.json",
+          "sha256": "226a30c20120ea047899bb15652aa6af9afc1b7678d92807bbb519fea776aa8c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 43,
+      "output_path": "max_t0/retrieval_parsed.json",
+      "output_sha256": "fe9c0eb202695806dbf0cb3f31cd6eb24563f63d832b425a9ec43e55f4359ff8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 43,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/retrieval/retrieval_parsed.json",
+          "sha256": "fe9c0eb202695806dbf0cb3f31cd6eb24563f63d832b425a9ec43e55f4359ff8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 84,
+      "output_path": "max_t0/retrieval_raw_response.json",
+      "output_sha256": "845360a90bf358b6ef25f244b0ba06037b2218efeab306a2d83fde76d05ac8d4",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 84,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/retrieval/raw_response.json",
+          "sha256": "845360a90bf358b6ef25f244b0ba06037b2218efeab306a2d83fde76d05ac8d4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 663,
+      "output_path": "max_t0/retrieval_status.json",
+      "output_sha256": "37af41bdc533a0726af3144143555407aae9be0053d0cf2634b97936304c175f",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 663,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/retrieval/status.json",
+          "sha256": "37af41bdc533a0726af3144143555407aae9be0053d0cf2634b97936304c175f",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 10856,
+      "output_path": "max_t0/task_summary.json",
+      "output_sha256": "aed96e21dbd5fc5261c6e348d77c59b17a0d95a49b6029add846ce4986f385f8",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 13018,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+          "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 7694,
+      "output_path": "max_t0/validation_and_handoff.json",
+      "output_sha256": "d2f08a54d7fc58860b08935f3c4071e29521a8a364d90c981900c09541a6f4e7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 509,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/epistemic_validation.json",
+          "sha256": "1b88c3c99260e8e165cf61684eae1842bbcd537d4ee32110297a485d2c58ac66",
+          "status": "available"
+        },
+        {
+          "bytes": 90,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/updates_validation.json",
+          "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+          "status": "available"
+        },
+        {
+          "bytes": 139,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/materialization.json",
+          "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+          "status": "available"
+        },
+        {
+          "bytes": 669,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/b_c_handoff/projection.json",
+          "sha256": "4d3dd48cfe4d116e39ca594e09002b0f6cb4c54ddbd3473573ca87261d56f390",
+          "status": "available"
+        },
+        {
+          "bytes": 1215,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c/mechanical_grounding.json",
+          "sha256": "0cf0b97dc31efd2e2d8272ecbfa99adc4ebe2e0c181134f2c841beb8acf4b451",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 85233,
+      "output_path": "max_t1/a_input.json",
+      "output_sha256": "af28969a09db716992598f84776e7077d30f175bdd68ab160ee361ad490d2005",
+      "removed_json_pointers": [
+        "/environment_outcome/e1/controlled_endpoint/environment_won",
+        "/environment_outcome/e1/done",
+        "/environment_outcome/e1/reward",
+        "/environment_outcome/e1/won",
+        "/probe_evidence/temporal_facts/continuation_events/*/done",
+        "/probe_evidence/temporal_facts/continuation_events/*/won",
+        "/probe_evidence/temporal_facts/probe_events/*/done",
+        "/probe_evidence/temporal_facts/probe_events/*/won",
+        "/probe_evidence/trace",
+        "/provenance",
+        "/target_trajectory/final/done",
+        "/target_trajectory/final/reward",
+        "/target_trajectory/final/won",
+        "/target_trajectory/initial/done",
+        "/target_trajectory/initial/won",
+        "/target_trajectory/steps/*/done",
+        "/target_trajectory/steps/*/reward",
+        "/target_trajectory/steps/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 86611,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/a_input.json",
+          "sha256": "f22744f765e9c04beb34698324ae3b7fd0801c87d19b9e66ce9bc4b3c92fa476",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 536,
+      "output_path": "max_t1/a_output_parsed.json",
+      "output_sha256": "45fd553adfc0b1a064d9cb5a3c161879bb525b4ac0232c462f406c0dabc20256",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 536,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/a_parsed.json",
+          "sha256": "45fd553adfc0b1a064d9cb5a3c161879bb525b4ac0232c462f406c0dabc20256",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 607,
+      "output_path": "max_t1/a_output_raw.json",
+      "output_sha256": "0bc3569f4ebd1560bee4082f7a2677dd205548773a409dbee64bfeaabff016d3",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 607,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/raw_response.json",
+          "sha256": "0bc3569f4ebd1560bee4082f7a2677dd205548773a409dbee64bfeaabff016d3",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 818,
+      "output_path": "max_t1/a_response_prompt.json",
+      "output_sha256": "05d54682ed47e6f452a1db11a060cbd98486cae6c852ad8276c6e0ac006bc58a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 97784,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/prompt.json",
+          "sha256": "8d9c0bde905b271e85414c5db83022ba358384e209caa4ac0f9d6732b8e9aab1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 81379,
+      "output_path": "max_t1/b_input.json",
+      "output_sha256": "5632ac5b57c0210f78e1869b327b1d57ed8570c27fca70bd4172515b7dd26617",
+      "removed_json_pointers": [
+        "/controlled_endpoint/environment_won",
+        "/current_initial_state/won",
+        "/current_trajectory/final/done",
+        "/current_trajectory/final/reward",
+        "/current_trajectory/final/won",
+        "/current_trajectory/initial/done",
+        "/current_trajectory/initial/won",
+        "/current_trajectory/steps/*/done",
+        "/current_trajectory/steps/*/reward",
+        "/current_trajectory/steps/*/won",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 79052,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/b/b_input.json",
+          "sha256": "febfcd264c5fe49ba9eda1ec6ae38013732e907c04b79f2f0d4b6f7e2c804a9e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1899,
+      "output_path": "max_t1/b_output_parsed.json",
+      "output_sha256": "5895b89797d493fc8effc9184a0a2c40a41d650d61e5cde88a11b3b9419ac793",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1899,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/b/b_parsed.json",
+          "sha256": "5895b89797d493fc8effc9184a0a2c40a41d650d61e5cde88a11b3b9419ac793",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 1889,
+      "output_path": "max_t1/b_output_raw.json",
+      "output_sha256": "89706317eb554d09dd716de7f5186a8a578da69d6cb66c895f0b4bf38952570d",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 1889,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/b/raw_response.json",
+          "sha256": "89706317eb554d09dd716de7f5186a8a578da69d6cb66c895f0b4bf38952570d",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 818,
+      "output_path": "max_t1/b_response_prompt.json",
+      "output_sha256": "3d8e9ff9fd9ae52ca15956444f8328e04e76c0a5e0950dca55559b76a5396920",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 91367,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/b/prompt.json",
+          "sha256": "e9fc313c0496e6013673bef6332ce6245c85f51321a98e8a37db11715dc91958",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "not_available",
+      "output_bytes": 299,
+      "output_path": "max_t1/c_error.json",
+      "output_sha256": "e97e58d76a674b75c8897279e4a2d73060db59065aac680244abc6b8891cb5a9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": null,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/error.json",
+          "reason": "source file is absent; see the associated artifact payload for stage-specific context",
+          "sha256": null,
+          "status": "not_available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3510,
+      "output_path": "max_t1/c_output_parsed.json",
+      "output_sha256": "ec3aab18e9834baf98e6f5469583126294f6b05b3220cfd8edeeede09f799109",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3510,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/c_parsed.json",
+          "sha256": "ec3aab18e9834baf98e6f5469583126294f6b05b3220cfd8edeeede09f799109",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 3425,
+      "output_path": "max_t1/c_output_raw.json",
+      "output_sha256": "24ef39ed138eeec8ddddeb6298ff77666b1cc095fe06552012b9927b4708e9ec",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3425,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/raw_response.json",
+          "sha256": "24ef39ed138eeec8ddddeb6298ff77666b1cc095fe06552012b9927b4708e9ec",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 818,
+      "output_path": "max_t1/c_response_prompt.json",
+      "output_sha256": "32f97915c020fcf6fe04fa85183153e0e0a917bd0dd5655ca024c0c6c9572182",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 14020,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/prompt.json",
+          "sha256": "8b43474c0caff86b57e8713ec5532e84f292cc6dcdb90b90983247d7daee02b9",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 9372,
+      "output_path": "max_t1/c_visible_input.json",
+      "output_sha256": "4f280d9a205cfeed01a6b15b321cf0b2721576e9e3666112e6a23dfb23274d48",
+      "removed_json_pointers": [
+        "/local_state_and_evidence/entry_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 8519,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/c_input.json",
+          "sha256": "601e10b05437474573cf44e0653ad3359b405171c57e1538160384e561795920",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+      "output_bytes": 12699,
+      "output_path": "max_t1/comparison_before_after.json",
+      "output_sha256": "6539dbf514c19ec7828445066b343a59e073985b17dd7e4a264069826fe539f7",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 249813,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_before.json",
+          "sha256": "b13672952fce557418df2a08a7bfcec3ce25eed1bc71c09a8d77a959b9381dc1",
+          "status": "available"
+        },
+        {
+          "bytes": 389829,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_after.json",
+          "sha256": "b976d002919279c0d72a4f15328723398e276c9718a7ac2ad537f0d5951f6754",
+          "status": "available"
+        },
+        {
+          "bytes": 13505,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/task_summary.json",
+          "sha256": "79e6f457a0269ba7b24eec190f4a6ef5e3a13822e578330e5b86f51abe6a2ce5",
+          "status": "available"
+        },
+        {
+          "bytes": 336,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/materialization.json",
+          "sha256": "fccc20a9bf93b6db6cc9d35c3b417e280e0dbf698218cb5c4613328248070c9c",
+          "status": "available"
+        },
+        {
+          "bytes": 404,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "5dcbfc67888d7237578f59ea68eb34dcf1ba6cf214b5a65473ded03a2dcc1102",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 71631,
+      "output_path": "max_t1/continuation_trace.json",
+      "output_sha256": "7f7bef6b8f200bde87aeb6cbc8a310dd6eba38db02ca9d9d1091362c4b269eeb",
+      "removed_json_pointers": [
+        "/environment_actions",
+        "/trace/*/actions/*/before/done",
+        "/trace/*/actions/*/before/won",
+        "/trace/*/actions/*/result/action",
+        "/trace/*/actions/*/result/done",
+        "/trace/*/actions/*/result/executed",
+        "/trace/*/actions/*/result/reward",
+        "/trace/*/actions/*/result/step",
+        "/trace/*/actions/*/result/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 73413,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/continuation_search/continuation_trace.json",
+          "sha256": "1085f688060184e61ecb857245c9265df69a574a04926e9cfb88dabf7a987cb5",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 41629,
+      "output_path": "max_t1/evidence_package.json",
+      "output_sha256": "0708d128d8104317d52771e5cc902d2b872307714e1eff17261fd17302cc8392",
+      "removed_json_pointers": [
+        "/acquisition/final_public_state/done",
+        "/acquisition/final_public_state/reward",
+        "/acquisition/final_public_state/won",
+        "/artifact_root",
+        "/continuation_trace/environment_actions",
+        "/continuation_trace/trace",
+        "/continuation_trace/trace/*/actions/*/before/won",
+        "/continuation_trace/trace/*/actions/*/result/reward",
+        "/continuation_trace/trace/*/actions/*/result/won",
+        "/controlled_endpoint/environment_won",
+        "/probe_trace/condition",
+        "/probe_trace/environment_actions",
+        "/probe_trace/runtime_guidance_removed",
+        "/probe_trace/trace",
+        "/probe_trace/trace/*/result/final_state/won",
+        "/provenance",
+        "/temporal_facts/continuation_events/*/done",
+        "/temporal_facts/continuation_events/*/won",
+        "/temporal_facts/probe_events/*/done",
+        "/temporal_facts/probe_events/*/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 120786,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/evidence_package.json",
+          "sha256": "63e21df42b6bbc8dd49745fdfe40c38ee326fbb58b234ebdbaa056aa34d330ed",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 2899,
+      "output_path": "max_t1/history_retrieval_input.json",
+      "output_sha256": "2b9fd8a57b529824b5683e6023d50b5e1963f72e54f65115271a8ab7c28b3031",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2415,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/retrieval_input.json",
+          "sha256": "a0c8eec1a50fc96508baf5cb568bcb9fe2c6c1d3cc335e2fc8a4051b800e90ee",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 50,
+      "output_path": "max_t1/history_retrieval_parsed.json",
+      "output_sha256": "bb2c90d8d09c108470a0ffd2d35c4299d488da3d3768f20544dedb382b317f4e",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 50,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/retrieval_parsed.json",
+          "sha256": "bb2c90d8d09c108470a0ffd2d35c4299d488da3d3768f20544dedb382b317f4e",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 89,
+      "output_path": "max_t1/history_retrieval_raw_response.json",
+      "output_sha256": "35f8e623ceff0c060b019bb7b09084460c8852bb07a8a4c20a46227c4a9e22bb",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 89,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/raw_response.json",
+          "sha256": "35f8e623ceff0c060b019bb7b09084460c8852bb07a8a4c20a46227c4a9e22bb",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 431,
+      "output_path": "max_t1/history_retrieval_selected_summaries.json",
+      "output_sha256": "dfb8eda8d417127752db31f62d5aba04b40e993c1d21b25e567a59c791c160b5",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 3,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_retrieval/selected_summaries.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public identity/pairing fields only; carrier-internal identity omitted",
+      "output_bytes": 1580,
+      "output_path": "max_t1/pairing_proof.json",
+      "output_sha256": "fdab5fde83f346273cfc90527d60d5108edb5e7685c529ee45bb38fc472574bc",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 2799,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/pairing_proof.json",
+          "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public persistent-state projection; raw evidence store omitted",
+      "output_bytes": 13625,
+      "output_path": "max_t1/post_task_state.json",
+      "output_sha256": "f66332e5e8562f29066c4d6df78ab7cd818302af61dd461fbae1206c000687ab",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 389829,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_after.json",
+          "sha256": "b976d002919279c0d72a4f15328723398e276c9718a7ac2ad537f0d5951f6754",
+          "status": "available"
+        },
+        {
+          "bytes": 2975,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_after.json",
+          "sha256": "8ddbad430a5bdcc0f0029e818804d5a0e83a23e29afe323dc8d943716cef0c01",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public memory-state projection; evidence archive content omitted",
+      "output_bytes": 8536,
+      "output_path": "max_t1/pre_task_state.json",
+      "output_sha256": "c506d1edf2a66607b05b4e15a1d85e9589c5c176cda2ffa05eb2b6af009a16c0",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 249813,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_before.json",
+          "sha256": "b13672952fce557418df2a08a7bfcec3ce25eed1bc71c09a8d77a959b9381dc1",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public action/observation trace; evaluator fields removed",
+      "output_bytes": 7464,
+      "output_path": "max_t1/probe_trace.json",
+      "output_sha256": "89b93fcf28b528b9766e75abb3c8a29514731332dfc1317e7296697783266ea0",
+      "removed_json_pointers": [
+        "/trace/*/result/final_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 3703,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/probe_summary.json",
+          "sha256": "d6b872b43d53747d533369797f5fb44572079f18b0f0d77926b282480d90b527",
+          "status": "available"
+        },
+        {
+          "bytes": 5167,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_input.json",
+          "sha256": "58c691a1164e1d31507e2a265ce162ca11a0e118869ca64169214d196f9738a9",
+          "status": "available"
+        },
+        {
+          "bytes": 68,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/raw_response.json",
+          "sha256": "c218b6573d6001cdf975c69823cd8a9954454c26bd01678f2a3ad4713ee8ccff",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/parsed.json",
+          "sha256": "f9e94a6ae6721a83d4068459c7106ccf64b8fc7cbeae7ddf06e10167a6b4e196",
+          "status": "available"
+        },
+        {
+          "bytes": 64,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/001/selector_validation.json",
+          "sha256": "6bbf400a481c656237dc95d79a86ef07356623bc94dcf8ffc414ab350e6043fe",
+          "status": "available"
+        },
+        {
+          "bytes": 5018,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_input.json",
+          "sha256": "742b75261bf6ff3aabc6a925fea9777f12ad424fb1dcc027e676b89959c16e3f",
+          "status": "available"
+        },
+        {
+          "bytes": 68,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/raw_response.json",
+          "sha256": "cff6227e5a1e97ab67200e9048a053b67f1974dbf0c284d4085108a309340693",
+          "status": "available"
+        },
+        {
+          "bytes": 28,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/parsed.json",
+          "sha256": "f0d1425f7871b9a5de6f98dfb3cb8105f9edd896ae24322933f89ed51a524382",
+          "status": "available"
+        },
+        {
+          "bytes": 67,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/probe/steps/002/selector_validation.json",
+          "sha256": "c08eceb63c652f8d24ff73b1e982796c5bc25f9762c732454ef968f110c110d8",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public registry field allowlist; replay_spec deliberately omitted",
+      "output_bytes": 2895,
+      "output_path": "max_t1/public_task_context.json",
+      "output_sha256": "a59f6995364ce43cfce67ebf7f5a0a9e4107597ac7ce50242cdabd32b7f503ed",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 44867,
+          "path": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+          "sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 11996,
+      "output_path": "max_t1/reconciliation_input.json",
+      "output_sha256": "b2a2d3acd771f80761fce2793473f0380300be2f8ba105b90d8d917c529e3f04",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 11277,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/h_reconciliation/reconciliation_input.json",
+          "sha256": "975528b6063e02f281bb992cd18211970d91546091e9bde9a1c2c9ecc91235e4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 404,
+      "output_path": "max_t1/reconciliation_parsed.json",
+      "output_sha256": "5dcbfc67888d7237578f59ea68eb34dcf1ba6cf214b5a65473ded03a2dcc1102",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 404,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/h_reconciliation/reconciliation_parsed.json",
+          "sha256": "5dcbfc67888d7237578f59ea68eb34dcf1ba6cf214b5a65473ded03a2dcc1102",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "prompt_instruction_projection_user_context_referenced",
+      "output_bytes": 833,
+      "output_path": "max_t1/reconciliation_prompt.json",
+      "output_sha256": "f75cfb7bea201a3a724b8d1bf47855cd58ffeae5c3cf35f6f660e21717b5c874",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 14065,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/h_reconciliation/prompt.json",
+          "sha256": "779158486158e0e93459db2250d8544f98c9c13d3ecfd293ffe02c086590d1ff",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 465,
+      "output_path": "max_t1/reconciliation_raw_response.json",
+      "output_sha256": "ba08ed831970e2b86605594d0fb2122c201e851162a98d27d925e4cb6160feaf",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 465,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/h_reconciliation/raw_response.json",
+          "sha256": "ba08ed831970e2b86605594d0fb2122c201e851162a98d27d925e4cb6160feaf",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "H lifecycle projection; source-grounding/provenance and raw evidence archive omitted",
+      "output_bytes": 7818,
+      "output_path": "max_t1/retrieval_and_h.json",
+      "output_sha256": "6ae76e397c70c9a3c049971b25cee9f561e4df882fc2e2f73f78954e8efba80a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 13505,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/task_summary.json",
+          "sha256": "79e6f457a0269ba7b24eec190f4a6ef5e3a13822e578330e5b86f51abe6a2ce5",
+          "status": "available"
+        },
+        {
+          "bytes": 249813,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_before.json",
+          "sha256": "b13672952fce557418df2a08a7bfcec3ce25eed1bc71c09a8d77a959b9381dc1",
+          "status": "available"
+        },
+        {
+          "bytes": 389829,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/memory_after.json",
+          "sha256": "b976d002919279c0d72a4f15328723398e276c9718a7ac2ad537f0d5951f6754",
+          "status": "available"
+        },
+        {
+          "bytes": 1450,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_before.json",
+          "sha256": "c5adca8d66bb79b54b9d823274e23b7dc264dde4e8ed0f06f05842e78ab5cc55",
+          "status": "available"
+        },
+        {
+          "bytes": 2975,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/exploration_history_after.json",
+          "sha256": "8ddbad430a5bdcc0f0029e818804d5a0e83a23e29afe323dc8d943716cef0c01",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "public_projection",
+      "output_bytes": 7659,
+      "output_path": "max_t1/retrieval_input.json",
+      "output_sha256": "6cf68e1d9b3a8982d9fa70731be6d3292535b40fcb648dae117287562ce36abb",
+      "removed_json_pointers": [
+        "/current_initial_public_state/won"
+      ],
+      "source_artifacts": [
+        {
+          "bytes": 7018,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/retrieval/retrieval_input.json",
+          "sha256": "b82fb7179f62f46229eb99a362b07fbd65a956b780999f9469840b848241d580",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 61,
+      "output_path": "max_t1/retrieval_parsed.json",
+      "output_sha256": "2ed0b97b3d64105292874ead579ea43720d3721b7237a5a58633b7c83025205c",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 61,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/retrieval/retrieval_parsed.json",
+          "sha256": "2ed0b97b3d64105292874ead579ea43720d3721b7237a5a58633b7c83025205c",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 102,
+      "output_path": "max_t1/retrieval_raw_response.json",
+      "output_sha256": "6f82275ccceaab43c306b20840d7bbe39850c3940790019bd85d47f211be9ff4",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 102,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/retrieval/raw_response.json",
+          "sha256": "6f82275ccceaab43c306b20840d7bbe39850c3940790019bd85d47f211be9ff4",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "exact_copy",
+      "output_bytes": 681,
+      "output_path": "max_t1/retrieval_status.json",
+      "output_sha256": "9bcd95c18fc77b54a3b607bad4a74fcf86e3115713b8b918564d1a272db1443a",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 681,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/retrieval/status.json",
+          "sha256": "9bcd95c18fc77b54a3b607bad4a74fcf86e3115713b8b918564d1a272db1443a",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "task-summary public/mechanical field allowlist",
+      "output_bytes": 10991,
+      "output_path": "max_t1/task_summary.json",
+      "output_sha256": "f16b84ca8362f9521a161d44f33dc0a6c83c944f62cf51a61a589b060d3981a9",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 13505,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/task_summary.json",
+          "sha256": "79e6f457a0269ba7b24eec190f4a6ef5e3a13822e578330e5b86f51abe6a2ce5",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "extraction": "validation/status field-preserving projection",
+      "output_bytes": 7953,
+      "output_path": "max_t1/validation_and_handoff.json",
+      "output_sha256": "a118db030203d2f83352b32810b818788a9a2a186defece4dd7be72ce8d65f06",
+      "removed_json_pointers": [],
+      "source_artifacts": [
+        {
+          "bytes": 543,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/epistemic_validation.json",
+          "sha256": "f33598dcc9d1f39173e3b6e01bcedef05396c0190184987358d6ccf2c9145edb",
+          "status": "available"
+        },
+        {
+          "bytes": 90,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/updates_validation.json",
+          "sha256": "e133bc7ace15e46d0e58617be7ceaf0b838ddb4cac105dc3866a9af0c454a599",
+          "status": "available"
+        },
+        {
+          "bytes": 336,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/a/materialization.json",
+          "sha256": "fccc20a9bf93b6db6cc9d35c3b417e280e0dbf698218cb5c4613328248070c9c",
+          "status": "available"
+        },
+        {
+          "bytes": 823,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/b_c_handoff/projection.json",
+          "sha256": "7faf1b4abd7776a32f19edc838e26a91fa94a3ee0b0a930fcf89706d629ca1fc",
+          "status": "available"
+        },
+        {
+          "bytes": 1215,
+          "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/c/mechanical_grounding.json",
+          "sha256": "0cf0b97dc31efd2e2d8272ecbfa99adc4ebe2e0c181134f2c841beb8acf4b451",
+          "status": "available"
+        }
+      ]
+    }
+  ],
+  "case_categories": [
+    "BEHAVIORAL_OUTLIER"
+  ],
+  "case_id": "case_12_max_cool_pan_behavioral_outlier",
+  "episodes": [
+    {
+      "activated_h_ids": [],
+      "arm": "G",
+      "backbone": "qwen3.8-max",
+      "comparison_ids_after": [],
+      "comparison_ids_before": [],
+      "episode_key": "max_g",
+      "exploration_history_ids_after": [],
+      "exploration_history_ids_before": [],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/initial_public_fingerprint.json",
+        "sha256": "56c793bf9f8e09854bc1f9ed21e23700a5c88c62f9a5481e07e101f607eec3f3",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2799,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/pairing_proof.json",
+        "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+        "status": "available"
+      },
+      "public_target": "put a cool pan in countertop.",
+      "registry_sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1F-MA-v2",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093",
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_global_index": 7,
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+      "task_summary_source": {
+        "bytes": 2668,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+        "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+        "status": "available"
+      }
+    },
+    {
+      "activated_h_ids": [],
+      "arm": "T0",
+      "backbone": "qwen3.8-max",
+      "comparison_ids_after": [
+        "comparison-a4dd496faa0506d4"
+      ],
+      "comparison_ids_before": [
+        "comparison-a4dd496faa0506d4"
+      ],
+      "episode_key": "max_t0",
+      "exploration_history_ids_after": [
+        "exploration-h-9237af7e062ed4d8",
+        "exploration-h-492f4d237f36cd53"
+      ],
+      "exploration_history_ids_before": [
+        "exploration-h-9237af7e062ed4d8",
+        "exploration-h-492f4d237f36cd53"
+      ],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/initial_public_fingerprint.json",
+        "sha256": "56c793bf9f8e09854bc1f9ed21e23700a5c88c62f9a5481e07e101f607eec3f3",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2799,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/pairing_proof.json",
+        "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+        "status": "available"
+      },
+      "public_target": "put a cool pan in countertop.",
+      "registry_sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1F-MA-v2",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093",
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_global_index": 7,
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+      "task_summary_source": {
+        "bytes": 13018,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+        "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+        "status": "available"
+      }
+    },
+    {
+      "activated_h_ids": [
+        "h-cf385d7dd455f0e8"
+      ],
+      "arm": "T1",
+      "backbone": "qwen3.8-max",
+      "comparison_ids_after": [
+        "comparison-cfd2fc58104a4c7a",
+        "comparison-895e7337d8d4381d",
+        "comparison-cae6581e97ea5547",
+        "comparison-87696a31524548de",
+        "comparison-baa8e1982268b35b",
+        "comparison-a5ac4d9544686f20"
+      ],
+      "comparison_ids_before": [
+        "comparison-cfd2fc58104a4c7a",
+        "comparison-895e7337d8d4381d",
+        "comparison-cae6581e97ea5547",
+        "comparison-87696a31524548de",
+        "comparison-baa8e1982268b35b"
+      ],
+      "episode_key": "max_t1",
+      "exploration_history_ids_after": [
+        "exploration-h-08e26bc3ebfdd940",
+        "exploration-h-cf385d7dd455f0e8"
+      ],
+      "exploration_history_ids_before": [
+        "exploration-h-08e26bc3ebfdd940"
+      ],
+      "initial_public_fingerprint_source": {
+        "bytes": 83,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/initial_public_fingerprint.json",
+        "sha256": "56c793bf9f8e09854bc1f9ed21e23700a5c88c62f9a5481e07e101f607eec3f3",
+        "status": "available"
+      },
+      "pairing_source": {
+        "bytes": 2799,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/pairing_proof.json",
+        "sha256": "76a011ccce56883dc203ebefe2e27508326c618024416c4bf6672defa4eb31fd",
+        "status": "available"
+      },
+      "public_target": "put a cool pan in countertop.",
+      "registry_sha256": "1a158bce4e7dff8511b3fc35ea0647e3d1941f8cbba50c846e986e7c62349f54",
+      "registry_source": "experiments/exploratory_memory_mvp/cases/phase1f_ma_v2/registry.json",
+      "requested_seed": 42,
+      "source_phase": "Phase 1F-MA-v2",
+      "source_runtime": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093",
+      "task_family": "pick_cool_then_place_in_recep",
+      "task_global_index": 7,
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+      "task_summary_source": {
+        "bytes": 13505,
+        "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/task_summary.json",
+        "sha256": "79e6f457a0269ba7b24eec190f4a6ef5e3a13822e578330e5b86f51abe6a2ce5",
+        "status": "available"
+      }
+    }
+  ],
+  "no_semantic_correctness_judgment": true,
+  "paired_models_or_arms": [
+    {
+      "episode_keys": [
+        "max_g",
+        "max_t0",
+        "max_t1"
+      ],
+      "identity": {
+        "public_initial_fingerprint": "9b4066e8850e753502ee20715c963cdb42115dee6df452203ef465730d386160",
+        "requested_seed": 42,
+        "split": "valid_unseen",
+        "task_family": "pick_cool_then_place_in_recep",
+        "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+      },
+      "identity_fields_checked": [
+        "task_id",
+        "task_family",
+        "requested_seed",
+        "split",
+        "public_initial_fingerprint"
+      ],
+      "public_task_identity_equal": true
+    }
+  ],
+  "schema_version": "phase1f-semantic-review-case-v1",
+  "why_selected": "One prereported Phase 1F-MA-v2 Max cool-Pan outlier (G=3, T0=30, T1=30) is included only as context, not as a representative estimate."
+}

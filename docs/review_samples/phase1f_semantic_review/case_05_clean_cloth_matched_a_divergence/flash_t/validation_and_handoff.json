@@ -1,0 +1,168 @@
+{
+  "content": {
+    "b_c_handoff": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/b_c_handoff/projection.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "b_c_handoff_validation_error": {
+      "content": {
+        "message": "B-to-C handoff contains a source entity id",
+        "type": "SchemaError"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 87,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/b_c_handoff/validation_error.json",
+        "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+        "status": "available"
+      }
+    },
+    "c_mechanical_grounding": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/c/mechanical_grounding.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "c_status": {
+      "content": {
+        "error": {
+          "message": "B-to-C handoff contains a source entity id",
+          "type": "SchemaError"
+        },
+        "status": "b_to_c_handoff_invalid"
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 146,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/c/status.json",
+        "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+        "status": "available"
+      }
+    },
+    "epistemic_validation": {
+      "content": {
+        "comparison_assessment": "PARTIALLY_RESOLVED",
+        "decision": "UPDATE",
+        "evidence_role": "CONTRADICTING",
+        "status": "accepted",
+        "still_unresolved": [
+          "The global superiority of hanging-receptacle-first strategies for all cloth items in all bathroom layouts.",
+          "The optimal fallback order after missing a target on hanging receptacles (open surfaces vs. closed storage)."
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 394,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/epistemic_validation.json",
+        "sha256": "3c34705ec6bde0f6e1661c5a5bbc6d00b119b267650bd73c42e2080abe992b9c",
+        "status": "available"
+      }
+    },
+    "materialization": {
+      "content": {
+        "epistemic_assessment": {
+          "bound_bucket": "contradicting_evidence_refs",
+          "comparison_assessment": "PARTIALLY_RESOLVED",
+          "comparison_id": "comparison-d5906e1edf345f42",
+          "evidence_id": "evidence-057ffa726a20d8ec",
+          "evidence_role": "CONTRADICTING",
+          "status": "accepted"
+        },
+        "status": "accepted",
+        "updates": [
+          {
+            "created_memory_ids": [
+              "established-777f1605cd01d35b"
+            ],
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent followed the exploratory hypothesis to prioritize hanging receptacles (handtowelholder_1, handtowelholder_2) but failed to find the target cloth there. The cloth was subsequently found in a closed cabinet (cabinet_4), requiring navigation and opening actions. This contradicts the assumption that dedicated hanging spots are the primary or most efficient location for cloth acquisition in this instance.",
+              "guidance": "When searching for cloth items in bathrooms, do not assume dedicated hanging receptacles (towelholders/handtowelholders) are the primary location. If hanging receptacles are empty, immediately proceed to inspect open surfaces (countertops/sinks) before checking closed storage, as cloths may be stored in cabinets or left on counters rather than hung up.",
+              "operation": "SPECIALIZE",
+              "scope": "ALFWorld bathroom tasks where the target object is a cloth item and dedicated hanging receptacles are visible but empty.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1597,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/materialization.json",
+        "sha256": "0f7cfdefea36b7b692f3f40727c7421c480d52459017e2ded62975bf9b1881f7",
+        "status": "available"
+      }
+    },
+    "reconciliation_status": {
+      "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/h_reconciliation/status.json",
+      "reason": "source stage did not write this artifact",
+      "status": "not_available"
+    },
+    "updates_validation": {
+      "content": {
+        "accepted_count": 1,
+        "rejected_count": 0,
+        "status": "accepted",
+        "updates": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "update": {
+              "evidence_basis": "The agent followed the exploratory hypothesis to prioritize hanging receptacles (handtowelholder_1, handtowelholder_2) but failed to find the target cloth there. The cloth was subsequently found in a closed cabinet (cabinet_4), requiring navigation and opening actions. This contradicts the assumption that dedicated hanging spots are the primary or most efficient location for cloth acquisition in this instance.",
+              "guidance": "When searching for cloth items in bathrooms, do not assume dedicated hanging receptacles (towelholders/handtowelholders) are the primary location. If hanging receptacles are empty, immediately proceed to inspect open surfaces (countertops/sinks) before checking closed storage, as cloths may be stored in cabinets or left on counters rather than hung up.",
+              "operation": "SPECIALIZE",
+              "scope": "ALFWorld bathroom tasks where the target object is a cloth item and dedicated hanging receptacles are visible but empty.",
+              "target_memory_ids": [
+                "established-search-listed-order-general"
+              ]
+            }
+          }
+        ]
+      },
+      "removed_json_pointers": [],
+      "source_artifact": {
+        "bytes": 1267,
+        "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/updates_validation.json",
+        "sha256": "498f83593fbee51d1067b8c0203cf941e474b34f0dc0c86460872711673bb89f",
+        "status": "available"
+      }
+    }
+  },
+  "extraction": "validation/status field-preserving projection",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 394,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/epistemic_validation.json",
+      "sha256": "3c34705ec6bde0f6e1661c5a5bbc6d00b119b267650bd73c42e2080abe992b9c",
+      "status": "available"
+    },
+    {
+      "bytes": 1267,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/updates_validation.json",
+      "sha256": "498f83593fbee51d1067b8c0203cf941e474b34f0dc0c86460872711673bb89f",
+      "status": "available"
+    },
+    {
+      "bytes": 1597,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/a/materialization.json",
+      "sha256": "0f7cfdefea36b7b692f3f40727c7421c480d52459017e2ded62975bf9b1881f7",
+      "status": "available"
+    },
+    {
+      "bytes": 87,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/b_c_handoff/validation_error.json",
+      "sha256": "6454d37e0521456834a57fcf9378fc1e1ad24976e4e4363c7cd5c8e360ace1cb",
+      "status": "available"
+    },
+    {
+      "bytes": 146,
+      "path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/062-ebd57bd3ea43/T/c/status.json",
+      "sha256": "51cc30b9f3f478447fc100e1cff795f4b4fb01c21daa71a448b0230df0c96cd0",
+      "status": "available"
+    }
+  ]
+}

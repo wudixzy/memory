@@ -1,0 +1,44 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "reason": "no_consumed_h",
+      "status": "not_applicable"
+    },
+    "comparison_ledger_after": [],
+    "comparison_ledger_before": [],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "reason": "reconciliation did not produce parsed output",
+      "status": "not_available"
+    },
+    "task_reconciliation_effect": null
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 224957,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_before.json",
+      "sha256": "5296516a3aea35cd5c39a855fb4f69f1e9a2d1827c3e015c44ae2b0b161b8c89",
+      "status": "available"
+    },
+    {
+      "bytes": 236618,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/memory_after.json",
+      "sha256": "5fde9f0a052fa9e2458cad71e8e574866ede40a4fa31382250d642bbc3331974",
+      "status": "available"
+    },
+    {
+      "bytes": 2668,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/task_summary.json",
+      "sha256": "fb2b7f075807170205550b1dfa685c80b31535541df965a7597d211f1786e06e",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/G/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    }
+  ]
+}

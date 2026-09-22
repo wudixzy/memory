@@ -1,0 +1,100 @@
+{
+  "content": {
+    "a_epistemic_materialization": {
+      "reason": "no_consumed_h",
+      "status": "not_applicable"
+    },
+    "comparison_ledger_after": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [
+          "evidence-24e0ebc43d79a85a"
+        ],
+        "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+        "last_updated_task": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+        "linked_h_ids": [
+          "h-9237af7e062ed4d8",
+          "h-492f4d237f36cd53",
+          "h-c4608903eb1da8ff",
+          "h-b34dfbffa05d48ac",
+          "h-adc5f270fff807b5"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "comparison_ledger_before": [
+      {
+        "comparison_id": "comparison-a4dd496faa0506d4",
+        "contradicting_evidence_refs": [],
+        "created_at_task": "pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+        "inconclusive_evidence_refs": [
+          "evidence-24e0ebc43d79a85a"
+        ],
+        "incumbent_local_function": "Iterate through candidate receptacles following the listed order, navigating to each, opening if closed, inspecting contents, and taking the target object when found.",
+        "last_updated_task": "pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004404_604165",
+        "linked_h_ids": [
+          "h-9237af7e062ed4d8",
+          "h-492f4d237f36cd53",
+          "h-c4608903eb1da8ff",
+          "h-b34dfbffa05d48ac"
+        ],
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and the room contains both open surfaces and closed storage receptacles",
+        "status": "OPEN",
+        "supporting_evidence_refs": []
+      }
+    ],
+    "materialization_status": "accepted",
+    "reconciliation_parsed": {
+      "keep_candidate_h": true,
+      "operation": "REFINE_EXISTING",
+      "rationale": "Candidate H extends the existing comparison's search-ordering theme to cooking vessels and cooking appliances. Linked consumed H h-492f4d237f36cd53 addressed food items and food-preparation appliances; this candidate is a distinct refinement for cookware, not a duplicate.",
+      "target_comparison_id": "comparison-a4dd496faa0506d4"
+    },
+    "task_reconciliation_effect": {
+      "artifact_ref": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/c",
+      "candidate_retained": true,
+      "comparison_id": "comparison-a4dd496faa0506d4",
+      "comparison_status": "OPEN",
+      "h_id": "h-adc5f270fff807b5",
+      "operation": "REFINE_EXISTING"
+    }
+  },
+  "extraction": "comparison ledger and runner materialization fields; no semantic relabeling",
+  "removed_json_pointers": [],
+  "source_artifacts": [
+    {
+      "bytes": 254449,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_before.json",
+      "sha256": "7ac1e41d66c3c55430e5d499d6a6c3402d7e2e9cfc72b42972e307eaaacc1ead",
+      "status": "available"
+    },
+    {
+      "bytes": 401886,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/memory_after.json",
+      "sha256": "34c06e6ab90e131ecc66cb887284b4e9f2bda8fd7f96e878c41bd24dff16bc4b",
+      "status": "available"
+    },
+    {
+      "bytes": 13018,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/task_summary.json",
+      "sha256": "e4f5a12624e958d6f795aa658ed210d54f6f7e017fae1d6185585a20a4ebf12c",
+      "status": "available"
+    },
+    {
+      "bytes": 139,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/a/materialization.json",
+      "sha256": "2e8905102386a3847d069d67405ed5c2ac90446a3920cb3e1a3003c657bf4c67",
+      "status": "available"
+    },
+    {
+      "bytes": 413,
+      "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T0_component/T/h_reconciliation/reconciliation_parsed.json",
+      "sha256": "b015ae306862126bc9e1e3bddc4b4ad9ccb4e6168d6554da71ba38d13d1cb681",
+      "status": "available"
+    }
+  ]
+}

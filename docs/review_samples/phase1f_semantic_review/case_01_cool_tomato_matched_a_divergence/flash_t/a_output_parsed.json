@@ -1,0 +1,19 @@
+{
+  "comparison_assessment": "PARTIALLY_RESOLVED",
+  "decision": "UPDATE",
+  "evidence_role": "CONTRADICTING",
+  "still_unresolved": [
+    "The hypothesis that semantic prioritization of the fridge for food items reduces total search steps compared to spatial order is contradicted in this instance, as the target was found on a countertop after an exhaustive cabinet scan triggered by the failed fridge probe. The general efficiency of semantic-first strategies across all object types and layouts remains open."
+  ],
+  "updates": [
+    {
+      "evidence_basis": "The agent followed the established memory's guidance to prioritize semantically likely containers (fridge) for a food item (tomato). The fridge was empty, forcing a fallback to a spatial scan of cabinets before finding the tomato on a countertop at step 16. This trajectory demonstrates that semantic prioritization can lead to longer search times if the high-probability container is empty and the actual location is not immediately next in the fallback sequence.",
+      "guidance": "When searching for an object, prioritize receptacle types that are semantically likely to contain the object (e.g., pans on stoves, food in fridges) rather than a fixed arbitrary priority (drawers > cabinets). If no semantic prior exists, use the spatial order from the initial observation as a baseline, as it may be more efficient than exhaustive type-grouping in rooms with mixed layouts. Note that semantic prioritization may increase search time if the high-probability container is empty and the target is located in a less-likely but spatially earlier or later receptacle.",
+      "operation": "REFINE",
+      "scope": "ALFWorld pick-and-place tasks where the target object's location is unknown and multiple receptacle types are visible.",
+      "target_memory_ids": [
+        "established-search-listed-order-general"
+      ]
+    }
+  ]
+}

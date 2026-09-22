@@ -1,0 +1,117 @@
+{
+  "content": {
+    "active_exploratory_memories": [
+      {
+        "h_id": "h-cf385d7dd455f0e8",
+        "hypothesis": "Prioritizing navigation to a cooling appliance receptacle first, rather than searching open surfaces or closed storage receptacles, yields faster target acquisition because bread is semantically likely to be stored inside a cooling appliance when the task requires cooling it.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is found inside the cooling appliance receptacle on the first attempt, reducing total navigation and open actions compared to sequential listed-order search.",
+          "local_function": "Initial receptacle selection for target object search",
+          "realization_pattern": "Navigate to a cooling appliance receptacle from the room center, open it if closed, inspect for the target object type, and take it if found; otherwise abort local probe.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "Cooling appliance receptacle opened and confirmed empty of target object",
+            "Navigation to cooling appliance receptacle fails",
+            "Inventory is no longer empty"
+          ]
+        },
+        "scope": "ALFWorld pick-cool-then-place tasks where the target object is not initially visible and a cooling appliance receptacle is available in the admissible action list from room center."
+      },
+      {
+        "h_id": "h-58fd7373754f8b6e",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle that also serves as a heating appliance (e.g., a microwave) tests whether the target object can be found and immediately heated at the same location, reducing total traversal steps compared to searching open surfaces first.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is found inside the first inspected heating-capable storage receptacle, thereby saving subsequent search and separate heating traversal steps.",
+          "local_function": "Initial target object search prioritizing a dual-purpose heating/storage receptacle over open surfaces or other closed containers.",
+          "realization_pattern": "Navigate from room center to a closed heating-capable storage receptacle, open it, inspect contents, and acquire the target object if found; otherwise terminate the local probe.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "Heating-capable storage receptacle opened and confirmed empty of target object",
+            "Navigation to selected receptacle fails",
+            "Receptacle cannot be opened after attempt"
+          ]
+        },
+        "scope": "ALFWorld pick-heat-then-place tasks where the target object is not visible at room center and closed cold-storage or heating receptacles are available in the admissible action list."
+      },
+      {
+        "h_id": "h-f7ef2de2a863dd66",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed spaces like bathrooms.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is observed inside the closed storage receptacle upon opening, compared to the cost of navigating to and opening it versus checking open surfaces first.",
+          "local_function": "Initial receptacle selection during sequential search traversal",
+          "realization_pattern": "Select a closed storage receptacle from the visible list as the first navigation target instead of following strict observation order or prioritizing open surfaces; navigate to it, open it, inspect for the target object, acquire if present, otherwise close it and halt the local probe.",
+          "stop_conditions": [
+            "Target object is successfully taken into inventory",
+            "Closed storage receptacle is opened and target object is confirmed absent",
+            "Navigation to the selected receptacle fails",
+            "Receptacle cannot be opened after navigation"
+          ]
+        },
+        "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible at room center and closed storage receptacles are listed in the entry observation."
+      },
+      {
+        "h_id": "h-d9bc5cd426fefd5a",
+        "hypothesis": "Prioritizing navigation to a closed storage receptacle first, rather than an open surface, yields faster target acquisition for objects typically stored inside enclosed containers like mugs.",
+        "probe_summary": {
+          "evidence_goal": "Whether the target object is found inside the first inspected closed storage receptacle, compared against the cost of navigating to and opening it versus inspecting an open surface first.",
+          "local_function": "Initial receptacle selection and inspection during search iteration",
+          "realization_pattern": "Navigate to a closed storage receptacle from the entry state, open it, inspect contents for the target object type, and take the object if present; otherwise halt the local probe.",
+          "stop_conditions": [
+            "Target object successfully taken into inventory",
+            "Closed storage receptacle opened and confirmed empty of target object",
+            "Navigation or open action fails",
+            "Inventory is no longer empty"
+          ]
+        },
+        "scope": "ALFWorld pick-clean-then-place tasks where the target object type is known but not visible at room center, and closed storage receptacles are available in the admissible action list."
+      }
+    ],
+    "current_initial_public_state": {
+      "admissible_actions": [
+        "go to cabinet_1",
+        "go to cabinet_2",
+        "go to cabinet_3",
+        "go to cabinet_4",
+        "go to cabinet_5",
+        "go to cabinet_6",
+        "go to coffeemachine_1",
+        "go to countertop_1",
+        "go to countertop_2",
+        "go to countertop_3",
+        "go to drawer_1",
+        "go to drawer_2",
+        "go to drawer_3",
+        "go to fridge_1",
+        "go to garbagecan_1",
+        "go to microwave_1",
+        "go to shelf_1",
+        "go to shelf_2",
+        "go to shelf_3",
+        "go to sinkbasin_1",
+        "go to stoveburner_1",
+        "go to stoveburner_2",
+        "go to stoveburner_3",
+        "go to stoveburner_4",
+        "go to toaster_1",
+        "inventory",
+        "look"
+      ],
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see cabinet_6, cabinet_5, cabinet_4, cabinet_3, cabinet_2, cabinet_1, coffeemachine_1, countertop_3, countertop_2, countertop_1, drawer_3, drawer_2, drawer_1, fridge_1, garbagecan_1, microwave_1, shelf_3, shelf_2, shelf_1, sinkbasin_1, stoveburner_4, stoveburner_3, stoveburner_2, stoveburner_1, and toaster_1.\n\nYour task is to: put a cool pan in countertop."
+    },
+    "current_task": {
+      "instruction": "put a cool pan in countertop.",
+      "seed": 42,
+      "task_id": "pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/current_initial_public_state/won"
+  ],
+  "source_artifact": {
+    "bytes": 7018,
+    "path": "artifacts/exploratory_memory_mvp/phase1f-ma-v2-20260922-4f78093/tasks/007-83df3bfee932/max/T1/retrieval/retrieval_input.json",
+    "sha256": "b82fb7179f62f46229eb99a362b07fbd65a956b780999f9469840b848241d580",
+    "status": "available"
+  }
+}

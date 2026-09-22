@@ -1,0 +1,19 @@
+{
+  "comparison_assessment": "PARTIALLY_RESOLVED",
+  "decision": "UPDATE",
+  "evidence_role": "SUPPORTING",
+  "still_unresolved": [
+    "The hypothesis that open-surface-first search yields fewer total steps than fridge-first search in mixed-layout kitchens remains partially resolved. While this episode supports the efficiency of checking open surfaces first (2 steps vs potential >10 for fridge), it does not prove global superiority as the target was on the first checked surface. Cases where targets are in closed storage or later open surfaces may still favor semantic prioritization or different heuristics."
+  ],
+  "updates": [
+    {
+      "evidence_basis": "The agent followed the established memory's guidance to prioritize open surfaces (countertops) over closed storage (fridge). The target tomato was found on countertop_1 at step 2, demonstrating high efficiency when the target is on an early-checked open surface.",
+      "guidance": "When searching for perishable food items like tomatoes in kitchens, prioritize inspecting open surfaces (countertops, shelves) before closed storage units (cabinets, drawers, fridge). This avoids the action cost of opening/closing containers and can yield very fast acquisition if the item is on a visible open surface. Note that if the target is not on the first few open surfaces, the fallback to closed storage may still require many steps; consider integrating spatial proximity into the open-surface traversal order if available.",
+      "operation": "REFINE",
+      "scope": "ALFWorld kitchen tasks requiring cooling/heating perishable food items (tomato, apple, etc.) where the target location is unknown.",
+      "target_memory_ids": [
+        "established-3134b2ab1f0a162d"
+      ]
+    }
+  ]
+}

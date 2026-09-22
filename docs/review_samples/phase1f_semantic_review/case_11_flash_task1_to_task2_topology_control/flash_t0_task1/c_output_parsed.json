@@ -1,0 +1,36 @@
+{
+  "decision": "CREATE",
+  "guidance": "Navigate to a closed storage receptacle first. Open it if necessary. Inspect contents. If target is found, take it. If not, proceed to the next closed storage receptacle before checking any open surfaces.",
+  "hypothesis": "Prioritizing inspection of closed storage receptacles (drawers/cabinets) over open surfaces (countertops/shelves) reduces total navigation steps by avoiding redundant visits to empty open areas, assuming the target is more likely to be hidden inside a container.",
+  "probe_spec": {
+    "adaptive_policy": "At each step, check the current location's contents. If the target is present, take it and terminate search. If absent, identify the next unvisited receptacle that matches the 'closed storage' priority class. Navigate there. If no unvisited closed storage remains, fall back to visiting unvisited open surfaces.",
+    "capability_requirements": [
+      "Ability to distinguish between open and closed receptacle types from the initial observation list.",
+      "Ability to execute 'go to', 'open', and 'take' actions."
+    ],
+    "evidence_goal": "Compare the number of navigation steps taken to find the target against the baseline established memory (which uses simple listed order). Success is defined by finding the target with fewer or equal steps while maintaining correctness.",
+    "local_function": "Selecting the next receptacle to inspect during search.",
+    "realization_pattern": "Filter candidate receptacles by type: prioritize 'closed storage' types (e.g., drawers, cabinets, fridges) over 'open surface' types (e.g., countertops, shelves). Within the prioritized group, select the nearest or first-listed instance.",
+    "required_downstream_state": "Target object is in agent's inventory; agent knows the location of the target's source receptacle.",
+    "stop_conditions": [
+      "Target object is acquired.",
+      "All candidate receptacles have been inspected without finding the target.",
+      "Navigation error occurs."
+    ]
+  },
+  "provenance": [
+    "b_handoff.functional_contract",
+    "current_task.instruction",
+    "pre_update_established_memories[0]"
+  ],
+  "reason": "The established memory uses a naive 'listed order' search which may waste steps on empty open surfaces. This probe tests a heuristic based on object type (closed vs. open) to improve efficiency, grounded in the available action space.",
+  "scope": "ALFWorld pick-and-place tasks where the target object is not immediately visible and multiple candidate receptacles are present in the initial observation.",
+  "source_grounding": {
+    "entry_action": "go to drawer_1",
+    "public_capability_evidence": [
+      "The public entry observation exposes these candidate receptacles through exact admissible go-to actions: cabinet_1, cabinet_2, cabinet_3, cabinet_4, cabinet_5, cabinet_6, coffeemachine_1, countertop_1, countertop_2, countertop_3, drawer_1, drawer_2, drawer_3, fridge_1, garbagecan_1, microwave_1, shelf_1, shelf_2, shelf_3, sinkbasin_1, stoveburner_1, stoveburner_2, stoveburner_3, stoveburner_4, toaster_1"
+    ],
+    "why_grounded": "drawer_1 is explicitly listed in the entry state admissible actions and represents a closed storage receptacle, fitting the hypothesis's priority class."
+  },
+  "type": "exploratory"
+}

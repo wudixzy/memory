@@ -1,0 +1,20 @@
+{
+  "decision": "OPEN",
+  "evidence_status": {
+    "comparative_support": "No alternative search strategy (e.g., fridge-first or destination-first) was tested; the memory explicitly notes that formal comparison against listed-order traversal for food items on open surfaces remains unexecuted.",
+    "feasibility_support": "The incumbent successfully acquired the lettuce in 3 actions by traversing countertop_1 then countertop_2, confirming feasibility for this episode.",
+    "policy_relevance": "The established memory cautions against fridge-first and cooking-surface-first heuristics for food items but lacks a grounded comparison for general-food listed-order traversal versus fridge-first in cool-then-place tasks, leaving the default policy under-evidenced."
+  },
+  "functional_contract": {
+    "available_state": "Agent at room center with full list of visible receptacles; target lettuce not visible in entry observation; task requires cooling then placing on countertop.",
+    "constraints": [
+      "Must not assume target is inside closed receptacles without inspection",
+      "Must not navigate to fridge before acquiring target per Phase 1B controlled endpoint",
+      "Must preserve listed-order traversal as default unless comparative evidence overrides"
+    ],
+    "local_function": "Traverse visible receptacles in listed order, inspecting open surfaces for the target lettuce, and acquire it upon first exposure.",
+    "required_downstream_state": "Agent holds lettuce_1 in inventory, positioned at the acquisition location, ready for downstream cooling routine."
+  },
+  "incumbent_segment": "Listed-order open-surface traversal to acquire a lettuce target in a cool-then-place task",
+  "warrant": "The trajectory demonstrates feasible listed-order acquisition of a lettuce target on an open surface, but the established memory's guidance for cool-then-place food tasks relies on negative evidence from other object types rather than a direct comparison. Resolving whether listed-order traversal outperforms fridge-first search for general food items like lettuce would materially refine the search policy for this task class."
+}

@@ -1,0 +1,234 @@
+{
+  "content": {
+    "acquisition": {
+      "final_public_state": {
+        "admissible_actions": [
+          "close cabinet_4",
+          "examine cabinet_4",
+          "examine cloth_1",
+          "go to cabinet_1",
+          "go to cabinet_2",
+          "go to cabinet_3",
+          "go to countertop_1",
+          "go to garbagecan_1",
+          "go to handtowelholder_1",
+          "go to handtowelholder_2",
+          "go to sinkbasin_1",
+          "go to sinkbasin_2",
+          "go to toilet_1",
+          "go to toiletpaperhanger_1",
+          "go to towelholder_1",
+          "inventory",
+          "look",
+          "put cloth_1 in/on cabinet_4"
+        ],
+        "observation": "You take cloth_1 from cabinet_4."
+      },
+      "target_acquired": true
+    },
+    "activated_h_id": "h-f9e349c7471f657e",
+    "candidate_inspections": 3,
+    "continuation_trace": {
+      "candidate_sequence": [
+        "cabinet_4"
+      ],
+      "environment_action_count": 3,
+      "status": "target_acquired",
+      "target_acquired": true
+    },
+    "controlled_endpoint": {
+      "downstream_execution": "not_run_by_phase1b_dev_protocol",
+      "name": "target_acquisition",
+      "target_acquired": true
+    },
+    "environment_action_count": 5,
+    "evidence_id": "evidence-d2a497aaf2d7beb9",
+    "memory_before_sha256": "ab8f31135e15a3df85336cc7da35a873a439725b4fdd7296396ad543f7aec4c3",
+    "probe_trace": {
+      "candidate_probe_count": 2,
+      "candidate_sequence": [
+        "towelholder_1",
+        "handtowelholder_1"
+      ],
+      "runtime_status": "EVIDENCE_OBTAINED",
+      "target_acquired": false
+    },
+    "retrieval": {
+      "decision": "ACTIVATE",
+      "h_id": "h-f9e349c7471f657e"
+    },
+    "schema_version": "phase1b-public-evidence-package-v1",
+    "task": {
+      "instruction": "put a clean cloth in cabinet.",
+      "seed": 42,
+      "task_id": "pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927"
+    },
+    "temporal_facts": {
+      "acquisition_phase": "continuation",
+      "continuation_events": [
+        {
+          "action": "go to cabinet_4",
+          "admissible_actions": [
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "open cabinet_4"
+          ],
+          "event_id": "event-7bcdd72a7b08e242",
+          "observation": "You arrive at loc_7. cabinet_4 is closed.",
+          "ordinal": 3,
+          "phase": "continuation"
+        },
+        {
+          "action": "open cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "take cloth_1 from cabinet_4"
+          ],
+          "event_id": "event-5554d9efa05c6758",
+          "observation": "You open cabinet_4. In cabinet_4, you see cloth_1.",
+          "ordinal": 4,
+          "phase": "continuation"
+        },
+        {
+          "action": "take cloth_1 from cabinet_4",
+          "admissible_actions": [
+            "close cabinet_4",
+            "examine cabinet_4",
+            "examine cloth_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look",
+            "put cloth_1 in/on cabinet_4"
+          ],
+          "event_id": "event-b804a643937878bc",
+          "observation": "You take cloth_1 from cabinet_4.",
+          "ordinal": 5,
+          "phase": "continuation"
+        }
+      ],
+      "entry_target_visible": false,
+      "environment_action_count": 5,
+      "first_target_exposure_event": "event-5554d9efa05c6758",
+      "probe_events": [
+        {
+          "action": "go to towelholder_1",
+          "admissible_actions": [
+            "examine towelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "inventory",
+            "look",
+            "take towel_1 from towelholder_1"
+          ],
+          "event_id": "event-62654e11811507e9",
+          "observation": "You arrive at loc_9. On towelholder_1, you see towel_1.",
+          "ordinal": 1,
+          "phase": "probe"
+        },
+        {
+          "action": "go to handtowelholder_1",
+          "admissible_actions": [
+            "examine handtowelholder_1",
+            "go to cabinet_1",
+            "go to cabinet_2",
+            "go to cabinet_3",
+            "go to cabinet_4",
+            "go to countertop_1",
+            "go to garbagecan_1",
+            "go to handtowelholder_2",
+            "go to sinkbasin_1",
+            "go to sinkbasin_2",
+            "go to toilet_1",
+            "go to toiletpaperhanger_1",
+            "go to towelholder_1",
+            "inventory",
+            "look"
+          ],
+          "event_id": "event-b7c063192d25b0e4",
+          "observation": "You arrive at loc_15. On handtowelholder_1, you see nothing.",
+          "ordinal": 2,
+          "phase": "probe"
+        }
+      ],
+      "target_acquired_event": "event-b804a643937878bc"
+    }
+  },
+  "extraction": "structured field-preserving public projection",
+  "removed_json_pointers": [
+    "/acquisition/final_public_state/done",
+    "/acquisition/final_public_state/reward",
+    "/acquisition/final_public_state/won",
+    "/artifact_root",
+    "/continuation_trace/environment_actions",
+    "/continuation_trace/trace",
+    "/continuation_trace/trace/*/actions/*/before/won",
+    "/continuation_trace/trace/*/actions/*/result/reward",
+    "/continuation_trace/trace/*/actions/*/result/won",
+    "/controlled_endpoint/environment_won",
+    "/probe_trace/condition",
+    "/probe_trace/environment_actions",
+    "/probe_trace/runtime_guidance_removed",
+    "/probe_trace/trace",
+    "/probe_trace/trace/*/result/final_state/won",
+    "/provenance",
+    "/temporal_facts/continuation_events/*/done",
+    "/temporal_facts/continuation_events/*/won",
+    "/temporal_facts/probe_events/*/done",
+    "/temporal_facts/probe_events/*/won"
+  ],
+  "source_artifact": {
+    "bytes": 15493,
+    "path": "artifacts/exploratory_memory_mvp/phase1e-max-resume-v1-20260922-authorized-continuation/tasks/062-ebd57bd3ea43/T/evidence_package.json",
+    "sha256": "5b62597af4c8bcb7bdf8f939f2c16477267eae5522cb3d080ca5e0241417e83f",
+    "status": "available"
+  }
+}

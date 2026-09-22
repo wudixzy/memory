@@ -1,0 +1,5 @@
+{
+  "expected_source_path": "artifacts/exploratory_memory_mvp/phase1d-long-horizon-v1-20260921-ac0bb2b/tasks/055-2763e0c4f901/T/c/error.json",
+  "reason": "The C stage has no saved artifact at this path; check B-to-C handoff/status records in validation_and_handoff.json.",
+  "status": "not_available"
+}
