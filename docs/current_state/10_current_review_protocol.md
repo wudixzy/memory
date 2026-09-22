@@ -1,9 +1,10 @@
-# 10. Current Review Protocol — Phase 1E Max Infrastructure Review
+# 10. Current Review Protocol — Phase 1E Max M61 Resume
 
-> Status: Phase 1C and Phase 1D completed; the authorized Phase 1E Max run
-> stopped at global task 62 because the carrier could not write to `/tmp`.
-> (2026-09-22). Phase 1E is invalid for cross-model interpretation; no
-> replacement Max/model call is currently authorized.
+> Status: Phase 1C and Phase 1D completed. The original Phase 1E Max attempt
+> stopped before task 62 episode creation because `/tmp` had no space. The
+> researcher has authorized a no-model audit and, after an immutable resume
+> transition is committed/pushed, continuation from Max M61 for only registered
+> tasks 62–64. No model/API call is authorized before that transition.
 > Frozen method baseline: `c8daa67ba9d9d6257d65e446b437d362e60abc61`
 > Authoritative result docs: `docs/104_phase1c_flash_scale_pilot_results.md`,
 > `docs/105_phase1c_flash_scale_pilot_semantic_review.md`
@@ -11,6 +12,13 @@
 > `docs/108_phase1d_flash_long_horizon_validation_plan.md`
 
 ## 1. Active authorization boundary
+
+The active cycle is the infrastructure-only `phase1e-max-resume-v1`
+continuation. It must use the exact original Phase 1E registry and Max G/T M61
+states; run only tasks 62→63→64; use `qwen3.8-max` for every model-facing role;
+and preserve segmented execution provenance. Tasks 1–61 must never be rerun.
+No retries, replacements, Flash fallback, method changes, or formal evaluation
+are authorized. The no-model prefix and resume records are in docs/116–117.
 
 Phase 1C was one 32-task Flash development stream comparing persistent generic
 exploration (G) with history-conditioned exploration (T). It produced
@@ -97,8 +105,10 @@ of that failure, a protocol-consistent replacement only if authorized,
 cross-model validation, Method/Evaluation v1 freezing, and only then fresh
 formal controlled evaluation.
 
-Phase 1E transition `0ada221` preceded all recorded Max calls, but the run is
-invalid/incomplete because the carrier stopped at task 62 with
-`OSError: [Errno 28] No space left on device` while writing a temporary
-`libdownward.so`. No replacement run, formal evaluation, or additional model
-call is authorized until researcher review of docs/114–115.
+Phase 1E transition `0ada221` preceded all recorded Max calls, but the original
+run is invalid/incomplete because the carrier stopped before task 62 episode
+creation with `OSError: [Errno 28] No space left on device` while writing a
+temporary `libdownward.so`. The researcher has explicitly authorized only the
+segmented M61 continuation for tasks 62–64 after docs/117 is committed/pushed;
+no replacement of tasks 1–61, formal evaluation, or other model call is
+authorized.

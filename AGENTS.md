@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1E Max Cross-Model Validation — infrastructure review**.
+Current cycle: **Phase 1E Max Resume — authorized continuation of tasks 62–64**.
 
 Frozen Phase 1B baseline:
 
@@ -30,20 +30,29 @@ superiority result. Phase 1D was classified `SCALE_POSITIVE`. Phase 1E was
 then attempted under an immutable Max transition, but stopped at global task
 62 because the ALFWorld/TextWorld carrier could not write `libdownward.so`
 to `/tmp` (`OSError: [Errno 28] No space left on device`). The partial run is
-invalid for cross-model interpretation; see `docs/114_phase1e_max_validation_results.md`
-and `docs/115_phase1e_max_validation_semantic_review.md`.
+invalid for cross-model interpretation as a complete stream; see
+`docs/114_phase1e_max_validation_results.md` and
+`docs/115_phase1e_max_validation_semantic_review.md`.
 
 The Phase 1E no-model transition is documented in
 `docs/113_phase1e_max_validation_transition.md` and used the exact combined
 64-task Phase 1C/1D population. Max started fresh G/T warm-start state and did
-not load Flash-evolved memory. No further Max/model calls are authorized from
-this handoff until the researcher reviews the infrastructure failure.
+not load Flash-evolved memory. The researcher has now authorized a
+protocol-consistent continuation from the validated Max M61 state for only
+registered tasks 62–64. The no-model prefix diagnostic is documented in
+`docs/116_phase1e_max_prefix_diagnostic.md`; resume checks and the carrier-only
+preflight are documented in `docs/117_phase1e_max_resume_transition.md`.
+**No model call is authorized before the resume transition is committed and
+pushed.** After that commit, only the sequential G/T pairs for tasks 62, 63,
+and 64 may run. Do not rerun tasks 1–61, retry any previous call, replace a
+task, call Flash, or start formal experiments.
 
 Do not modify the saved Phase 1C or Phase 1D runtimes or silently add
 lifecycle/dedup/retrieval fixes based on their outcomes.
 
-The protocol and execution instructions below are the frozen Phase 1C
-reference, not current execution authorization.
+The protocol and execution instructions below are the frozen Phase 1C/1E
+reference, not broader current execution authorization. Current authorization
+is limited to the Phase 1E M61 continuation above.
 
 ## Historical Phase 1C protocol (completed; frozen reference)
 
@@ -297,7 +306,9 @@ Completed artifacts:
 - docs/110_phase1d_flash_long_horizon_results.md
 - docs/111_phase1d_flash_long_horizon_semantic_review.md
 
-The Phase 1E transition was pushed before Max calls, but the run stopped at
-task 62 for a host temporary-storage failure. Preserve the partial artifacts
-and wait for researcher review. Do not launch a replacement, formal
-evaluation, or another development run from this handoff.
+The Phase 1E transition was pushed before Max calls, but the original run
+stopped before task 62 episode creation for a host temporary-storage failure.
+Preserve the partial artifacts. The current, narrower authorization to resume
+only tasks 62–64 after the new immutable transition is recorded above; this
+historical paragraph does not authorize a replacement run, formal evaluation,
+or another development stream.
