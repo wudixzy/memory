@@ -4,7 +4,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1E completed — researcher review required**.
+Current cycle: **Phase 1F cross-model attribution and matched-adaptation plan — review required**.
 
 Frozen Phase 1B baseline:
 
@@ -12,17 +12,37 @@ Frozen Phase 1B baseline:
 
 Read first:
 
-1. docs/106_phase1c_experiment_design_handoff.md
-2. docs/102_phase1c_flash_scale_hypothesis_pilot_plan.md
-3. docs/107_phase1c_h2_exploration_history_audit.md
-4. docs/108_phase1d_flash_long_horizon_validation_plan.md
-5. docs/38_exploratory_memory_lifecycle.md
-6. docs/37_method_structural_initialization.md
-7. docs/101_phase1b_final_freeze_memo.md
-8. docs/current_state/02_method_architecture.md
-9. docs/current_state/03_component_contracts.md
+1. docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md
+2. docs/121_phase1f_matched_adaptation_validation_plan.md
+3. docs/118_phase1e_max_completed_results.md
+4. docs/119_phase1e_cross_model_final_review.md
+5. docs/110_phase1d_flash_long_horizon_results.md
+6. docs/111_phase1d_flash_long_horizon_semantic_review.md
+7. docs/107_phase1c_h2_exploration_history_audit.md
+8. docs/108_phase1d_flash_long_horizon_validation_plan.md
+9. docs/38_exploratory_memory_lifecycle.md
+10. docs/37_method_structural_initialization.md
+11. docs/101_phase1b_final_freeze_memo.md
+12. docs/current_state/02_method_architecture.md
+13. docs/current_state/03_component_contracts.md
 
-## Current Phase 1E status
+## Current Phase 1F status
+
+Phase 1E is complete development evidence. Its cross-model behavioral value
+did not replicate: Flash ended at `Delta(T-G)=-92`, while Max ended at `+47`
+on the same 64-task development population. This does not establish that
+exploratory memory fails on stronger models or that Max only needs tuning.
+The Phase 1F artifact/provenance audit and a bounded matched-adaptation plan
+are recorded in `docs/120_phase1f_cross_model_attribution_and_tuning_provenance.md`
+and `docs/121_phase1f_matched_adaptation_validation_plan.md`.
+
+**No model/API calls are currently authorized.** The Phase 1F matched-
+adaptation plan is pending researcher review; formal evaluation and Method /
+Evaluation v1 freeze are not authorized. Do not launch the planned calibration
+or held-out stream, call Flash or Max, or change the method without explicit
+researcher authorization.
+
+## Historical Phase 1E status
 
 Phase 1C and Phase 1D are complete development/validation streams; neither is
 a paper-level superiority result. Phase 1D was classified `SCALE_POSITIVE`.

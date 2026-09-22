@@ -1,10 +1,10 @@
 # 09. Project Master Handoff：背景、方法、实验路线与当前进展
 
-> **2026-09-22 active status:** Phase 1C/1D Flash validation and Phase 1E Max cross-model validation are complete development evidence. Phase 1E was completed as a segmented stream: original tasks 1–61 plus registered tasks 62–64 resumed from verified M61 states after the temporary-storage interruption. Its interpretation is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`, not a confirmatory or paper-level result. No model/API calls, method changes, Method/Evaluation v1 freeze, or formal experiment are currently authorized pending researcher review. Read docs/110–119 and current `AGENTS.md`.
+> **2026-09-22 active status:** Phase 1C/1D Flash validation and Phase 1E Max cross-model validation are complete development evidence. Phase 1E was completed as a segmented stream: original tasks 1–61 plus registered tasks 62–64 resumed from verified M61 states after the temporary-storage interruption. Its interpretation is `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`; the Phase 1F no-model attribution/provenance audit and bounded matched-adaptation plan are in docs/120–121. Current leading attribution is `MIXED`; Phase 1F plan awaits researcher authorization. No model/API calls, method changes, Method/Evaluation v1 freeze, or formal experiment are currently authorized. Read docs/118–121 and current `AGENTS.md`.
 
 > **Historical 2026-09-20 protocol reset:** the S1C development line ended with `STOP_CURRENT_MINIMALIST_ACTOR_FORMULATION`. The Phase 1A controlled-targeting protocol described in the historical sections below is retained for context; it is not the active cycle. The historical Gate B1/B1-R autonomous-actor path is evidence only.
 
-> 状态：当前项目单一接手入口（2026-09-22，Phase 1E segmented continuation 已完成；等待 researcher review，当前无模型调用授权）
+> 状态：当前项目单一接手入口（2026-09-22，Phase 1F attribution/provenance audit 已完成，matched-adaptation plan 待 review；当前无模型调用授权）
 > Branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 1B baseline：c8daa67ba9d9d6257d65e446b437d362e60abc61
 > 适用对象：新研究者、新 coding-agent、新 reviewer、组会参与者。
@@ -1022,10 +1022,13 @@ Phase 1D 的 suffix registry、运行时和语义 review 保存在 docs/109–11
 Phase 1E 的原始 interruption、prefix audit、resume transition、完整结果与
 最终复核分别保存在 docs/113–119。最终 development interpretation 为
 `MECHANISM_REPLICATED_BEHAVIOR_NEGATIVE`：Max 的 overall T−G acquisition-action
-delta 为 +47，主要来自 no-H episodes；H-active 子集略有利于 T。这是单一
-dependent stream 的描述性分解，不是因果估计。当前没有模型/API 调用授权；
-不得重跑任务、调整方法、启动新 development stream 或进入 formal evaluation，
-除非 researcher 另行 review 并授权。
+delta 为 +47，主要来自 no-H episodes；H-active 子集整体近中性。Phase 1F
+基于冻结 artifacts 和历史变更记录完成了 no-model attribution/provenance audit，
+leading attribution 为 `MIXED`，并准备了一项只改变 T no-H composition、且对
+Flash/Max 对称应用的 matched-adaptation plan（docs/120–121）。这些是单一
+dependent stream 的描述性证据，不是因果估计。当前没有模型/API 调用授权；
+matched-adaptation plan、formal evaluation 和 Method/Evaluation v1 freeze 均待
+researcher review/explicit authorization。
 
 # 21. 当前不要重新打开的问题
 
