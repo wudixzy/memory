@@ -1,9 +1,21 @@
 # ACTIVE REVIEW PROTOCOL — Phase 2A Pre-execution Review (2026-09-23)
 
-The previous Phase 1F-MA-v2 semantic-review cycle produced the next integration hypothesis. Phase 2A v1 preparation remains an immutable historical record; pre-execution review found blockers, and the hardened v2 transition is frozen in docs/132. The active review is governed by:
+The Phase 1F-MA-v2 semantic-review cycle produced the integration hypothesis. Phase 2A v1 remains immutable historical preparation; its blockers were addressed in hardened v2, whose transition is frozen in docs/132. The active review is governed by:
 
+Current decision:
+
+~~~text
+V2_HARDENING_COMPLETE_AWAITING_RESEARCHER_REVIEW
+~~~
+
+Authoritative current documents:
+
+- docs/current_state/11_phase2_core_method_handoff.md
+- docs/131_phase2a_preexecution_review_and_corrections.md
+- docs/current_state/12_new_participant_onboarding_prompt.md
 - docs/128_phase2_core_method_integration_validation_plan.md
 - docs/129_phase2a_coding_agent_handoff.md
+- docs/130_phase2a_semantic_integration_transition.md
 - docs/131_phase2a_preexecution_review_and_corrections.md
 - docs/132_phase2a_execution_transition.md
 
@@ -16,6 +28,7 @@ Frozen artifacts: v1 registry/package/transition remain at the paths recorded in
 The Phase 1F protocol below is retained as frozen historical context.
 
 ---
+
 
 # 10. Current Review Protocol — Phase 1F-MA-v2 Results Review
 

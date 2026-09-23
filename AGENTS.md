@@ -1,23 +1,32 @@
 # ACTIVE CYCLE UPDATE — 2026-09-23
 
-Current cycle is Phase 2A Pre-execution Hardening complete; hardened v2 transition is frozen and awaiting researcher review.
+Current cycle is Phase 2A Pre-execution Hardening complete; the hardened v2 execution transition is frozen and awaiting researcher review.
 
-Researcher semantic review of the Phase 1F bundle moved the project to core-method integration. Phase 2A v1 preparation was reviewed and found to have pre-execution blockers; the current hardened v2 path restores the historically designed Stage1 -> Candidate+Support -> support-aware A/Stage2 boundary on frozen artifacts. The v2 transition is now frozen; no further design/tuning is in scope, and the next step is researcher pre-execution review.
+Researcher review of the Phase 1F bundle moved the project to core-method integration. The v1 preparation blockers have been addressed in the separately versioned v2 path; no further design/tuning is in scope.
 
-Read first:
+~~~text
+V2_HARDENING_COMPLETE_AWAITING_RESEARCHER_REVIEW
+~~~
 
-1. docs/128_phase2_core_method_integration_validation_plan.md
-2. docs/129_phase2a_coding_agent_handoff.md
-3. docs/127_semantic_review_bundle_handoff.md
-4. docs/current_state/09_project_master_handoff.md
-5. docs/current_state/02_method_architecture.md
-6. docs/current_state/03_component_contracts.md
+Read first before further work:
 
-Authorization boundary: no model/API calls or ALFWorld episodes are currently authorized. The v2 execution transition is committed, but a separate researcher review/authorization is still required before using `--allow-model-calls`.
+1. docs/current_state/11_phase2_core_method_handoff.md
+2. docs/131_phase2a_preexecution_review_and_corrections.md
+3. docs/current_state/12_new_participant_onboarding_prompt.md
+4. docs/128_phase2_core_method_integration_validation_plan.md
+5. docs/130_phase2a_semantic_integration_transition.md
+6. docs/132_phase2a_execution_transition.md
+7. docs/current_state/02_method_architecture.md
+8. docs/current_state/03_component_contracts.md
 
-Historical Phase 1C–1F artifacts/results remain frozen.
+The hardening implementation and executable no-model transition are complete. The immediate next step is researcher pre-execution review, not further implementation or method redesign.
+
+Authorization boundary: **no model/API calls**. Do not run Flash/Max, Phase 2A replay, Phase 2B/C/D, new ALFWorld episodes, or redesign Graph/comparison ledger. Preserve frozen Phase 1 artifacts and Phase 2A v1 package.
+
+The v2 runner requires both explicit researcher authorization and `--allow-model-calls`; the flag alone is not scientific authorization.
 
 ---
+
 
 # AGENTS.md
 
