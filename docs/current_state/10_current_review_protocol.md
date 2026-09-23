@@ -1,19 +1,25 @@
-# ACTIVE REVIEW PROTOCOL — Phase 2A Preparation (2026-09-23)
+# ACTIVE REVIEW PROTOCOL — Phase 2A Pre-execution Hardening (2026-09-23)
 
-The previous Phase 1F-MA-v2 semantic-review cycle has produced the next testable attribution hypothesis. The active protocol is governed by:
+Current decision:
 
+~~~text
+PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS
+~~~
+
+Authoritative current documents:
+
+- docs/current_state/11_phase2_core_method_handoff.md
+- docs/131_phase2a_preexecution_review_and_corrections.md
+- docs/current_state/12_new_participant_onboarding_prompt.md
 - docs/128_phase2_core_method_integration_validation_plan.md
-- docs/129_phase2a_coding_agent_handoff.md
+- docs/130_phase2a_semantic_integration_transition.md
 
-Immediate goal: restore the historical Stage1 -> Candidate+Support -> support-aware A/Stage2 path on frozen semantic-review artifacts and prepare a matched Flash/Max replay protocol. Do not redesign Graph or the comparison ledger.
+The frozen v1 preparation remains valid historical preparation evidence but is not READY_TO_RUN. Before any Flash/Max replay, a new versioned hardening cycle must correct diagnostic Support exposure, Candidate-after-Stage1 memory selection, model-visible/audit separation, grounding/provenance validation, evidence alignment, schema checks, and the missing executor. The hardening cycle itself must use 0 model/API calls and must end in a new immutable execution transition followed by researcher review.
 
-Authorization: Phase 2A implementation, deterministic analysis, tests, registry generation, prompt/config freezing, and immutable transition documentation are complete. No Phase 2A model/API calls have occurred or are authorized yet; researcher review must precede any later Flash/Max replay.
-
-Frozen preparation artifacts: registry `experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_registry.json`, package `docs/review_samples/phase2a_semantic_integration/`, transition `docs/130_phase2a_semantic_integration_transition.md`.
-
-The Phase 1F protocol below is retained as frozen historical context.
+Do not reopen B/C/H, Graph ontology, comparison-ledger semantics, native cold start, or raw-history defaults without new evidence.
 
 ---
+
 
 # 10. Current Review Protocol — Phase 1F-MA-v2 Results Review
 

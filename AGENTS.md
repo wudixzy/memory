@@ -1,23 +1,29 @@
 # ACTIVE CYCLE UPDATE — 2026-09-23
 
-Current cycle is now Phase 2 — Core Method Integration Validation planning / Phase 2A preparation.
+Current cycle: **Phase 2A Pre-execution Hardening**.
 
-Researcher semantic review of the Phase 1F bundle has completed enough to change the next engineering target. The next task is not another Phase 1F tuning run and not comparison-ledger redesign. Restore the historically designed Stage1 -> Candidate+Support -> support-aware A/Stage2 path and prepare the frozen Phase 2A semantic integration replay.
+Researcher review of frozen preparation commit 2dd673be18866fdc283f9fbc592433e32936e9b6 concluded:
 
-Read first:
+~~~text
+PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS
+~~~
 
-1. docs/128_phase2_core_method_integration_validation_plan.md
-2. docs/129_phase2a_coding_agent_handoff.md
-3. docs/127_semantic_review_bundle_handoff.md
-4. docs/current_state/09_project_master_handoff.md
-5. docs/current_state/02_method_architecture.md
-6. docs/current_state/03_component_contracts.md
+New participants must read before editing:
 
-Authorization boundary: engineering/no-model preparation only. No new model/API calls are authorized until a Phase 2A transition document is committed and the researcher explicitly authorizes execution.
+1. docs/current_state/11_phase2_core_method_handoff.md
+2. docs/131_phase2a_preexecution_review_and_corrections.md
+3. docs/current_state/12_new_participant_onboarding_prompt.md
+4. docs/128_phase2_core_method_integration_validation_plan.md
+5. docs/130_phase2a_semantic_integration_transition.md
+6. docs/current_state/02_method_architecture.md
+7. docs/current_state/03_component_contracts.md
 
-Historical Phase 1C–1F artifacts/results remain frozen.
+The immediate task is to harden Phase 2A model-visible inputs, diagnostic Support, Candidate-based memory selection, grounding/provenance validation, evidence alignment, schemas, and executor. This is an implementation of previously settled Stage1/Stage2 design, not a new architecture cycle.
+
+Authorization boundary: **no model/API calls**. Do not run Flash/Max, Phase 2A replay, Phase 2B/C/D, new ALFWorld episodes, or redesign Graph/comparison ledger. Preserve frozen Phase 1 artifacts and Phase 2A v1 package.
 
 ---
+
 
 # AGENTS.md
 
@@ -25,7 +31,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 2A no-model preparation complete — immutable transition prepared; researcher authorization for later execution pending**.
+Current cycle: **Phase 2A pre-execution hardening — v1 preparation accepted with execution blockers; no model execution authorized**.
 
 Frozen Phase 1B baseline:
 
