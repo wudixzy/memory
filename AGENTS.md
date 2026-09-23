@@ -25,7 +25,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 1F-MA-v2 complete — semantic review bundle prepared; researcher case review pending**.
+Current cycle: **Phase 2A no-model preparation complete — immutable transition prepared; researcher authorization for later execution pending**.
 
 Frozen Phase 1B baseline:
 
@@ -52,7 +52,21 @@ Read first:
 17. docs/current_state/02_method_architecture.md
 18. docs/current_state/03_component_contracts.md
 
-## Current Phase 1F-MA-v2 status
+## Current Phase 2A preparation status
+
+Phase 2A preparation is frozen at protocol `phase2a-semantic-integration-v1`.
+The registry is
+`experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_registry.json`
+and the deterministic no-model package is at
+`docs/review_samples/phase2a_semantic_integration/`; see
+`docs/130_phase2a_semantic_integration_transition.md`. It contains 12 review
+cases and 25 episode appearances, with seven fixed primary cases and five
+secondary cases. Stage 1 receives full public trajectories without Existing
+Memory; restored A receives Candidate+Support and bounded pre-task memory.
+No model/API call has been made for Phase 2A. Do not execute Flash/Max or
+Phase 2B/2C/2D without explicit researcher authorization after the transition.
+
+## Historical Phase 1F-MA-v2 status
 
 The earlier 16-task proposal and failed four-per-family population gate remain
 historical evidence in `docs/123`. Under a new researcher authorization, a

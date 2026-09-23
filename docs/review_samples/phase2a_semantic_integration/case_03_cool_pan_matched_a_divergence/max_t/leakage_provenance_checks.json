@@ -1,0 +1,1 @@
+{"a_provenance_runner_owned": true, "a_uses_pre_task_memory": true, "comparison_ledger_semantics_modified": false, "e0_counterfactual_leakage": 0, "h_provenance_preserved": true, "hidden_pddl_oracle_evaluator_leakage": 0, "model_api_calls": 0, "schema_failure_policy": "fail_closed", "stage1_no_existing_memory": true, "status": "passed", "versioned_output_path": true}

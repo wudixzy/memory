@@ -7,7 +7,9 @@ The previous Phase 1F-MA-v2 semantic-review cycle has produced the next testable
 
 Immediate goal: restore the historical Stage1 -> Candidate+Support -> support-aware A/Stage2 path on frozen semantic-review artifacts and prepare a matched Flash/Max replay protocol. Do not redesign Graph or the comparison ledger.
 
-Authorization: implementation, deterministic analysis, tests, registry generation, prompt/config freezing, and transition documentation only. No new model/API calls are authorized yet.
+Authorization: Phase 2A implementation, deterministic analysis, tests, registry generation, prompt/config freezing, and immutable transition documentation are complete. No Phase 2A model/API calls have occurred or are authorized yet; researcher review must precede any later Flash/Max replay.
+
+Frozen preparation artifacts: registry `experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_registry.json`, package `docs/review_samples/phase2a_semantic_integration/`, transition `docs/130_phase2a_semantic_integration_transition.md`.
 
 The Phase 1F protocol below is retained as frozen historical context.
 
