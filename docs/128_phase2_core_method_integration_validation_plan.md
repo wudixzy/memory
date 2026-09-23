@@ -277,6 +277,12 @@ After Phase 2C, review whether the ledger carries indispensable information not 
 
 Validate restored Stage1 -> support-aware A before a new longitudinal environment stream. This is an integration gate, not the final Phase 2 result.
 
+Phase 2A scope clarification: the selected Phase 1F records end at target
+acquisition and are not full completed ALFWorld benchmark trajectories. The
+Phase 2A replay therefore validates Stage1 -> Candidate+Support -> A on the
+complete observed search/acquisition trajectory only. Full completed-task
+native Stage1 remains a Phase 2B question.
+
 ## 6.2 Data
 
 Use the existing frozen semantic-review bundle:

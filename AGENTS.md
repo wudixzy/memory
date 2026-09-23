@@ -1,8 +1,8 @@
 # ACTIVE CYCLE UPDATE — 2026-09-23
 
-Current cycle is now Phase 2 — Core Method Integration Validation planning / Phase 2A preparation.
+Current cycle is Phase 2A Pre-execution Hardening complete; hardened v2 transition is frozen and awaiting researcher review.
 
-Researcher semantic review of the Phase 1F bundle has completed enough to change the next engineering target. The next task is not another Phase 1F tuning run and not comparison-ledger redesign. Restore the historically designed Stage1 -> Candidate+Support -> support-aware A/Stage2 path and prepare the frozen Phase 2A semantic integration replay.
+Researcher semantic review of the Phase 1F bundle moved the project to core-method integration. Phase 2A v1 preparation was reviewed and found to have pre-execution blockers; the current hardened v2 path restores the historically designed Stage1 -> Candidate+Support -> support-aware A/Stage2 boundary on frozen artifacts. The v2 transition is now frozen; no further design/tuning is in scope, and the next step is researcher pre-execution review.
 
 Read first:
 
@@ -13,7 +13,7 @@ Read first:
 5. docs/current_state/02_method_architecture.md
 6. docs/current_state/03_component_contracts.md
 
-Authorization boundary: engineering/no-model preparation only. No new model/API calls are authorized until a Phase 2A transition document is committed and the researcher explicitly authorizes execution.
+Authorization boundary: no model/API calls or ALFWorld episodes are currently authorized. The v2 execution transition is committed, but a separate researcher review/authorization is still required before using `--allow-model-calls`.
 
 Historical Phase 1C–1F artifacts/results remain frozen.
 
@@ -25,7 +25,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 2A no-model preparation complete — immutable transition prepared; researcher authorization for later execution pending**.
+Current cycle: **Phase 2A Pre-execution Hardening complete — v2 executable transition frozen; awaiting researcher review; zero model/API calls**.
 
 Frozen Phase 1B baseline:
 
@@ -52,19 +52,23 @@ Read first:
 17. docs/current_state/02_method_architecture.md
 18. docs/current_state/03_component_contracts.md
 
-## Current Phase 2A preparation status
+## Current Phase 2A pre-execution status
 
-Phase 2A preparation is frozen at protocol `phase2a-semantic-integration-v1`.
-The registry is
-`experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_registry.json`
-and the deterministic no-model package is at
-`docs/review_samples/phase2a_semantic_integration/`; see
-`docs/130_phase2a_semantic_integration_transition.md`. It contains 12 review
-cases and 25 episode appearances, with seven fixed primary cases and five
-secondary cases. Stage 1 receives full public trajectories without Existing
-Memory; restored A receives Candidate+Support and bounded pre-task memory.
-No model/API call has been made for Phase 2A. Do not execute Flash/Max or
-Phase 2B/2C/2D without explicit researcher authorization after the transition.
+Phase 2A v1 remains immutable historical preparation in the registry/package
+and transition recorded by `docs/130_phase2a_semantic_integration_transition.md`.
+Its review found pre-execution blockers. Hardened v2 is frozen by
+`docs/132_phase2a_execution_transition.md`, with implementation in
+`experiments/exploratory_memory_mvp/phase2a_integration_v2.py` and
+`run_phase2a_semantic_integration_v2.py`, registry
+`experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_v2_registry.json`,
+and package `docs/review_samples/phase2a_semantic_integration_v2/` (12 cases,
+25 appearances; 7 primary and 5 secondary). It restores compact historical
+Support, Candidate-after-Stage1 selection, model/audit separation, runner-bound
+grounding, and strict validation on frozen search/acquisition trajectories.
+Phase 2A remains search-local; it is not full-task native Stage 1. No real
+model/API/network call or ALFWorld episode has occurred. The v2 runner is
+executable but not authorized: await separate researcher review/authorization.
+Do not start Phase 2B/2C/2D.
 
 ## Historical Phase 1F-MA-v2 status
 

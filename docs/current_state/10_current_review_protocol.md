@@ -1,15 +1,17 @@
-# ACTIVE REVIEW PROTOCOL — Phase 2A Preparation (2026-09-23)
+# ACTIVE REVIEW PROTOCOL — Phase 2A Pre-execution Review (2026-09-23)
 
-The previous Phase 1F-MA-v2 semantic-review cycle has produced the next testable attribution hypothesis. The active protocol is governed by:
+The previous Phase 1F-MA-v2 semantic-review cycle produced the next integration hypothesis. Phase 2A v1 preparation remains an immutable historical record; pre-execution review found blockers, and the hardened v2 transition is frozen in docs/132. The active review is governed by:
 
 - docs/128_phase2_core_method_integration_validation_plan.md
 - docs/129_phase2a_coding_agent_handoff.md
+- docs/131_phase2a_preexecution_review_and_corrections.md
+- docs/132_phase2a_execution_transition.md
 
-Immediate goal: restore the historical Stage1 -> Candidate+Support -> support-aware A/Stage2 path on frozen semantic-review artifacts and prepare a matched Flash/Max replay protocol. Do not redesign Graph or the comparison ledger.
+Immediate status: Phase 2A v2 has a frozen executable no-model transition on frozen semantic-review artifacts. It restores compact prior Support and Candidate-after-Stage1 A/Stage2 input construction, separates model-visible input from audit metadata, validates grounding/provenance, and uses complete observed search/acquisition trajectories. Do not redesign Graph or the comparison ledger.
 
-Authorization: Phase 2A implementation, deterministic analysis, tests, registry generation, prompt/config freezing, and immutable transition documentation are complete. No Phase 2A model/API calls have occurred or are authorized yet; researcher review must precede any later Flash/Max replay.
+Authorization: implementation, deterministic preparation, and transition are complete. No real model/API/network call or ALFWorld episode has occurred. The runner is executable, but no model call is currently authorized; separate researcher review/authorization is required before `--allow-model-calls`. Phase 2B/2C/2D are not authorized.
 
-Frozen preparation artifacts: registry `experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_registry.json`, package `docs/review_samples/phase2a_semantic_integration/`, transition `docs/130_phase2a_semantic_integration_transition.md`.
+Frozen artifacts: v1 registry/package/transition remain at the paths recorded in docs/130. Hardened v2 registry `experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_v2_registry.json`, package `docs/review_samples/phase2a_semantic_integration_v2/`, executor `experiments/exploratory_memory_mvp/run_phase2a_semantic_integration_v2.py`, transition `docs/132_phase2a_execution_transition.md`.
 
 The Phase 1F protocol below is retained as frozen historical context.
 
