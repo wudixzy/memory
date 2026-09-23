@@ -1,3 +1,6 @@
+> **2026-09-23 ROADMAP UPDATE — ACTIVE**
+> The researcher review after Phase 1F-MA-v2 has changed the next validation step. The project now enters **Phase 2 — Core Method Integration Validation**, governed by docs/128_phase2_core_method_integration_validation_plan.md. The historical roadmap below remains useful context, but its old condition “only restore Stage1 after a clean Phase 1 targeting-value pass” is superseded. Phase 1C–1F showed that B/C/H mechanics work but also exposed model-dependent memory-evolution regimes; the immediate scientific need is to restore and test the original Stage1 -> Candidate+Support -> support-aware A/Stage2 path before further longitudinal claims. Phase 2A preparation is authorized; new model/API calls are not yet authorized.
+
 # 07. 分阶段实验验证路线：从 Controlled Mechanism 到 Full Cold-Start System
 
 > 状态：当前实验推进基线（2026-09-18）  

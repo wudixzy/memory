@@ -1,3 +1,18 @@
+# ACTIVE REVIEW PROTOCOL — Phase 2A Preparation (2026-09-23)
+
+The previous Phase 1F-MA-v2 semantic-review cycle has produced the next testable attribution hypothesis. The active protocol is governed by:
+
+- docs/128_phase2_core_method_integration_validation_plan.md
+- docs/129_phase2a_coding_agent_handoff.md
+
+Immediate goal: restore the historical Stage1 -> Candidate+Support -> support-aware A/Stage2 path on frozen semantic-review artifacts and prepare a matched Flash/Max replay protocol. Do not redesign Graph or the comparison ledger.
+
+Authorization: implementation, deterministic analysis, tests, registry generation, prompt/config freezing, and transition documentation only. No new model/API calls are authorized yet.
+
+The Phase 1F protocol below is retained as frozen historical context.
+
+---
+
 # 10. Current Review Protocol — Phase 1F-MA-v2 Results Review
 
 > Status: Phase 1C/1D Flash, segmented Phase 1E Max, Phase 1F attribution,

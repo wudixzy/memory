@@ -1,3 +1,24 @@
+# ACTIVE CYCLE UPDATE — 2026-09-23
+
+Current cycle is now Phase 2 — Core Method Integration Validation planning / Phase 2A preparation.
+
+Researcher semantic review of the Phase 1F bundle has completed enough to change the next engineering target. The next task is not another Phase 1F tuning run and not comparison-ledger redesign. Restore the historically designed Stage1 -> Candidate+Support -> support-aware A/Stage2 path and prepare the frozen Phase 2A semantic integration replay.
+
+Read first:
+
+1. docs/128_phase2_core_method_integration_validation_plan.md
+2. docs/129_phase2a_coding_agent_handoff.md
+3. docs/127_semantic_review_bundle_handoff.md
+4. docs/current_state/09_project_master_handoff.md
+5. docs/current_state/02_method_architecture.md
+6. docs/current_state/03_component_contracts.md
+
+Authorization boundary: engineering/no-model preparation only. No new model/API calls are authorized until a Phase 2A transition document is committed and the researcher explicitly authorizes execution.
+
+Historical Phase 1C–1F artifacts/results remain frozen.
+
+---
+
 # AGENTS.md
 
 Active branch:
