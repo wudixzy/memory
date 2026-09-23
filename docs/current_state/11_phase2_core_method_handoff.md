@@ -3,10 +3,10 @@
 > 更新时间：2026-09-23
 > Active branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 2A v1 preparation baseline：2dd673be18866fdc283f9fbc592433e32936e9b6
-> 当前状态：v2 pre-execution hardening complete; immutable transition is frozen at docs/132
-> 当前授权：等待 researcher pre-execution review；目前不得调用 Flash / Max，不得进入 Phase 2B/2C/2D。
+> 当前状态：Phase 2A v2 primary Flash/Max replay and semantic review complete；gate = `CROSS_MODEL_REGIME_REMAINS`（docs/133–134）
+> 当前授权：primary authorization 已用完；目前没有后续模型/API 调用授权，不得运行 secondary 或进入 Phase 2B/2C/2D。
 
-> **Current status supersedes the historical blocker sections below:** the v1 review findings are preserved as evidence in docs/131; the hardened v2 implementation/package and no-model execution transition are complete. Do not repeat the hardening cycle. The next action is researcher review and explicit authorization.
+> **Current status supersedes the historical blocker sections below:** v1 preparation and v2 hardening remain immutable. Primary runs completed on frozen inputs; Max provenance is segmented, with one disclosed unknown-result Stage 1 reissue and one separately authorized isolated A recovery. The semantic review found useful grounded learning but persistent same-input cross-model divergence in mutation authority and boundary treatment. No secondary cases were run; Phase 2B is not authorized. The next action is researcher review, not another run or tuning cycle.
 
 本文是当前项目的主接手文档。它的目的不是再次从头设计方法，而是让新的研究者 / coding-agent 在进入代码前先继承已经完成的概念设计、历史实验和证据边界。
 
@@ -733,7 +733,7 @@ stream 内严格 sequential；model/arm stream 可并行。
 
 ---
 
-# 13. 当前 Phase 2A preparation 状态
+# 13. 历史 Phase 2A preparation snapshot（execution 已在后续完成）
 
 Frozen preparation commit：
 
@@ -759,13 +759,15 @@ Transition：
 docs/130_phase2a_semantic_integration_transition.md
 ~~~
 
-但 researcher review 结论是：
+在该 preparation commit 当时，researcher review 结论是：
 
 ~~~text
 PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS (historical v1 review decision)
 ~~~
 
-因此 docs/130 不是 READY_TO_RUN transition。
+因此 docs/130 本身不是 READY_TO_RUN transition。其后 v2 pre-execution
+hardening 与授权执行由 docs/131–138 记录；当前运行结果与 gate 以
+docs/133–134 和本文顶部的 active status 为准。
 
 ---
 
@@ -899,7 +901,11 @@ search-local Stage1 -> A integration
 
 ---
 
-# 17. Phase 2A hardening 完成后的 stop rule
+# 17. 历史 stop rule（Phase 2A primary 已按授权执行并完成）
+
+本节记录当时的 preparation-to-review boundary；其后的授权执行与当前
+decision 见本文顶部及 docs/133–134。不要把下方 pre-execution 状态当作
+当前状态。
 
 完成 hardened package + executor + immutable execution transition 后：
 

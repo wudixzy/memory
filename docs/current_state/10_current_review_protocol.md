@@ -1,11 +1,11 @@
-# ACTIVE REVIEW PROTOCOL — Phase 2A Pre-execution Review (2026-09-23)
+# ACTIVE REVIEW PROTOCOL — Phase 2A Primary Semantic Review Complete (2026-09-23)
 
-The Phase 1F-MA-v2 semantic-review cycle produced the integration hypothesis. Phase 2A v1 remains immutable historical preparation; its blockers were addressed in hardened v2, whose transition is frozen in docs/132. The active review is governed by:
+The frozen Phase 2A v2 primary Flash/Max replay and semantic review are complete. Execution facts are in `docs/133`; the semantic assessment and gate are in `docs/134`.
 
 Current decision:
 
 ~~~text
-V2_HARDENING_COMPLETE_AWAITING_RESEARCHER_REVIEW
+CROSS_MODEL_REGIME_REMAINS
 ~~~
 
 Authoritative current documents:
@@ -18,10 +18,15 @@ Authoritative current documents:
 - docs/130_phase2a_semantic_integration_transition.md
 - docs/131_phase2a_preexecution_review_and_corrections.md
 - docs/132_phase2a_execution_transition.md
+- docs/133_phase2a_primary_execution_results.md
+- docs/134_phase2a_primary_semantic_review.md
+- docs/136_phase2a_infrastructure_stop_transition.md
+- docs/137_phase2a_max_primary_recovery_transition.md
+- docs/138_phase2a_single_a_artifact_recovery_transition.md
 
-Immediate status: Phase 2A v2 has a frozen executable no-model transition on frozen semantic-review artifacts. It restores compact prior Support and Candidate-after-Stage1 A/Stage2 input construction, separates model-visible input from audit metadata, validates grounding/provenance, and uses complete observed search/acquisition trajectories. Do not redesign Graph or the comparison ledger.
+Immediate status: primary replay completed on the seven frozen cases (15 source episode appearances per backbone). The Max record is segmented and includes one result-unknown Stage 1 reissue plus a separately authorized isolated A recovery. The semantic gate is `CROSS_MODEL_REGIME_REMAINS`; useful evidence-bound learning exists, but cross-model update authority/boundary stability remains unresolved. Do not redesign Graph or the comparison ledger.
 
-Authorization: implementation, deterministic preparation, and transition are complete. No real model/API/network call or ALFWorld episode has occurred. The runner is executable, but no model call is currently authorized; separate researcher review/authorization is required before `--allow-model-calls`. Phase 2B/2C/2D are not authorized.
+Authorization: the primary Flash/Max authorization is spent. No further model/API/network call, secondary case, or ALFWorld episode is currently authorized. Phase 2B/2C/2D and formal evaluation are not authorized. Await researcher review before any next step.
 
 Frozen artifacts: v1 registry/package/transition remain at the paths recorded in docs/130. Hardened v2 registry `experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_v2_registry.json`, package `docs/review_samples/phase2a_semantic_integration_v2/`, executor `experiments/exploratory_memory_mvp/run_phase2a_semantic_integration_v2.py`, transition `docs/132_phase2a_execution_transition.md`.
 

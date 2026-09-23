@@ -1,29 +1,31 @@
 # ACTIVE CYCLE UPDATE — 2026-09-23
 
-Current cycle is Phase 2A Pre-execution Hardening complete; the hardened v2 execution transition is frozen and awaiting researcher review.
-
-Researcher review of the Phase 1F bundle moved the project to core-method integration. The v1 preparation blockers have been addressed in the separately versioned v2 path; no further design/tuning is in scope.
+Phase 2A v2 primary Flash/Max replay and semantic review are complete. The
+primary gate is `CROSS_MODEL_REGIME_REMAINS` (docs/133–134). The authorized
+primary calls, including the specifically authorized isolated Pan/Max A
+recovery, are spent. No additional model/API call, secondary replay, Phase
+2B/C/D execution, or ALFWorld episode is currently authorized.
 
 ~~~text
-V2_HARDENING_COMPLETE_AWAITING_RESEARCHER_REVIEW
+PHASE2A_PRIMARY_REVIEW_COMPLETE_CROSS_MODEL_REGIME_REMAINS
 ~~~
 
 Read first before further work:
 
-1. docs/current_state/11_phase2_core_method_handoff.md
-2. docs/131_phase2a_preexecution_review_and_corrections.md
-3. docs/current_state/12_new_participant_onboarding_prompt.md
-4. docs/128_phase2_core_method_integration_validation_plan.md
-5. docs/130_phase2a_semantic_integration_transition.md
+1. docs/134_phase2a_primary_semantic_review.md
+2. docs/133_phase2a_primary_execution_results.md
+3. docs/138_phase2a_single_a_artifact_recovery_transition.md
+4. docs/137_phase2a_max_primary_recovery_transition.md
+5. docs/136_phase2a_infrastructure_stop_transition.md
 6. docs/132_phase2a_execution_transition.md
-7. docs/current_state/02_method_architecture.md
-8. docs/current_state/03_component_contracts.md
+7. docs/current_state/11_phase2_core_method_handoff.md
+8. docs/128_phase2_core_method_integration_validation_plan.md
+9. docs/current_state/02_method_architecture.md
+10. docs/current_state/03_component_contracts.md
 
-The hardening implementation and executable no-model transition are complete. The immediate next step is researcher pre-execution review, not further implementation or method redesign.
-
-Authorization boundary: **no model/API calls**. Do not run Flash/Max, Phase 2A replay, Phase 2B/C/D, new ALFWorld episodes, or redesign Graph/comparison ledger. Preserve frozen Phase 1 artifacts and Phase 2A v1 package.
-
-The v2 runner requires both explicit researcher authorization and `--allow-model-calls`; the flag alone is not scientific authorization.
+Preserve Phase 1 and Phase 2A source artifacts. Do not infer that Flash is
+ground truth or that Max is wrong; no Phase 2B plan was authorized by the
+failed Phase 2A gate. Await researcher review before any further experiment.
 
 ---
 
@@ -34,7 +36,7 @@ Active branch:
 
     exp/minimal-exploratory-memory-validation
 
-Current cycle: **Phase 2A Pre-execution Hardening complete — v2 executable transition frozen; awaiting researcher review; zero model/API calls**.
+Current cycle: **Phase 2A v2 primary execution and review complete — `CROSS_MODEL_REGIME_REMAINS`; no further model/API calls authorized**.
 
 Frozen Phase 1B baseline:
 
@@ -61,23 +63,19 @@ Read first:
 17. docs/current_state/02_method_architecture.md
 18. docs/current_state/03_component_contracts.md
 
-## Current Phase 2A pre-execution status
+## Phase 2A primary execution status
 
-Phase 2A v1 remains immutable historical preparation in the registry/package
-and transition recorded by `docs/130_phase2a_semantic_integration_transition.md`.
-Its review found pre-execution blockers. Hardened v2 is frozen by
-`docs/132_phase2a_execution_transition.md`, with implementation in
-`experiments/exploratory_memory_mvp/phase2a_integration_v2.py` and
-`run_phase2a_semantic_integration_v2.py`, registry
-`experiments/exploratory_memory_mvp/cases/phase2a_semantic_integration_v2_registry.json`,
-and package `docs/review_samples/phase2a_semantic_integration_v2/` (12 cases,
-25 appearances; 7 primary and 5 secondary). It restores compact historical
-Support, Candidate-after-Stage1 selection, model/audit separation, runner-bound
-grounding, and strict validation on frozen search/acquisition trajectories.
-Phase 2A remains search-local; it is not full-task native Stage 1. No real
-model/API/network call or ALFWorld episode has occurred. The v2 runner is
-executable but not authorized: await separate researcher review/authorization.
-Do not start Phase 2B/2C/2D.
+Phase 2A v1 remains immutable historical preparation. Hardened v2 and its
+frozen registry/package remain unchanged. The authorized primary Flash and Max
+replays completed and were mechanically audited; Max has segmented provenance
+(original prefix + resume), a disclosed result-unknown Stage 1 reissue, and one
+separately authorized isolated A recovery. See `docs/133` and `docs/134`.
+The semantic gate is `CROSS_MODEL_REGIME_REMAINS`: useful grounded updates
+occurred, but same-source-input cross-model mutation authority/boundary
+stability was not established. This is search/acquisition-local evidence,
+not full-task native Stage 1. No secondary cases were run; Phase 2B/2C/2D,
+Method v1 freeze, and formal evaluation remain unauthorized. Do not rerun,
+tune, or extend Phase 2A without new researcher authorization.
 
 ## Historical Phase 1F-MA-v2 status
 
