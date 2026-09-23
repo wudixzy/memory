@@ -2,7 +2,7 @@
 
 > 更新时间：2026-09-23  
 > 分支：exp/minimal-exploratory-memory-validation  
-> 当前基线：2dd673be18866fdc283f9fbc592433e32936e9b6  
+> Frozen Phase 2A preparation baseline：2dd673be18866fdc283f9fbc592433e32936e9b6  
 > 当前阶段：Phase 2 — Core Method Integration Validation  
 > 当前 decision：PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS  
 > 当前禁止：Flash/Max/model API execution；Phase 2B/C/D；Graph/comparison-ledger redesign。
@@ -62,10 +62,9 @@
 
 Persistent Memory 可以把历史成功经验固化成 future guidance，但：
 
-[
-oxed{	ext{Feasibility Evidence} 
-eq 	ext{Comparative Evidence}}
-]
+~~~text
+Feasibility Evidence != Comparative Evidence
+~~~
 
 因此系统既要复用 established experience，又要识别重要但未关闭的 comparative question，并用 future-facing one-shot exploratory memory 主动获取新的 evidence，再通过 native memory-evolution path 吸收。
 

@@ -2,17 +2,13 @@
 
 > 更新时间：2026-09-23  
 > Active branch：exp/minimal-exploratory-memory-validation  
-> 当前基线：2dd673be18866fdc283f9fbc592433e32936e9b6  
+> Frozen Phase 2A preparation baseline：2dd673be18866fdc283f9fbc592433e32936e9b6  
 > 当前 decision：PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS  
 > 当前授权：只允许 no-model pre-execution hardening；不得调用 Flash / Max，不得进入 Phase 2B/2C/2D。
 
 本文是当前项目的主接手文档。它的目的不是再次从头设计方法，而是让新的研究者 / coding-agent 在进入代码前先继承已经完成的概念设计、历史实验和证据边界。
 
-如果本文与更早的历史实验文档冲突，以：
-1. 当前 Phase 2 plan；
-2. 当前 review / transition；
-3. frozen historical result docs；
-的时间顺序解释，不回写历史结果。
+如果本文与更早的历史实验文档冲突，优先按当前 Phase 2 plan、当前 review/transition、frozen historical result docs 的时间顺序解释，不回写历史结果。
 
 ---
 
@@ -22,9 +18,9 @@
 
 Phase 1 已经验证了 B/C/H、one-shot exploration、跨 task transfer、long-horizon accumulation、Flash/Max cross-model behavior 等多个机制。当前进入的是：
 
-[
-oxed{	ext{Core Method Integration Validation}}
-]
+~~~text
+Core Method Integration Validation
+~~~
 
 也就是开始恢复并测试原来完整方法中的 Stage1 -> support-aware A/Stage2，而不是继续给 Phase 1F 的 A / comparison ledger 打补丁。
 
@@ -32,12 +28,10 @@ Phase 1 已经验证了 B/C/H、one-shot exploration、跨 task transfer、long-
 
 更合理的当前 attribution hypothesis 是：
 
-[
-oxed{
-	ext{Phase 1F 为了隔离 B/C/H 而压缩了原始 Stage1 + Stage2/A，
-可能导致 A 职责过载和 epistemic state 跨模型不稳定。}
-}
-]
+~~~text
+Phase 1F 为了隔离 B/C/H 而压缩了原始 Stage1 + Stage2/A，
+可能导致 A 职责过载和 epistemic state 跨模型不稳定。
+~~~
 
 这是待验证 hypothesis，不是结论。
 
@@ -62,26 +56,20 @@ historical trajectory
 
 但 Memory 不只是被动存储。它会改变未来 Agent 的行为，而未来行为又决定系统之后会看到什么 evidence：
 
-[
+~~~text
 K_t
-ightarrow
-pi_{t+1}
-ightarrow
-E^{obs}_{t+1}
-ightarrow
-	au_{t+1}
-ightarrow
-U
-ightarrow
-K_{t+1}.
-]
+-> future policy
+-> observed evidence
+-> future trajectory
+-> memory update
+-> K_{t+1}
+~~~
 
 因此一个核心风险是：
 
-[
-oxed{	ext{Feasibility Evidence} 
-eq 	ext{Comparative Evidence}}
-]
+~~~text
+Feasibility Evidence != Comparative Evidence
+~~~
 
 历史中策略 A 成功，只能直接说明：
 
@@ -102,19 +90,13 @@ A is near-optimal
 
 当前方法的核心闭环因此是：
 
-[
-oxed{
-	ext{Established Experience}
-ightarrow
-	ext{Unresolved Comparative Question}
-ightarrow
-	ext{Targeted Future Exploration}
-ightarrow
-	ext{New Evidence}
-ightarrow
-	ext{Memory Evolution}
-}
-]
+~~~text
+Established Experience
+-> Unresolved Comparative Question
+-> Targeted Future Exploration
+-> New Evidence
+-> Memory Evolution
+~~~
 
 ---
 
@@ -122,23 +104,18 @@ A is near-optimal
 
 当前长期信息结构继承历史方案：
 
-[
-oxed{
-	ext{Raw Experience}
-+
-	ext{Semantic Memory}
-+
-	ext{Structural Graph}
-+
-	ext{Support / provenance substrate}
-}
-]
+~~~text
+Raw Experience
++ Semantic Memory
++ Structural Graph
++ Support / provenance substrate
+~~~
 
 同时 Semantic Memory 中区分不同 epistemic status：
 
-[
-K = K^{established} cup K^{exploratory}.
-]
+~~~text
+K = Established Memory + Exploratory Memory
+~~~
 
 ## 2.1 Raw Experience
 
@@ -160,17 +137,12 @@ K = K^{established} cup K^{exploratory}.
 
 最近 review 使用了一个有帮助的 semantic audit lens：
 
-[
-oxed{
+~~~text
 Established Memory
-=
-Claim
-+
-Evidence Basis
-+
-Unresolved Boundary
-}
-]
+= Claim
++ Evidence Basis
++ Unresolved Boundary
+~~~
 
 但必须注意：
 
@@ -274,17 +246,13 @@ Phase 2 当前只要求和既有 Graph 设计兼容，不测试 Graph contributi
 
 正式方法初始化：
 
-[
-oxed{
-egin{aligned}
-G_0 &= G_{tool}\
-K_0^{established} &= arnothing\
-K_0^{exploratory} &= arnothing\
-mathcal E_0^{history} &= arnothing\
-mathcal T_0 &= arnothing
-end{aligned}
-}
-]
+~~~text
+G_0 = G_tool
+Established Memory = empty
+Exploratory Memory = empty
+Exploration History = empty
+Raw Trajectory Store = empty
+~~~
 
 原则：
 
@@ -326,14 +294,15 @@ completed trajectory
 
 逻辑上：
 
-[
-Stage1(	au_t)
-ightarrow
-egin{cases}
-A(Candidate_t, K_{pre})\
-B(	au_t, K_{pre}) ightarrow C(cdot) ightarrow H
-end{cases}
-]
+~~~text
+Stage1(current trajectory)
+  -> A(Candidate, pre-update Established Memory)
+
+current trajectory + pre-update Established Memory
+  -> B
+  -> C
+  -> future H
+~~~
 
 最后统一 materialize state。
 
@@ -386,13 +355,10 @@ A 回答：
 
 历史设计里最重要的 comparison object 已经明确：
 
-[
-oxed{
+~~~text
 Candidate
-leftrightarrow
-Current Text Memory
-}
-]
+<-> Current Text Memory
+~~~
 
 不是：
 
@@ -434,9 +400,9 @@ A 可以修改 Claim、Evidence Basis、Unresolved Boundary 对应的语义部�
 
 真正需要保护的是：
 
-[
-oxed{	ext{Claim authority cannot exceed evidence.}}
-]
+~~~text
+Claim authority cannot exceed evidence.
+~~~
 
 以及：
 
@@ -474,9 +440,12 @@ B 不生成 concrete alternative。
 
 描述当前局部 realization 必须完成什么功能：
 
-[
-C(r)=(S_{in},F,S_{out}^{req},Gamma)
-]
+~~~text
+available input/state
++ local function
++ required downstream state
++ necessary constraints
+~~~
 
 它是 transient context-conditioned working representation。
 
@@ -629,13 +598,9 @@ suffix 仍有新增收益，说明不是只有早期 lucky prefix。
 G = 638
 T = 685
 Delta = +47
-~~~
 
-其中：
-
-~~~text
-H-active: -7
-no-H: +54
+H-active = -7
+no-H = +54
 ~~~
 
 即 mechanism 能形成，但整体 behavior negative，主要问题不在 H-active subset。
@@ -734,17 +699,13 @@ tau_2 -> Stage1/A -> K_2
 
 闭合：
 
-[
+~~~text
 K_t
-ightarrow
-B/C/H
-ightarrow
-	au_H
-ightarrow
-Stage1/A
-ightarrow
-K_{t+1}.
-]
+-> B/C/H
+-> H-test trajectory
+-> Stage1/A
+-> K_{t+1}
+~~~
 
 验证 exploratory evidence 能否通过同一 native memory path 被吸收。
 
@@ -798,9 +759,9 @@ docs/130_phase2a_semantic_integration_transition.md
 
 但 researcher review 结论是：
 
-[
-oxed{	exttt{PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS}}
-]
+~~~text
+PREPARATION_ACCEPTED_WITH_PREEXECUTION_BLOCKERS
+~~~
 
 因此 docs/130 不是 READY_TO_RUN transition。
 
@@ -864,9 +825,9 @@ Stage1 的 event_id 当前只检查 non-empty。
 
 必须检查：
 
-[
-event_ref in 	ext{actual visible trajectory events}
-]
+~~~text
+event_ref belongs to actual visible trajectory events
+~~~
 
 trajectory/H/comparison provenance 应由 runner bind，而不是让模型生成。
 
@@ -883,9 +844,9 @@ trajectory/H/comparison provenance 应由 runner bind，而不是让模型生成
 
    当前 claim 应收紧为：
 
-[
-oxed{	ext{search-local Stage1 -> A integration}}
-]
+~~~text
+search-local Stage1 -> A integration
+~~~
 
 真正 full completed-task Stage1 在 Phase 2B 验证。
 

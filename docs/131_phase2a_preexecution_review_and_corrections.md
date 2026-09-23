@@ -25,13 +25,12 @@ Phase 2A preparation engineering is broadly sound:
 - review rubric and future model configs frozen;
 - 0 model/API calls.
 
-However, the current preparation is not yet a clean implementation of the historical:
+However, the current preparation is not yet a clean implementation of the historical contract:
 
-[
-Candidate + Support + bounded Existing Memory ightarrow A
-]
-
-contract.
+~~~text
+Candidate + Support + bounded Existing Memory
+-> A
+~~~
 
 Three scientific-boundary blockers and one correctness blocker must be fixed before model execution.
 
@@ -89,6 +88,7 @@ At minimum, where frozen evidence exists, expose semantically useful:
 - availability status.
 
 Do not:
+
 - read all historical raw trajectories by default;
 - call an LLM to rewrite historical Support;
 - synthesize missing evidence.
@@ -190,9 +190,9 @@ Current Stage1 schema allows arbitrary non-empty event_id.
 
 Validation does not prove:
 
-[
-event_id in 	ext{actual visible trajectory event IDs}
-]
+~~~text
+event_ref belongs to actual visible trajectory event IDs
+~~~
 
 A model could therefore invent a grounding event and still pass schema validation.
 
@@ -278,11 +278,9 @@ For Phase 2A use wording such as:
 
 Scientific scope:
 
-[
-oxed{
-	ext{Phase 2A validates search-local Stage1 -> A semantic integration.}
-}
-]
+~~~text
+Phase 2A validates search-local Stage1 -> A semantic integration.
+~~~
 
 Full completed-task native Stage1 remains a Phase 2B question.
 
@@ -392,11 +390,10 @@ Phase 2A simultaneously restores:
 
 Therefore a positive result supports:
 
-[
-oxed{
-	ext{the restored native Stage1 + conservative Stage2 integration is more stable/calibrated}
-}
-]
+~~~text
+the restored native Stage1 + conservative Stage2 integration
+is more stable / epistemically calibrated
+~~~
 
 It does not by itself establish:
 
