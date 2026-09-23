@@ -513,6 +513,176 @@ def test_invalid_stage1_response_is_saved_and_fails_closed_without_retry(tmp_pat
     assert phase2a.read_json(episode_dir / "audit/stage1_usage.json")["call_count"] == 1
 
 
+def test_request_infrastructure_failure_is_persisted_and_stops_run(tmp_path: Path):
+    registry_path = phase2a.ROOT / phase2a.REGISTRY_REL
+    package_root = phase2a.ROOT / phase2a.PACKAGE_REL
+    registry_sha = phase2a.digest_file(registry_path)
+    package_sha = phase2a.digest_file(package_root / "package_manifest.json")
+
+    class FailingTransport:
+        def __init__(self):
+            self.calls = 0
+
+        def __call__(self, _payload):
+            self.calls += 1
+            raise OSError("synthetic transport outage")
+
+    transport = FailingTransport()
+    output = tmp_path / "infrastructure-failure-run"
+    with pytest.raises(runner.RunnerError, match="remaining episodes were not started"):
+        runner.execute(
+            registry_path=registry_path,
+            package_root=package_root,
+            output_root=output,
+            model="qwen3.8-flash",
+            case_ids=["case_03_cool_pan_matched_a_divergence"],
+            allow_model_calls=True,
+            expected_registry_sha256=registry_sha,
+            expected_package_manifest_sha256=package_sha,
+            transport_factory=lambda: transport,
+        )
+
+    assert transport.calls == 1
+    manifest = phase2a.read_json(output / "run_manifest.json")
+    assert manifest["model_api_calls"] == 1
+    assert manifest["execution_status"] == "stopped_infrastructure_failure"
+    assert manifest["stop_reason"]["category"] == "model_request_failure"
+    assert manifest["stop_reason"]["retry"] is False
+    assert manifest["remaining_not_started_episodes"] == manifest["episode_count"] - 1
+    summary = phase2a.read_json(output / "run_summary.json")
+    assert len(summary["episodes"]) == 1
+    episode = summary["episodes"][0]
+    assert episode["status"] == "infrastructure_failed"
+    assert episode["failure_stage"] == "stage1"
+    episode_dir = output / "case_03_cool_pan_matched_a_divergence" / episode["episode_key"]
+    failure = phase2a.read_json(episode_dir / "failure.json")
+    assert failure["status"] == "infrastructure_failed"
+    assert failure["retry"] is False
+    assert phase2a.read_json(episode_dir / "audit/stage1_usage.json")["call_count"] == 1
+    assert not (episode_dir / "model_outputs/stage1_output_raw.json").exists()
+    other_episode = next(
+        row
+        for row in _registry_payloads()[0]["cases"]
+        if row["case_id"] == "case_03_cool_pan_matched_a_divergence"
+    )["episodes"][1]
+    assert not (
+        output / "case_03_cool_pan_matched_a_divergence" / other_episode["episode_key"]
+    ).exists()
+
+
+def test_host_io_failure_is_persisted_and_stops_before_model_call(tmp_path: Path, monkeypatch):
+    registry_path = phase2a.ROOT / phase2a.REGISTRY_REL
+    package_root = phase2a.ROOT / phase2a.PACKAGE_REL
+    registry_sha = phase2a.digest_file(registry_path)
+    package_sha = phase2a.digest_file(package_root / "package_manifest.json")
+    original_write_json = phase2a.write_json
+    injected = False
+
+    def fail_once_on_request_metadata(path, value):
+        nonlocal injected
+        if Path(path).name == "stage1_request_metadata.json" and not injected:
+            injected = True
+            raise OSError("synthetic host storage outage")
+        return original_write_json(path, value)
+
+    monkeypatch.setattr(phase2a, "write_json", fail_once_on_request_metadata)
+
+    class CountingTransport:
+        calls = 0
+
+        def __call__(self, _payload):
+            self.calls += 1
+            raise AssertionError("transport must not be reached")
+
+    transport = CountingTransport()
+    output = tmp_path / "host-io-failure-run"
+    with pytest.raises(runner.RunnerError, match="remaining episodes were not started"):
+        runner.execute(
+            registry_path=registry_path,
+            package_root=package_root,
+            output_root=output,
+            model="qwen3.8-flash",
+            case_ids=["case_03_cool_pan_matched_a_divergence"],
+            allow_model_calls=True,
+            expected_registry_sha256=registry_sha,
+            expected_package_manifest_sha256=package_sha,
+            transport_factory=lambda: transport,
+        )
+
+    assert injected is True
+    assert transport.calls == 0
+    manifest = phase2a.read_json(output / "run_manifest.json")
+    assert manifest["model_api_calls"] == 0
+    assert manifest["stop_reason"]["category"] == "host_io_failure"
+    assert manifest["remaining_not_started_episodes"] == manifest["episode_count"] - 1
+    summary = phase2a.read_json(output / "run_summary.json")
+    assert len(summary["episodes"]) == 1
+    episode = summary["episodes"][0]
+    assert episode["status"] == "infrastructure_failed"
+    episode_dir = output / "case_03_cool_pan_matched_a_divergence" / episode["episode_key"]
+    assert phase2a.read_json(episode_dir / "failure.json")["failure_category"] == "host_io_failure"
+
+
+def test_semantic_fail_closed_does_not_stop_later_episode(tmp_path: Path):
+    registry_path = phase2a.ROOT / phase2a.REGISTRY_REL
+    package_root = phase2a.ROOT / phase2a.PACKAGE_REL
+    registry_sha = phase2a.digest_file(registry_path)
+    package_sha = phase2a.digest_file(package_root / "package_manifest.json")
+
+    class InvalidThenValidTransport:
+        def __init__(self):
+            self.calls = 0
+
+        def __call__(self, payload):
+            self.calls += 1
+            user_input = json.loads(payload["messages"][1]["content"])
+            if payload["response_format"]["json_schema"]["name"] == "stage1":
+                if self.calls == 1:
+                    content = {
+                        "candidate": {"content": "candidate", "scope": "scope"},
+                        "support": {
+                            "direct_grounding": [
+                                {
+                                    "event_ref": "fabricated-event",
+                                    "semantic_fact": "not grounded",
+                                }
+                            ],
+                            "minimal_global_context": [],
+                        },
+                    }
+                else:
+                    content = _stage1_result(user_input)
+            else:
+                content = {"decision": "NO_CHANGE", "updates": [], "unresolved_boundary": []}
+            return {
+                "choices": [{"message": {"role": "assistant", "content": json.dumps(content)}}],
+                "usage": {"prompt_tokens": 7, "completion_tokens": 3, "total_tokens": 10},
+            }
+
+    transport = InvalidThenValidTransport()
+    output = tmp_path / "semantic-failure-continues-run"
+    result = runner.execute(
+        registry_path=registry_path,
+        package_root=package_root,
+        output_root=output,
+        model="qwen3.8-flash",
+        case_ids=["case_03_cool_pan_matched_a_divergence"],
+        allow_model_calls=True,
+        expected_registry_sha256=registry_sha,
+        expected_package_manifest_sha256=package_sha,
+        transport_factory=lambda: transport,
+    )
+
+    assert transport.calls == 3
+    assert result["model_api_calls"] == 3
+    assert [
+        row["status"] for row in phase2a.read_json(output / "run_summary.json")["episodes"]
+    ] == [
+        "failed_closed",
+        "complete",
+    ]
+
+
 def test_prepare_only_path_does_not_enter_executor(monkeypatch, capsys, tmp_path: Path):
     def forbidden_execute(**_kwargs):
         raise AssertionError("prepare-only must not invoke execution")

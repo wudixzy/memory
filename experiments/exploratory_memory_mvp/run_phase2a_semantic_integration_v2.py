@@ -16,6 +16,17 @@ class RunnerError(RuntimeError):
     """Raised on local Phase 2A runner or identity errors."""
 
 
+class ExecutionInfrastructureFailure(RunnerError):
+    """A request/host infrastructure failure; the current run must stop."""
+
+    def __init__(self, category: str, phase: str, error_class: str):
+        super().__init__(f"{category} during {phase} ({error_class})")
+        self.category = category
+        self.phase = phase
+        self.error_class = error_class
+        self.episode_status: dict[str, Any] | None = None
+
+
 def _parse_object(raw: str, label: str) -> dict[str, Any]:
     try:
         parsed = json.loads(raw)
@@ -73,13 +84,22 @@ def _request_stage(
         },
     )
     on_call_started(phase)
-    response = client.complete(
-        messages,
-        phase=phase,
-        max_tokens=None,
-        output_token_reservation=4096,
-        response_format=protocol.response_format(phase.replace("-", "_"), schema),
-    )
+    try:
+        response = client.complete(
+            messages,
+            phase=phase,
+            max_tokens=None,
+            output_token_reservation=4096,
+            response_format=protocol.response_format(phase.replace("-", "_"), schema),
+        )
+    except Exception as exc:
+        # Semantic/schema failures happen after a response is returned and are
+        # handled below as episode evidence. A failure while making or
+        # accounting for the provider request is different: preserve it and
+        # stop the model run rather than starting another episode.
+        raise ExecutionInfrastructureFailure(
+            "model_request_failure", phase, type(exc).__name__
+        ) from None
     raw = response.get("content")
     if not isinstance(raw, str):
         raise RunnerError(f"{phase} response has no visible content")
@@ -273,6 +293,17 @@ def _run_episode(
             target / "audit/a_stage2_usage.json", _phase_usage(client.usage.summary(), "a_stage2")
         )
         status.update(status="complete", a_stage2="accepted")
+    except ExecutionInfrastructureFailure as exc:
+        _persist_infrastructure_failure(target, status, client, exc)
+        raise
+    except OSError as exc:
+        infrastructure_failure = ExecutionInfrastructureFailure(
+            "host_io_failure",
+            status.get("in_progress_phase", "episode_setup"),
+            type(exc).__name__,
+        )
+        _persist_infrastructure_failure(target, status, client, infrastructure_failure)
+        raise infrastructure_failure from None
     except Exception as exc:  # preserve one failed scientific replay without retry
         status.update(
             status="failed_closed",
@@ -286,6 +317,39 @@ def _run_episode(
         protocol.write_json(target / "audit/usage.json", client.usage.summary())
     protocol.write_json(target / "episode_summary.json", status)
     return status
+
+
+def _persist_infrastructure_failure(
+    target: Path,
+    status: dict[str, Any],
+    client: Any,
+    exc: ExecutionInfrastructureFailure,
+) -> None:
+    """Persist one infrastructure failure without exposing provider details."""
+
+    status.update(
+        status="infrastructure_failed",
+        failure_stage=exc.phase,
+        failure_category=exc.category,
+        error_class=exc.error_class,
+    )
+    usage = client.usage.summary()
+    protocol.write_json(
+        target / "failure.json",
+        {
+            "status": "infrastructure_failed",
+            "failure_category": exc.category,
+            "phase": exc.phase,
+            "error_class": exc.error_class,
+            "retry": False,
+        },
+    )
+    protocol.write_json(
+        target / "audit" / f"{exc.phase}_usage.json", _phase_usage(usage, exc.phase)
+    )
+    protocol.write_json(target / "audit/usage.json", usage)
+    protocol.write_json(target / "episode_summary.json", status)
+    exc.episode_status = dict(status)
 
 
 def select_cases(
@@ -384,16 +448,60 @@ def execute(
 
     for case in selected_cases:
         for episode in case["episodes"]:
-            result = _run_episode(
-                client=client,
-                model=model,
-                repo_root=repo_root,
-                package_root=package_root,
-                output_root=output_root,
-                case=case,
-                episode=episode,
-                on_call_started=persist_call_start,
-            )
+            try:
+                result = _run_episode(
+                    client=client,
+                    model=model,
+                    repo_root=repo_root,
+                    package_root=package_root,
+                    output_root=output_root,
+                    case=case,
+                    episode=episode,
+                    on_call_started=persist_call_start,
+                )
+            except ExecutionInfrastructureFailure as exc:
+                if exc.episode_status is None:
+                    raise RunnerError(
+                        "infrastructure failure occurred before episode failure artifacts "
+                        "were persisted"
+                    ) from None
+                results.append(exc.episode_status)
+                run_manifest.update(
+                    execution_status="stopped_infrastructure_failure",
+                    stop_reason={
+                        "category": exc.category,
+                        "phase": exc.phase,
+                        "error_class": exc.error_class,
+                        "retry": False,
+                    },
+                    interrupted_episode={
+                        "case_id": case["case_id"],
+                        "episode_key": episode["episode_key"],
+                    },
+                    completed_episodes=sum(row.get("status") == "complete" for row in results),
+                    failed_closed_episodes=sum(
+                        row.get("status") == "failed_closed" for row in results
+                    ),
+                    infrastructure_failed_episodes=sum(
+                        row.get("status") == "infrastructure_failed" for row in results
+                    ),
+                    remaining_not_started_episodes=(run_manifest["episode_count"] - len(results)),
+                    usage=client.usage.summary(),
+                    cost_estimate="not_estimated_no_pricing_inference",
+                )
+                protocol.write_json(
+                    output_root / "run_summary.json",
+                    {
+                        "execution_status": run_manifest["execution_status"],
+                        "stop_reason": run_manifest["stop_reason"],
+                        "episodes": results,
+                    },
+                )
+                protocol.write_json(output_root / "run_manifest.json", run_manifest)
+                raise RunnerError(
+                    f"{exc}; run stopped after preserving the failed episode; "
+                    "remaining episodes were not started"
+                ) from None
             results.append(result)
             run_manifest["completed_episodes"] = sum(
                 row.get("status") == "complete" for row in results
