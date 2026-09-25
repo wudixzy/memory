@@ -1,4 +1,20 @@
-# CURRENT REVIEW STATUS — 2026-09-25: Phase 2B Native Core
+# CURRENT REVIEW STATUS — 2026-09-25: Phase 2B Round 1 Interrupted
+
+The fixed 24-trajectory corpus is complete. Flash calibration Round 1 stopped
+at task 8 after a transport failure recorded as `DashScopeError`; six earlier
+A outputs were rejected by the frozen validator. The stream is incomplete and
+does not support a tuning decision. See
+`docs/142_phase2b_round1_infrastructure_interruption.md`.
+
+No automatic retry/resume, task 9+, Round 2/3, Max sanity, or holdout run is
+authorized. No further model/API calls are authorized pending researcher
+direction. Phase 2C, Phase 2A-X execution, formal evaluation, and Method v1
+freeze have not occurred. Phase 2A-X remains
+`FROZEN_OPTIONAL_DIAGNOSTIC`.
+
+---
+
+# Historical authorization before Round 1 — 2026-09-25
 
 The active work is Phase 2B native Persistent Memory implementation and bounded
 development tuning. Follow `docs/140_phase2b_native_memory_core_plan.md` and

@@ -1,4 +1,19 @@
-# 2026-09-25 CURRENT HANDOFF UPDATE — Phase 2B Native Core
+# 2026-09-25 CURRENT HANDOFF UPDATE — Phase 2B Round 1 Interrupted
+
+The 24-trajectory development corpus completed. The first Flash calibration
+stream stopped at task 8 with a transport artifact classified as
+`DashScopeError`; six prior A outputs failed the frozen semantic/schema
+validator. This is an incomplete Round 1, not a tuning result or Phase 2B gate.
+See `docs/142_phase2b_round1_infrastructure_interruption.md` for exact counts,
+digests, and runtime paths. No task was retried or resumed, and no task 9 or
+later Phase 2B run was started. No further model/API call is authorized until
+the researcher decides how to proceed. Phase 2C, formal evaluation, and Method
+v1 freeze remain unauthorized/incomplete. Phase 2A-X remains
+`FROZEN_OPTIONAL_DIAGNOSTIC`.
+
+---
+
+# Historical authorization before Round 1 — 2026-09-25
 
 Researcher authorization has moved the active line from the Phase 2A-X optional
 cross-feed diagnostic to **Phase 2B — Native Persistent Memory Core**. Phase

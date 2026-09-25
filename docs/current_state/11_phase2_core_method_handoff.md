@@ -38,13 +38,21 @@ authorized there may proceed.
 
 # 11. Phase 2 Core Method Handoff — 全局设计、证据边界与当前接手任务
 
-> 更新时间：2026-09-23
+> 当前更新：2026-09-25 — Phase 2B Round 1 interrupted at calibration task 8.
+> The 24-task corpus completed; six A responses failed frozen validation and
+> task 8 A ended with a privacy-safe `DashScopeError` transport artifact. The
+> run is incomplete, no retry/resume was attempted, and no further model/API
+> calls are authorized pending researcher direction. See docs/142. Phase 2C,
+> Phase 2A-X execution, formal evaluation, and Method v1 freeze remain
+> unauthorized/incomplete.
+>
+> 历史更新时间：2026-09-23
 > Active branch：exp/minimal-exploratory-memory-validation
 > Frozen Phase 2A v1 preparation baseline：2dd673be18866fdc283f9fbc592433e32936e9b6
-> 当前状态：Phase 2A v2 primary Flash/Max replay and semantic review complete；gate = `CROSS_MODEL_REGIME_REMAINS`（docs/133–134）
-> 当前授权：primary authorization 已用完；目前没有后续模型/API 调用授权，不得运行 secondary 或进入 Phase 2B/2C/2D。
+> 当前状态：Phase 2B full-trajectory corpus complete; Flash Round 1 incomplete after task 8 transport failure (docs/142).
+> 当前授权：Phase 2B calibration authorization paused at the recorded interruption; no automatic retry, resume, or further model/API calls are authorized pending researcher direction.
 
-> **Current status supersedes the historical blocker sections below:** v1 preparation and v2 hardening remain immutable. Primary runs completed on frozen inputs; Max provenance is segmented, with one disclosed unknown-result Stage 1 reissue and one separately authorized isolated A recovery. The semantic review found useful grounded learning but persistent same-input cross-model divergence in mutation authority and boundary treatment. No secondary cases were run; Phase 2B is not authorized. The next action is researcher review, not another run or tuning cycle.
+> **Historical Phase 2A status note (superseded by the current update above):** v1 preparation and v2 hardening remain immutable. Primary runs completed on frozen inputs; Max provenance is segmented, with one disclosed unknown-result Stage 1 reissue and one separately authorized isolated A recovery. The semantic review found useful grounded learning but persistent same-input cross-model divergence in mutation authority and boundary treatment. At that point, no secondary cases or Phase 2B runs had occurred. The subsequent Phase 2B corpus and interrupted Round 1 are recorded in docs/142.
 
 本文是当前项目的主接手文档。它的目的不是再次从头设计方法，而是让新的研究者 / coding-agent 在进入代码前先继承已经完成的概念设计、历史实验和证据边界。
 
