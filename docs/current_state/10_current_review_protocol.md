@@ -1,3 +1,9 @@
+# CURRENT REVIEW STATUS — 2026-09-25
+
+Phase 2A-X no-model preparation is frozen in `docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md` after the Phase 2A gate `CROSS_MODEL_REGIME_REMAINS`. All 15 primary source appearances are bound to existing FF/MM results; 30 future off-diagonal FM/MF A calls are prepared. No model/API call occurred in preparation. Cross-feed execution requires separate researcher authorization; do not run secondary cases or Phase 2B/C/D.
+
+---
+
 # ACTIVE REVIEW PROTOCOL — Phase 2A Primary Semantic Review Complete (2026-09-23)
 
 The frozen Phase 2A v2 primary Flash/Max replay and semantic review are complete. Execution facts are in `docs/133`; the semantic assessment and gate are in `docs/134`.

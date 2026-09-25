@@ -1,3 +1,19 @@
+# Current update — 2026-09-25: Phase 2A-X preparation frozen
+
+The no-model Phase 2A-X Stage1/A cross-feed package is prepared and frozen in
+`docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md`. It binds all
+15 Phase 2A primary `source_episode_ref` appearances, the existing FF/MM
+outputs (including the separately authorized Pan/Max A recovery while
+preserving its original corrupt response), and future FM/MF placeholders.
+Preparation made zero model/API calls and started zero environment episodes.
+
+Current gate remains `CROSS_MODEL_REGIME_REMAINS`. The only prepared future
+execution is 30 off-diagonal A calls; it is not authorized until a separate
+researcher decision. No Stage1 rerun, diagonal rerun, secondary case,
+Phase 2B/C/D, or formal evaluation is authorized.
+
+---
+
 # 11. Phase 2 Core Method Handoff — 全局设计、证据边界与当前接手任务
 
 > 更新时间：2026-09-23

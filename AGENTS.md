@@ -1,3 +1,27 @@
+# CURRENT CYCLE UPDATE — 2026-09-25
+
+Phase 2A-X Stage1/A cross-feed preparation is frozen in
+`docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md`. It covers
+the same 15 Phase 2A primary source appearances and prepares only FM/MF; no
+model/API call or environment episode was run during preparation. The 30
+off-diagonal A calls are **not authorized** until a separate researcher
+decision. Phase 2A remains `CROSS_MODEL_REGIME_REMAINS`; no Phase 2B/C/D or
+formal evaluation is authorized.
+
+~~~text
+PHASE2AX_PREPARATION_FROZEN_WAITING_FOR_RESEARCHER_EXECUTION_AUTHORIZATION
+~~~
+
+Read first:
+
+1. `docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md`
+2. `docs/134_phase2a_primary_semantic_review.md`
+3. `docs/133_phase2a_primary_execution_results.md`
+4. `docs/current_state/11_phase2_core_method_handoff.md`
+5. `docs/128_phase2_core_method_integration_validation_plan.md`
+
+---
+
 # ACTIVE CYCLE UPDATE — 2026-09-23
 
 Phase 2A v2 primary Flash/Max replay and semantic review are complete. The
