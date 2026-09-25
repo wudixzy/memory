@@ -1,3 +1,30 @@
+# CURRENT CYCLE UPDATE — 2026-09-25: Phase 2B Native Core
+
+The active line is Phase 2B native Persistent Memory implementation and
+bounded development tuning, inheriting the historical Stage1 → Candidate +
+Support → Stage2/A → Text/Graph/Support design. The implementation/corpus
+transition is being frozen in `docs/141_phase2b_initialization_and_implementation_transition.md`.
+No model/API call or ALFWorld action is permitted before that transition is
+committed and pushed. Afterward, the researcher has authorized the fixed
+24-trajectory development corpus, at most three Flash calibration rounds, and
+one final Flash holdout plus eight-trajectory Max sanity check, exactly as
+specified in `docs/140_phase2b_native_memory_core_plan.md`.
+
+Phase 2A-X remains `FROZEN_OPTIONAL_DIAGNOSTIC`: do not run FM/MF. Phase 2B
+does not include B/C/H, comparison-ledger redesign, formal evaluation, or a
+formal-population claim. The selected corpus is development-only and
+confirmatory-ineligible.
+
+Read first for the active implementation:
+
+1. `docs/141_phase2b_initialization_and_implementation_transition.md`
+2. `docs/140_phase2b_native_memory_core_plan.md`
+3. `docs/current_state/11_phase2_core_method_handoff.md`
+4. `docs/current_state/02_method_architecture.md`
+5. `docs/current_state/03_component_contracts.md`
+
+---
+
 # CURRENT CYCLE UPDATE — 2026-09-25
 
 Phase 2A-X Stage1/A cross-feed preparation is frozen in

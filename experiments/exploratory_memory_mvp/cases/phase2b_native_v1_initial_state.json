@@ -1,0 +1,212 @@
+{
+  "snapshot_version": "phase2b-native-cold-start-snapshot-v1",
+  "state": {
+    "established_memories": [],
+    "exploration_history": [],
+    "exploratory_memory": [],
+    "graph_relations": [],
+    "memory_versions": [],
+    "next_task_index": 0,
+    "protocol_version": "phase2b-native-memory-v1",
+    "schema_version": "phase2b-native-state-v1",
+    "semantic_concepts": [],
+    "support_binding_events": [],
+    "support_bindings": [],
+    "support_log": [],
+    "tool_scaffold": {
+      "operations": [
+        {
+          "description": "Inspect the current location and nearby objects.",
+          "name": "look",
+          "operation_id": "operation-look",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "look"
+        },
+        {
+          "description": "Inspect what the agent is currently carrying.",
+          "name": "inventory",
+          "operation_id": "operation-inventory",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "inventory"
+        },
+        {
+          "description": "Navigate to a visible receptacle/location.",
+          "name": "go to",
+          "operation_id": "operation-go-to",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "go to <receptacle_id>"
+        },
+        {
+          "description": "Open a closed openable receptacle at the current location.",
+          "name": "open",
+          "operation_id": "operation-open",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "open <receptacle_id>"
+        },
+        {
+          "description": "Close an open receptacle at the current location.",
+          "name": "close",
+          "operation_id": "operation-close",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "close <receptacle_id>"
+        },
+        {
+          "description": "Examine a visible receptacle or object.",
+          "name": "examine",
+          "operation_id": "operation-examine",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "examine <entity_id>"
+        },
+        {
+          "description": "Take a visible object from a receptacle.",
+          "name": "take",
+          "operation_id": "operation-take",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "take <object_id> from <receptacle_id>"
+        },
+        {
+          "description": "Put the carried object in or on a receptacle.",
+          "name": "put",
+          "operation_id": "operation-put",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "put <object_id> in/on <receptacle_id>"
+        },
+        {
+          "description": "Use a visible usable object.",
+          "name": "use",
+          "operation_id": "operation-use",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "use <object_id>"
+        },
+        {
+          "description": "Clean a carried object with a receptacle.",
+          "name": "clean",
+          "operation_id": "operation-clean",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "clean <object_id> with <receptacle_id>"
+        },
+        {
+          "description": "Heat a carried object with a receptacle.",
+          "name": "heat",
+          "operation_id": "operation-heat",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "heat <object_id> with <receptacle_id>"
+        },
+        {
+          "description": "Cool a carried object with a receptacle.",
+          "name": "cool",
+          "operation_id": "operation-cool",
+          "source": "environment-defined ACTION_SCHEMA",
+          "syntax": "cool <object_id> with <receptacle_id>"
+        }
+      ],
+      "relations": [
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-c44670af6dcc344eb260",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-look"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-7e9ab32671a4672bae28",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-inventory"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-28733550e40e5f3297ba",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-go-to"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-b9941cfb9577ad02da18",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-open"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-224d44a7af6c7154217b",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-close"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-e8b988562d3f628043bf",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-examine"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-7b5c2582c9062aaf4bfb",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-take"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-f4b5d731d7f1dc2d0484",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-put"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-5f7ad537ddb561c8eddb",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-use"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-5e3f02a352d96f6c3922",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-clean"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-8f8029410fb61418cee3",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-heat"
+        },
+        {
+          "active": true,
+          "provenance": "environment-defined ACTION_SCHEMA",
+          "relation_id": "relation-b5b80ba7968a77bb98fd",
+          "relation_type": "HAS_OPERATION",
+          "source_id": "tool-alfworld-textworld-v1",
+          "target_id": "operation-cool"
+        }
+      ],
+      "tools": [
+        {
+          "name": "ALFWorld TextWorld",
+          "source": "pinned carrier schema",
+          "tool_id": "tool-alfworld-textworld-v1"
+        }
+      ]
+    },
+    "trajectory_store": []
+  },
+  "state_sha256": "b2d7908969272fac1cefbd8e9c7586a31423f3541d8014800b32437210a72c89"
+}

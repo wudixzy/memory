@@ -14,6 +14,28 @@ Phase 2B/C/D, or formal evaluation is authorized.
 
 ---
 
+# CURRENT HANDOFF UPDATE — 2026-09-25: Phase 2B Native Core
+
+The researcher has explicitly shifted the active line to **Phase 2B — Native
+Persistent Memory Core Implementation & Bounded Tuning**. Phase 2A-X remains
+`FROZEN_OPTIONAL_DIAGNOSTIC`; preserve its preparation and do not execute it.
+The inherited method design remains unchanged: native `G_tool` cold start,
+complete real trajectory → Stage1 Open Mining → Candidate + native Support →
+Stage2/A local reconciliation → Text Memory ∥ Semantic Graph ∥ Support.
+Exploratory B/C/H are deferred and are not part of Phase 2B.
+
+The frozen implementation plan is `docs/140_phase2b_native_memory_core_plan.md`;
+the no-model preparation/transition is recorded in
+`docs/141_phase2b_initialization_and_implementation_transition.md`. The fixed
+corpus has 24 development-only trajectories (12 calibration, 12 holdout),
+disjoint from the 13 task identities with already-saved terminal full-task
+traces. Formal Population Admission remains separate and unresolved. No
+model/API call or environment action is allowed before the immutable
+transition is committed and pushed; after it, only the bounded Phase 2B runs
+authorized there may proceed.
+
+---
+
 # 11. Phase 2 Core Method Handoff — 全局设计、证据边界与当前接手任务
 
 > 更新时间：2026-09-23

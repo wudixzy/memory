@@ -1,3 +1,19 @@
+# CURRENT REVIEW STATUS — 2026-09-25: Phase 2B Native Core
+
+The active work is Phase 2B native Persistent Memory implementation and bounded
+development tuning. Follow `docs/140_phase2b_native_memory_core_plan.md` and
+the immutable implementation transition `docs/141_phase2b_initialization_and_implementation_transition.md`.
+Before the transition is committed/pushed, model/API calls and environment
+actions remain prohibited. Once it is pushed, the researcher has authorized
+only the frozen development corpus, at most three Flash calibration rounds,
+and final Flash holdout plus the fixed eight-trajectory Max sanity check.
+
+Phase 2A-X remains `FROZEN_OPTIONAL_DIAGNOSTIC`; do not run its 30 FM/MF calls.
+Phase 2B excludes B/C/H and formal evaluation. The selected task IDs are
+development-only/confirmatory-ineligible; no formal reserve is claimed.
+
+---
+
 # CURRENT REVIEW STATUS — 2026-09-25
 
 Phase 2A-X no-model preparation is frozen in `docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md` after the Phase 2A gate `CROSS_MODEL_REGIME_REMAINS`. All 15 primary source appearances are bound to existing FF/MM results; 30 future off-diagonal FM/MF A calls are prepared. No model/API call occurred in preparation. Cross-feed execution requires separate researcher authorization; do not run secondary cases or Phase 2B/C/D.

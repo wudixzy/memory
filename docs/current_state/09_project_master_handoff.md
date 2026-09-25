@@ -1,3 +1,23 @@
+# 2026-09-25 CURRENT HANDOFF UPDATE — Phase 2B Native Core
+
+Researcher authorization has moved the active line from the Phase 2A-X optional
+cross-feed diagnostic to **Phase 2B — Native Persistent Memory Core**. Phase
+2A-X remains frozen and unexecuted. The current Phase 2B preparation implements
+native cold start, full-task Stage1, Candidate + runner-bound native Support,
+conservative Stage2/A, Text/Graph/Concept/Support storage, and a fixed
+development-only corpus. The implementation and population are frozen by
+`docs/141_phase2b_initialization_and_implementation_transition.md` before any
+model/API call or environment action.
+
+After that transition is pushed, the explicit authorization covers the fixed
+24-task full-trajectory collector, up to three Flash calibration rounds, then
+one clean Flash holdout and eight-trajectory Max sanity check. No B/C/H,
+formal evaluation, or fresh confirmatory population is included. The selected
+tasks are confirmatory-ineligible; Formal Population Admission remains a
+separate future blocker. Method v1 is not frozen yet.
+
+---
+
 > **2026-09-25 CURRENT HANDOFF UPDATE:** Phase 2A-X no-model Stage1/A cross-feed preparation is frozen in `docs/139_phase2ax_crossfeed_attribution_plan_and_transition.md`. It binds all 15 primary source appearances, validates existing FF/MM outputs, and prepares 30 off-diagonal FM/MF A calls. Preparation made zero model/API calls. The Phase 2A gate remains `CROSS_MODEL_REGIME_REMAINS`; cross-feed execution, secondary cases, Phase 2B/C/D, and formal evaluation are not authorized pending a separate researcher decision.
 
 > **Historical 2026-09-23 CURRENT HANDOFF UPDATE:** Phase 2A v1 and the hardened v2 package/transition remain frozen. The authorized v2 primary Flash/Max replay is complete; execution integrity and segmented Max/recovery provenance are documented in `docs/133`, and semantic review/gate in `docs/134`. Current gate: `CROSS_MODEL_REGIME_REMAINS`. Same-source inputs produced useful learning but materially different Candidate/A mutation and boundary expression; this is not a claim that either backbone is correct. No secondary replay or Phase 2B/C/D was run. The primary authorization is spent; no further model/API call or experiment is currently authorized. Await researcher review. Do not tune, reopen Graph/comparison-ledger architecture, or modify historical artifacts.
