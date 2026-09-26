@@ -1,3 +1,25 @@
+# CURRENT HANDOFF UPDATE — 2026-09-27: Phase 2B Round1 contract repair
+
+The active task is no longer infrastructure resume. Round1-v1 is frozen as
+contract-shakedown evidence. Review found a model-facing A contract mismatch:
+schema cardinality and Support-binding affordances were looser/different from
+the post-validator, producing six rejections among seven visible A outputs.
+
+Current sequence:
+
+```text
+saved-output 0-call audit
+-> A contract repair
+-> tests / Stage1-cache plan
+-> immutable Round1-v2 transition
+-> researcher review
+-> future clean-cold-start Round1-v2
+```
+
+No model/API call is currently authorized. See docs/143–144.
+
+---
+
 # Current update — 2026-09-25: Phase 2A-X preparation frozen
 
 The no-model Phase 2A-X Stage1/A cross-feed package is prepared and frozen in

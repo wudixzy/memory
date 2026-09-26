@@ -1,3 +1,32 @@
+# CURRENT REVIEW STATUS — 2026-09-27: Round1-v1 is contract-shakedown evidence
+
+Current decision:
+
+```text
+PHASE2B_INFRASTRUCTURE_WORKS
+ROUND1_A_CONTRACT_BLOCKER
+```
+
+The task-8 DashScopeError remains preserved infrastructure evidence, but it is
+not the main blocker. Six of seven visible A outputs were rejected because the
+frozen model-facing schema/prompt did not fully encode the same target-cardinality
+and evidence-binding rules enforced by the deterministic validator.
+
+Do not resume the old stream. First perform the zero-call saved-output audit and
+repair specified in docs/143. Round1-v1 is not counted as one of the three
+bounded tuning rounds. No new model/API call is authorized until a corrected
+Round1-v2 transition is committed and reviewed.
+
+Read first:
+
+- docs/143_phase2b_round1_contract_shakedown_and_recovery_plan.md
+- docs/144_phase2b_round1_contract_repair_handoff.md
+- docs/142_phase2b_round1_infrastructure_interruption.md
+- docs/141_phase2b_initialization_and_implementation_transition.md
+- docs/140_phase2b_native_memory_core_plan.md
+
+---
+
 # CURRENT REVIEW STATUS — 2026-09-25: Phase 2B Round 1 Interrupted
 
 The fixed 24-trajectory corpus is complete. Flash calibration Round 1 stopped

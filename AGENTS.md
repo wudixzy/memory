@@ -1,3 +1,33 @@
+# CURRENT CYCLE UPDATE — 2026-09-27: Phase 2B Round1 Contract Repair
+
+Researcher review reclassified the interrupted Round1-v1 stream as:
+
+```text
+PHASE2B_INFRASTRUCTURE_WORKS
+ROUND1_A_CONTRACT_BLOCKER
+ROUND1_V1_CONTRACT_SHAKEDOWN_INCOMPLETE
+```
+
+The 24-trajectory corpus, cold-start path, native factual Support path, and
+full-task Stage1 mechanical path are retained. The dominant issue is not the
+task-8 DashScope interruption: six of seven visible A outputs were rejected
+under a model-facing schema/prompt contract that does not fully match the
+post-validator.
+
+Current work is defined by
+`docs/143_phase2b_round1_contract_shakedown_and_recovery_plan.md` and
+`docs/144_phase2b_round1_contract_repair_handoff.md`.
+
+Authorization is **no-model only**: audit saved Stage1/A outputs, repair the A
+model-facing contract, add tests/cache preparation, freeze a Round1-v2
+transition, push, and stop. Do not resume Round1-v1, recover task 8, make new
+Stage1/A calls, start Round 2/3/holdout/Max, run Phase2A-X, or enter Phase 2C.
+
+Round1-v1 does not consume a tuning round. The future official Round 1 will be
+Round1-v2 from clean cold start.
+
+---
+
 # CURRENT CYCLE UPDATE — 2026-09-25: Phase 2B Round 1 Interrupted
 
 The fixed Phase 2B corpus completed (24/24 full trajectories). Flash Round 1
