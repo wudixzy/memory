@@ -7,7 +7,11 @@ from pathlib import Path
 import pytest
 
 from experiments.exploratory_memory_mvp.phase2b_native_memory import (
+    A_PROMPT_VERSIONS,
+    A_SCHEMA_VERSION,
+    A_SYSTEM_PROMPT_R1,
     Phase2BNativeError,
+    a_schema,
     add_graph_relation,
     add_trajectory,
     apply_a_result,
@@ -94,8 +98,13 @@ def _stage1_candidate(event_ref: str = "event-0002") -> dict:
 def _a_no_change() -> dict:
     return {
         "decision": "NO_CHANGE",
-        "memory_updates": [],
-        "support_updates": [],
+        "creates": [],
+        "updates": [],
+        "retires": [],
+        "support_only_bindings": [],
+        "existing_support_binds": [],
+        "existing_support_unbinds": [],
+        "existing_support_rebinds": [],
         "unresolved_boundary": [],
         "concept_updates": [],
         "graph_updates": [],
@@ -252,20 +261,18 @@ def test_support_view_limit_is_global_across_selected_memories():
     assert view[1]["records"] == []
 
 
-def test_a_requires_bound_support_for_claim_mutation_and_allows_support_only_no_change():
+def test_a_create_binds_current_evidence_and_support_only_is_separate():
     state = initialize_state()
     current_support_id = "support-current"
     valid_update = {
         **_a_no_change(),
         "decision": "UPDATE",
-        "memory_updates": [
+        "creates": [
             {
-                "operation": "CREATE",
-                "target_memory_ids": [],
                 "scope": "open surfaces in this task family",
                 "guidance": "Use the visible open surface when the target is observed there.",
-                "support_ids": [current_support_id],
-                "support_relation": "SUPPORTS",
+                "evidence_support_ids": [current_support_id],
+                "evidence_relation": "SUPPORTS",
                 "reason": "The Candidate is directly grounded in this trajectory.",
             }
         ],
@@ -273,7 +280,8 @@ def test_a_requires_bound_support_for_claim_mutation_and_allows_support_only_no_
     accepted = validate_a_result(
         valid_update,
         active_memory_ids=[],
-        available_support_ids=[current_support_id],
+        current_support_ids=[current_support_id],
+        existing_support_ids=[],
         graph_enabled=False,
     )
     report = apply_a_result(state, accepted, trajectory_id="trajectory-one", task_index=1)
@@ -283,12 +291,12 @@ def test_a_requires_bound_support_for_claim_mutation_and_allows_support_only_no_
 
     support_only = {
         **_a_no_change(),
-        "support_updates": [
+        "support_only_bindings": [
             {
-                "operation": "BIND",
-                "support_ids": [current_support_id],
-                "memory_ids": [memory_id],
-                "relation": "BOUNDS",
+                "target_memory_id": memory_id,
+                "evidence_support_ids": ["support-current-2"],
+                "evidence_relation": "BOUNDS",
+                "reason": "The new trajectory bounds the existing claim.",
             }
         ],
     }
@@ -296,19 +304,21 @@ def test_a_requires_bound_support_for_claim_mutation_and_allows_support_only_no_
         validate_a_result(
             support_only,
             active_memory_ids=[memory_id],
-            available_support_ids=[current_support_id],
+            current_support_ids=["support-current-2"],
+            existing_support_ids=[],
             graph_enabled=False,
         )
         == support_only
     )
 
     invalid = copy.deepcopy(valid_update)
-    invalid["memory_updates"][0]["support_ids"] = []
-    with pytest.raises(Phase2BNativeError, match="evidence-bound Support"):
+    invalid["creates"][0]["evidence_support_ids"] = []
+    with pytest.raises(Phase2BNativeError, match="current evidence Support"):
         validate_a_result(
             invalid,
             active_memory_ids=[],
-            available_support_ids=[current_support_id],
+            current_support_ids=[current_support_id],
+            existing_support_ids=[],
             graph_enabled=False,
         )
 
@@ -346,14 +356,13 @@ def test_text_update_retire_preserve_versions_and_remove_live_graph_edges():
     update = {
         **_a_no_change(),
         "decision": "UPDATE",
-        "memory_updates": [
+        "updates": [
             {
-                "operation": "UPDATE",
-                "target_memory_ids": [memory["memory_id"]],
+                "target_memory_id": memory["memory_id"],
                 "scope": "narrower scope",
                 "guidance": "conditional guidance",
-                "support_ids": [support["support_id"]],
-                "support_relation": "BOUNDS",
+                "evidence_support_ids": [support["support_id"]],
+                "evidence_relation": "BOUNDS",
                 "reason": "A grounded refinement.",
             }
         ],
@@ -361,24 +370,21 @@ def test_text_update_retire_preserve_versions_and_remove_live_graph_edges():
     validated = validate_a_result(
         update,
         active_memory_ids=[memory["memory_id"]],
-        available_support_ids=[support["support_id"]],
+        current_support_ids=[support["support_id"]],
+        existing_support_ids=[],
         graph_enabled=False,
     )
     apply_a_result(state, validated, trajectory_id=trajectory_id, task_index=2)
     assert state["memory_versions"][0]["snapshot"]["guidance"] == "guidance 1"
     assert state["established_memories"][0]["guidance"] == "conditional guidance"
+    assert state["support_bindings"][-1]["support_id"] == support["support_id"]
 
     retire = {
         **_a_no_change(),
         "decision": "UPDATE",
-        "memory_updates": [
+        "retires": [
             {
-                "operation": "RETIRE",
-                "target_memory_ids": [memory["memory_id"]],
-                "scope": "",
-                "guidance": "",
-                "support_ids": [],
-                "support_relation": "UNBOUND",
+                "target_memory_id": memory["memory_id"],
                 "reason": "No longer active guidance.",
             }
         ],
@@ -388,7 +394,8 @@ def test_text_update_retire_preserve_versions_and_remove_live_graph_edges():
         validate_a_result(
             retire,
             active_memory_ids=[memory["memory_id"]],
-            available_support_ids=[support["support_id"]],
+            current_support_ids=[],
+            existing_support_ids=[],
             graph_enabled=False,
         ),
         trajectory_id=trajectory_id,
@@ -397,7 +404,282 @@ def test_text_update_retire_preserve_versions_and_remove_live_graph_edges():
     assert state["established_memories"][0]["status"] == "retired"
     assert state["memory_versions"][-1]["snapshot"]["status"] == "active"
     assert relation["active"] is False
+    assert not any(row["memory_id"] == memory["memory_id"] for row in state["support_bindings"])
     assert_graph_integrity(state)
+
+
+def test_a_schema_encodes_operation_specific_targets_and_current_evidence():
+    schema = a_schema(
+        memory_ids=["m1", "m2"],
+        current_support_ids=["current-1"],
+        existing_support_ids=["prior-1"],
+        graph_enabled=False,
+    )
+    properties = schema["properties"]
+    create = properties["creates"]["items"]["properties"]
+    update = properties["updates"]["items"]["properties"]
+    retire = properties["retires"]["items"]["properties"]
+    assert "target_memory_id" not in create
+    assert update["target_memory_id"] == {"type": "string", "enum": ["m1", "m2"]}
+    assert retire["target_memory_id"] == {"type": "string", "enum": ["m1", "m2"]}
+    for item in (create, update):
+        evidence = item["evidence_support_ids"]
+        assert evidence["minItems"] == 1
+        assert evidence["items"]["enum"] == ["current-1"]
+    assert properties["existing_support_binds"]["items"]["properties"]["support_ids"]["items"][
+        "enum"
+    ] == ["prior-1"]
+    bind_properties = properties["existing_support_binds"]["items"]["properties"]
+    unbind_properties = properties["existing_support_unbinds"]["items"]["properties"]
+    rebind_properties = properties["existing_support_rebinds"]["items"]["properties"]
+    assert "operation" not in bind_properties
+    assert bind_properties["relation"]["enum"] == ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"]
+    assert "relation" not in unbind_properties
+    assert rebind_properties["relation"]["enum"] == ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"]
+    assert "evidence_support_ids" not in retire
+    assert retire["target_memory_id"]["type"] == "string"
+    no_existing = a_schema(
+        memory_ids=[],
+        current_support_ids=["current-1"],
+        existing_support_ids=[],
+        graph_enabled=False,
+    )
+    assert no_existing["properties"]["updates"]["maxItems"] == 0
+    assert no_existing["properties"]["retires"]["maxItems"] == 0
+    assert no_existing["properties"]["support_only_bindings"]["maxItems"] == 0
+    assert A_SCHEMA_VERSION == "phase2b-a-operation-plan-v2"
+    assert A_PROMPT_VERSIONS[1] == "phase2b-stage2-local-reconciliation-v2"
+    for field in (
+        "creates[]",
+        "updates[]",
+        "retires[]",
+        "support_only_bindings[]",
+        "existing_support_binds[]",
+        "existing_support_unbinds[]",
+        "existing_support_rebinds[]",
+    ):
+        assert field in A_SYSTEM_PROMPT_R1
+
+
+def test_a_semantic_merge_compiles_to_update_canonical_plus_retire_redundant():
+    state = initialize_state()
+    canonical, redundant = _memory("m1", 1), _memory("m2", 2)
+    state["established_memories"].extend([canonical, redundant])
+    state["support_log"].append(
+        {"support_id": "prior-1", "trajectory_id": "old", "immutable": True}
+    )
+    state["support_bindings"].append(
+        {"support_id": "prior-1", "memory_id": "m2", "relation": "SUPPORTS"}
+    )
+    merge_plan = {
+        **_a_no_change(),
+        "decision": "UPDATE",
+        "updates": [
+            {
+                "target_memory_id": "m1",
+                "scope": "combined scope",
+                "guidance": "combined guidance",
+                "evidence_support_ids": ["current-1"],
+                "evidence_relation": "BOUNDS",
+                "reason": "Update the canonical memory and retire its duplicate.",
+            }
+        ],
+        "retires": [
+            {"target_memory_id": "m2", "reason": "Its useful content is represented by m1."}
+        ],
+    }
+    accepted = validate_a_result(
+        merge_plan,
+        active_memory_ids=["m1", "m2"],
+        current_support_ids=["current-1"],
+        existing_support_ids=["prior-1"],
+        active_support_bindings=state["support_bindings"],
+        graph_enabled=False,
+    )
+    report = apply_a_result(state, accepted, trajectory_id="new", task_index=3)
+    assert [item["operation"] for item in report["text_mutations"]] == ["UPDATE", "RETIRE"]
+    assert state["established_memories"][0]["guidance"] == "combined guidance"
+    assert state["established_memories"][1]["status"] == "retired"
+    assert all(row["memory_id"] != "m2" for row in state["support_bindings"])
+    assert any(
+        row["memory_id"] == "m1" and row["support_id"] == "current-1"
+        for row in state["support_bindings"]
+    )
+
+
+def test_a_rejects_conflicting_or_unbound_mutation_plans():
+    base = {
+        **_a_no_change(),
+        "decision": "UPDATE",
+        "updates": [
+            {
+                "target_memory_id": "m1",
+                "scope": "scope",
+                "guidance": "guidance",
+                "evidence_support_ids": ["current-1"],
+                "evidence_relation": "SUPPORTS",
+                "reason": "grounded",
+            }
+        ],
+    }
+    with pytest.raises(Phase2BNativeError, match="more than once"):
+        validate_a_result(
+            {**base, "retires": [{"target_memory_id": "m1", "reason": "retire too"}]},
+            active_memory_ids=["m1"],
+            current_support_ids=["current-1"],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
+    with pytest.raises(Phase2BNativeError, match="valid current evidence"):
+        validate_a_result(
+            {**base, "updates": [{**base["updates"][0], "evidence_support_ids": ["fake"]}]},
+            active_memory_ids=["m1"],
+            current_support_ids=["current-1"],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
+    with pytest.raises(Phase2BNativeError, match="historical Support IDs"):
+        validate_a_result(
+            {
+                **_a_no_change(),
+                "existing_support_binds": [
+                    {
+                        "support_ids": ["current-1"],
+                        "memory_ids": ["m1"],
+                        "relation": "SUPPORTS",
+                    }
+                ],
+            },
+            active_memory_ids=["m1"],
+            current_support_ids=["current-1"],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
+
+
+def test_historical_support_bind_unbind_rebind_are_separate_from_current_evidence():
+    state = initialize_state()
+    state["established_memories"].append(_memory("m1", 1))
+    state["support_log"].append(
+        {"support_id": "prior-1", "trajectory_id": "old", "immutable": True}
+    )
+    state["support_log"].append(
+        {"support_id": "prior-2", "trajectory_id": "older", "immutable": True}
+    )
+    state["support_bindings"].append(
+        {"support_id": "prior-1", "memory_id": "m1", "relation": "SUPPORTS"}
+    )
+    bind_only = {
+        **_a_no_change(),
+        "existing_support_binds": [
+            {
+                "support_ids": ["prior-2"],
+                "memory_ids": ["m1"],
+                "relation": "COUNTER_SUPPORTS",
+            }
+        ],
+    }
+    accepted = validate_a_result(
+        bind_only,
+        active_memory_ids=["m1"],
+        current_support_ids=["current-1"],
+        existing_support_ids=["prior-1", "prior-2"],
+        active_support_bindings=state["support_bindings"],
+        graph_enabled=False,
+    )
+    apply_a_result(state, accepted, trajectory_id="t2", task_index=2)
+    assert any(
+        row["support_id"] == "prior-2"
+        and row["memory_id"] == "m1"
+        and row["relation"] == "COUNTER_SUPPORTS"
+        for row in state["support_bindings"]
+    )
+
+    rebind = {
+        **_a_no_change(),
+        "existing_support_rebinds": [
+            {
+                "support_ids": ["prior-1"],
+                "memory_ids": ["m1"],
+                "relation": "BOUNDS",
+            }
+        ],
+    }
+    apply_a_result(
+        state,
+        validate_a_result(
+            rebind,
+            active_memory_ids=["m1"],
+            current_support_ids=[],
+            existing_support_ids=["prior-1"],
+            active_support_bindings=state["support_bindings"],
+            graph_enabled=False,
+        ),
+        trajectory_id="t3",
+        task_index=3,
+    )
+    assert any(
+        row["support_id"] == "prior-1" and row["relation"] == "BOUNDS"
+        for row in state["support_bindings"]
+    )
+
+    unbind = {
+        **_a_no_change(),
+        "existing_support_unbinds": [
+            {
+                "support_ids": ["prior-1"],
+                "memory_ids": ["m1"],
+            }
+        ],
+    }
+    apply_a_result(
+        state,
+        validate_a_result(
+            unbind,
+            active_memory_ids=["m1"],
+            current_support_ids=[],
+            existing_support_ids=["prior-1"],
+            active_support_bindings=state["support_bindings"],
+            graph_enabled=False,
+        ),
+        trajectory_id="t4",
+        task_index=4,
+    )
+    assert not any(
+        row["support_id"] == "prior-1" and row["memory_id"] == "m1"
+        for row in state["support_bindings"]
+    )
+
+
+def test_round1_rejects_graph_writes_and_update_must_be_nonempty():
+    with pytest.raises(Phase2BNativeError, match="Round 1 cannot mutate"):
+        validate_a_result(
+            {**_a_no_change(), "graph_updates": [{"operation": "ADD_RELATION"}]},
+            active_memory_ids=[],
+            current_support_ids=[],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
+    with pytest.raises(Phase2BNativeError, match="iff a Text mutation"):
+        validate_a_result(
+            {**_a_no_change(), "decision": "UPDATE"},
+            active_memory_ids=[],
+            current_support_ids=[],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
+    with pytest.raises(Phase2BNativeError, match="fields are invalid"):
+        validate_a_result(
+            {
+                "decision": "UPDATE",
+                "memory_updates": [],
+                "support_updates": [],
+            },
+            active_memory_ids=[],
+            current_support_ids=[],
+            existing_support_ids=[],
+            graph_enabled=False,
+        )
 
 
 def test_graph_relation_reactivation_keeps_one_stable_history_row():
@@ -514,14 +796,13 @@ def test_graph_context_is_local_bounded_and_includes_tool_capability_scaffold():
 
 def test_support_unbind_requires_an_explicit_target_and_graph_remove_schema_is_validatable():
     current = _a_no_change()
-    current["support_updates"] = [
-        {"operation": "UNBIND", "support_ids": ["s1"], "memory_ids": [], "relation": "UNBOUND"}
-    ]
-    with pytest.raises(Phase2BNativeError, match="UNBIND requires"):
+    current["existing_support_unbinds"] = [{"support_ids": ["s1"], "memory_ids": []}]
+    with pytest.raises(Phase2BNativeError, match="UNBIND requires active target memories"):
         validate_a_result(
             current,
             active_memory_ids=["m1"],
-            available_support_ids=["s1"],
+            current_support_ids=[],
+            existing_support_ids=["s1"],
             graph_enabled=False,
         )
 
@@ -549,7 +830,8 @@ def test_support_unbind_requires_an_explicit_target_and_graph_remove_schema_is_v
     accepted = validate_a_result(
         result,
         active_memory_ids=["m1"],
-        available_support_ids=[],
+        current_support_ids=[],
+        existing_support_ids=[],
         graph_enabled=True,
         active_graph_node_ids=["m1", op],
         active_relation_ids=relation_ids,

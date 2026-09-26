@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -131,8 +132,13 @@ def _stage1_output(payload: dict, *, invalid: bool = False) -> dict:
 def _a_output(payload: dict, *, create: bool) -> dict:
     result = {
         "decision": "NO_CHANGE",
-        "memory_updates": [],
-        "support_updates": [],
+        "creates": [],
+        "updates": [],
+        "retires": [],
+        "support_only_bindings": [],
+        "existing_support_binds": [],
+        "existing_support_unbinds": [],
+        "existing_support_rebinds": [],
         "unresolved_boundary": [],
         "concept_updates": [],
         "graph_updates": [],
@@ -142,16 +148,14 @@ def _a_output(payload: dict, *, create: bool) -> dict:
         result.update(
             {
                 "decision": "UPDATE",
-                "memory_updates": [
+                "creates": [
                     {
-                        "operation": "CREATE",
-                        "target_memory_ids": [],
                         "scope": "one observed task context",
                         "guidance": (
                             "Retain this conditional experience for a similar observed context."
                         ),
-                        "support_ids": [support_id],
-                        "support_relation": "SUPPORTS",
+                        "evidence_support_ids": [support_id],
+                        "evidence_relation": "SUPPORTS",
                         "reason": "The test uses a directly grounded fake semantic response.",
                     }
                 ],
@@ -160,7 +164,12 @@ def _a_output(payload: dict, *, create: bool) -> dict:
     return result
 
 
-def _install_fake_model(monkeypatch, *, invalid_stage1_index: int | None = None):
+def _install_fake_model(
+    monkeypatch,
+    *,
+    invalid_stage1_index: int | None = None,
+    invalid_a_index: int | None = None,
+):
     calls: list[str] = []
 
     def fake_call_model(*, messages, phase, **_kwargs):
@@ -170,6 +179,8 @@ def _install_fake_model(monkeypatch, *, invalid_stage1_index: int | None = None)
         index = int(phase.rsplit("_", 1)[1])
         if "_stage1_" in phase:
             result = _stage1_output(payload, invalid=index == invalid_stage1_index)
+        elif index == invalid_a_index:
+            result = {"decision": "UPDATE", "memory_updates": []}
         else:
             result = _a_output(payload, create=index == 1)
         return (
@@ -273,6 +284,29 @@ def test_invalid_stage1_event_reference_fails_closed_without_losing_facts_or_ret
     assert summary["status"] == "completed_with_semantic_failures"
 
 
+def test_invalid_a_contract_output_is_saved_once_and_never_materialized(
+    frozen_corpus, monkeypatch, tmp_path
+):
+    population, corpus = frozen_corpus
+    calls = _install_fake_model(monkeypatch, invalid_a_index=1)
+    output = tmp_path / "invalid-a"
+    summary = run_phase2b_native._run_stream(**_run_args(population, corpus, output))
+
+    first = summary["tasks"][0]
+    assert first["a_status"] == "failed_closed"
+    assert len([call for call in calls if call.endswith("_a_1")]) == 1
+    assert summary["model_calls"] == {"stage1": 12, "a": 12}
+    raw = json.loads((output / "tasks/001/a/parsed_model_output.json").read_text())
+    assert raw == {"decision": "UPDATE", "memory_updates": []}
+    validation = json.loads((output / "tasks/001/a/validation.json").read_text())
+    assert validation["accepted"] is False
+    after = json.loads((output / "tasks/001/state_after.json").read_text())
+    assert len(after["trajectory_store"]) == 1
+    assert len(after["support_log"]) == 1
+    assert after["established_memories"] == []
+    assert summary["status"] == "completed_with_semantic_failures"
+
+
 def test_round2_prevalidates_and_reuses_stage1_without_recalling_it(
     frozen_corpus, monkeypatch, tmp_path
 ):
@@ -291,6 +325,174 @@ def test_round2_prevalidates_and_reuses_stage1_without_recalling_it(
     assert len(calls) == 12
     assert all("_a_" in call for call in calls)
     assert (round2 / "tasks/001/stage1/reused_stage1.json").is_file()
+
+
+def test_round1v2_prefix_manifest_revalidates_saved_stage1_only_without_touching_v1(
+    tmp_path: Path,
+):
+    from experiments.exploratory_memory_mvp.run_phase2b_native import (
+        DEFAULT_ROUND1V2_STAGE1_PREFIX,
+        DEFAULT_STAGE1_CACHE,
+        DEFAULT_TRAJECTORY_ROOT,
+        _build_round1v2_stage1_prefix_manifest,
+        _file_sha256,
+        _load_verified_round1v2_stage1_prefix,
+    )
+
+    if not DEFAULT_STAGE1_CACHE.exists() or not DEFAULT_ROUND1V2_STAGE1_PREFIX.exists():
+        pytest.skip("local frozen Round1-v1 runtime is not available")
+    population = load_population(DEFAULT_POPULATION_PATH)
+    before_hashes = {
+        "config": _file_sha256(DEFAULT_STAGE1_CACHE / "run_config.json"),
+        "summary": _file_sha256(DEFAULT_STAGE1_CACHE / "stream_summary.json"),
+        "task1_stage1": _file_sha256(DEFAULT_STAGE1_CACHE / "tasks/001/stage1/parsed.json"),
+        "task7_a_raw": _file_sha256(DEFAULT_STAGE1_CACHE / "tasks/007/a/raw_response.json"),
+    }
+    rebuilt, stage1 = _build_round1v2_stage1_prefix_manifest(
+        population=population,
+        trajectory_root=DEFAULT_TRAJECTORY_ROOT,
+    )
+    saved = json.loads(DEFAULT_ROUND1V2_STAGE1_PREFIX.read_text(encoding="utf-8"))
+    assert rebuilt == saved
+    assert sorted(stage1) == list(range(1, 9))
+    assert all(task["old_a_outputs_reused"] is False for task in saved["source_tasks"])
+    assert all(
+        not any(name.startswith("a_") or "/a/" in name for name in task["source_files_sha256"])
+        for task in saved["source_tasks"]
+    )
+    verified, loaded = _load_verified_round1v2_stage1_prefix(
+        DEFAULT_ROUND1V2_STAGE1_PREFIX,
+        population=population,
+        trajectory_root=DEFAULT_TRAJECTORY_ROOT,
+    )
+    assert verified == saved
+    assert loaded == stage1
+    after_hashes = {
+        "config": _file_sha256(DEFAULT_STAGE1_CACHE / "run_config.json"),
+        "summary": _file_sha256(DEFAULT_STAGE1_CACHE / "stream_summary.json"),
+        "task1_stage1": _file_sha256(DEFAULT_STAGE1_CACHE / "tasks/001/stage1/parsed.json"),
+        "task7_a_raw": _file_sha256(DEFAULT_STAGE1_CACHE / "tasks/007/a/raw_response.json"),
+    }
+    assert before_hashes == after_hashes
+
+    corrupted_source = tmp_path / "round1-v1-copy"
+    shutil.copytree(DEFAULT_STAGE1_CACHE, corrupted_source)
+    parsed_path = corrupted_source / "tasks/001/stage1/parsed.json"
+    parsed = json.loads(parsed_path.read_text(encoding="utf-8"))
+    parsed["candidate"]["content"] += "tampered"
+    parsed_path.write_text(json.dumps(parsed), encoding="utf-8")
+    with pytest.raises(SchemaError):
+        _build_round1v2_stage1_prefix_manifest(
+            population=population,
+            trajectory_root=DEFAULT_TRAJECTORY_ROOT,
+            source_runtime=corrupted_source,
+        )
+
+
+def test_round1v2_prepare_only_checks_prefix_and_makes_zero_model_calls(
+    monkeypatch, tmp_path: Path
+):
+    from experiments.exploratory_memory_mvp.run_phase2b_native import (
+        DEFAULT_ROUND1V2_STAGE1_PREFIX,
+        DEFAULT_STAGE1_CACHE,
+        DEFAULT_TRAJECTORY_ROOT,
+        _file_sha256,
+    )
+
+    if not DEFAULT_STAGE1_CACHE.exists() or not DEFAULT_ROUND1V2_STAGE1_PREFIX.exists():
+        pytest.skip("local frozen Round1-v1 runtime is not available")
+    population = load_population(DEFAULT_POPULATION_PATH)
+    historical_paths = {
+        "phase1c": Path(
+            "artifacts/exploratory_memory_mvp/"
+            "phase1c-scale-pilot-v1-20260921-60c2474/stream_summary.json"
+        ),
+        "phase1d": Path(
+            "artifacts/exploratory_memory_mvp/"
+            "phase1d-long-horizon-v1-20260921-ac0bb2b/stream_summary.json"
+        ),
+        "phase1e": Path(
+            "artifacts/exploratory_memory_mvp/"
+            "phase1e-max-combined-reconstruction-v1-20260922/combined_stream_summary.json"
+        ),
+        "phase2a_flash": Path(
+            "artifacts/exploratory_memory_mvp/"
+            "phase2a-semantic-integration-v2-20260923-flash-primary/run_manifest.json"
+        ),
+        "phase2a_max_recovery": Path(
+            "artifacts/exploratory_memory_mvp/"
+            "phase2a-semantic-integration-v2-20260923-max-a-artifact-recovery/"
+            "recovery_manifest.json"
+        ),
+    }
+    historical_paths = {name: path for name, path in historical_paths.items() if path.is_file()}
+    if not any(name.startswith("phase1") for name in historical_paths) or not any(
+        name.startswith("phase2a") for name in historical_paths
+    ):
+        pytest.skip("local frozen Phase 1 and Phase 2A runtime artifacts are not available")
+    historical_hashes_before = {name: _file_sha256(path) for name, path in historical_paths.items()}
+
+    def forbidden_transport(*_args, **_kwargs):
+        raise AssertionError("prepare-only must not initialize a model transport")
+
+    monkeypatch.setattr(run_phase2b_native, "DashScopeChatTransport", forbidden_transport)
+    result = run_phase2b_native.prepare_only(
+        population=population,
+        trajectory_root=DEFAULT_TRAJECTORY_ROOT,
+        model="qwen3.8-flash",
+        round_number=1,
+        partition="calibration",
+        output=tmp_path / "not-created",
+        expected_population_digest=population["registry_sha256"],
+        round1_v2=True,
+        stage1_prefix_manifest=DEFAULT_ROUND1V2_STAGE1_PREFIX,
+    )
+    assert result["model_calls"] == 0
+    assert result["network_enabled"] is False
+    assert result["transport_initialized"] is False
+    assert result["reused_stage1_indices"] == list(range(1, 9))
+    assert result["fresh_stage1_indices"] == list(range(9, 13))
+    assert result["future_a_calls"] == 12
+    assert not (tmp_path / "not-created").exists()
+    assert historical_hashes_before == {
+        name: _file_sha256(path) for name, path in historical_paths.items()
+    }
+
+
+def test_round1v2_uses_eight_verified_stage1_outputs_then_four_fake_calls_and_fresh_a(
+    monkeypatch, tmp_path: Path
+):
+    from experiments.exploratory_memory_mvp.run_phase2b_native import (
+        DEFAULT_ROUND1V2_STAGE1_PREFIX,
+        DEFAULT_STAGE1_CACHE,
+        DEFAULT_TRAJECTORY_ROOT,
+    )
+
+    if not DEFAULT_STAGE1_CACHE.exists() or not DEFAULT_ROUND1V2_STAGE1_PREFIX.exists():
+        pytest.skip("local frozen Round1-v1 runtime is not available")
+    population = load_population(DEFAULT_POPULATION_PATH)
+    calls = _install_fake_model(monkeypatch)
+    args = {
+        **_run_args(
+            population,
+            DEFAULT_TRAJECTORY_ROOT,
+            tmp_path / "round1v2-fake",
+        ),
+        "round1_v2": True,
+        "stage1_prefix_manifest": DEFAULT_ROUND1V2_STAGE1_PREFIX,
+        "stage1_cache": None,
+    }
+    summary = run_phase2b_native._run_stream(**args)
+    assert summary["status"] == "complete"
+    assert summary["model_calls"] == {"stage1": 4, "a": 12}
+    assert len(calls) == 16
+    assert sum("_stage1_" in phase for phase in calls) == 4
+    assert sum("_a_" in phase for phase in calls) == 12
+    assert summary["round1_execution_version"] == "round1-v2-contract-repair"
+    assert (tmp_path / "round1v2-fake/tasks/001/stage1/reused_stage1.json").is_file()
+    assert (tmp_path / "round1v2-fake/tasks/008/stage1/raw_response.json").is_file()
+    assert not (tmp_path / "round1v2-fake/tasks/001/a/reused_stage1.json").exists()
+    assert (tmp_path / "round1v2-fake/tasks/001/a/parsed.json").is_file()
 
 
 def test_corpus_preflight_only_resets_public_tasks_and_never_steps(monkeypatch):

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import shutil
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -12,6 +14,7 @@ from .common import DEFAULT_ENV_FILE, write_json, write_jsonl
 from .model import DashScopeChatClient, DashScopeChatTransport, usage_report
 from .phase2b_native_memory import (
     A_PROMPT_VERSIONS,
+    A_SCHEMA_VERSION,
     A_SYSTEM_PROMPT_R1,
     A_SYSTEM_PROMPT_R2,
     PROTOCOL_VERSION,
@@ -61,6 +64,15 @@ MODEL_CONFIGS = {
 }
 DEFAULT_TRAJECTORY_ROOT = Path("artifacts/exploratory_memory_mvp/phase2b-native-corpus-v1")
 DEFAULT_STAGE1_CACHE = Path("artifacts/exploratory_memory_mvp/phase2b-round1-flash-calibration-v1")
+DEFAULT_ROUND1V2_OUTPUT = Path(
+    "artifacts/exploratory_memory_mvp/phase2b-round1v2-flash-calibration-v1"
+)
+DEFAULT_ROUND1V2_STAGE1_PREFIX = Path(
+    "experiments/exploratory_memory_mvp/cases/phase2b_round1v2_stage1_prefix_manifest.json"
+)
+ROUND1V1_SOURCE_CONFIG_SHA256 = "5aaa50b66ff2f42112d2bc4c53a0300bc9e1b444d9f8d8deef9afad8b2144f94"
+ROUND1V1_SOURCE_A_PROMPT_SHA256 = "9ff249de0051ea63726dd2c85f6ba0094c978c022714b3da8ea2ab9c8379b13e"
+ROUND1V1_SOURCE_SUMMARY_SHA256 = "44723633017f5edf9111199c64db254a148f68ffcd0efa24dc00b396a566e07e"
 
 
 def _messages(system: str, payload: dict[str, Any]) -> list[dict[str, str]]:
@@ -409,6 +421,307 @@ def _validate_stage1_cache_config(
     return config
 
 
+def _file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _build_round1v2_stage1_prefix_manifest(
+    *,
+    population: dict[str, Any],
+    trajectory_root: Path,
+    source_runtime: Path = DEFAULT_STAGE1_CACHE,
+) -> tuple[dict[str, Any], dict[int, dict[str, Any]]]:
+    """Verify and describe the accepted Stage1-only prefix of immutable R1-v1."""
+
+    source_config_path = source_runtime / "run_config.json"
+    source_summary_path = source_runtime / "stream_summary.json"
+    if not source_config_path.is_file() or not source_summary_path.is_file():
+        raise Phase2BNativeError("Frozen Round1-v1 Stage1 prefix source is incomplete")
+    config = json.loads(source_config_path.read_text(encoding="utf-8"))
+    summary = json.loads(source_summary_path.read_text(encoding="utf-8"))
+    if config.get("config_sha256") != digest(
+        {key: value for key, value in config.items() if key != "config_sha256"}
+    ):
+        raise Phase2BNativeError("Round1-v1 source config digest is invalid")
+    if config.get("config_sha256") != ROUND1V1_SOURCE_CONFIG_SHA256:
+        raise Phase2BNativeError("Round1-v1 source config is not the frozen shakedown")
+    if summary.get("summary_sha256") != ROUND1V1_SOURCE_SUMMARY_SHA256 or summary.get(
+        "summary_sha256"
+    ) != digest({key: value for key, value in summary.items() if key != "summary_sha256"}):
+        raise Phase2BNativeError("Round1-v1 source summary identity is invalid")
+    if summary.get("status") != "stopped_infrastructure_failure":
+        raise Phase2BNativeError("Round1-v1 must remain the interrupted historical stream")
+
+    rows = population["selected_tasks"]
+    corpus_manifest = _source_manifest(trajectory_root, population["registry_sha256"], rows)
+    corpus_manifest_digest = digest(corpus_manifest)
+    expected_config = {
+        "round": 1,
+        "partition": "calibration",
+        "model_config": MODEL_CONFIGS["qwen3.8-flash"],
+        "stage1_prompt_version": STAGE1_PROMPT_VERSION,
+        "stage1_system_prompt_sha256": digest(STAGE1_SYSTEM_PROMPT),
+        "stage1_schema_version": "phase2b-stage1-model-input-v1",
+        "a_system_prompt_sha256": ROUND1V1_SOURCE_A_PROMPT_SHA256,
+        "graph_enabled": False,
+        "population_registry_sha256": population["registry_sha256"],
+        "corpus_manifest_sha256": corpus_manifest_digest,
+        "semantic_retries": 0,
+    }
+    if any(config.get(key) != value for key, value in expected_config.items()):
+        raise Phase2BNativeError("Round1-v1 source differs from frozen Stage1 cache identity")
+    if summary.get("model_calls") != {"a": 8, "stage1": 8} or summary.get("task_count") != 12:
+        raise Phase2BNativeError(
+            "Round1-v1 model-call/task accounting differs from interruption record"
+        )
+    if any(
+        summary.get(key) != config.get(key)
+        for key in (
+            "protocol_version",
+            "round",
+            "partition",
+            "model_config",
+            "population_registry_sha256",
+            "corpus_manifest_sha256",
+            "config_sha256",
+        )
+    ):
+        raise Phase2BNativeError("Round1-v1 summary/config identity mismatch")
+
+    calibration_rows = [row for row in rows if row["partition"] == "calibration"]
+    if [row["corpus_index"] for row in calibration_rows] != list(range(1, 13)):
+        raise Phase2BNativeError("Frozen calibration task order is not 1..12")
+    source_task_rows = summary.get("tasks")
+    if not isinstance(source_task_rows, list) or len(source_task_rows) != 8:
+        raise Phase2BNativeError("Round1-v1 must contain exactly the completed prefix 1..8")
+    if [row.get("corpus_index") for row in source_task_rows] != list(range(1, 9)):
+        raise Phase2BNativeError("Round1-v1 completed indices are not exactly 1..8")
+
+    stage1_outputs: dict[int, dict[str, Any]] = {}
+    manifest_tasks = []
+    for source_row, row in zip(source_task_rows, calibration_rows[:8], strict=True):
+        index = row["corpus_index"]
+        task_dir = source_runtime / "tasks" / f"{index:03d}"
+        stage1_dir = task_dir / "stage1"
+        if (
+            source_row.get("task_id") != row["task_id"]
+            or source_row.get("task_family") != row["task_family"]
+            or source_row.get("stage1_status") != "accepted"
+        ):
+            raise Phase2BNativeError(f"Round1-v1 Stage1 task identity/status fails at {index:03d}")
+        trajectory, trajectory_summary = _load_completed_trajectory(trajectory_root, row)
+        visible_input = model_visible_stage1_input(
+            trajectory,
+            task_family=row["task_family"],
+            public_instruction=row["public_instruction"],
+        )
+        events = visible_input["ordered_events"]
+        response_schema = _response_format(
+            "phase2b_stage1_v1", stage1_schema([event["event_ref"] for event in events])
+        )
+
+        named_files = {
+            "model_visible_input.json": stage1_dir / "model_visible_input.json",
+            "response_schema.json": stage1_dir / "response_schema.json",
+            "raw_response.json": stage1_dir / "raw_response.json",
+            "parsed_model_output.json": stage1_dir / "parsed_model_output.json",
+            "parsed.json": stage1_dir / "parsed.json",
+            "validation.json": stage1_dir / "validation.json",
+            "audit_metadata.json": stage1_dir / "audit_metadata.json",
+            "usage.json": stage1_dir / "usage.json",
+            "model_events.jsonl": stage1_dir / "model_events.jsonl",
+            "state_before.json": task_dir / "state_before.json",
+            "fact_commit.json": task_dir / "fact_commit.json",
+            "task_summary.json": task_dir / "task_summary.json",
+            "candidate_support_runner_bound.json": task_dir / "candidate_support_runner_bound.json",
+            "previous_state_snapshot.json": source_runtime / f"M_{index - 1:03d}.json",
+        }
+        if any(not path.is_file() for path in named_files.values()):
+            raise Phase2BNativeError(f"Round1-v1 Stage1 provenance is incomplete at {index:03d}")
+
+        read_input = json.loads(named_files["model_visible_input.json"].read_text(encoding="utf-8"))
+        if read_input != visible_input:
+            raise Phase2BNativeError(f"Stage1 model-visible trajectory differs at {index:03d}")
+        read_schema = json.loads(named_files["response_schema.json"].read_text(encoding="utf-8"))
+        if read_schema != response_schema:
+            raise Phase2BNativeError(f"Stage1 response schema differs at {index:03d}")
+        audit = json.loads(named_files["audit_metadata.json"].read_text(encoding="utf-8"))
+        if (
+            audit.get("trajectory_sha256") != digest(trajectory)
+            or audit.get("model_visible_input_sha256") != digest(visible_input)
+            or audit.get("source_global_corpus_index") != index
+            or audit.get("source_partition") != "calibration"
+            or audit.get("task_id") != row["task_id"]
+        ):
+            raise Phase2BNativeError(f"Stage1 runner audit identity differs at {index:03d}")
+        validation = json.loads(named_files["validation.json"].read_text(encoding="utf-8"))
+        if validation != {"accepted": True}:
+            raise Phase2BNativeError(f"Stage1 was not mechanically accepted at {index:03d}")
+        raw_response = json.loads(named_files["raw_response.json"].read_text(encoding="utf-8"))
+        parsed_output = json.loads(
+            named_files["parsed_model_output.json"].read_text(encoding="utf-8")
+        )
+        parsed = json.loads(named_files["parsed.json"].read_text(encoding="utf-8"))
+        if not isinstance(raw_response.get("content"), str):
+            raise Phase2BNativeError(f"Stage1 raw response is unavailable at {index:03d}")
+        try:
+            raw_parsed = json.loads(raw_response["content"])
+        except json.JSONDecodeError as exc:
+            raise Phase2BNativeError(
+                f"Stage1 raw response is not strict JSON at {index:03d}"
+            ) from exc
+        if raw_parsed != parsed_output or parsed_output != parsed:
+            raise Phase2BNativeError(f"Stage1 raw/parsed artifacts disagree at {index:03d}")
+        stage1_result = validate_stage1(parsed, event_refs=[event["event_ref"] for event in events])
+        if stage1_result != parsed:
+            raise Phase2BNativeError(f"Stage1 normalized output changed at {index:03d}")
+
+        usage = json.loads(named_files["usage.json"].read_text(encoding="utf-8"))
+        usage_calls = usage.get("calls")
+        if not isinstance(usage_calls, list) or len(usage_calls) != 1:
+            raise Phase2BNativeError(f"Stage1 usage/call count is not one at {index:03d}")
+        usage_call = usage_calls[0]
+        if (
+            usage_call.get("requested_model") != "qwen3.8-flash"
+            or usage_call.get("phase") != f"phase2b_r1_calibration_stage1_{index}"
+            or usage_call.get("retry_count") != 0
+            or usage_call.get("status") != "completed"
+        ):
+            raise Phase2BNativeError(f"Stage1 model-call identity/retry check fails at {index:03d}")
+        model_events = [
+            json.loads(line)
+            for line in named_files["model_events.jsonl"].read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        if [event.get("event") for event in model_events] != ["request", "response"]:
+            raise Phase2BNativeError(f"Stage1 event log is not one request/response at {index:03d}")
+        request_event = model_events[0]
+        request = request_event.get("request", {})
+        expected_messages = _messages(STAGE1_SYSTEM_PROMPT, visible_input)
+        if (
+            request_event.get("phase") != f"phase2b_r1_calibration_stage1_{index}"
+            or request.get("model") != "qwen3.8-flash"
+            or request.get("temperature") != 0.0
+            or request.get("enable_thinking") is not False
+            or request.get("messages") != expected_messages
+            or request.get("response_format") != response_schema
+        ):
+            raise Phase2BNativeError(
+                f"Stage1 recorded request differs from frozen input at {index:03d}"
+            )
+
+        state_before = json.loads(named_files["state_before.json"].read_text(encoding="utf-8"))
+        if state_digest(state_before) != source_row.get("pre_task_state_digest"):
+            raise Phase2BNativeError(f"Stage1 pre-task state snapshot mismatch at {index:03d}")
+        if state_digest(state_before) != state_digest(
+            json.loads(named_files["previous_state_snapshot.json"].read_text(encoding="utf-8"))
+        ):
+            raise Phase2BNativeError(f"Round1-v1 state continuity mismatch at {index:03d}")
+        fact_commit = json.loads(named_files["fact_commit.json"].read_text(encoding="utf-8"))
+        if fact_commit.get("trajectory_sha256") != digest(trajectory):
+            raise Phase2BNativeError(f"Stage1 fact commit trajectory mismatch at {index:03d}")
+        task_ref = {
+            "task_id": row["task_id"],
+            "task_family": row["task_family"],
+            "partition": row["partition"],
+            "index": index,
+            "public_instruction": row["public_instruction"],
+        }
+        state_with_trajectory = deepcopy(state_before)
+        trajectory_id = add_trajectory(state_with_trajectory, trajectory, task_ref)
+        if fact_commit.get("trajectory_id") != trajectory_id:
+            raise Phase2BNativeError(f"Stage1 runner trajectory binding mismatch at {index:03d}")
+        expected_support = bind_candidate_support(
+            state_with_trajectory,
+            trajectory_id=trajectory_id,
+            stage1_support=stage1_result["support"],
+            events=events,
+        )
+        bound_artifact = json.loads(
+            named_files["candidate_support_runner_bound.json"].read_text(encoding="utf-8")
+        )
+        if bound_artifact != {
+            "candidate": stage1_result["candidate"],
+            "support_records": expected_support,
+        }:
+            raise Phase2BNativeError(f"Runner-bound Candidate Support mismatch at {index:03d}")
+        if (
+            trajectory_summary.get("trajectory_sha256") != digest(trajectory)
+            or source_row.get("candidate_digest") != digest(stage1_result["candidate"])
+            or source_row.get("candidate_support_digest") != digest(stage1_result["support"])
+        ):
+            raise Phase2BNativeError(f"Stage1 output digest identity mismatch at {index:03d}")
+        state_after = json.loads((task_dir / "state_after.json").read_text(encoding="utf-8"))
+        actual_support = {
+            record["support_id"]: record
+            for record in state_after.get("support_log", [])
+            if record.get("trajectory_id") == trajectory_id
+        }
+        if actual_support != {record["support_id"]: record for record in expected_support}:
+            raise Phase2BNativeError(f"Stage1 Support factual commit mismatch at {index:03d}")
+
+        task_file_hashes = {name: _file_sha256(path) for name, path in sorted(named_files.items())}
+        stage1_outputs[index] = stage1_result
+        manifest_tasks.append(
+            {
+                "corpus_index": index,
+                "task_id": row["task_id"],
+                "task_family": row["task_family"],
+                "trajectory_sha256": digest(trajectory),
+                "model_visible_input_sha256": digest(visible_input),
+                "stage1_schema_sha256": digest(response_schema),
+                "stage1_prompt_version": STAGE1_PROMPT_VERSION,
+                "stage1_prompt_sha256": digest(STAGE1_SYSTEM_PROMPT),
+                "candidate_sha256": digest(stage1_result["candidate"]),
+                "candidate_support_sha256": digest(stage1_result["support"]),
+                "trajectory_id": trajectory_id,
+                "bound_support_ids": [record["support_id"] for record in expected_support],
+                "source_files_sha256": task_file_hashes,
+                "old_a_status_diagnostic_only": source_row.get("a_status"),
+                "old_a_outputs_reused": False,
+            }
+        )
+
+    manifest = {
+        "schema_version": "phase2b-round1v2-stage1-prefix-manifest-v1",
+        "purpose": (
+            "Reuse only mechanically revalidated accepted Stage1 outputs from Round1-v1 tasks 1..8."
+        ),
+        "source_runtime": str(source_runtime),
+        "source_run_config_sha256": _file_sha256(source_config_path),
+        "source_config_identity_sha256": config["config_sha256"],
+        "source_stream_summary_sha256": _file_sha256(source_summary_path),
+        "source_summary_identity_sha256": summary["summary_sha256"],
+        "population_registry_sha256": population["registry_sha256"],
+        "trajectory_corpus_manifest_sha256": corpus_manifest_digest,
+        "reused_global_indices": list(range(1, 9)),
+        "fresh_stage1_global_indices": list(range(9, 13)),
+        "old_a_outputs_reused": False,
+        "source_tasks": manifest_tasks,
+    }
+    manifest["manifest_sha256"] = digest(manifest)
+    return manifest, stage1_outputs
+
+
+def _load_verified_round1v2_stage1_prefix(
+    manifest_path: Path,
+    *,
+    population: dict[str, Any],
+    trajectory_root: Path,
+) -> tuple[dict[str, Any], dict[int, dict[str, Any]]]:
+    saved = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(saved, dict) or saved.get("manifest_sha256") != digest(
+        {key: value for key, value in saved.items() if key != "manifest_sha256"}
+    ):
+        raise Phase2BNativeError("Round1-v2 Stage1 prefix manifest digest is invalid")
+    rebuilt, outputs = _build_round1v2_stage1_prefix_manifest(
+        population=population, trajectory_root=trajectory_root
+    )
+    if saved != rebuilt:
+        raise Phase2BNativeError("Round1-v2 Stage1 prefix no longer matches its frozen manifest")
+    return saved, outputs
+
+
 def _run_stream(
     *,
     population: dict[str, Any],
@@ -425,6 +738,8 @@ def _run_stream(
     support_limit: int,
     graph_limit: int,
     env_file: Path,
+    round1_v2: bool = False,
+    stage1_prefix_manifest: Path | None = None,
     transport_factory=None,
 ) -> dict[str, Any]:
     if not allow_model_calls:
@@ -435,6 +750,18 @@ def _run_stream(
         raise Phase2BNativeError("Unknown Phase 2B partition")
     if round_number in {2, 3} and stage1_cache is None:
         raise Phase2BNativeError("Rounds 2/3 require a frozen Stage1 cache")
+    if round1_v2 and (
+        round_number != 1
+        or model != "qwen3.8-flash"
+        or partition != "calibration"
+        or stage1_prefix_manifest is None
+        or stage1_cache is not None
+    ):
+        raise Phase2BNativeError(
+            "Round1-v2 requires Flash calibration and the frozen prefix manifest"
+        )
+    if not round1_v2 and stage1_prefix_manifest is not None:
+        raise Phase2BNativeError("A Stage1 prefix manifest is accepted only with --round1-v2")
     if round_number == 4 and stage1_cache is not None:
         raise Phase2BNativeError("Round 4 runs Stage1 fresh; do not provide a Stage1 cache")
     if output.exists():
@@ -446,6 +773,16 @@ def _run_stream(
         raise Phase2BNativeError("Native Phase 2B registry order must be corpus index 1..24")
     corpus_manifest = _source_manifest(trajectory_root, expected_population_digest, rows)
     corpus_manifest_digest = digest(corpus_manifest)
+    verified_prefix_manifest: dict[str, Any] | None = None
+    round1v2_stage1_by_index: dict[int, dict[str, Any]] = {}
+    if round1_v2:
+        verified_prefix_manifest, round1v2_stage1_by_index = _load_verified_round1v2_stage1_prefix(
+            stage1_prefix_manifest,
+            population=population,
+            trajectory_root=trajectory_root,
+        )
+        if verified_prefix_manifest["trajectory_corpus_manifest_sha256"] != corpus_manifest_digest:
+            raise Phase2BNativeError("Round1-v2 prefix manifest uses a different trajectory corpus")
     round3_reference = None
     if round_number in {2, 3}:
         _validate_stage1_cache_config(
@@ -540,6 +877,7 @@ def _run_stream(
         "stage1_system_prompt_sha256": digest(STAGE1_SYSTEM_PROMPT),
         "stage1_schema_version": "phase2b-stage1-model-input-v1",
         "a_prompt_version": A_PROMPT_VERSIONS[2 if graph_enabled else 1],
+        "a_schema_version": A_SCHEMA_VERSION,
         "a_system_prompt_sha256": digest(
             A_SYSTEM_PROMPT_R2 if graph_enabled else A_SYSTEM_PROMPT_R1
         ),
@@ -550,6 +888,10 @@ def _run_stream(
         "population_registry_sha256": population["registry_sha256"],
         "corpus_manifest_sha256": corpus_manifest_digest,
         "stage1_cache": str(stage1_cache) if stage1_cache else None,
+        "round1_execution_version": "round1-v2-contract-repair" if round1_v2 else None,
+        "stage1_prefix_manifest_sha256": (
+            verified_prefix_manifest["manifest_sha256"] if verified_prefix_manifest else None
+        ),
         "semantic_retries": 0,
         "transport_retries": "none; direct frozen DashScope transport",
     }
@@ -638,7 +980,40 @@ def _run_stream(
         stage1_result = None
         stage1_source = "model_call"
         task_infrastructure_failure = False
-        if round_number in {2, 3}:
+        if round1_v2 and row["corpus_index"] in round1v2_stage1_by_index:
+            stage1_result = round1v2_stage1_by_index[row["corpus_index"]]
+            source_stage1_dir = (
+                DEFAULT_STAGE1_CACHE / "tasks" / f"{row['corpus_index']:03d}" / "stage1"
+            )
+            stage1_source = (
+                f"{DEFAULT_STAGE1_CACHE}/tasks/{row['corpus_index']:03d}/stage1/parsed.json"
+            )
+            write_json(
+                stage1_dir / "reused_stage1.json",
+                {
+                    "source_ref": stage1_source,
+                    "source_manifest_sha256": verified_prefix_manifest["manifest_sha256"],
+                    "source_task_digest": next(
+                        item["source_files_sha256"]["parsed.json"]
+                        for item in verified_prefix_manifest["source_tasks"]
+                        if item["corpus_index"] == row["corpus_index"]
+                    ),
+                    "output": stage1_result,
+                },
+            )
+            write_json(stage1_dir / "parsed.json", stage1_result)
+            for artifact_name in (
+                "raw_response.json",
+                "parsed_model_output.json",
+                "usage.json",
+                "model_events.jsonl",
+            ):
+                shutil.copyfile(source_stage1_dir / artifact_name, stage1_dir / artifact_name)
+            write_json(
+                stage1_dir / "validation.json",
+                {"accepted": True, "source": "verified_round1v2_prefix_cache"},
+            )
+        elif round_number in {2, 3}:
             stage1_result, cache_failure = cached_stage1_by_index[row["corpus_index"]]
             if cache_failure is not None:
                 task_artifacts.update(
@@ -814,9 +1189,9 @@ def _run_stream(
         )
         schema = a_schema(
             memory_ids=selected_memory_ids,
-            support_ids=sorted(
-                {item["support_id"] for item in support_records}
-                | {record["support_id"] for item in prior_view for record in item["records"]}
+            current_support_ids=sorted(item["support_id"] for item in support_records),
+            existing_support_ids=sorted(
+                {record["support_id"] for item in prior_view for record in item["records"]}
             ),
             graph_enabled=graph_enabled,
             concept_ids=visible_concept_ids,
@@ -825,7 +1200,7 @@ def _run_stream(
         )
         write_json(
             a_dir / "response_schema.json",
-            _response_format(f"phase2b_a_r{round_number}_v1", schema),
+            _response_format(f"phase2b_a_r{round_number}_v2", schema),
         )
         a_validated = False
         try:
@@ -834,7 +1209,7 @@ def _run_stream(
                 messages=_messages(
                     A_SYSTEM_PROMPT_R2 if graph_enabled else A_SYSTEM_PROMPT_R1, a_input
                 ),
-                response_format=_response_format(f"phase2b_a_r{round_number}_v1", schema),
+                response_format=_response_format(f"phase2b_a_r{round_number}_v2", schema),
                 phase=f"phase2b_r{round_number}_{partition}_a_{row['corpus_index']}",
                 env_file=env_file,
                 transport_factory=transport_factory,
@@ -855,8 +1230,10 @@ def _run_stream(
             a_result = validate_a_result(
                 parsed,
                 active_memory_ids=selected_memory_ids,
-                available_support_ids=[item["support_id"] for item in support_records]
-                + [record["support_id"] for item in prior_view for record in item["records"]],
+                current_support_ids=[item["support_id"] for item in support_records],
+                existing_support_ids=[
+                    record["support_id"] for item in prior_view for record in item["records"]
+                ],
                 active_support_bindings=pre_state["support_bindings"],
                 graph_enabled=graph_enabled,
                 active_concept_ids=visible_concept_ids,
@@ -965,6 +1342,8 @@ def prepare_only(
     output: Path,
     expected_population_digest: str,
     frozen_config: Path | None = None,
+    round1_v2: bool = False,
+    stage1_prefix_manifest: Path | None = None,
 ) -> dict[str, Any]:
     """Validate all identities/configs without constructing a transport."""
 
@@ -983,6 +1362,26 @@ def prepare_only(
     ]
     if partition == "max_sanity":
         rows = [row for row in population["selected_tasks"] if row["max_sanity"]]
+    prefix_manifest_digest = None
+    if round1_v2:
+        if (
+            round_number != 1
+            or model != "qwen3.8-flash"
+            or partition != "calibration"
+            or stage1_prefix_manifest is None
+        ):
+            raise Phase2BNativeError("Round1-v2 prepare-only identity/configuration mismatch")
+        corpus_manifest = _source_manifest(
+            trajectory_root, population["registry_sha256"], population["selected_tasks"]
+        )
+        manifest, _ = _load_verified_round1v2_stage1_prefix(
+            stage1_prefix_manifest,
+            population=population,
+            trajectory_root=trajectory_root,
+        )
+        if manifest["trajectory_corpus_manifest_sha256"] != digest(corpus_manifest):
+            raise Phase2BNativeError("Round1-v2 prepare-only corpus identity mismatch")
+        prefix_manifest_digest = manifest["manifest_sha256"]
     state = initialize_state()
     return {
         "protocol_version": PROTOCOL_VERSION,
@@ -998,6 +1397,11 @@ def prepare_only(
         "transport_initialized": False,
         "output_exists": output.exists(),
         "frozen_config_path": str(frozen_config) if frozen_config else None,
+        "round1_execution_version": "round1-v2-contract-repair" if round1_v2 else None,
+        "stage1_prefix_manifest_sha256": prefix_manifest_digest,
+        "reused_stage1_indices": list(range(1, 9)) if round1_v2 else [],
+        "fresh_stage1_indices": list(range(9, 13)) if round1_v2 else [],
+        "future_a_calls": len(rows) if round1_v2 else None,
     }
 
 
@@ -1014,6 +1418,8 @@ def main() -> int:
         default="calibration",
     )
     parser.add_argument("--stage1-cache", type=Path)
+    parser.add_argument("--round1-v2", action="store_true")
+    parser.add_argument("--stage1-prefix-manifest", type=Path)
     parser.add_argument("--frozen-config", type=Path)
     parser.add_argument("--expected-population-sha256", required=True)
     parser.add_argument("--memory-limit", type=int, default=12)
@@ -1022,6 +1428,12 @@ def main() -> int:
     parser.add_argument("--allow-model-calls", action="store_true")
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV_FILE)
     args = parser.parse_args()
+    if args.round1_v2 and args.stage1_cache is not None:
+        raise Phase2BNativeError(
+            "--round1-v2 uses only --stage1-prefix-manifest, not --stage1-cache"
+        )
+    if args.stage1_prefix_manifest is not None and not args.round1_v2:
+        raise Phase2BNativeError("--stage1-prefix-manifest requires --round1-v2")
     population = load_population(args.population)
     if not args.allow_model_calls:
         result = prepare_only(
@@ -1033,6 +1445,8 @@ def main() -> int:
             output=args.output,
             expected_population_digest=args.expected_population_sha256,
             frozen_config=args.frozen_config,
+            round1_v2=args.round1_v2,
+            stage1_prefix_manifest=args.stage1_prefix_manifest,
         )
     else:
         result = _run_stream(
@@ -1050,6 +1464,8 @@ def main() -> int:
             support_limit=args.support_view_limit,
             graph_limit=args.graph_context_limit,
             env_file=args.env_file,
+            round1_v2=args.round1_v2,
+            stage1_prefix_manifest=args.stage1_prefix_manifest,
         )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return (

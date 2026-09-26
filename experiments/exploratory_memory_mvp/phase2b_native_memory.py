@@ -20,9 +20,10 @@ PROTOCOL_VERSION = "phase2b-native-memory-v1"
 STATE_SCHEMA = "phase2b-native-state-v1"
 STAGE1_PROMPT_VERSION = "phase2b-stage1-full-trajectory-v1"
 A_PROMPT_VERSIONS = {
-    1: "phase2b-stage2-local-reconciliation-v1",
-    2: "phase2b-stage2-graph-aware-v1",
+    1: "phase2b-stage2-local-reconciliation-v2",
+    2: "phase2b-stage2-graph-aware-v3",
 }
+A_SCHEMA_VERSION = "phase2b-a-operation-plan-v2"
 TOKEN_RE = re.compile(r"[a-z0-9]+", re.IGNORECASE)
 STOP_WORDS = frozenset(
     "a an and are as at be by for from in into is it of on or that the this to with".split()
@@ -56,11 +57,32 @@ preference, or superiority claim. A failure does not establish universal
 impossibility. Preserve useful conditional learning, counter-support and
 unresolved boundaries. Do not read or invent provenance identities.
 
-Round 1 disables Concept and Graph writes: return empty concept_updates and
-graph_updates. Use Text operations CREATE, UPDATE, RETIRE, and independently
-bind/unbind/rebind actual Support. NO_CHANGE can still accumulate Support.
-Return exactly the requested JSON object; malformed output is retained and
-rejected without semantic retry."""
+Express each Text operation in its own array. A row in creates[] creates a
+new memory; it has no target ID because the runner assigns the ID. A row in
+updates[] changes exactly the one existing active memory named by
+target_memory_id. A row in retires[] retires exactly the one existing active
+memory named by target_memory_id. If a semantic merge or deduplication is
+needed, update one canonical memory and retire each redundant memory; never
+put multiple targets in one update. Every CREATE and UPDATE must name one or
+more current Candidate Support IDs in evidence_support_ids and state their
+relation as SUPPORTS, COUNTER_SUPPORTS, or BOUNDS. These are the current
+evidence authority for that resulting claim; the runner binds them after
+materialization.
+
+If the Text claim is already adequate but this trajectory adds useful support,
+use support_only_bindings[] to bind current Candidate Support to one existing
+active memory without changing its text. This is support-only accumulation
+and uses decision NO_CHANGE. Existing Support maintenance uses
+existing_support_binds[], existing_support_unbinds[], or
+existing_support_rebinds[] and may refer only to already-existing historical
+Support and existing memories. Never use those arrays to establish the current
+Candidate's first evidence link or bind evidence to a new memory. RETIRE
+creates no new evidence binding; the runner removes its existing bindings.
+
+Set decision UPDATE iff creates[], updates[], or retires[] is non-empty;
+otherwise set NO_CHANGE. Round 1 disables Concept and Graph writes: return
+empty concept_updates and graph_updates. Return exactly the requested JSON
+object; malformed output is retained and rejected without semantic retry."""
 
 A_SYSTEM_PROMPT_R2 = """You are A, the local knowledge reconciler (historical Stage2).
 
@@ -73,6 +95,23 @@ exceed evidence. A single successful trajectory normally supports feasibility
 in its observed scope, not a default, preference, or superiority claim. A
 failure does not establish universal impossibility. Preserve useful
 conditional learning, counter-support and unresolved boundaries.
+
+Express Text operations in their operation-specific arrays. creates[] has no
+existing target; updates[] names exactly one active target_memory_id; retires[]
+names exactly one active target_memory_id. For semantic merge or deduplication,
+update one canonical memory and retire each redundant memory; never encode a
+multi-target update. Every CREATE and UPDATE names one or more current
+Candidate Support IDs and an evidence relation of SUPPORTS, COUNTER_SUPPORTS,
+or BOUNDS. The runner binds these current evidence records to the resulting
+claim. support_only_bindings[] accumulates current Candidate Support on one
+existing memory without changing text. Historical binding maintenance is
+represented by existing_support_binds[], existing_support_unbinds[], and
+existing_support_rebinds[]; these arrays accept only pre-existing Support and
+existing memories, never current Candidate Support or a newly created memory.
+An unbind has no relation field because its relation is mechanically UNBOUND.
+RETIRE adds no evidence binding; the runner removes existing bindings.
+Set decision UPDATE iff creates[], updates[], or retires[] is non-empty;
+otherwise use NO_CHANGE.
 
 Use the minimum necessary Text/Support/Graph changes. Create/promote a
 Semantic Concept only when it has stable independent meaning and at least two
@@ -638,7 +677,7 @@ def model_visible_a_input(
     graph: dict[str, Any],
 ) -> dict[str, Any]:
     return {
-        "schema_version": "phase2b-a-model-input-v1",
+        "schema_version": "phase2b-a-model-input-v2",
         "public_task": deepcopy(public_task),
         "candidate": deepcopy(candidate),
         "candidate_support": deepcopy(current_support),
@@ -652,7 +691,8 @@ def model_visible_a_input(
 def a_schema(
     *,
     memory_ids: list[str],
-    support_ids: list[str],
+    current_support_ids: list[str],
+    existing_support_ids: list[str],
     graph_enabled: bool,
     concept_ids: list[str] | None = None,
     relation_ids: list[str] | None = None,
@@ -661,73 +701,182 @@ def a_schema(
     def enum_or_placeholder(values: list[str]) -> list[str]:
         return sorted(set(values)) or ["__no_valid_id__"]
 
+    def id_array(values: list[str], *, minimum: int = 0) -> dict[str, Any]:
+        result: dict[str, Any] = {
+            "type": "array",
+            "items": {"type": "string", "enum": enum_or_placeholder(values)},
+        }
+        if minimum:
+            result["minItems"] = minimum
+        if not values:
+            result["maxItems"] = 0
+        return result
+
+    current_support_array = id_array(current_support_ids, minimum=1)
+    existing_support_array = id_array(existing_support_ids, minimum=1)
+    existing_memory_array = id_array(memory_ids, minimum=1)
     valid_memory_values = enum_or_placeholder(memory_ids)
-    valid_support_values = enum_or_placeholder(support_ids)
     valid_concept_values = enum_or_placeholder(concept_ids or [])
     valid_relation_values = ["", *sorted(set(relation_ids or []))]
     valid_graph_node_values = ["", *sorted(set(graph_node_ids or []))]
+
+    def claim_mutation_properties(*, include_target: bool) -> dict[str, Any]:
+        properties = {
+            "scope": {"type": "string", "minLength": 1},
+            "guidance": {"type": "string", "minLength": 1},
+            "evidence_support_ids": deepcopy(current_support_array),
+            "evidence_relation": {
+                "type": "string",
+                "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"],
+            },
+            "reason": {"type": "string", "minLength": 1},
+        }
+        if include_target:
+            properties = {
+                "target_memory_id": {
+                    "type": "string",
+                    "enum": enum_or_placeholder(memory_ids),
+                },
+                **properties,
+            }
+        return properties
+
     properties: dict[str, Any] = {
         "decision": {"type": "string", "enum": ["NO_CHANGE", "UPDATE"]},
-        "memory_updates": {
+        "creates": {
             "type": "array",
             "items": {
                 "type": "object",
                 "additionalProperties": False,
                 "required": [
-                    "operation",
-                    "target_memory_ids",
                     "scope",
                     "guidance",
-                    "support_ids",
-                    "support_relation",
+                    "evidence_support_ids",
+                    "evidence_relation",
                     "reason",
                 ],
-                "properties": {
-                    "operation": {"type": "string", "enum": ["CREATE", "UPDATE", "RETIRE"]},
-                    "target_memory_ids": {
-                        "type": "array",
-                        "items": {"type": "string", "enum": valid_memory_values},
-                    },
-                    "scope": {"type": "string"},
-                    "guidance": {"type": "string"},
-                    "support_ids": {
-                        "type": "array",
-                        "items": {"type": "string", "enum": valid_support_values},
-                    },
-                    "support_relation": {
-                        "type": "string",
-                        "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS", "UNBOUND"],
-                    },
-                    "reason": {"type": "string", "minLength": 1},
-                },
+                "properties": claim_mutation_properties(include_target=False),
             },
         },
-        "support_updates": {
+        "updates": {
             "type": "array",
             "items": {
                 "type": "object",
                 "additionalProperties": False,
-                "required": ["operation", "support_ids", "memory_ids", "relation"],
+                "required": [
+                    "target_memory_id",
+                    "scope",
+                    "guidance",
+                    "evidence_support_ids",
+                    "evidence_relation",
+                    "reason",
+                ],
+                "properties": claim_mutation_properties(include_target=True),
+            },
+            **({"maxItems": 0} if not memory_ids or not current_support_ids else {}),
+        },
+        "retires": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["target_memory_id", "reason"],
                 "properties": {
-                    "operation": {"type": "string", "enum": ["BIND", "UNBIND", "REBIND"]},
-                    "support_ids": {
-                        "type": "array",
-                        "items": {"type": "string", "enum": valid_support_values},
+                    "target_memory_id": {
+                        "type": "string",
+                        "enum": enum_or_placeholder(memory_ids),
                     },
-                    "memory_ids": {
-                        "type": "array",
-                        "items": {"type": "string", "enum": valid_memory_values},
+                    "reason": {"type": "string", "minLength": 1},
+                },
+            },
+            **({"maxItems": 0} if not memory_ids else {}),
+        },
+        "support_only_bindings": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": [
+                    "target_memory_id",
+                    "evidence_support_ids",
+                    "evidence_relation",
+                    "reason",
+                ],
+                "properties": {
+                    "target_memory_id": {
+                        "type": "string",
+                        "enum": enum_or_placeholder(memory_ids),
                     },
+                    "evidence_support_ids": deepcopy(current_support_array),
+                    "evidence_relation": {
+                        "type": "string",
+                        "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"],
+                    },
+                    "reason": {"type": "string", "minLength": 1},
+                },
+            },
+            **({"maxItems": 0} if not memory_ids or not current_support_ids else {}),
+        },
+        "existing_support_binds": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["support_ids", "memory_ids", "relation"],
+                "properties": {
+                    "support_ids": deepcopy(existing_support_array),
+                    "memory_ids": deepcopy(existing_memory_array),
                     "relation": {
                         "type": "string",
-                        "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS", "UNBOUND"],
+                        "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"],
                     },
                 },
             },
+            **({"maxItems": 0} if not existing_support_ids or not memory_ids else {}),
+        },
+        "existing_support_unbinds": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["support_ids", "memory_ids"],
+                "properties": {
+                    "support_ids": deepcopy(existing_support_array),
+                    "memory_ids": deepcopy(existing_memory_array),
+                },
+            },
+            **({"maxItems": 0} if not existing_support_ids or not memory_ids else {}),
+        },
+        "existing_support_rebinds": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["support_ids", "memory_ids", "relation"],
+                "properties": {
+                    "support_ids": deepcopy(existing_support_array),
+                    "memory_ids": deepcopy(existing_memory_array),
+                    "relation": {
+                        "type": "string",
+                        "enum": ["SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"],
+                    },
+                },
+            },
+            **({"maxItems": 0} if not existing_support_ids or not memory_ids else {}),
         },
         "unresolved_boundary": {"type": "array", "items": {"type": "string"}},
     }
-    required = ["decision", "memory_updates", "support_updates", "unresolved_boundary"]
+    required = [
+        "decision",
+        "creates",
+        "updates",
+        "retires",
+        "support_only_bindings",
+        "existing_support_binds",
+        "existing_support_unbinds",
+        "existing_support_rebinds",
+        "unresolved_boundary",
+    ]
     if graph_enabled:
         properties["concept_updates"] = {
             "type": "array",
@@ -803,7 +952,8 @@ def validate_a_result(
     value: Any,
     *,
     active_memory_ids: list[str],
-    available_support_ids: list[str],
+    current_support_ids: list[str],
+    existing_support_ids: list[str],
     active_support_bindings: list[dict[str, str]] | None = None,
     graph_enabled: bool,
     active_concept_ids: list[str] | None = None,
@@ -812,21 +962,34 @@ def validate_a_result(
 ) -> dict[str, Any]:
     required = {
         "decision",
-        "memory_updates",
-        "support_updates",
+        "creates",
+        "updates",
+        "retires",
+        "support_only_bindings",
+        "existing_support_binds",
+        "existing_support_unbinds",
+        "existing_support_rebinds",
         "unresolved_boundary",
         "concept_updates",
         "graph_updates",
     }
     if not isinstance(value, dict) or set(value) != required:
         raise Phase2BNativeError("A output fields are invalid")
-    if value["decision"] not in {"NO_CHANGE", "UPDATE"}:
+    if not isinstance(value["decision"], str) or value["decision"] not in {
+        "NO_CHANGE",
+        "UPDATE",
+    }:
         raise Phase2BNativeError("A decision is invalid")
     if not graph_enabled and (value["concept_updates"] or value["graph_updates"]):
         raise Phase2BNativeError("Round 1 cannot mutate Semantic Concepts or Graph")
     for key in (
-        "memory_updates",
-        "support_updates",
+        "creates",
+        "updates",
+        "retires",
+        "support_only_bindings",
+        "existing_support_binds",
+        "existing_support_unbinds",
+        "existing_support_rebinds",
         "unresolved_boundary",
         "concept_updates",
         "graph_updates",
@@ -834,96 +997,154 @@ def validate_a_result(
         if not isinstance(value[key], list):
             raise Phase2BNativeError(f"A {key} must be an array")
     memory_ids = set(active_memory_ids)
-    support_ids = set(available_support_ids)
+    current_ids = set(current_support_ids)
+    existing_ids = set(existing_support_ids)
+    if current_ids & existing_ids:
+        raise Phase2BNativeError("Current and historical Support IDs must be disjoint")
     support_binding_pairs = {
         (binding["support_id"], binding["memory_id"]) for binding in active_support_bindings or []
     }
-    if value["decision"] == "UPDATE" and not value["memory_updates"]:
-        raise Phase2BNativeError("UPDATE requires at least one Text Memory mutation")
-    if value["decision"] == "NO_CHANGE" and value["memory_updates"]:
-        raise Phase2BNativeError("NO_CHANGE cannot contain Text Memory mutations")
+    has_text_mutation = bool(value["creates"] or value["updates"] or value["retires"])
+    if (value["decision"] == "UPDATE") != has_text_mutation:
+        raise Phase2BNativeError("decision must be UPDATE iff a Text mutation is present")
+
+    def validate_current_evidence(item: dict[str, Any]) -> None:
+        evidence_ids = item["evidence_support_ids"]
+        if (
+            not isinstance(evidence_ids, list)
+            or not evidence_ids
+            or any(not isinstance(support_id, str) for support_id in evidence_ids)
+            or len(set(evidence_ids)) != len(evidence_ids)
+            or any(support_id not in current_ids for support_id in evidence_ids)
+        ):
+            raise Phase2BNativeError("Text claim mutation requires valid current evidence Support")
+        if item["evidence_relation"] not in {"SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"}:
+            raise Phase2BNativeError("Text claim mutation evidence relation is invalid")
+        if not isinstance(item["reason"], str) or not item["reason"].strip():
+            raise Phase2BNativeError("Text mutation reason must be non-empty")
+
     touched_memory_ids: set[str] = set()
-    for item in value["memory_updates"]:
+    for item in value["creates"]:
         if not isinstance(item, dict) or set(item) != {
-            "operation",
-            "target_memory_ids",
             "scope",
             "guidance",
-            "support_ids",
-            "support_relation",
+            "evidence_support_ids",
+            "evidence_relation",
             "reason",
         }:
-            raise Phase2BNativeError("A Text Memory mutation schema is invalid")
-        op, targets = item["operation"], item["target_memory_ids"]
-        if op not in {"CREATE", "UPDATE", "RETIRE"} or not isinstance(targets, list):
-            raise Phase2BNativeError("A Text operation or target list is invalid")
-        if len(set(targets)) != len(targets) or any(target not in memory_ids for target in targets):
-            raise Phase2BNativeError("A Text mutation target is not an active existing memory ID")
-        if op == "CREATE" and targets:
-            raise Phase2BNativeError("CREATE must not name an existing target")
-        if op in {"UPDATE", "RETIRE"} and len(targets) != 1:
-            raise Phase2BNativeError(f"{op} requires exactly one active memory target")
-        overlap = touched_memory_ids & set(targets)
-        if overlap:
-            raise Phase2BNativeError("A response mutates one Text Memory more than once")
-        touched_memory_ids.update(targets)
-        if op in {"CREATE", "UPDATE"} and any(
+            raise Phase2BNativeError("A CREATE plan schema is invalid")
+        if any(
             not isinstance(item[key], str) or not item[key].strip() for key in ("scope", "guidance")
         ):
-            raise Phase2BNativeError(f"{op} requires non-empty scope and guidance")
-        if not isinstance(item["support_ids"], list) or any(
-            sid not in support_ids for sid in item["support_ids"]
-        ):
-            raise Phase2BNativeError("A Text mutation references unknown Support")
-        if item["support_relation"] not in {"SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS", "UNBOUND"}:
-            raise Phase2BNativeError("A Text mutation Support relation is invalid")
-        if op in {"CREATE", "UPDATE"} and (
-            not item["support_ids"] or item["support_relation"] == "UNBOUND"
-        ):
-            raise Phase2BNativeError("CREATE/UPDATE requires evidence-bound Support")
-        if op == "RETIRE" and (item["support_ids"] or item["support_relation"] != "UNBOUND"):
-            raise Phase2BNativeError("RETIRE cannot create a new Support binding")
-        if not isinstance(item["reason"], str) or not item["reason"].strip():
-            raise Phase2BNativeError("A Text mutation reason must be non-empty")
-    for item in value["support_updates"]:
+            raise Phase2BNativeError("CREATE requires non-empty scope and guidance")
+        validate_current_evidence(item)
+    for item in value["updates"]:
         if not isinstance(item, dict) or set(item) != {
-            "operation",
-            "support_ids",
-            "memory_ids",
-            "relation",
+            "target_memory_id",
+            "scope",
+            "guidance",
+            "evidence_support_ids",
+            "evidence_relation",
+            "reason",
         }:
-            raise Phase2BNativeError("A Support mutation schema is invalid")
-        operation = item["operation"]
-        if operation not in {"BIND", "UNBIND", "REBIND"}:
-            raise Phase2BNativeError("A Support mutation operation is invalid")
-        sids, mids, relation = item["support_ids"], item["memory_ids"], item["relation"]
-        if (
-            not isinstance(sids, list)
-            or not sids
-            or len(set(sids)) != len(sids)
-            or any(sid not in support_ids for sid in sids)
+            raise Phase2BNativeError("An UPDATE plan schema is invalid")
+        target = item["target_memory_id"]
+        if not isinstance(target, str) or target not in memory_ids:
+            raise Phase2BNativeError("UPDATE requires one active existing memory target")
+        if target in touched_memory_ids:
+            raise Phase2BNativeError("A response mutates one Text Memory more than once")
+        touched_memory_ids.add(target)
+        if any(
+            not isinstance(item[key], str) or not item[key].strip() for key in ("scope", "guidance")
         ):
-            raise Phase2BNativeError("A Support mutation requires valid Support IDs")
-        if (
-            not isinstance(mids, list)
-            or len(set(mids)) != len(mids)
-            or any(mid not in memory_ids for mid in mids)
-        ):
-            raise Phase2BNativeError("A Support mutation target is invalid")
-        if relation not in {"SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS", "UNBOUND"}:
-            raise Phase2BNativeError("A Support relation is invalid")
-        if operation == "UNBIND":
-            if relation != "UNBOUND" or not mids:
-                raise Phase2BNativeError("UNBIND requires a target memory and UNBOUND relation")
-        elif relation == "UNBOUND" or not mids:
-            raise Phase2BNativeError(f"{operation} requires bound Support and target memories")
-        requested_pairs = {(sid, mid) for sid in sids for mid in mids}
-        if operation in {"UNBIND", "REBIND"} and not requested_pairs.issubset(
-            support_binding_pairs
-        ):
-            raise Phase2BNativeError(f"{operation} requires existing Support bindings")
-        if operation == "BIND" and requested_pairs & support_binding_pairs:
-            raise Phase2BNativeError("BIND cannot silently replace an existing Support binding")
+            raise Phase2BNativeError("UPDATE requires non-empty scope and guidance")
+        validate_current_evidence(item)
+    for item in value["retires"]:
+        if not isinstance(item, dict) or set(item) != {"target_memory_id", "reason"}:
+            raise Phase2BNativeError("A RETIRE plan schema is invalid")
+        target = item["target_memory_id"]
+        if not isinstance(target, str) or target not in memory_ids:
+            raise Phase2BNativeError("RETIRE requires one active existing memory target")
+        if target in touched_memory_ids:
+            raise Phase2BNativeError("A response mutates one Text Memory more than once")
+        touched_memory_ids.add(target)
+        if not isinstance(item["reason"], str) or not item["reason"].strip():
+            raise Phase2BNativeError("RETIRE reason must be non-empty")
+
+    support_only_pairs: set[tuple[str, str]] = set()
+    for item in value["support_only_bindings"]:
+        if not isinstance(item, dict) or set(item) != {
+            "target_memory_id",
+            "evidence_support_ids",
+            "evidence_relation",
+            "reason",
+        }:
+            raise Phase2BNativeError("A support-only binding schema is invalid")
+        target = item["target_memory_id"]
+        if not isinstance(target, str) or target not in memory_ids or target in touched_memory_ids:
+            raise Phase2BNativeError("Support-only binding requires an untouched active memory")
+        validate_current_evidence(item)
+        if not isinstance(item["reason"], str) or not item["reason"].strip():
+            raise Phase2BNativeError("Support-only binding reason must be non-empty")
+        for support_id in item["evidence_support_ids"]:
+            pair = (support_id, target)
+            if pair in support_binding_pairs or pair in support_only_pairs:
+                raise Phase2BNativeError("Support-only evidence binding is duplicated")
+            support_only_pairs.add(pair)
+
+    maintenance_pairs: set[tuple[str, str]] = set()
+
+    def validate_maintenance_rows(rows: list[dict[str, Any]], *, operation: str) -> None:
+        expected_keys = (
+            {"support_ids", "memory_ids"}
+            if operation == "UNBIND"
+            else {"support_ids", "memory_ids", "relation"}
+        )
+        for item in rows:
+            if not isinstance(item, dict) or set(item) != expected_keys:
+                raise Phase2BNativeError(f"Existing Support {operation} schema is invalid")
+            sids, mids = item["support_ids"], item["memory_ids"]
+            if (
+                not isinstance(sids, list)
+                or not sids
+                or any(not isinstance(sid, str) for sid in sids)
+                or len(set(sids)) != len(sids)
+                or any(sid not in existing_ids for sid in sids)
+            ):
+                raise Phase2BNativeError(
+                    "Existing Support maintenance requires historical Support IDs"
+                )
+            if (
+                not isinstance(mids, list)
+                or not mids
+                or any(not isinstance(mid, str) for mid in mids)
+                or len(set(mids)) != len(mids)
+                or any(mid not in memory_ids for mid in mids)
+            ):
+                raise Phase2BNativeError(
+                    f"Existing Support {operation} requires active target memories"
+                )
+            if operation != "UNBIND" and (
+                not isinstance(item["relation"], str)
+                or item["relation"] not in {"SUPPORTS", "COUNTER_SUPPORTS", "BOUNDS"}
+            ):
+                raise Phase2BNativeError(f"Existing Support {operation} relation is invalid")
+            requested_pairs = {(sid, mid) for sid in sids for mid in mids}
+            if requested_pairs & maintenance_pairs:
+                raise Phase2BNativeError("A historical Support binding is mutated more than once")
+            maintenance_pairs.update(requested_pairs)
+            if any(mid in {row["target_memory_id"] for row in value["retires"]} for mid in mids):
+                raise Phase2BNativeError("RETIRE handles Support unbinding for its target memory")
+            if operation in {"UNBIND", "REBIND"} and not requested_pairs.issubset(
+                support_binding_pairs
+            ):
+                raise Phase2BNativeError(f"{operation} requires existing Support bindings")
+            if operation == "BIND" and requested_pairs & support_binding_pairs:
+                raise Phase2BNativeError("BIND cannot silently replace an existing Support binding")
+
+    validate_maintenance_rows(value["existing_support_binds"], operation="BIND")
+    validate_maintenance_rows(value["existing_support_unbinds"], operation="UNBIND")
+    validate_maintenance_rows(value["existing_support_rebinds"], operation="REBIND")
     if any(
         not isinstance(boundary, str) or not boundary.strip()
         for boundary in value["unresolved_boundary"]
@@ -1068,19 +1289,28 @@ def apply_a_result(
 ) -> dict[str, Any]:
     """Apply already-validated Text/Support mutations, preserving old versions."""
 
-    report = {"text_mutations": [], "support_mutations": [], "rejected_graph_mutations": []}
+    report = {
+        "text_mutations": [],
+        "support_only_bindings": [],
+        "support_mutations": [],
+        "rejected_graph_mutations": [],
+    }
     active_before = [
         row["memory_id"] for row in state["established_memories"] if row.get("status") == "active"
     ]
-    for update_index, item in enumerate(result["memory_updates"]):
-        operation = item["operation"]
-        if operation == "CREATE":
-            memory_id = stable_id(
-                "memory", trajectory_id, str(update_index), digest(item["scope"] + item["guidance"])
-            )
-            if _memory_by_id(state, memory_id):
-                raise Phase2BNativeError("Deterministic Text Memory ID collision")
-            new_row = {
+
+    def bind_evidence(item: dict[str, Any], memory_id: str) -> None:
+        for support_id in item["evidence_support_ids"]:
+            _append_binding(state, support_id, memory_id, item["evidence_relation"], task_index)
+
+    for create_index, item in enumerate(result["creates"]):
+        memory_id = stable_id(
+            "memory", trajectory_id, str(create_index), digest(item["scope"] + item["guidance"])
+        )
+        if _memory_by_id(state, memory_id):
+            raise Phase2BNativeError("Deterministic Text Memory ID collision")
+        state["established_memories"].append(
+            {
                 "memory_id": memory_id,
                 "scope": item["scope"],
                 "guidance": item["guidance"],
@@ -1089,72 +1319,95 @@ def apply_a_result(
                 "updated_at_task": task_index,
                 "lineage": {"created_from_trajectory_id": trajectory_id, "updated_from": []},
             }
-            state["established_memories"].append(new_row)
-            target_ids = [memory_id]
-        elif operation == "UPDATE":
-            target_id = item["target_memory_ids"][0]
-            old = _memory_by_id(state, target_id)
-            if old is None or old["status"] != "active":
-                raise Phase2BNativeError("UPDATE target is no longer active")
-            state["memory_versions"].append(
-                {
-                    "memory_id": target_id,
-                    "snapshot": deepcopy(old),
-                    "superseded_at_task": task_index,
-                }
-            )
-            old["scope"] = item["scope"]
-            old["guidance"] = item["guidance"]
-            old["updated_at_task"] = task_index
-            old["lineage"]["updated_from"].append(trajectory_id)
-            target_ids = [target_id]
-        else:
-            target_id = item["target_memory_ids"][0]
-            old = _memory_by_id(state, target_id)
-            if old is None or old["status"] != "active":
-                raise Phase2BNativeError("RETIRE target is no longer active")
-            state["memory_versions"].append(
-                {
-                    "memory_id": target_id,
-                    "snapshot": deepcopy(old),
-                    "superseded_at_task": task_index,
-                }
-            )
-            old["status"] = "retired"
-            old["retired_at_task"] = task_index
-            old["lineage"]["retired_by_trajectory_id"] = trajectory_id
-            target_ids = [target_id]
-            stale_support_ids = [
-                binding["support_id"]
-                for binding in state["support_bindings"]
-                if binding["memory_id"] == target_id
-            ]
-            if stale_support_ids:
-                _unbind(state, stale_support_ids, [target_id], task_index)
-            # Retired memories remain in history but are not live graph anchors.
-            removed_edges = [
-                edge
-                for edge in state["graph_relations"]
-                if edge.get("active")
-                and (edge["source_id"] == target_id or edge["target_id"] == target_id)
-            ]
-            for edge in removed_edges:
-                _retire_graph_relation(edge, task_index, "MEMORY_ENDPOINT_RETIRED")
-        if operation != "RETIRE":
-            for support_id in item["support_ids"]:
-                if item["support_relation"] == "UNBOUND":
-                    continue
-                _append_binding(
-                    state, support_id, target_ids[0], item["support_relation"], task_index
-                )
+        )
+        bind_evidence(item, memory_id)
         report["text_mutations"].append(
-            {"operation": operation, "target_memory_ids": target_ids, "task_index": task_index}
+            {"operation": "CREATE", "target_memory_ids": [memory_id], "task_index": task_index}
         )
 
-    for item in result["support_updates"]:
+    for item in result["updates"]:
+        target_id = item["target_memory_id"]
+        old = _memory_by_id(state, target_id)
+        if old is None or old["status"] != "active":
+            raise Phase2BNativeError("UPDATE target is no longer active")
+        state["memory_versions"].append(
+            {
+                "memory_id": target_id,
+                "snapshot": deepcopy(old),
+                "superseded_at_task": task_index,
+            }
+        )
+        old["scope"] = item["scope"]
+        old["guidance"] = item["guidance"]
+        old["updated_at_task"] = task_index
+        old["lineage"]["updated_from"].append(trajectory_id)
+        bind_evidence(item, target_id)
+        report["text_mutations"].append(
+            {"operation": "UPDATE", "target_memory_ids": [target_id], "task_index": task_index}
+        )
+
+    for item in result["retires"]:
+        target_id = item["target_memory_id"]
+        old = _memory_by_id(state, target_id)
+        if old is None or old["status"] != "active":
+            raise Phase2BNativeError("RETIRE target is no longer active")
+        state["memory_versions"].append(
+            {
+                "memory_id": target_id,
+                "snapshot": deepcopy(old),
+                "superseded_at_task": task_index,
+            }
+        )
+        old["status"] = "retired"
+        old["retired_at_task"] = task_index
+        old["lineage"]["retired_by_trajectory_id"] = trajectory_id
+        stale_support_ids = [
+            binding["support_id"]
+            for binding in state["support_bindings"]
+            if binding["memory_id"] == target_id
+        ]
+        if stale_support_ids:
+            _unbind(state, stale_support_ids, [target_id], task_index)
+        # Retired memories remain in history but are not live graph anchors.
+        removed_edges = [
+            edge
+            for edge in state["graph_relations"]
+            if edge.get("active")
+            and (edge["source_id"] == target_id or edge["target_id"] == target_id)
+        ]
+        for edge in removed_edges:
+            _retire_graph_relation(edge, task_index, "MEMORY_ENDPOINT_RETIRED")
+        report["text_mutations"].append(
+            {"operation": "RETIRE", "target_memory_ids": [target_id], "task_index": task_index}
+        )
+
+    for item in result["support_only_bindings"]:
+        target_id = item["target_memory_id"]
+        target = _memory_by_id(state, target_id)
+        if target is None or target["status"] != "active":
+            raise Phase2BNativeError("Support-only binding target is no longer active")
+        bind_evidence(item, target_id)
+        report["support_only_bindings"].append(
+            {
+                "target_memory_id": target_id,
+                "evidence_support_ids": list(item["evidence_support_ids"]),
+                "evidence_relation": item["evidence_relation"],
+                "task_index": task_index,
+            }
+        )
+
+    maintenance = [{**item, "operation": "BIND"} for item in result["existing_support_binds"]]
+    maintenance.extend(
+        {**item, "operation": "UNBIND", "relation": "UNBOUND"}
+        for item in result["existing_support_unbinds"]
+    )
+    maintenance.extend(
+        {**item, "operation": "REBIND"} for item in result["existing_support_rebinds"]
+    )
+    for item in maintenance:
         if item["operation"] in {"UNBIND", "REBIND"}:
             _unbind(state, item["support_ids"], item["memory_ids"], task_index)
-        if item["operation"] in {"BIND", "REBIND"} and item["relation"] != "UNBOUND":
+        if item["operation"] in {"BIND", "REBIND"}:
             for support_id in item["support_ids"]:
                 for memory_id in item["memory_ids"]:
                     if _memory_by_id(state, memory_id) is None:
