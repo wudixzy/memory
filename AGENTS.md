@@ -1,4 +1,24 @@
-# CURRENT CYCLE UPDATE — 2026-09-27: Phase 2B Round1 Contract Repair
+# CURRENT CYCLE UPDATE — 2026-09-27: Phase 2B Round1-v2 Transition Frozen
+
+The saved-output audit and A operation-contract repair are complete. The
+Round1-v2 no-model transition is frozen in `docs/146`; implementation and
+task-by-task audit are recorded in `docs/145`. The Stage1 cache reuses only
+mechanically verified v1 outputs 1–8, obtains fresh Stage1 for 9–12, and uses
+fresh A calls for every Stage1-accepted calibration task (up to 12) from clean
+cold start. Round1-v1 remains immutable
+`ROUND1_V1_CONTRACT_SHAKEDOWN_INCOMPLETE`.
+
+Current status: **waiting for separate researcher authorization**. Preparation
+used zero model/API calls. Do not run the frozen command in docs/146, resume
+v1, retry task 8, or start Round 2/3, holdout, Max sanity, Phase 2A-X, Phase
+2C, or formal evaluation.
+
+## Superseded pre-transition status
+
+The following audit/repair instructions describe the completed preparation
+phase and are retained as history; docs/146 is now the active handoff.
+
+# PREVIOUS CYCLE UPDATE — 2026-09-27: Phase 2B Round1 Contract Repair
 
 Researcher review reclassified the interrupted Round1-v1 stream as:
 

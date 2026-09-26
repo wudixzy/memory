@@ -1,4 +1,23 @@
-# CURRENT REVIEW STATUS — 2026-09-27: Round1-v1 is contract-shakedown evidence
+# CURRENT REVIEW STATUS — 2026-09-27: Round1-v2 transition frozen; waiting for authorization
+
+The saved-output audit and model-facing A contract repair are complete. The
+Round1-v2 execution transition is frozen in
+`docs/146_phase2b_round1v2_contract_transition.md`; detailed saved-output
+findings are in `docs/145_phase2b_round1_saved_output_audit.md`.
+
+Stage1 decision: `STAGE1_V1_KEEP`, only for revalidated outputs at indices
+1–8. Round1-v2 starts from native cold start, runs fresh Stage1 at indices
+9–12, and uses fresh A calls for every Stage1-accepted task (up to 12).
+Round1-v1 remains immutable `ROUND1_V1_CONTRACT_SHAKEDOWN_INCOMPLETE`.
+
+No model/API call or environment episode is currently authorized. Wait for a
+separate researcher decision before executing the command in docs/146. Do not
+resume v1, retry task 8, or begin Round 2/3, holdout, Max sanity, Phase 2A-X,
+Phase 2C, or formal evaluation.
+
+---
+
+# Historical review status — 2026-09-27: Round1-v1 contract shakedown
 
 Current decision:
 

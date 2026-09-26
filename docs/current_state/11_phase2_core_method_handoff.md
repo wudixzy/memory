@@ -1,4 +1,22 @@
-# CURRENT HANDOFF UPDATE — 2026-09-27: Phase 2B Round1 contract repair
+# CURRENT HANDOFF UPDATE — 2026-09-27: Round1-v2 transition frozen
+
+The Phase 2B Round1-v1 saved-output audit and A contract repair are complete.
+`STAGE1_V1_KEEP` applies to mechanically revalidated Stage1 outputs 1–8 only.
+The new Round1-v2 transition is frozen in
+`docs/146_phase2b_round1v2_contract_transition.md`; audit details are in
+`docs/145_phase2b_round1_saved_output_audit.md`.
+
+Round1-v2 uses clean native cold start, reuses only Stage1 1–8, runs fresh
+Stage1 9–12, and obtains fresh A outputs for every Stage1-accepted task (up
+to 12). Round1-v1 remains immutable and classified
+`ROUND1_V1_CONTRACT_SHAKEDOWN_INCOMPLETE`. Preparation used zero model/API
+calls. No model/API call or environment episode is currently authorized;
+await a separate researcher decision before execution. Do not enter Round
+2/3, holdout, Max sanity, Phase 2A-X, Phase 2C, or formal evaluation.
+
+---
+
+# Superseded handoff update — 2026-09-27: Round1 contract repair in progress
 
 The active task is no longer infrastructure resume. Round1-v1 is frozen as
 contract-shakedown evidence. Review found a model-facing A contract mismatch:
